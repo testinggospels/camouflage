@@ -19,7 +19,7 @@ Usage:
 Type: Custom Helper
 Usage:
 
-1. **{now}** - Simply using now will give you date in format _YYYY-MM-DD hh:mm:ss_
+1. **{{now}}** - Simply using now will give you date in format _YYYY-MM-DD hh:mm:ss_
 2. **{{now format='MM/DD/YYYY'}}** - Format not to your liking? Use any format you'd like as long as it is supported by momentjs. We gave away the secret, didn't we? Don't ask us if you should use MM/DD/YYYY or DD/MM/YYYY. We like to stay away from the controversies.
 3. **{{now format='epoch'}}** - Time since epoch in milliseconds
 4. **{{now format='unix'}}** - Time since epoch in seconds
