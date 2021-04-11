@@ -9,7 +9,7 @@ Handlebars help you add character to your response. Instead of sending a static 
 Type: Custom Helper
 Usage:
 
-1. **{randomValue}** - Simply using randomValue will generate a 16 character alphanumeric string. ex: _9ZeBvHW5viiYuWRa_. Why? We'll let you know when we figure that out.
+1. **{{randomValue}}** - Simply using randomValue will generate a 16 character alphanumeric string. ex: _9ZeBvHW5viiYuWRa_. Why? We'll let you know when we figure that out.
 2. **{{randomValue type='ALPHANUMERIC'}}** - You can specify a type as well. Your choices are: 'ALPHANUMERIC', 'ALPHABETIC', 'NUMERIC' and 'UUID'. So, what will it be?
 3. **{{randomValue type='NUMERIC' length=10}}** - Don't want a 16 character output? Use length to specify the length. Simple enough.
 4. **{{randomValue type='ALPHABETIC' uppercase=true}}** - Finally, specify uppercase as true to get a, well, uppercase string.

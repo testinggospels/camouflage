@@ -1,6 +1,6 @@
 # Folder Structure
 
-The way you organize your directories inside the ${MOCKS_DIR}, determine how your endpoints will be available. Following example will help you understand the folder structure you need to maintain
+The way you organize your directories inside the ${MOCKS_DIR}, determine how your endpoints will be available. Following examples will help you understand the folder structure you need to maintain.
 
 ## Basic GET Request to /hello-world
 
