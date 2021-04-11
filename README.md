@@ -4,7 +4,7 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 ## Getting started
 
-1. Install Camouflage: `npm install -g camouflage`
+1. Install Camouflage: `npm install -g camouflage-server`
 2. Start server: `camouflage -m ./mocks`
 
 Full Documentation: [https://fauxauldrich.github.io/camouflage/](https://fauxauldrich.github.io/camouflage/)

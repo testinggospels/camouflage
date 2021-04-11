@@ -1,6 +1,6 @@
 # Getting Started
 
-1. Install Camouflage: `npm install -g camouflage`
+1. Install Camouflage: `npm install -g camouflage-server`
 2. Start server: `camouflage -m ./mocks`
 
 ## Create your first mock
