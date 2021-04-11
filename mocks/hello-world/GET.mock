@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+
+{
+    "greeting": "Hello {{capture from='query' key='name'}}", 
+    "phone": {{randomValue length=10 type='NUMERIC'}}, 
+    "dateOfBirth": "{{now format='MM/DD/YYYY'}}",
+    "test": "{{randomValue}}" 
+}

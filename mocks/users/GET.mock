@@ -1,0 +1,7 @@
+HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+
+{
+    "phone": {{randomValue length=10 type='NUMERIC'}}
+}

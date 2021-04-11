@@ -1,0 +1,21 @@
+HTTP/1.1 201 OK
+X-Requested-By: user-service
+Content-Type: application/json
+
+{
+    "status": 201,
+    "message": "User created with ID: {{randomValue type='UUID'}}",
+    "data": [ 
+        {{#each request.body.nicknames}}
+            {{#if @last}}
+                {
+                    "nickname": "{{this.nickname}}"
+                }
+            {{else}}
+                {
+                    "nickname": "{{this.nickname}}"
+                },
+            {{/if}}
+        {{/each}} 
+    ]
+}

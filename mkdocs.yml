@@ -1,0 +1,8 @@
+site_name: Camouflage
+site_author: Shubhendu Madhukar
+repo_url: https://github.com/fauxauldrich/camouflage
+theme:
+  name: material
+markdown_extensions:
+  - admonition
+  - attr_list
