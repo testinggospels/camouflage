@@ -1,12 +1,10 @@
 import express from "express";
 import path from "path";
 import fs from "fs";
-// @ts-ignore
-import yaml from "js-yaml";
-const config = yaml.load(fs.readFileSync("/Users/user/Documents/misc/node/camouflage/config.yml", "utf-8"));
-const mockDir = config.MOCKS_DIR;
+let mockDir = "";
 
-export default function getFilePath(req: express.Request) {
+export default function getFilePath(req: express.Request, inputMockDir: string) {
+  mockDir = inputMockDir;
   const reqDetails = {
     method: req.method.toUpperCase(),
     path: req.path,
@@ -43,3 +41,4 @@ function getWildcardPath(dir: string) {
   }
   return newPath;
 }
+

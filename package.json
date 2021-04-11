@@ -1,27 +1,41 @@
 {
-  "name": "camouflage",
+  "name": "camouflage-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "Easily mock your webservices while testing frontends.",
+  "homepage": "https://fauxauldrich.github.io/camouflage/",
+  "keywords": [
+    "test",
+    "mock",
+    "api",
+    "webservice",
+    "rest",
+    "camouflage"
+  ],
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "prestart": "npm run build",
-    "start": "node .",
-    "dev": "nodemon .",
+    "start": "node bin/camouflage.js -m ./mocks",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "bin": {
+    "camouflage": "bin/camouflage.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fauxauldrich/camouflage"
+  },
+  "author": "Shubhendu Madhukar <shubhendumadhukar@gmail.com>",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "handlebars": "^4.7.7",
-    "js-yaml": "^4.0.0",
     "jsonpath": "^1.1.1",
     "line-reader": "^0.4.0",
     "moment": "^2.29.1",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "yargs": "^16.2.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.11",
@@ -29,3 +43,4 @@
     "typescript": "^4.2.4"
   }
 }
+

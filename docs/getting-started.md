@@ -1,13 +1,7 @@
 # Getting Started
 
-1. Start by cloning the Camouflage repository:
-
-```shell
-git clone https://github.com/fauxauldrich/camouflage.git
-```
-
-2. Edit config.yml to update the mocks directory
-3. Run `npm run start`
+1. Install Camouflage: `npm install -g camouflage`
+2. Start server: `camouflage -m ./mocks`
 
 ## Create your first mock
 
@@ -28,3 +22,4 @@ Content-Type: application/json
 ```
 
 Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-world){target=\_blank}
+
