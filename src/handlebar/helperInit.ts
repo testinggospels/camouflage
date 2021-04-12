@@ -1,3 +1,7 @@
-import "./randomValueHelper";
-import "./nowHelper";
-import "./requestHelper";
+import { HandlerBarHelper } from "./handleBarDefinition";
+
+const handlerBarHelper = new HandlerBarHelper();
+handlerBarHelper.nowHelper();
+handlerBarHelper.randomValueHelper();
+handlerBarHelper.requestHelper();
+
