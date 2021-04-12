@@ -4,7 +4,7 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 ## Why did we create Camouflage if a similar tool already exists?
 
-Well, the original tool has not been maintained for some time now. But more importantly, Camoufalge simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch.
+Well, the original tool has not been maintained for some time now. But more importantly, Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch.
 
 1. The underlying codebase has been re-written using typescript.
 2. Since we are still in development phase, some features from the original tool might be missing. (Because we are yet to develop it, or simply because we haven't made up our mind yet if those features are going to be included or not.)

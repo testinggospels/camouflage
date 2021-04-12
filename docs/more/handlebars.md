@@ -49,7 +49,7 @@ Usage:
 Raw HTML Request:
 
 ```
-POST /hello-world HTTP/1.1
+POST /users HTTP/1.1
 Content-Type: application/json
 
 {
