@@ -59,6 +59,7 @@ function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, k
   // Start the http server on the specified port
   http.createServer(app).listen(port, () => {
     console.log(`server started at http://localhost:${port}`);
+    app.emit("server-started");
   });
   // If https is enabled, fetch key and cert information, create credentials and start the https server on specified port
   if (enableHttps) {
@@ -75,4 +76,5 @@ function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, k
 }
 //Export the start function which should be called from bin/camouflage.js with required parameters
 module.exports.start = start;
+module.exports.app = app;
 
