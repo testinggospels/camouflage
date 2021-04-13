@@ -6,8 +6,14 @@ var httpsPort = argv.x || argv.secureport || 8443;
 var enableHttps = argv.s || argv.secure || false;
 var key = argv.k || argv.key;
 var cert = argv.c || argv.cert;
+var numCPUs = argv.n || argv.cpus || 1;
+const osCPUs = require("os").cpus().length;
 var info = require("./../package.json");
 const camouflage = require("../dist/index");
+if (numCPUs >= osCPUs) {
+  console.log("Number of CPUs specified is greater than or equal to availale CPUs. Please specify a lesser number.");
+  process.exit(1);
+}
 if (!mocks) {
   console.log(
     [
@@ -23,9 +29,10 @@ if (!mocks) {
       "Optional Parameters:",
       "  -p, --port             - HTTP Port to listen on",
       "  -x, --secureport       - HTTPS Port to listen on",
-      "  -s, --secure           - include https server is required",
+      "  -s, --secure           - include https server if required",
       "  -k, --key              - server.key file if -s/--secure is set to true",
       "  -c, --cert             - server.key file if -s/--secure is set to true",
+      "  -n, --cpus             - number of CPUs you want Camouflage to utilize",
       "",
       "Example:",
       "  camouflage -m './mocks'",
@@ -48,19 +55,20 @@ if (!mocks) {
           "Optional Parameters:",
           "  -p, --port             - HTTP Port to listen on",
           "  -x, --secureport       - HTTPS Port to listen on",
-          "  -s, --secure           - include https server is required",
+          "  -s, --secure           - include https server if required",
           "  -k, --key              - server.key file if -s/--secure is set to true",
           "  -c, --cert             - server.key file if -s/--secure is set to true",
+          "  -n, --cpus             - number of CPUs you want Camouflage to utilize",
           "",
           "Example:",
           "  camouflage -m './mocks' -s -k ./certs/server.key -c ./certs/server.cert",
         ].join("\n")
       );
     } else {
-      camouflage.start(mocks, port, enableHttps, key, cert, httpsPort);
+      camouflage.start(mocks, port, enableHttps, numCPUs, key, cert, httpsPort);
     }
   } else {
-    camouflage.start(mocks, port, enableHttps);
+    camouflage.start(mocks, port, enableHttps, numCPUs);
   }
 }
 

@@ -16,7 +16,7 @@
     
     
       
-        <title>Tests - Camouflage</title>
+        <title>Performance Mode - Camouflage</title>
       
     
     
@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#tests" class="md-skip">
+        <a href="#performance-mode" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Tests
+              Performance Mode
             
           </span>
         </div>
@@ -272,11 +272,20 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../performance-mode/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Performance Mode
       </a>
+      
     </li>
   
 
@@ -320,76 +329,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Tests
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../tests/" class="md-nav__link">
         Tests
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#functional-tests" class="md-nav__link">
-    Functional Tests
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-tests" class="md-nav__link">
-    Performance Tests
-  </a>
-  
-    <nav class="md-nav" aria-label="Performance Tests">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-cpu" class="md-nav__link">
-    Single CPU
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#performance-mode-4-cpu" class="md-nav__link">
-    Performance mode: 4 CPU
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -418,48 +362,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#functional-tests" class="md-nav__link">
-    Functional Tests
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#performance-tests" class="md-nav__link">
-    Performance Tests
-  </a>
-  
-    <nav class="md-nav" aria-label="Performance Tests">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#single-cpu" class="md-nav__link">
-    Single CPU
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#performance-mode-4-cpu" class="md-nav__link">
-    Performance mode: 4 CPU
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -470,32 +372,16 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/more/tests.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/more/performance-mode.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="tests">Tests</h1>
-<h2 id="functional-tests">Functional Tests</h2>
-<p>Following functional tests include the results for 7 example APIs available with Camouflage</p>
-<p><img alt="Camouflage-FunctionalTestResults" src="../Camouflage-FunctionalTestResults.png" /></p>
-<h2 id="performance-tests">Performance Tests</h2>
-<h3 id="single-cpu">Single CPU</h3>
-<p>This performance test was run on a single node process running without any flags on a single CPU.
-Test configuration:</p>
-<ul>
-<li>Test tool used was Locust.</li>
-<li>Locust was run in a distributed manner with 1 master and 4 workers on a 12 core machine.</li>
-</ul>
-<p>Please note that performance could be further improved by tuning the node js process or running Camouflage in performance mode.</p>
-<p><img alt="Camouflage-PerfTestResults" src="../Camouflage-PerfTestResults.png" /></p>
-<h3 id="performance-mode-4-cpu">Performance mode: 4 CPU</h3>
-<p>This performance test was on 4 node worker processes without any flage on 4 CPUs</p>
-<ul>
-<li>Test tool used was Locust.</li>
-<li>Locust was run in a distributed manner with 1 master and 4 workers on a 12 core machine.</li>
-</ul>
-<p><img alt="Camouflage-PerfTestResults-2" src="../Camouflage-PerfTestResults-2.png" /></p>
+                <h1 id="performance-mode">Performance Mode</h1>
+<p>By default Camouflage starts on a single CPU, by creating one master and one worker process. This is sufficient for a functional test and a small scale perf test (for a test with 60000 RPM without any latency simulation, 95th percentile response time was around 30 - 40 milliseconds). However, if you are on a multi core machine and you'd like Camouflage to utilize more cores, you can do so by passing and additional parameter as shown below:</p>
+<pre><code>camouflage -m ./mocks -n 4
+</code></pre>
+<p>This will tell Camouflage to start 1 master and 4 workers utilizing 4 cores of your CPU. This leads to a better performance. For a test with 60000 RPM with latency simulation, 95th between 10 - 13 millseconds. Reports can be found on the <strong>Tests</strong> page.</p>
                 
               
               
@@ -514,7 +400,7 @@ Test configuration:</p>
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../response-delays/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../handlebars/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -523,11 +409,25 @@ Test configuration:</p>
               <span class="md-footer__direction">
                 Previous
               </span>
-              Response delays
+              Handlebars
             </div>
           </div>
         </a>
       
+      
+        <a href="../request-matching/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Request matching
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
       
     </nav>
   

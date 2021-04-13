@@ -58,5 +58,5 @@ You can also check if that parameter equals a certain value
 
 Rest of the code is self explanatory, where if the condition is true, i.e. incoming request has a query parameter with key `name`, the `greeting` field in our response object would be `Hello John`, else the greeting would be `Hello World`.
 
-Thus if the end user makes a GET request as `/hello-world?name=John`, he'd get a greeting `Hello John`. However, if the user call `/hello-world` without any `name`, he'd get a greeting as `Hello World`
+Thus if the end user makes a GET request as `/hello-world?name=John`, he'd get a greeting `Hello John`. However, if the user calls `/hello-world` without any `name`, he'd get a greeting as `Hello World`
 

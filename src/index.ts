@@ -3,6 +3,7 @@ import bodyParser from "body-parser";
 import fs from "fs";
 import http from "http";
 import https from "https";
+import cluster from "cluster";
 import "./handlebar/helperInit";
 import { Parser } from "./parser/parserDefinition";
 let mocksDir = "";
@@ -11,7 +12,7 @@ let httpsPort = 8443;
 const app = express();
 app.use(bodyParser.json());
 
-function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, key?: string, cert?: string, inputHttpsPort?: number) {
+function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, numCPUs: number, key?: string, cert?: string, inputHttpsPort?: number) {
   // Update the mocksDir with the input provided by user via -m or --mocks parameter via command line while starting the server
   mocksDir = inputMocksDir;
   httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
@@ -57,22 +58,30 @@ function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, k
     parser.getResponse(mockFile);
   });
   // Start the http server on the specified port
-  http.createServer(app).listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
-    app.emit("server-started");
-  });
-  // If https is enabled, fetch key and cert information, create credentials and start the https server on specified port
-  if (enableHttps) {
-    let privateKey = fs.readFileSync(key, "utf8");
-    let certificate = fs.readFileSync(cert, "utf8");
-    let credentials = { key: privateKey, cert: certificate };
-    https.createServer(credentials, app).listen(httpsPort, () => {
-      console.log(`server started at https://localhost:${httpsPort}`);
+  if (cluster.isMaster) {
+    console.log(`[${process.pid}] Master Started`);
+    for (let i = 0; i < numCPUs; i++) {
+      cluster.fork();
+    }
+    cluster.on("exit", (worker, code, signal) => {
+      console.log(`[${process.pid}] Cleaning Up. Worker Stopped`);
     });
+  } else {
+    console.log(`[${process.pid}] Worker started`);
+    http.createServer(app).listen(port, () => {
+      console.log(`Worker sharing HTTP server at http://localhost:${port}`);
+      app.emit("server-started");
+    });
+    // If https is enabled, fetch key and cert information, create credentials and start the https server on specified port
+    if (enableHttps) {
+      let privateKey = fs.readFileSync(key, "utf8");
+      let certificate = fs.readFileSync(cert, "utf8");
+      let credentials = { key: privateKey, cert: certificate };
+      https.createServer(credentials, app).listen(httpsPort, () => {
+        console.log(`Worker sharing HTTPs server at https://localhost:${httpsPort}`);
+      });
+    }
   }
-  // app.listen(port, () => {
-  //   console.log(`server started at http://localhost:${port}`);
-  // });
 }
 //Export the start function which should be called from bin/camouflage.js with required parameters
 module.exports.start = start;

@@ -16,6 +16,7 @@ Optional Parameters:
   -s, --secure           - include https server is required
   -k, --key              - server.key file if -s/--secure is set to true
   -c, --cert             - server.key file if -s/--secure is set to true
+  -n, --cpus             - number of CPUs you want Camouflage to utilize
 ```
 
 ## Create your first mock
