@@ -321,6 +321,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#delay" class="md-nav__link">
+    delay
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inbuilt-helpers" class="md-nav__link">
     Inbuilt Helpers
   </a>
@@ -354,6 +361,18 @@
     <li class="md-nav__item">
       <a href="../request-model/" class="md-nav__link">
         Request model
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../response-delays/" class="md-nav__link">
+        Response delays
       </a>
     </li>
   
@@ -430,6 +449,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#delay" class="md-nav__link">
+    delay
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inbuilt-helpers" class="md-nav__link">
     Inbuilt Helpers
   </a>
@@ -457,8 +483,8 @@
 <p>Handlebars help you add character to your response. Instead of sending a static response or writing some code to generate a dynamic response, you can now simply use handlebars and let Camouflage do the work for you.</p>
 <h2 id="custom-helpers">Custom Helpers</h2>
 <h2 id="randomvalue">randomValue</h2>
-<p>Type: Custom Helper
-Usage:</p>
+<p>Type: Custom Helper</p>
+<p>Usage:</p>
 <ol>
 <li><strong>{{randomValue}}</strong> - Simply using randomValue will generate a 16 character alphanumeric string. ex: <em>9ZeBvHW5viiYuWRa</em>. Why? We'll let you know when we figure that out.</li>
 <li><strong>{{randomValue type='ALPHANUMERIC'}}</strong> - You can specify a type as well. Your choices are: 'ALPHANUMERIC', 'ALPHABETIC', 'NUMERIC' and 'UUID'. So, what will it be?</li>
@@ -466,8 +492,8 @@ Usage:</p>
 <li><strong>{{randomValue type='ALPHABETIC' uppercase=true}}</strong> - Finally, specify uppercase as true to get a, well, uppercase string.</li>
 </ol>
 <h2 id="now">now</h2>
-<p>Type: Custom Helper
-Usage:</p>
+<p>Type: Custom Helper</p>
+<p>Usage:</p>
 <ol>
 <li><strong>{{now}}</strong> - Simply using now will give you date in format <em>YYYY-MM-DD hh:mm:ss</em></li>
 <li><strong>{{now format='MM/DD/YYYY'}}</strong> - Format not to your liking? Use any format you'd like as long as it is supported by momentjs. We gave away the secret, didn't we? Don't ask us if you should use MM/DD/YYYY or DD/MM/YYYY. We like to stay away from the controversies.</li>
@@ -475,8 +501,8 @@ Usage:</p>
 <li><strong>{{now format='unix'}}</strong> - Time since epoch in seconds</li>
 </ol>
 <h2 id="capture">capture</h2>
-<p>Type: Custom Helper
-Usage:</p>
+<p>Type: Custom Helper</p>
+<p>Usage:</p>
 <ol>
 <li><strong>{{capture from='query' key='firstName'}}</strong> - Pretty self-explanatory, but if say your endpoint looks like /hello-world?firstName=John&amp;lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as</li>
 </ol>
@@ -487,6 +513,12 @@ Usage:</p>
 <ol>
 <li><strong>{{capture from='path' regex='\/users\/get\/(.*)?'}}</strong> - For path you'd need to specify a regex to capture a value.</li>
 <li><strong>{{capture from='body' using='jsonpath' selector='$.lastName'}}</strong> - To capture values from request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.</li>
+</ol>
+<h2 id="delay">delay</h2>
+<p>Type: Custom Helper</p>
+<p>Usage:</p>
+<ol>
+<li><strong>{{delay lower=500 upper=600}}</strong>: You can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower &gt; upper would set delay to 0, i.e. won't have any effect. Check <strong>Response Delays</strong> page for a detailed example</li>
 </ol>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">

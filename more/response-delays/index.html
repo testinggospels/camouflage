@@ -16,7 +16,7 @@
     
     
       
-        <title>Request model - Camouflage</title>
+        <title>Response delays - Camouflage</title>
       
     
     
@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-model" class="md-skip">
+        <a href="#response-delay" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Request model
+              Response delays
             
           </span>
         </div>
@@ -284,20 +284,11 @@
             
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../request-model/" class="md-nav__link">
         Request model
       </a>
-      
     </li>
   
 
@@ -305,11 +296,45 @@
             
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../response-delays/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Response delays
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Response delays
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#response-delay" class="md-nav__link">
+    Response Delay
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -347,8 +372,21 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-    
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#response-delay" class="md-nav__link">
+    Response Delay
+  </a>
+  
+</li>
+      
+    </ul>
   
 </nav>
                   </div>
@@ -360,26 +398,32 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/more/request-model.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/more/response-delays.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="request-model">Request model</h1>
-<p>Request object made available by camouflage is simply an instance of express request object for a given incoming request. Following are the properties/objects available on the request object which can be used in request matching or to extract information out of the request.</p>
-<ul>
-<li>request.baseUrl</li>
-<li>request.body</li>
-<li>request.cookies</li>
-<li>request.method</li>
-<li>request.originalUrl</li>
-<li>request.path</li>
-<li>request.protocol</li>
-<li>request.query</li>
-<li>request.headers</li>
-<li>request.body</li>
-</ul>
-<p>Refer to <a href="http://expressjs.com/en/4x/api.html#req">Express Documentation</a> for more information on each of these properties.</p>
+                  <h1>Response delays</h1>
+                
+                <h2 id="response-delay">Response Delay</h2>
+<p>Response delays are handled in a similar manner as it was done in mockserver, i.e. you add a Response-Delay header in raw response placed in your .mock file.</p>
+<p>For example, if you'd like to simulate a delay of 2 seconds for /hello-world endpoint, contents of your .mock file would be as follows:</p>
+<pre><code>HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+Response-Delay: 2000
+
+{
+    &quot;greeting&quot;: &quot;Hello World&quot;,
+    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
+    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
+    &quot;test&quot;: &quot;{{randomValue}}&quot;
+}
+</code></pre>
+<p>Additionally you can also simulate a dynamic delay using the <strong>{{delay}}</strong> handlebar as follows</p>
+<pre><code>Response-Delay: {{delay lower=500 upper=600}}
+</code></pre>
+<p>This would add a random delay of a value between 500 to 600 milliseconds</p>
                 
               
               
@@ -398,7 +442,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../request-matching/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../request-model/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -407,19 +451,19 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Request matching
+              Request model
             </div>
           </div>
         </a>
       
       
-        <a href="../response-delays/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../tests/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Response delays
+              Tests
             </div>
           </div>
           <div class="md-footer__button md-icon">
