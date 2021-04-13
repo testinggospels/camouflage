@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import Handlebars from "handlebars";
+let DELAY: number = 0;
 
 export class Parser {
   private req: express.Request;
@@ -62,7 +63,11 @@ export class Parser {
           if (line !== "" && !PARSE_BODY) {
             let headerKey = line.split(":")[0];
             let headerValue = line.split(":")[1];
-            this.res.setHeader(headerKey, headerValue);
+            if (headerKey === "Response-Delay") {
+              DELAY = <number>(<unknown>headerValue);
+            } else {
+              this.res.setHeader(headerKey, headerValue);
+            }
           }
         }
         // If parsing response body. Concatenate every line till last line to a responseBody variable
@@ -85,7 +90,10 @@ export class Parser {
           PARSE_BODY = false;
           responseBody = "";
           this.res.statusCode = response.status;
-          this.res.send(template({ request: this.req }));
+          setTimeout(() => {
+            this.res.send(template({ request: this.req }));
+          }, DELAY);
+          DELAY = 0;
         }
       });
     } else {

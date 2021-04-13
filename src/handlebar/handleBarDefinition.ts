@@ -8,7 +8,7 @@ import jsonpath from "jsonpath";
 
 export class HandlerBarHelper {
   nowHelper = () => {
-    Handlebars.registerHelper("now", function (context) {
+    Handlebars.registerHelper("now", (context) => {
       const format = typeof context.hash.format === "undefined" ? "YYYY-MM-DD hh:mm:ss" : context.hash.format;
       switch (format) {
         case "epoch":
@@ -22,7 +22,7 @@ export class HandlerBarHelper {
   };
 
   randomValueHelper = () => {
-    Handlebars.registerHelper("randomValue", function (context) {
+    Handlebars.registerHelper("randomValue", (context) => {
       let length = typeof context.hash.length === "undefined" ? 16 : context.hash.length;
       let type = typeof context.hash.type === "undefined" ? "ALPHANUMERIC" : context.hash.type;
       if (context.hash.uppercase && type.includes("ALPHA")) {
@@ -37,7 +37,7 @@ export class HandlerBarHelper {
   };
 
   requestHelper = () => {
-    Handlebars.registerHelper("capture", function (context) {
+    Handlebars.registerHelper("capture", (context) => {
       const request: express.Request = context.data.root.request;
       const from: string = context.hash.from;
       switch (from) {
@@ -81,6 +81,24 @@ export class HandlerBarHelper {
           }
         default:
           return null;
+      }
+    });
+  };
+
+  delayHelper = () => {
+    Handlebars.registerHelper("delay", (context) => {
+      if (typeof context.hash.lower === "undefined" || typeof context.hash.upper === "undefined") {
+        console.error("lower or upper value not specified.");
+        return 0;
+      } else {
+        const lower = parseInt(context.hash.lower);
+        const upper = parseInt(context.hash.upper);
+        if (lower > upper) {
+          console.error("lower value cannot be greater than upper value.");
+          return 0;
+        }
+        const delay = Math.floor(Math.random() * (upper - lower + 1) + lower);
+        return delay;
       }
     });
   };

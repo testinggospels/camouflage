@@ -7,6 +7,7 @@ Handlebars help you add character to your response. Instead of sending a static 
 ## randomValue
 
 Type: Custom Helper
+
 Usage:
 
 1. **{{randomValue}}** - Simply using randomValue will generate a 16 character alphanumeric string. ex: _9ZeBvHW5viiYuWRa_. Why? We'll let you know when we figure that out.
@@ -17,6 +18,7 @@ Usage:
 ## now
 
 Type: Custom Helper
+
 Usage:
 
 1. **{{now}}** - Simply using now will give you date in format _YYYY-MM-DD hh:mm:ss_
@@ -27,6 +29,7 @@ Usage:
 ## capture
 
 Type: Custom Helper
+
 Usage:
 
 1. **{{capture from='query' key='firstName'}}** - Pretty self-explanatory, but if say your endpoint looks like /hello-world?firstName=John&lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as
@@ -39,6 +42,14 @@ Usage:
 
 2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path you'd need to specify a regex to capture a value.
 3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
+
+## delay
+
+Type: Custom Helper
+
+Usage:
+
+1. **{{delay lower=500 upper=600}}**: You can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
 ## Inbuilt Helpers
 
@@ -121,3 +132,4 @@ Explanation
 3. Finally we put an if condition to check if we are at the last element of the array, we shouldn't append a comma at the end of our JSONObject, in order to get a valid JSON. If we are at any other element in the array, we'll add a comma to JSONObject.
 
 Available inbuilt helpers are `if`, `unless`, `each`, `with`, `lookup` and `log`. More details are available at [Handlebars Documentation](https://handlebarsjs.com/guide/builtin-helpers.html){target=\_blank}
+

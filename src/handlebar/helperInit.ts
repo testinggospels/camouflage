@@ -4,4 +4,4 @@ const handlerBarHelper = new HandlerBarHelper();
 handlerBarHelper.nowHelper();
 handlerBarHelper.randomValueHelper();
 handlerBarHelper.requestHelper();
-
+handlerBarHelper.delayHelper();
