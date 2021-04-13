@@ -24,7 +24,7 @@ export class Parser {
       headers: this.req.headers,
       body: this.req.body,
     };
-    const matchedDir = this.getWildcardPath(reqDetails.path);
+    const matchedDir = getWildcardPath(reqDetails.path, this.mockDir);
     return matchedDir;
   };
 
@@ -40,8 +40,10 @@ export class Parser {
     };
     // Check if file exists
     if (fs.existsSync(mockFile)) {
+      const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
+      const fileContent = template({ request: this.req }).split("\n");
       //Read file line by line
-      lineReader.eachLine(mockFile, (line: any, last: boolean) => {
+      fileContent.forEach((line, index) => {
         //Set PARSE_BODY flag to try when reader finds a blank line
         if (line === "") {
           PARSE_BODY = true;
@@ -50,7 +52,7 @@ export class Parser {
         if (line.includes("HTTP")) {
           const regex = /(?<=HTTP\/\d.\d\s{1,1})(\d{3,3})(?=[a-z0-9\s]+)/gi;
           if (!regex.test(line)) throw new Error("Response code should be valid string");
-          response.status = line.match(regex).join("");
+          response.status = <number>(<unknown>line.match(regex).join(""));
         } else {
           /**
            * If following conditions are met:
@@ -77,7 +79,7 @@ export class Parser {
          *    Set express.Response Status code to response.status
          *    Send the generated Response
          */
-        if (last) {
+        if (index == fileContent.length - 1) {
           responseBody = responseBody.replace(/\s+/g, " ").trim();
           responseBody = responseBody.replace(/{{{/, "{ {{");
           responseBody = responseBody.replace(/}}}/, "}} }");
@@ -99,28 +101,28 @@ export class Parser {
       this.res.send(response.body);
     }
   };
-
-  removeBlanks = (array: Array<any>) => {
-    return array.filter(function (i) {
-      return i;
-    });
-  };
-  getWildcardPath = (dir: string) => {
-    let steps = this.removeBlanks(dir.split("/"));
-    let testPath;
-    let newPath = path.join(this.mockDir, steps.join("/"));
-    let exists = false;
-
-    while (steps.length) {
-      steps.pop();
-      testPath = path.join(this.mockDir, steps.join("/"), "__");
-      exists = fs.existsSync(testPath);
-      if (exists) {
-        newPath = testPath;
-        break;
-      }
-    }
-    return newPath;
-  };
 }
+
+const removeBlanks = (array: Array<any>) => {
+  return array.filter(function (i) {
+    return i;
+  });
+};
+const getWildcardPath = (dir: string, mockDir: string) => {
+  let steps = removeBlanks(dir.split("/"));
+  let testPath;
+  let newPath = path.join(mockDir, steps.join("/"));
+  let exists = false;
+
+  while (steps.length) {
+    steps.pop();
+    testPath = path.join(mockDir, steps.join("/"), "__");
+    exists = fs.existsSync(testPath);
+    if (exists) {
+      newPath = testPath;
+      break;
+    }
+  }
+  return newPath;
+};
 

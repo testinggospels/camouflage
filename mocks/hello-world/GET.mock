@@ -1,3 +1,4 @@
+{{#if request.query.name}}
 HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
 Content-Type: application/json
@@ -8,3 +9,15 @@ Content-Type: application/json
     "dateOfBirth": "{{now format='MM/DD/YYYY'}}",
     "test": "{{randomValue}}" 
 }
+{{else}}
+HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+
+{
+    "greeting": "Hello World", 
+    "phone": {{randomValue length=10 type='NUMERIC'}}, 
+    "dateOfBirth": "{{now format='MM/DD/YYYY'}}",
+    "test": "{{randomValue}}" 
+}
+{{/if}}

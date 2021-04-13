@@ -11,3 +11,4 @@ Well, the original tool has not been maintained for some time now. But more impo
 3. Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.
 4. Using handlebars, you can generate random numbers, string, alphanumeric string, UUIDs and random dates.
 5. You can also extract information from request queries, path, body or headers and use them in your response.
+6. And finally you can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.
