@@ -2,6 +2,21 @@
 
 1. Install Camouflage: `npm install -g camouflage-server`
 2. Start server: `camouflage -m ./mocks`
+3. Start an http and https server: `camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert`
+
+## Available command line options
+
+```
+Required Parameter:
+  -m, --mocks   - Path to mock files
+
+Optional Parameters:
+  -p, --port             - HTTP Port to listen on
+  -x, --secureport       - HTTPS Port to listen on
+  -s, --secure           - include https server is required
+  -k, --key              - server.key file if -s/--secure is set to true
+  -c, --cert             - server.key file if -s/--secure is set to true
+```
 
 ## Create your first mock
 

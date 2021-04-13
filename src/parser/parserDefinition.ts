@@ -2,8 +2,6 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import Handlebars from "handlebars";
-// @ts-ignore
-import lineReader from "line-reader";
 
 export class Parser {
   private req: express.Request;
@@ -14,7 +12,7 @@ export class Parser {
     this.mockDir = mockDir;
     this.res = res;
   }
-  getFilePath = () => {
+  getMatchedDir = () => {
     const reqDetails = {
       method: this.req.method.toUpperCase(),
       path: this.req.path,

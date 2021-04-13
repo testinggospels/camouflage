@@ -243,6 +243,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#available-command-line-options" class="md-nav__link">
+    Available command line options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#create-your-first-mock" class="md-nav__link">
     Create your first mock
   </a>
@@ -317,6 +324,18 @@
   
 
           
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../more/request-model/" class="md-nav__link">
+        Request model
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -348,6 +367,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#available-command-line-options" class="md-nav__link">
+    Available command line options
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#create-your-first-mock" class="md-nav__link">
     Create your first mock
   </a>
@@ -375,7 +401,19 @@
 <ol>
 <li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
 <li>Start server: <code>camouflage -m ./mocks</code></li>
+<li>Start an http and https server: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
 </ol>
+<h2 id="available-command-line-options">Available command line options</h2>
+<pre><code>Required Parameter:
+  -m, --mocks   - Path to mock files
+
+Optional Parameters:
+  -p, --port             - HTTP Port to listen on
+  -x, --secureport       - HTTPS Port to listen on
+  -s, --secure           - include https server is required
+  -k, --key              - server.key file if -s/--secure is set to true
+  -c, --cert             - server.key file if -s/--secure is set to true
+</code></pre>
 <h2 id="create-your-first-mock">Create your first mock</h2>
 <p>Camouflage follows the same convention as mockserver, to create mocks. For example,</p>
 <ol>
