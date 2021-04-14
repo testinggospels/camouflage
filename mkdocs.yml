@@ -6,3 +6,14 @@ theme:
 markdown_extensions:
   - admonition
   - attr_list
+nav:
+  - index.md
+  - getting-started.md
+  - folder-structure.md
+  - handlebars.md
+  - request-matching.md
+  - request-model.md
+  - response-delays.md
+  - performance-mode.md
+  - tests.md
+  - future-plans.md
