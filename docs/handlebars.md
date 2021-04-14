@@ -10,9 +10,9 @@ Type: Custom Helper
 
 Usage:
 
-1. **{{randomValue}}** - Simply using randomValue will generate a 16 character alphanumeric string. ex: _9ZeBvHW5viiYuWRa_. Why? We'll let you know when we figure that out.
-2. **{{randomValue type='ALPHANUMERIC'}}** - You can specify a type as well. Your choices are: 'ALPHANUMERIC', 'ALPHABETIC', 'NUMERIC' and 'UUID'. So, what will it be?
-3. **{{randomValue type='NUMERIC' length=10}}** - Don't want a 16 character output? Use length to specify the length. Simple enough.
+1. **{{randomValue}}** - Simply using randomValue will generate a 16 character alphanumeric string. ex: _9ZeBvHW5viiYuWRa_.
+2. **{{randomValue type='ALPHANUMERIC'}}** - You can specify a type as well. Your choices are: 'ALPHANUMERIC', 'ALPHABETIC', 'NUMERIC' and 'UUID'.
+3. **{{randomValue type='NUMERIC' length=10}}** - Don't want a 16 character output? Use length to specify the length.
 4. **{{randomValue type='ALPHABETIC' uppercase=true}}** - Finally, specify uppercase as true to get a, well, uppercase string.
 
 ## now
@@ -22,9 +22,26 @@ Type: Custom Helper
 Usage:
 
 1. **{{now}}** - Simply using now will give you date in format _YYYY-MM-DD hh:mm:ss_
-2. **{{now format='MM/DD/YYYY'}}** - Format not to your liking? Use any format you'd like as long as it is supported by momentjs. We gave away the secret, didn't we? Don't ask us if you should use MM/DD/YYYY or DD/MM/YYYY. We like to stay away from the controversies.
+2. **{{now format='MM/DD/YYYY'}}** - Format not to your liking? Use any format you'd like as long as it is supported by momentjs.
 3. **{{now format='epoch'}}** - Time since epoch in milliseconds
 4. **{{now format='unix'}}** - Time since epoch in seconds
+5. **{{now format='MM/DD/YYYY hh:mm:ss' offset='-10 days'}}** - Use offset specify the delta for your desired date from current date.
+
+Units for specifying offset are
+
+```
+Key             Shorthand
+-------------------------
+years	            y
+quarters	    Q
+months	            M
+weeks	            w
+days	            d
+hours	            h
+minutes	            m
+seconds	            s
+milliseconds	    ms
+```
 
 ## capture
 

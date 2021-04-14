@@ -10,13 +10,20 @@ export class HandlerBarHelper {
   nowHelper = () => {
     Handlebars.registerHelper("now", (context) => {
       const format = typeof context.hash.format === "undefined" ? "YYYY-MM-DD hh:mm:ss" : context.hash.format;
+      let offsetUnit: moment.unitOfTime.DurationConstructor = "s";
+      let offsetAmount: number = 0;
+      if (typeof context.hash.offset !== "undefined") {
+        let offset = context.hash.offset.split(" ");
+        offsetAmount = <number>offset[0];
+        offsetUnit = <moment.unitOfTime.DurationConstructor>offset[1];
+      }
       switch (format) {
         case "epoch":
-          return Math.round(Date.now());
+          return moment().add(offsetAmount, offsetUnit).format("x");
         case "unix":
-          return Math.round(Date.now() / 1000);
+          return moment().add(offsetAmount, offsetUnit).format("X");
         default:
-          return moment().format(format);
+          return moment().add(offsetAmount, offsetUnit).format(format);
       }
     });
   };
