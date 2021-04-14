@@ -16,7 +16,7 @@
     
     
       
-        <title>Request matching - Camouflage</title>
+        <title>Future plans - Camouflage</title>
       
     
     
@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-matching" class="md-skip">
+        <a href="#future-plans" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Request matching
+              Future plans
             
           </span>
         </div>
@@ -255,58 +255,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Request matching
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../request-matching/" class="md-nav__link">
         Request matching
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#request-matching" class="md-nav__link">
-    Request Matching
-  </a>
-  
-    <nav class="md-nav" aria-label="Request Matching">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#explanation" class="md-nav__link">
-    Explanation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -377,11 +330,20 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../future-plans/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Future plans
       </a>
+      
     </li>
   
 
@@ -401,34 +363,8 @@
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
+    
   
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#request-matching" class="md-nav__link">
-    Request Matching
-  </a>
-  
-    <nav class="md-nav" aria-label="Request Matching">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#explanation" class="md-nav__link">
-    Explanation
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
   
 </nav>
                   </div>
@@ -440,57 +376,18 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/request-matching.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/future-plans.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                  <h1>Request matching</h1>
-                
-                <h2 id="request-matching">Request Matching</h2>
-<p>There are scenarios when you would need to change your response based on some conditions met by fields on request objects. For example, if the end user passes an Authorization header, you'd want to send a 200 OK response if not you'd want to send a 401 Unauthorized resposne.</p>
-<p>To do so you can utilize the power of handlebars again. Simply provide an if else condition and you are good to go. Consider following example.</p>
-<pre><code>You expect the user to call the endpoint /hello-world in two ways.
-1) By simple making a GET request to /hello-world.; Or
-2) By adding a query parameter name in the GET request to /hello-world.
-   i.e. /hello-world?name=John
-</code></pre>
-<p>Based on how the user calls the API, you'd want to send a different
-response. This can be done in following manner:</p>
-<p>Create GET.mock file under the directory ${MOCKS_DIR}/hello-world. And paste following content:</p>
-<pre><code>{{#if request.query.name}}
-HTTP/1.1 200 OK
-X-Requested-By: Shubhendu Madhukar
-Content-Type: application/json
-
-{
-    &quot;greeting&quot;: &quot;Hello {{capture from='query' key='name'}}&quot;,
-    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
-    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
-    &quot;test&quot;: &quot;{{randomValue}}&quot;
-}
-{{else}}
-HTTP/1.1 200 OK
-X-Requested-By: Shubhendu Madhukar
-Content-Type: application/json
-
-{
-    &quot;greeting&quot;: &quot;Hello World&quot;,
-    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
-    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
-    &quot;test&quot;: &quot;{{randomValue}}&quot;
-}
-{{/if}}
-</code></pre>
-<h3 id="explanation">Explanation</h3>
-<p>We are going to check if a query parameter with the key 'name' exists in the incoming request. We do so by adding an if condition</p>
-<pre><code>{{#if request.query.name}}
-</code></pre>
-<p>You can also check if that parameter equals a certain value</p>
-<pre><code>{{#if request.query.name='John'}}
-</code></pre>
-<p>Rest of the code is self explanatory, where if the condition is true, i.e. incoming request has a query parameter with key <code>name</code>, the <code>greeting</code> field in our response object would be <code>Hello John</code>, else the greeting would be <code>Hello World</code>.</p>
-<p>Thus if the end user makes a GET request as <code>/hello-world?name=John</code>, he'd get a greeting <code>Hello John</code>. However, if the user calls <code>/hello-world</code> without any <code>name</code>, he'd get a greeting as <code>Hello World</code></p>
+                <h1 id="future-plans">Future plans</h1>
+<p>Following items are on current todo list:</p>
+<ol>
+<li>Add a proxy server which could then be used to implement a recording option to create mocks.</li>
+<li>Proxy server can also be used to make calls to actual downstream application if required.</li>
+</ol>
+<p>If you'd like to contribute, you could either pick up an item from current todos, or submit your suggestions <a href="https://forms.gle/TNJnr2WWvYkqYNHH9" target="_blank">here</a>.</p>
                 
               
               
@@ -509,7 +406,7 @@ Content-Type: application/json
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../handlebars/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../tests/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -518,25 +415,11 @@ Content-Type: application/json
               <span class="md-footer__direction">
                 Previous
               </span>
-              Handlebars
+              Tests
             </div>
           </div>
         </a>
       
-      
-        <a href="../request-model/" class="md-footer__link md-footer__link--next" rel="next">
-          <div class="md-footer__title">
-            <div class="md-ellipsis">
-              <span class="md-footer__direction">
-                Next
-              </span>
-              Request model
-            </div>
-          </div>
-          <div class="md-footer__button md-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
-          </div>
-        </a>
       
     </nav>
   
