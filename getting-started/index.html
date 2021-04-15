@@ -254,6 +254,19 @@
     Create your first mock
   </a>
   
+    <nav class="md-nav" aria-label="Create your first mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -420,6 +433,19 @@
     Create your first mock
   </a>
   
+    <nav class="md-nav" aria-label="Create your first mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -523,6 +549,20 @@ Content-Type: application/json
 }
 </code></pre>
 <p>Navigate to <a href="http://localhost:8080/hello-world" target="_blank">http://localhost:8080/hello-world</a></p>
+<h3 id="building-from-source">Building from source</h3>
+<p>If you'd like to get the latest version of Camouflage, you can build it from the source.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.</p>
+</div>
+<ol>
+<li>Clone the repository: <code>git clone https://github.com/fauxauldrich/camouflage.git</code></li>
+<li>Install dependencies: <code>npm install</code></li>
+<li>Build the project: <code>npm build</code></li>
+<li>At this point you can run Camouflage using: <code>node bin/camouflage.js -m ./mocks</code></li>
+<li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
+<li>Install by running command: <code>npm install -g camouflage-server-${version}.tgz</code> or <code>npm install -g camouflage-server-${version}.zip</code></li>
+</ol>
                 
               
               
