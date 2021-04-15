@@ -40,7 +40,7 @@ export class Parser {
     // Check if file exists
     if (fs.existsSync(mockFile)) {
       const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
-      const fileContent = template({ request: this.req }).split("\n");
+      let fileContent = os.platform() === "win32" ? template({ request: this.req }).split("\r\n") : template({ request: this.req }).split("\n");
       //Read file line by line
       fileContent.forEach((line, index) => {
         //Set PARSE_BODY flag to try when reader finds a blank line
@@ -131,4 +131,3 @@ const getWildcardPath = (dir: string, mockDir: string) => {
   }
   return newPath;
 };
-

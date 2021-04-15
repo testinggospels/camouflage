@@ -254,6 +254,19 @@
     Create your first mock
   </a>
   
+    <nav class="md-nav" aria-label="Create your first mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -420,6 +433,19 @@
     Create your first mock
   </a>
   
+    <nav class="md-nav" aria-label="Create your first mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
     </ul>
@@ -442,21 +468,71 @@
                 <h1 id="getting-started">Getting Started</h1>
 <ol>
 <li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
-<li>Start server: <code>camouflage -m ./mocks</code></li>
-<li>Start an http and https server: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
+<li>Run <code>camouflage --version</code> to validate the installation was successful.</li>
+<li>
+<p>Startup Options:</p>
+<ul>
+<li>If you only want an HTTP server, start Camouflage using: <code>camouflage -m ./mocks</code></li>
+<li>If you need an http and https server both: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
+<li>If you plan to run a performance test, we advice starting Camouflage in performance mode by providing number of CPUs parameter: <code>camouflage -m ./mocks -n 4</code> (Learn more on <strong>Performance Mode</strong> page)</li>
+</ul>
+</li>
 </ol>
 <h2 id="available-command-line-options">Available command line options</h2>
-<pre><code>Required Parameter:
-  -m, --mocks   - Path to mock files
-
-Optional Parameters:
-  -p, --port             - HTTP Port to listen on
-  -x, --secureport       - HTTPS Port to listen on
-  -s, --secure           - include https server if required
-  -k, --key              - server.key file if -s/--secure is set to true
-  -c, --cert             - server.key file if -s/--secure is set to true
-  -n, --cpus             - number of CPUs you want Camouflage to utilize
-</code></pre>
+<table>
+<thead>
+<tr>
+<th align="left">Notation</th>
+<th align="center">Shorthand</th>
+<th align="left">Description</th>
+<th align="left">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="left">--mocks</td>
+<td align="center">-m</td>
+<td align="left">Path to directory containing mock files</td>
+<td align="left">Required</td>
+</tr>
+<tr>
+<td align="left">--port</td>
+<td align="center">-p</td>
+<td align="left">HTTP Port to listen on</td>
+<td align="left">Optional</td>
+</tr>
+<tr>
+<td align="left">--secure</td>
+<td align="center">-s</td>
+<td align="left">Start with an additional HTTPS Server</td>
+<td align="left">Optional</td>
+</tr>
+<tr>
+<td align="left">--secureport</td>
+<td align="center">-x</td>
+<td align="left">HTTPS Port to listen on</td>
+<td align="left">Optional</td>
+</tr>
+<tr>
+<td align="left">--key</td>
+<td align="center">-k</td>
+<td align="left">server.key file</td>
+<td align="left">Required, if Camouflage is started with -s</td>
+</tr>
+<tr>
+<td align="left">--cert</td>
+<td align="center">-c</td>
+<td align="left">server.cert file</td>
+<td align="left">Required, if Camouflage is started with -s</td>
+</tr>
+<tr>
+<td align="left">--cpus</td>
+<td align="center">-n</td>
+<td align="left">Number of CPUs you want Camouflage to utilize</td>
+<td align="left">Optional</td>
+</tr>
+</tbody>
+</table>
 <h2 id="create-your-first-mock">Create your first mock</h2>
 <p>Camouflage follows the same convention as mockserver, to create mocks. For example,</p>
 <ol>
@@ -473,6 +549,20 @@ Content-Type: application/json
 }
 </code></pre>
 <p>Navigate to <a href="http://localhost:8080/hello-world" target="_blank">http://localhost:8080/hello-world</a></p>
+<h3 id="building-from-source">Building from source</h3>
+<p>If you'd like to get the latest version of Camouflage, you can build it from the source.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.</p>
+</div>
+<ol>
+<li>Clone the repository: <code>git clone https://github.com/fauxauldrich/camouflage.git</code></li>
+<li>Install dependencies: <code>npm install</code></li>
+<li>Build the project: <code>npm build</code></li>
+<li>At this point you can run Camouflage using: <code>node bin/camouflage.js -m ./mocks</code></li>
+<li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
+<li>Install by running command: <code>npm install -g camouflage-server-${version}.tgz</code> or <code>npm install -g camouflage-server-${version}.zip</code></li>
+</ol>
                 
               
               

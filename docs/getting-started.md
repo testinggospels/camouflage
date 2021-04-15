@@ -1,23 +1,24 @@
 # Getting Started
 
-1. Install Camouflage: `npm install -g camouflage-server`
-2. Start server: `camouflage -m ./mocks`
-3. Start an http and https server: `camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert`
+1.  Install Camouflage: `npm install -g camouflage-server`
+2.  Run `camouflage --version` to validate the installation was successful.
+3.  Startup Options:
+
+    - If you only want an HTTP server, start Camouflage using: `camouflage -m ./mocks`
+    - If you need an http and https server both: `camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert`
+    - If you plan to run a performance test, we advice starting Camouflage in performance mode by providing number of CPUs parameter: `camouflage -m ./mocks -n 4` (Learn more on **Performance Mode** page)
 
 ## Available command line options
 
-```
-Required Parameter:
-  -m, --mocks   - Path to mock files
-
-Optional Parameters:
-  -p, --port             - HTTP Port to listen on
-  -x, --secureport       - HTTPS Port to listen on
-  -s, --secure           - include https server if required
-  -k, --key              - server.key file if -s/--secure is set to true
-  -c, --cert             - server.key file if -s/--secure is set to true
-  -n, --cpus             - number of CPUs you want Camouflage to utilize
-```
+| Notation     | Shorthand | Description                                   | Type                                       |
+| :----------- | :-------: | :-------------------------------------------- | :----------------------------------------- |
+| --mocks      |    -m     | Path to directory containing mock files       | Required                                   |
+| --port       |    -p     | HTTP Port to listen on                        | Optional                                   |
+| --secure     |    -s     | Start with an additional HTTPS Server         | Optional                                   |
+| --secureport |    -x     | HTTPS Port to listen on                       | Optional                                   |
+| --key        |    -k     | server.key file                               | Required, if Camouflage is started with -s |
+| --cert       |    -c     | server.cert file                              | Required, if Camouflage is started with -s |
+| --cpus       |    -n     | Number of CPUs you want Camouflage to utilize | Optional                                   |
 
 ## Create your first mock
 
@@ -38,4 +39,19 @@ Content-Type: application/json
 ```
 
 Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-world){target=\_blank}
+
+### Building from source
+
+If you'd like to get the latest version of Camouflage, you can build it from the source.
+
+!!! note
+
+    Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.
+
+1. Clone the repository: `git clone https://github.com/fauxauldrich/camouflage.git`
+2. Install dependencies: `npm install`
+3. Build the project: `npm build`
+4. At this point you can run Camouflage using: `node bin/camouflage.js -m ./mocks`
+5. However if you'd like to install Camouflage globally, execute: `npm pack`
+6. Install by running command: `npm install -g camouflage-server-${version}.tgz` or `npm install -g camouflage-server-${version}.zip`
 
