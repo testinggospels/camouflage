@@ -13,7 +13,7 @@ Required Parameter:
 Optional Parameters:
   -p, --port             - HTTP Port to listen on
   -x, --secureport       - HTTPS Port to listen on
-  -s, --secure           - include https server is required
+  -s, --secure           - include https server if required
   -k, --key              - server.key file if -s/--secure is set to true
   -c, --cert             - server.key file if -s/--secure is set to true
   -n, --cpus             - number of CPUs you want Camouflage to utilize

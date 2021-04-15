@@ -10,7 +10,7 @@ var numCPUs = argv.n || argv.cpus || 1;
 const osCPUs = require("os").cpus().length;
 var info = require("./../package.json");
 const camouflage = require("../dist/index");
-if (numCPUs >= osCPUs) {
+if (numCPUs > osCPUs) {
   console.log("Number of CPUs specified is greater than or equal to availale CPUs. Please specify a lesser number.");
   process.exit(1);
 }

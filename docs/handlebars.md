@@ -29,19 +29,17 @@ Usage:
 
 Units for specifying offset are
 
-```
-Key             Shorthand
--------------------------
-years	            y
-quarters	    Q
-months	            M
-weeks	            w
-days	            d
-hours	            h
-minutes	            m
-seconds	            s
-milliseconds	    ms
-```
+| Key          | Shorthand |
+| :----------- | :-------: |
+| years        |     y     |
+| quarters     |     q     |
+| months       |     M     |
+| weeks        |     w     |
+| days         |     d     |
+| hours        |     h     |
+| minutes      |     m     |
+| seconds      |     s     |
+| milliseconds |    ms     |
 
 ## capture
 
