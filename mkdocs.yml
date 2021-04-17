@@ -15,5 +15,8 @@ nav:
   - request-model.md
   - response-delays.md
   - performance-mode.md
+  - monitoring.md
   - tests.md
+  - releases.md
   - future-plans.md
+

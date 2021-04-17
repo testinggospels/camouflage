@@ -9,6 +9,9 @@ import "./handlebar/helperInit";
 import Protocols from "./protocols/Protocols";
 import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
+import child_process from "child_process";
+import path from "path";
+let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
 
 let mocksDir = "";
 let port = 8080;
@@ -22,6 +25,7 @@ app.use(
     requestDurationBuckets: [0.1, 0.5, 1, 1.5],
   })
 );
+app.use(express.static(site_root));
 function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, numCPUs: number, key?: string, cert?: string, inputHttpsPort?: number) {
   // Update the mocksDir with the input provided by user via -m or --mocks parameter via command line while starting the server
   mocksDir = inputMocksDir;
@@ -30,7 +34,7 @@ function start(inputMocksDir: string, inputPort: number, enableHttps: boolean, n
   port = inputPort;
   // Define route for root which would in future host a single page UI to manage the mocks
   app.get("/", (req: express.Request, res: express.Response) => {
-    res.redirect("/mocks");
+    res.sendFile("index.html", { root: site_root });
   });
   // Register Controllers
   new CamouflageController(app, mocksDir);

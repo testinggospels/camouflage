@@ -8,3 +8,5 @@ camouflage -m ./mocks -n 4
 
 This will tell Camouflage to start 1 master and 4 workers utilizing 4 cores of your CPU. This leads to a better performance. For a test with 60000 RPM with latency simulation, 95th between 10 - 13 millseconds. Reports can be found on the **Tests** page.
 
+Camouflage uses NodeJS cluster module to achieve this, which means it also provides a high availability. If you have specfied 4 workers, Camouflage will always ensure that 4 workers are running. In any case if one or more of your workers crash, they will be replaced by a new worker.
+
