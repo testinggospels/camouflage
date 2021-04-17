@@ -326,8 +326,38 @@
   
   
     <li class="md-nav__item">
+      <a href="../monitoring/" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tests/" class="md-nav__link">
         Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/" class="md-nav__link">
+        Releases
       </a>
     </li>
   
@@ -386,6 +416,7 @@
 <pre><code>camouflage -m ./mocks -n 4
 </code></pre>
 <p>This will tell Camouflage to start 1 master and 4 workers utilizing 4 cores of your CPU. This leads to a better performance. For a test with 60000 RPM with latency simulation, 95th between 10 - 13 millseconds. Reports can be found on the <strong>Tests</strong> page.</p>
+<p>Camouflage uses NodeJS cluster module to achieve this, which means it also provides a high availability. If you have specfied 4 workers, Camouflage will always ensure that 4 workers are running. In any case if one or more of your workers crash, they will be replaced by a new worker.</p>
                 
               
               
@@ -419,13 +450,13 @@
         </a>
       
       
-        <a href="../tests/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../monitoring/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Tests
+              Monitoring
             </div>
           </div>
           <div class="md-footer__button md-icon">
