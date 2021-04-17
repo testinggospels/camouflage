@@ -375,8 +375,38 @@
   
   
     <li class="md-nav__item">
+      <a href="../monitoring/" class="md-nav__link">
+        Monitoring
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../tests/" class="md-nav__link">
         Tests
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../releases/" class="md-nav__link">
+        Releases
       </a>
     </li>
   
@@ -469,11 +499,10 @@
 <ol>
 <li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
 <li>Run <code>camouflage --version</code> to validate the installation was successful.</li>
-<li>
-<p>Startup Options:</p>
-<ul>
-<li>If you only want an HTTP server, start Camouflage using: <code>camouflage -m ./mocks</code></li>
-<li>If you need an http and https server both: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
+<li>Startup Options:<ul>
+<li>Easiest way to start Camouflage server is to simply navigate to your mocks directory and run the command <code>camouflage</code>. Camouflage will pick the current working directory as your mocks directory.</li>
+<li>If you want to explicitly provide the mocks path, run the command `camouflage -m ./mocks'. (You don't need to be in your mocks directory for this)</li>
+<li>Above commands will start an HTTP server, however if you need an HTTP and HTTPS server both, use: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
 <li>If you plan to run a performance test, we advice starting Camouflage in performance mode by providing number of CPUs parameter: <code>camouflage -m ./mocks -n 4</code> (Learn more on <strong>Performance Mode</strong> page)</li>
 </ul>
 </li>
@@ -493,7 +522,7 @@
 <td align="left">--mocks</td>
 <td align="center">-m</td>
 <td align="left">Path to directory containing mock files</td>
-<td align="left">Required</td>
+<td align="left">Optional</td>
 </tr>
 <tr>
 <td align="left">--port</td>
