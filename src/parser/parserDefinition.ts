@@ -41,7 +41,7 @@ export class Parser {
     // Check if file exists
     if (fs.existsSync(mockFile)) {
       const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
-      let fileContent = os.platform() === "win32" ? template({ request: this.req }).split("\r\n") : template({ request: this.req }).split("\n");
+      const fileContent = template({ request: this.req }).split(os.EOL);
       //Read file line by line
       fileContent.forEach((line, index) => {
         //Set PARSE_BODY flag to try when reader finds a blank line
@@ -50,9 +50,9 @@ export class Parser {
         }
         //If line includes HTTP/HTTPS i.e. first line. Get the response status code
         if (line.includes("HTTP")) {
-          const regex = /(?<=HTTP\/\d.\d\s{1,1})(\d{3,3})(?=[a-z0-9\s]+)/gi;
+          const regex = /(?<=HTTP\/\d).*?\s+(\d{3,3})(?=[a-z0-9\s]+)/i;
           if (!regex.test(line)) throw new Error("Response code should be valid string");
-          response.status = <number>(<unknown>line.match(regex).join(""));
+          response.status = <number>(<unknown>line.match(regex)[1]);
         } else {
           /**
            * If following conditions are met:
@@ -132,3 +132,4 @@ const getWildcardPath = (dir: string, mockDir: string) => {
   }
   return newPath;
 };
+
