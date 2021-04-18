@@ -301,8 +301,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delay" class="md-nav__link">
-    delay
+  <a href="#num_between" class="md-nav__link">
+    num_between
   </a>
   
 </li>
@@ -377,6 +377,21 @@
     <li class="md-nav__item">
       <a href="../performance-mode/" class="md-nav__link">
         Performance Mode
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mocking-gRPC/" class="md-nav__link">
+        Mocking gRPC
       </a>
     </li>
   
@@ -495,8 +510,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#delay" class="md-nav__link">
-    delay
+  <a href="#num_between" class="md-nav__link">
+    num_between
   </a>
   
 </li>
@@ -605,14 +620,14 @@
 }
 </code></pre>
 <ol>
-<li><strong>{{capture from='path' regex='\/users\/get\/(.*)?'}}</strong> - For path you'd need to specify a regex to capture a value.</li>
+<li><strong>{{capture from='path' regex='\/users\/get\/(.*)?'}}</strong> - For path, you'd need to specify a regex to capture a value.</li>
 <li><strong>{{capture from='body' using='jsonpath' selector='$.lastName'}}</strong> - To capture values from request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.</li>
 </ol>
-<h2 id="delay">delay</h2>
+<h2 id="num_between">num_between</h2>
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
 <ol>
-<li><strong>{{delay lower=500 upper=600}}</strong>: You can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower &gt; upper would set delay to 0, i.e. won't have any effect. Check <strong>Response Delays</strong> page for a detailed example</li>
+<li><strong>{{num_between lower=500 upper=600}}</strong>: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower &gt; upper would set delay to 0, i.e. won't have any effect. Check <strong>Response Delays</strong> page for a detailed example</li>
 </ol>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">

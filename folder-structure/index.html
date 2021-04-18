@@ -376,6 +376,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../mocking-gRPC/" class="md-nav__link">
+        Mocking gRPC
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -517,12 +532,16 @@
 <p>Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For wildcard, use directory name as __ (double underscore)</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Unlike original mockserver, request matching criteria, are taken care of, inside the .mock files instead of
+<p>Unlike original mockserver, request matching criteria, are taken care of inside the .mock files instead of
 naming the files in a certain way. We intend to keep the file names simple and in the format
 <em>${HTTP_METHOD}.mock</em></p>
 </div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Folder structure for gRPC mocks is different when compared to HTTP mocks. Please refer to the section <strong>Mocking gRPC</strong> if you are planning to create gRPC mocks.</p>
+</div>
 <h2 id="what-data-to-put-in-mock-files">What data to put in .mock files</h2>
-<p>In future, Camouflage will have it's own recorder that will allow you to simply make a request to actual endpoint via a Camouflage proxy and based on the data proxy recieves it will create the response for you.
+<p>In future, Camouflage will have its own recorder that will allow you to simply make a request to actual endpoint via a Camouflage proxy and based on the data proxy recieves it will create the response for you.
 So what can you do in the meantime? Use curl!</p>
 <p>Example:</p>
 <pre><code>curl -i -X GET https://jsonplaceholder.typicode.com/users/1 &gt; GET.mock

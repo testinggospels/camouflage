@@ -317,6 +317,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../mocking-gRPC/" class="md-nav__link">
+        Mocking gRPC
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -378,6 +393,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#103-04182021" class="md-nav__link">
+    1.0.3 - 04/18/2021
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#102-04172021" class="md-nav__link">
     1.0.2 - 04/17/2021
   </a>
@@ -432,6 +454,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#103-04182021" class="md-nav__link">
+    1.0.3 - 04/18/2021
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#102-04172021" class="md-nav__link">
     1.0.2 - 04/17/2021
   </a>
@@ -456,6 +485,14 @@
                 
                 
                 <h1 id="releases">Releases</h1>
+<h3 id="103-04182021">1.0.3 - 04/18/2021</h3>
+<ul>
+<li>Introduce mocking of gRPC services</li>
+<li>For easier management of configuration options, remove command line parameters. Camouflage will now be initialized using a config.yml</li>
+<li>Introduce better logging</li>
+<li>Change <code>delay</code> handlebar to <code>num_between</code>, for more generic use</li>
+<li>Add new management endpoints: <code>/restart</code> and <code>/ping</code></li>
+</ul>
 <h3 id="102-04172021">1.0.2 - 04/17/2021</h3>
 <ul>
 <li>Fix regex to recognize HTTP/1.0, HTTP/1.1 and HTTP/2. HTTP/2 Camouflage server is not implemented yet but will be in future.</li>
@@ -469,7 +506,7 @@
 </ul>
 </li>
 <li>
-<p>Start a new worker if for some reason any of the workers go down. This will ensure high availability so that at any time, a fixed number of workers will always be available as specified by -n X command line parameter</p>
+<p>Start a new worker if for some reason any of the workers goes down. This will ensure high availability so that at any time, a fixed number of workers will always be available as specified by -n X command line parameter</p>
 </li>
 <li>Add a local copy of documentation at root (http://localhost:8080/)</li>
 <li>Camouflage can now be started by simply running camouflage command from the mocks dir. (<em>-m flag is now optional in case user wants to explicitly provide the path instead of navigating to mocks_dir.</em>)</li>

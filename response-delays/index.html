@@ -351,6 +351,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../mocking-gRPC/" class="md-nav__link">
+        Mocking gRPC
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -466,8 +481,8 @@ Response-Delay: 2000
     &quot;test&quot;: &quot;{{randomValue}}&quot;
 }
 </code></pre>
-<p>Additionally you can also simulate a dynamic delay using the <strong>{{delay}}</strong> handlebar as follows</p>
-<pre><code>Response-Delay: {{delay lower=500 upper=600}}
+<p>Additionally you can also simulate a dynamic delay using the <strong>{{num_between}}</strong> handlebar as follows</p>
+<pre><code>Response-Delay: {{num_between lower=500 upper=600}}
 </code></pre>
 <p>This would add a random delay of a value between 500 to 600 milliseconds</p>
                 
