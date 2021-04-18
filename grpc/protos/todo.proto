@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package todoPackage;
+
+message Todo {
+    string id = 1;
+    string text = 2;
+}
+
+message Todos {
+    repeated Todo todo = 1;
+}
+
+message Empty {}
+
+service TodoService{
+    rpc createTodo(Todo) returns (Todo);
+    rpc readTodo(Empty) returns (Todos);
+}

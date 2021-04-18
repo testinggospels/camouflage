@@ -55,16 +55,16 @@ Usage:
 }
 ```
 
-2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path you'd need to specify a regex to capture a value.
+2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path, you'd need to specify a regex to capture a value.
 3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
 
-## delay
+## num_between
 
 Type: Custom Helper
 
 Usage:
 
-1. **{{delay lower=500 upper=600}}**: You can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
+1. **{{num_between lower=500 upper=600}}**: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
 ## Inbuilt Helpers
 

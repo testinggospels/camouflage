@@ -1,0 +1,17 @@
+loglevel: info
+cpus: 2
+protocols:
+  http:
+    mocks_dir: "./mocks"
+    port: 8080
+  https:
+    enable: false
+    port: 8443
+    cert: "./certs/server.cert"
+    key: "./certs/server.key"
+  grpc:
+    enable: true
+    port: 4312
+    mocks_dir: "./grpc/mocks"
+    protos_dir: "./grpc/protos"
+

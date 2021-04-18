@@ -18,10 +18,10 @@ Response-Delay: 2000
 }
 ```
 
-Additionally you can also simulate a dynamic delay using the **{{delay}}** handlebar as follows
+Additionally you can also simulate a dynamic delay using the **{{num_between}}** handlebar as follows
 
 ```
-Response-Delay: {{delay lower=500 upper=600}}
+Response-Delay: {{num_between lower=500 upper=600}}
 ```
 
 This would add a random delay of a value between 500 to 600 milliseconds

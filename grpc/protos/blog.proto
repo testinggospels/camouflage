@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package blogPackage;
+
+message Blog {
+    int32 id = 1;
+    string title = 2;
+}
+
+message Blogs {
+    repeated Blog blog = 1;
+}
+
+message Empty {}
+
+service BlogService{
+    rpc createBlog(Blog) returns (Blog);
+    rpc listBlogs(Empty) returns (Blogs);
+}

@@ -22,7 +22,7 @@ Please note that performance could be further improved by tuning the node js pro
 
 ### Performance mode: 4 CPU
 
-This performance test was on 4 node worker processes without any flage on 4 CPUs
+This performance test was on 4 node worker processes without any flags on 4 CPUs
 
 - Test tool used was Locust.
 - Locust was run in a distributed manner with 1 master and 4 workers on a 12 core machine.

@@ -2,7 +2,7 @@
 HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
 Content-Type: application/json
-Response-Delay: {{delay lower=500 upper=600}}
+Response-Delay: {{num_between lower=500 upper=600}}
 
 {
     "greeting": "Hello {{capture from='query' key='name'}}", 

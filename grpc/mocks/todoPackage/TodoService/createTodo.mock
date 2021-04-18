@@ -1,0 +1,4 @@
+{
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+}
