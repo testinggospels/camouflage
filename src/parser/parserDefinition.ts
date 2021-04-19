@@ -3,6 +3,7 @@ import path from "path";
 import fs from "fs";
 import os from "os";
 import Handlebars from "handlebars";
+import logger from "../logger";
 let DELAY: number = 0;
 
 export class Parser {
@@ -51,8 +52,12 @@ export class Parser {
         //If line includes HTTP/HTTPS i.e. first line. Get the response status code
         if (line.includes("HTTP")) {
           const regex = /(?<=HTTP\/\d).*?\s+(\d{3,3})(?=[a-z0-9\s]+)/i;
-          if (!regex.test(line)) throw new Error("Response code should be valid string");
+          if (!regex.test(line)) {
+            logger.error("Response code should be valid string");
+            throw new Error("Response code should be valid string");
+          }
           response.status = <number>(<unknown>line.match(regex)[1]);
+          logger.debug("Response Status set to " + response.status);
         } else {
           /**
            * If following conditions are met:
@@ -66,8 +71,10 @@ export class Parser {
             let headerValue = line.split(":")[1];
             if (headerKey === "Response-Delay") {
               DELAY = <number>(<unknown>headerValue);
+              logger.debug(`Delay Set ${headerValue}`);
             } else {
               this.res.setHeader(headerKey, headerValue);
+              logger.debug(`Headers Set ${headerKey}: ${headerKey}`);
             }
           }
         }

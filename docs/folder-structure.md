@@ -21,13 +21,17 @@ Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For w
 
 !!! note
 
-    Unlike original mockserver, request matching criteria, are taken care of, inside the .mock files instead of
+    Unlike original mockserver, request matching criteria, are taken care of inside the .mock files instead of
     naming the files in a certain way. We intend to keep the file names simple and in the format
     *${HTTP_METHOD}.mock*
 
+!!! caution
+
+    Folder structure for gRPC mocks is different when compared to HTTP mocks. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
+
 ## What data to put in .mock files
 
-In future, Camouflage will have it's own recorder that will allow you to simply make a request to actual endpoint via a Camouflage proxy and based on the data proxy recieves it will create the response for you.
+In future, Camouflage will have its own recorder that will allow you to simply make a request to actual endpoint via a Camouflage proxy and based on the data proxy recieves it will create the response for you.
 So what can you do in the meantime? Use curl!
 
 Example:

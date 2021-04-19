@@ -15,6 +15,7 @@ nav:
   - request-model.md
   - response-delays.md
   - performance-mode.md
+  - mocking-gRPC.md
   - monitoring.md
   - tests.md
   - releases.md

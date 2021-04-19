@@ -5,7 +5,7 @@ import express from "express";
 import { v4 as uuidv4 } from "uuid";
 // @ts-ignore
 import jsonpath from "jsonpath";
-
+import logger from "../logger";
 export class HandlerBarHelper {
   nowHelper = () => {
     Handlebars.registerHelper("now", (context) => {
@@ -92,16 +92,16 @@ export class HandlerBarHelper {
     });
   };
 
-  delayHelper = () => {
-    Handlebars.registerHelper("delay", (context) => {
+  numBetweenHelper = () => {
+    Handlebars.registerHelper("num_between", (context) => {
       if (typeof context.hash.lower === "undefined" || typeof context.hash.upper === "undefined") {
-        console.error("lower or upper value not specified.");
+        logger.error("lower or upper value not specified.");
         return 0;
       } else {
         const lower = parseInt(context.hash.lower);
         const upper = parseInt(context.hash.upper);
         if (lower > upper) {
-          console.error("lower value cannot be greater than upper value.");
+          logger.error("lower value cannot be greater than upper value.");
           return 0;
         }
         const delay = Math.floor(Math.random() * (upper - lower + 1) + lower);

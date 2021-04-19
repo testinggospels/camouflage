@@ -243,8 +243,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#available-command-line-options" class="md-nav__link">
-    Available command line options
+  <a href="#configuration-options-sample-config-yml-file" class="md-nav__link">
+    Configuration Options / Sample Config yml File
   </a>
   
 </li>
@@ -375,6 +375,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../mocking-gRPC/" class="md-nav__link">
+        Mocking gRPC
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -452,8 +467,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#available-command-line-options" class="md-nav__link">
-    Available command line options
+  <a href="#configuration-options-sample-config-yml-file" class="md-nav__link">
+    Configuration Options / Sample Config yml File
   </a>
   
 </li>
@@ -499,71 +514,28 @@
 <ol>
 <li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
 <li>Run <code>camouflage --version</code> to validate the installation was successful.</li>
-<li>Startup Options:<ul>
-<li>Easiest way to start Camouflage server is to simply navigate to your mocks directory and run the command <code>camouflage</code>. Camouflage will pick the current working directory as your mocks directory.</li>
-<li>If you want to explicitly provide the mocks path, run the command `camouflage -m ./mocks'. (You don't need to be in your mocks directory for this)</li>
-<li>Above commands will start an HTTP server, however if you need an HTTP and HTTPS server both, use: <code>camouflage -m ./mocks -s -k ./certs/server.key -c ./certs/server.cert</code></li>
-<li>If you plan to run a performance test, we advice starting Camouflage in performance mode by providing number of CPUs parameter: <code>camouflage -m ./mocks -n 4</code> (Learn more on <strong>Performance Mode</strong> page)</li>
-</ul>
-</li>
+<li>Start the Camouflage server by initializing it with a config.yml file: <code>camouflage --config config.yml</code></li>
 </ol>
-<h2 id="available-command-line-options">Available command line options</h2>
-<table>
-<thead>
-<tr>
-<th align="left">Notation</th>
-<th align="center">Shorthand</th>
-<th align="left">Description</th>
-<th align="left">Type</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td align="left">--mocks</td>
-<td align="center">-m</td>
-<td align="left">Path to directory containing mock files</td>
-<td align="left">Optional</td>
-</tr>
-<tr>
-<td align="left">--port</td>
-<td align="center">-p</td>
-<td align="left">HTTP Port to listen on</td>
-<td align="left">Optional</td>
-</tr>
-<tr>
-<td align="left">--secure</td>
-<td align="center">-s</td>
-<td align="left">Start with an additional HTTPS Server</td>
-<td align="left">Optional</td>
-</tr>
-<tr>
-<td align="left">--secureport</td>
-<td align="center">-x</td>
-<td align="left">HTTPS Port to listen on</td>
-<td align="left">Optional</td>
-</tr>
-<tr>
-<td align="left">--key</td>
-<td align="center">-k</td>
-<td align="left">server.key file</td>
-<td align="left">Required, if Camouflage is started with -s</td>
-</tr>
-<tr>
-<td align="left">--cert</td>
-<td align="center">-c</td>
-<td align="left">server.cert file</td>
-<td align="left">Required, if Camouflage is started with -s</td>
-</tr>
-<tr>
-<td align="left">--cpus</td>
-<td align="center">-n</td>
-<td align="left">Number of CPUs you want Camouflage to utilize</td>
-<td align="left">Optional</td>
-</tr>
-</tbody>
-</table>
+<h2 id="configuration-options-sample-config-yml-file">Configuration Options / Sample Config yml File</h2>
+<pre><code class="language-yaml">loglevel: info
+cpus: 2
+protocols:
+  http:
+    mocks_dir: &quot;./mocks&quot;
+    port: 8080
+  https:
+    enable: false
+    port: 8443
+    cert: &quot;./certs/server.cert&quot;
+    key: &quot;./certs/server.key&quot;
+  grpc:
+    enable: false
+    port: 4312
+    mocks_dir: &quot;./grpc/mocks&quot;
+    protos_dir: &quot;./grpc/protos&quot;
+</code></pre>
 <h2 id="create-your-first-mock">Create your first mock</h2>
-<p>Camouflage follows the same convention as mockserver, to create mocks. For example,</p>
+<p>Camouflage follows the same convention as mockserver to create mocks. For example,</p>
 <ol>
 <li>You start by creating a directory ${MOCKS_DIR}/hello-world</li>
 <li>Create a file GET.mock under ${MOCKS_DIR}/hello-world.</li>
@@ -588,7 +560,7 @@ Content-Type: application/json
 <li>Clone the repository: <code>git clone https://github.com/fauxauldrich/camouflage.git</code></li>
 <li>Install dependencies: <code>npm install</code></li>
 <li>Build the project: <code>npm build</code></li>
-<li>At this point you can run Camouflage using: <code>node bin/camouflage.js -m ./mocks</code></li>
+<li>At this point you can run Camouflage using: <code>node bin/camouflage.js --config ./config.yml</code></li>
 <li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
 <li>Install by running command: <code>npm install -g camouflage-server-${version}.tgz</code> or <code>npm install -g camouflage-server-${version}.zip</code></li>
 </ol>
