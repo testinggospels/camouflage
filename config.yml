@@ -10,7 +10,7 @@ protocols:
     cert: "./certs/server.cert"
     key: "./certs/server.key"
   grpc:
-    enable: true
+    enable: false
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
