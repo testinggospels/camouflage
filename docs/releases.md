@@ -1,5 +1,17 @@
 # Releases
 
+### 1.0.5 - 04/20/2021
+
+- Add docker support (Dockerfile, docker-compose.yml: Image needs to be built locally for now)
+- Fix logging
+- Fix prometheus dependency issues
+
+### 1.0.4 - 04/20/2021
+
+- Replace dependency causing node-gyp error while installation
+- Other code fixes to accomodate above change
+- Update sample config.yml
+
 ### 1.0.3 - 04/18/2021
 
 - Introduce mocking of gRPC services
