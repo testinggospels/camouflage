@@ -1,0 +1,20 @@
+version: "2.1"
+
+services:
+  camouflage:
+    image: camouflage:1.0.5
+    container_name: camouflage
+    volumes:
+      - ./certs:/app/certs
+      - ./mocks:/app/mocks
+      - ./grpc:/app/grpc
+      - ./config.yml:/app/config.yml
+    expose:
+      - 8080
+      - 8443
+      - 4312
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "4312:4312"
+

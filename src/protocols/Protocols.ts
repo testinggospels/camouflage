@@ -48,7 +48,8 @@ export default class Protocols {
       });
     });
     const server = new grpc.Server();
-    server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err, port) => {
+    server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err) => {
+      if (err) logger.error(err.message);
       logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort}`);
       server.start();
     });

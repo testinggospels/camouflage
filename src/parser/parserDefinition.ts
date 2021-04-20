@@ -99,12 +99,14 @@ export class Parser {
           responseBody = "";
           this.res.statusCode = response.status;
           setTimeout(() => {
+            logger.debug(`Generated Response ${template({ request: this.req })}`);
             this.res.send(template({ request: this.req }));
           }, DELAY);
           DELAY = 0;
         }
       });
     } else {
+      logger.error(`No suitable mock file found: ${mockFile}. Sending default response.`);
       //If no mockFile is found, return default response
       this.res.statusCode = response.status;
       let headerKeys = Object.keys(response.headers);
