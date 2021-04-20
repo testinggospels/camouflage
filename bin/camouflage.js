@@ -54,6 +54,7 @@ let inputs = [
   config.protocols.https.key,
   config.protocols.https.cert,
   config.protocols.https.port,
+  config.protocols.grpc.host,
   config.protocols.grpc.port,
   config.protocols.grpc.mocks_dir,
   config.protocols.grpc.protos_dir,

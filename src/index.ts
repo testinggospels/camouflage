@@ -6,8 +6,7 @@ import cluster from "cluster";
 import child_process from "child_process";
 import path from "path";
 import * as expressWinston from "express-winston";
-import * as winston from "winston";
-import promBundle from "express-prom-bundle";
+import apiMetrics from "prometheus-api-metrics";
 import registerHandlebars from "./handlebar/helperInit";
 import Protocols from "./protocols/Protocols";
 import GlobalController from "./routes/GlobalController";
@@ -25,11 +24,14 @@ let httpsPort = 8443;
 let grpcPort = 4312;
 const app = express();
 app.use(
-  promBundle({
-    includeMethod: true,
-    includePath: true,
-    promClient: {
-      collectDefaultMetrics: {},
+  apiMetrics({
+    metricsPrefix: "camouflage",
+    includeQueryParams: true,
+    extractAdditionalLabelValuesFn: (req, res) => {
+      const path = req.path;
+      return {
+        route: path,
+      };
     },
   })
 );
@@ -45,6 +47,7 @@ function start(
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
+  inputGrpcHost?: string,
   inputGrpcPort?: number,
   inputGrpcMocksDir?: string,
   inputGrpcProtosDir?: string,
@@ -53,17 +56,11 @@ function start(
   setLogLevel(loglevel);
   app.use(
     expressWinston.logger({
-      level: loglevel,
-      format: winston.format.combine(
-        winston.format.colorize(),
-        winston.format.simple(),
-        winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
-        winston.format.printf((log) => `${log.timestamp} ${log.level}: ${log.message}` + (log.splat !== undefined ? `${log.splat}` : " "))
-      ),
-      transports: [new winston.transports.Console()],
-      msg: "HTTP {{req.method}} {{req.url}}",
-      expressFormat: true,
-      colorize: true,
+      level: (req, res) => "level",
+      winstonInstance: logger,
+      statusLevels: { error: "error", success: "debug", warn: "warn" },
+      msg:
+        "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
     })
   );
   if (cluster.isMaster) {
@@ -92,6 +89,7 @@ function start(
     grpcMocksDir = inputGrpcMocksDir;
     grpcProtosDir = inputGrpcProtosDir;
     httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
+    grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
     grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
     // Default port is 8080 but should be updated to a different port if user provides the input for the optional parameter -p or --port
     port = inputPort;

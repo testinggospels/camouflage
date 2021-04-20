@@ -1,6 +1,6 @@
 {
   "name": "camouflage-server",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Easily mock your webservices while testing frontends.",
   "homepage": "https://fauxauldrich.github.io/camouflage/",
   "keywords": [
@@ -33,13 +33,13 @@
     "@grpc/proto-loader": "^0.6.1",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
-    "express-prom-bundle": "^6.3.6",
     "express-winston": "^4.1.0",
     "handlebars": "^4.7.7",
     "js-yaml": "^4.1.0",
     "jsonpath": "^1.1.1",
     "moment": "^2.29.1",
     "prom-client": "^13.0.0",
+    "prometheus-api-metrics": "^3.2.0",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "yargs": "^16.2.0"
