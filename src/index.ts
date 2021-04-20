@@ -7,8 +7,7 @@ import child_process from "child_process";
 import path from "path";
 import * as expressWinston from "express-winston";
 import * as winston from "winston";
-// @ts-ignore
-import promMid from "express-prometheus-middleware";
+import promBundle from "express-prom-bundle";
 import registerHandlebars from "./handlebar/helperInit";
 import Protocols from "./protocols/Protocols";
 import GlobalController from "./routes/GlobalController";
@@ -24,17 +23,19 @@ let grpcHost = "localhost";
 let port = 8080;
 let httpsPort = 8443;
 let grpcPort = 4312;
-
 const app = express();
-app.use(bodyParser.json());
 app.use(
-  promMid({
-    metricsPath: "/metrics",
-    collectDefaultMetrics: true,
-    requestDurationBuckets: [0.1, 0.5, 1, 1.5],
+  promBundle({
+    includeMethod: true,
+    includePath: true,
+    promClient: {
+      collectDefaultMetrics: {},
+    },
   })
 );
+app.use(bodyParser.json());
 app.use(express.static(site_root));
+
 function start(
   inputMocksDir: string,
   inputPort: number,

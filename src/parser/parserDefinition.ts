@@ -51,7 +51,7 @@ export class Parser {
         }
         //If line includes HTTP/HTTPS i.e. first line. Get the response status code
         if (line.includes("HTTP")) {
-          const regex = /(?<=HTTP\/\d).*?\s+(\d{3,3})(?=[a-z0-9\s]+)/i;
+          const regex = /(?<=HTTP\/\d).*?\s+(\d{3,3})/i;
           if (!regex.test(line)) {
             logger.error("Response code should be valid string");
             throw new Error("Response code should be valid string");
