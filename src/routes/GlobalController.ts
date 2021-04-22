@@ -1,6 +1,8 @@
 import express from "express";
 import { Parser } from "../parser/parserDefinition";
-
+/**
+ * Defines and registers global contoller which will handle any request not handled by admin/management endpoints
+ */
 export default class GlobalController {
   private app: express.Application;
   private mocksDir: string;

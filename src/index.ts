@@ -1,3 +1,4 @@
+// Import dependencies
 import express from "express";
 import bodyParser from "body-parser";
 import http from "http";
@@ -13,16 +14,22 @@ import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
+/**
+ * Gets the location of globally installed camouflage distribution folder
+ */
 let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
 
+// Initialize variables with default values
 let mocksDir = "";
 let grpcMocksDir = "";
 let grpcProtosDir = "";
 let grpcHost = "localhost";
 let port = 8080;
 let httpsPort = 8443;
+let http2Port = 8081;
 let grpcPort = 4312;
 const app = express();
+// Configure prometheus middleware
 app.use(
   apiMetrics({
     metricsPrefix: "camouflage",
@@ -35,47 +42,75 @@ app.use(
     },
   })
 );
+// Configure logging for express requests
+app.use(
+  expressWinston.logger({
+    level: (req, res) => "level",
+    winstonInstance: logger,
+    statusLevels: { error: "error", success: "debug", warn: "warn" },
+    msg:
+      "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
+  })
+);
+// Configure express to understand json request body
 app.use(bodyParser.json());
+// Configure documentation directory as a source for static resources (eg. js, css, image)
 app.use(express.static(site_root));
-
-function start(
+/**
+ * Initializes required variables and starts a 1 master X workers configuration
+ * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
+ * @param {number} inputPort Input http port, overrides default 8080 port
+ * @param {boolean} enableHttps true if https is to be enabled
+ * @param {boolean} enableGrpc true if grpc is to be enabled
+ * @param {number} numCPUs number of workers
+ * @param {string} key location of server.key file if https is enabled
+ * @param {string} cert location of server.cert file if https is enabled
+ * @param {number} inputHttpsPort Input https port, overrides httpsPort
+ * @param {string} inputGrpcHost Input gRPC host, overrides grpcHost
+ * @param {number} inputGrpcPort Input gRPC port, overrides grpcPort
+ * @param {string} inputGrpcMocksDir Input gRPC mocks directory location, overrides grpcMocksDir
+ * @param {string} inputGrpcProtosDir Input gRPC protos directory location, overrides grpcProtos
+ * @param {string} loglevel Desired loglevel
+ */
+const start = (
   inputMocksDir: string,
   inputPort: number,
   enableHttps: boolean,
+  enableHttp2: boolean,
   enableGrpc: boolean,
   numCPUs: number,
   key?: string,
   cert?: string,
+  http2key?: string,
+  http2cert?: string,
   inputHttpsPort?: number,
+  inputHttp2Port?: number,
   inputGrpcHost?: string,
   inputGrpcPort?: number,
   inputGrpcMocksDir?: string,
   inputGrpcProtosDir?: string,
   loglevel?: string
-) {
+) => {
+  // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
-  app.use(
-    expressWinston.logger({
-      level: (req, res) => "level",
-      winstonInstance: logger,
-      statusLevels: { error: "error", success: "debug", warn: "warn" },
-      msg:
-        "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
-    })
-  );
+  // Start a cluster
   if (cluster.isMaster) {
     logger.info(`[${process.pid}] Master Started`);
+    // If current node is a master node, use it to start X number of workers, where X comes from config
     for (let i = 0; i < numCPUs; i++) {
       let worker = cluster.fork();
+      // Attach a listner to each worker, so that if worker sends a restart message, running workers can be killed
       worker.on("message", (message) => {
         for (let id in cluster.workers) {
           cluster.workers[id].process.kill();
         }
       });
     }
+    // If workers are killed or crashed, a new worker should replace them
     cluster.on("exit", (worker, code, signal) => {
       logger.warn(`[${worker.process.pid}] Worker Stopped ${new Date(Date.now())}`);
       let newWorker = cluster.fork();
+      // Same listener to be attached to new workers
       newWorker.on("message", (message) => {
         for (let id in cluster.workers) {
           cluster.workers[id].process.kill();
@@ -84,16 +119,16 @@ function start(
     });
   } else {
     logger.info(`[${process.pid}] Worker started`);
-    // Update the mocksDir with the input provided by user via -m or --mocks parameter via command line while starting the server
+    // Replace the default values for defined variables with actual values provided as input from config
     mocksDir = inputMocksDir;
     grpcMocksDir = inputGrpcMocksDir;
     grpcProtosDir = inputGrpcProtosDir;
     httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
+    http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
     grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
     grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
-    // Default port is 8080 but should be updated to a different port if user provides the input for the optional parameter -p or --port
     port = inputPort;
-    // Define route for root which would in future host a single page UI to manage the mocks
+    // Define route for root to host a single page UI to manage the mocks
     app.get("/", (req: express.Request, res: express.Response) => {
       res.sendFile("index.html", { root: site_root });
     });
@@ -105,16 +140,26 @@ function start(
     // Start the http server on the specified port
     const protocols = new Protocols(app, port, httpsPort);
     protocols.initHttp(http);
+    // If https protocol is enabled, start https server with additional inputs
     if (enableHttps) {
       protocols.initHttps(https, key, cert);
     }
+    // If https protocol is enabled, start https server with additional inputs
+    if (enableHttp2) {
+      protocols.initHttp2(http2Port, http2key, http2cert);
+    }
+    // If grpc protocol is enabled, start grpc server with additional inputs
     if (enableGrpc) {
       protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
     }
   }
-}
-//Export the start function which should be called from bin/camouflage.js with required parameters
+};
+/**
+ * Exports the start function which should be called from bin/camouflage.js with required parameters
+ */
 module.exports.start = start;
-//Export app for testing purpose
+/**
+ * Exports app for testing purpose
+ */
 module.exports.app = app;
 

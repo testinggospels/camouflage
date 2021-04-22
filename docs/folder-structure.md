@@ -27,12 +27,11 @@ Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For w
 
 !!! caution
 
-    Folder structure for gRPC mocks is different when compared to HTTP mocks. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
+    Protocols http, https and http2, share the same mocks directory and folder structure, however folder structure and mocks directory for gRPC mocks is different. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
 
 ## What data to put in .mock files
 
-In future, Camouflage will have its own recorder that will allow you to simply make a request to actual endpoint via a Camouflage proxy and based on the data proxy recieves it will create the response for you.
-So what can you do in the meantime? Use curl!
+The data you want to put can be easily fetched using a curl command with -i -X flags in following manner.
 
 Example:
 

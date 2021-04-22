@@ -1,7 +1,9 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
-//Create routes to provide details of available mocks
+/**
+ * Defines and registers admin/management endpoints
+ */
 export default class MockController {
   private app: express.Application;
   private mocksDir: string;
@@ -13,6 +15,7 @@ export default class MockController {
     this.register();
   }
   private register = () => {
+    // Gets the list of available http and grpc mocks
     this.app.get("/mocks", (req: express.Request, res: express.Response) => {
       let results: string[] | any = walk(this.mocksDir);
       let grpcResults: string[] | any = walk(this.grpcMocksDir);
@@ -37,6 +40,7 @@ export default class MockController {
       };
       res.send(response);
     });
+    // Deletes a mock with it's path and http method
     this.app.delete("/mocks", (req: express.Request, res: express.Response) => {
       let mock = path.join(this.mocksDir, req.body.basePath.replace("*", "__"), req.body.method + ".mock");
       let status = "Mock Deleted Successfully";
@@ -47,6 +51,9 @@ export default class MockController {
       }
       res.send({ status: status, fileFound: fs.existsSync(mock) });
     });
+    // Send message to master to kill all running workers and replace them with new workers
+    // This is specifically for grpc services
+    // In case a new protofile is added. server needs to be restarted to register new services
     this.app.get("/restart", (req: express.Request, res: express.Response) => {
       setTimeout(() => {
         process.send("restart");
@@ -67,6 +74,11 @@ export default class MockController {
   };
 }
 
+/**
+ * Recursively prepares a list of files in a given directory
+ * @param dir mocksDir
+ * @returns array of files in a given directory
+ */
 var walk = function (dir: string): string[] {
   var results: string[] = [];
   var list = fs.readdirSync(dir);
@@ -82,5 +94,6 @@ var walk = function (dir: string): string[] {
     }
   });
   return results;
+
 };
 

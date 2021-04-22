@@ -14,8 +14,13 @@ protocols:
     mocks_dir: "./mocks"
     port: 8080
   https:
-    enable: false
+    enable: true
     port: 8443
+    cert: "./certs/server.cert"
+    key: "./certs/server.key"
+  http2:
+    enable: true
+    port: 8081
     cert: "./certs/server.cert"
     key: "./certs/server.key"
   grpc:
