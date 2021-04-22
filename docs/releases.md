@@ -1,5 +1,11 @@
 # Releases
 
+### 1.1.0 - 04/22/2021
+
+- Add HTTP2 protocol
+- Improve logging
+- Add docker support
+
 ### 1.0.5 - 04/20/2021
 
 - Add docker support (Dockerfile, docker-compose.yml: Image needs to be built locally for now)

@@ -2,7 +2,7 @@ version: "2.1"
 
 services:
   camouflage:
-    image: camouflage:1.0.5
+    image: shubhendumadhukar/camouflage:latest
     container_name: camouflage
     volumes:
       - ./certs:/app/certs
@@ -12,9 +12,11 @@ services:
     expose:
       - 8080
       - 8443
+      - 8081
       - 4312
     ports:
       - "8080:8080"
       - "8443:8443"
+      - "8081:8081"
       - "4312:4312"
 

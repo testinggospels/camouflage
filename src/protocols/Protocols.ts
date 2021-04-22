@@ -1,11 +1,26 @@
 import express from "express";
 import fs from "fs";
 import path from "path";
+// @ts-ignore
+import spdy from "spdy";
+import http2 from "http2";
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 import Handlebars from "handlebars";
 import logger from "../logger";
-
+/**
+ * Defines all protocols:
+ * Currently active:
+ *    http, https, grpc
+ * Future implementations:
+ *    http2, tcp
+ * Internal Methods: camouflageMock - A generic function to handle all GRPC requests
+ * @param {express.Application} app Express application to form the listener for http and https server
+ * @param {number} port HTTP server port
+ * @param {number} httpsPort HTTPs server port - currently initialized in constructor optionally but in future it'll be initialized if https is enabled
+ * @param {string} grpcMocksDir location of grpc mocks, not initialized as constructor variable, because grpc is an optional protocol
+ *                              instead it will be initialized in initGRPC method, if called.
+ */
 export default class Protocols {
   private app: express.Application;
   private port: number;
@@ -33,31 +48,40 @@ export default class Protocols {
     });
   };
   initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
+    // Set location of gRPC mocks to be used by private methid camouflageMock
     this.grpcMocksDir = grpcMocksDir;
+    // Get an array of all .protofile in specified protos directory
     const availableProtoFiles: string[] = fs.readdirSync(grpcProtosDir);
+    // Initialize required variables
     let grpcObjects: grpc.GrpcObject[] = [];
     let packages: any = [];
+    // Read and load package definition each protofile in protos dir
     availableProtoFiles.forEach((availableProtoFile) => {
       let packageDef = protoLoader.loadSync(path.join(grpcProtosDir, availableProtoFile), {});
       let definition = grpc.loadPackageDefinition(packageDef);
       grpcObjects.push(definition);
     });
+    // For each definition, get the package details from all .proto files and store in a master packages object
     grpcObjects.forEach((grpcObject: grpc.GrpcObject) => {
       Object.keys(grpcObject).forEach((availablePackage) => {
         packages.push(grpcObject[`${availablePackage}`]);
       });
     });
+    // Initialize a grpcServer
     const server = new grpc.Server();
+    // Create an insecure binding to given grpc host and port, and start the server
     server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err) => {
       if (err) logger.error(err.message);
       logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort}`);
       server.start();
     });
+    // For each package, filter out objects with service definition, discard rest
     packages.forEach((entry: any) => {
       let keys = Object.keys(entry);
       keys = keys.filter((key) => {
         return entry[key]["service"] !== undefined;
       });
+      //For each method in the service definition, attach a generic handler camouflageMock, finally add service to running server
       keys.forEach((key) => {
         let service = entry[key]["service"];
         let methods = Object.keys(service);
@@ -69,7 +93,20 @@ export default class Protocols {
       });
     });
   };
-  //   initHttp2 = () => {};
+  initHttp2 = (http2Port: number, http2key: string, http2cert: string) => {
+    spdy
+      .createServer(
+        {
+          key: fs.readFileSync(http2key),
+          cert: fs.readFileSync(http2cert),
+        },
+        this.app
+      )
+      .listen(http2Port, (err: any) => {
+        if (err) logger.error(err.message);
+        logger.info(`Worker sharing HTTP2 server at https://localhost:${http2Port}`);
+      });
+  };
   //   initTcp = () => {};
   private camouflageMock = (call: any, callback: any) => {
     let handlerPath = call.call.handler.path;

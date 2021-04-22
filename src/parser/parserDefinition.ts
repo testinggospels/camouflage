@@ -5,7 +5,14 @@ import os from "os";
 import Handlebars from "handlebars";
 import logger from "../logger";
 let DELAY: number = 0;
-
+/**
+ * Create a parser class which defines methods to parse
+ * 1. Request URL to get a matching directory
+ * 2. From matched directory get .mock file content and generate a response
+ * @param {express.Request} req Express Request object used to perform request url parsing
+ * @param {string} mockDir Location of all mocks
+ * @param {express.Response} res Express response to send the parsed response body and headers to client
+ */
 export class Parser {
   private req: express.Request;
   private mockDir: string;
@@ -30,6 +37,11 @@ export class Parser {
   };
 
   getResponse = (mockFile: string) => {
+    /**
+     * Since response file contains headers and body both, a PARSE_BODY flag is required
+     * to tell the logic if it's currently parsing headers or body
+     * Set responseBody to an empty string and set a default response object
+     */
     let PARSE_BODY = false;
     let responseBody = "";
     let response = {
@@ -39,13 +51,19 @@ export class Parser {
         "content-type": "application/json",
       },
     };
-    // Check if file exists
+    // Check if mock file exists
     if (fs.existsSync(mockFile)) {
+      // Compile the handlebars used in the contents of mockFile
       const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
+      // Generate actual response i.e. replace handlebars with their actual values and split the content into lines
       const fileContent = template({ request: this.req }).split(os.EOL);
       //Read file line by line
       fileContent.forEach((line, index) => {
-        //Set PARSE_BODY flag to try when reader finds a blank line
+        /**
+         * Set PARSE_BODY flag to try when reader finds a blank line,
+         * since according to standard format of a raw HTTP Response,
+         * headers and body are separated by a blank line.
+         */
         if (line === "") {
           PARSE_BODY = true;
         }
@@ -62,9 +80,10 @@ export class Parser {
           /**
            * If following conditions are met:
            *      Line is not blank
-           *      And read is not parsing response body yet
+           *      And parser is not currently parsing response body yet i.e. PARSE_BODY === false
            * Then:
            *      Split line by :, of which first part will be header key and 2nd part will be header value
+           *      If headerKey is response delay, set variable DELAY to headerValue
            */
           if (line !== "" && !PARSE_BODY) {
             let headerKey = line.split(":")[0];
@@ -88,7 +107,7 @@ export class Parser {
          *    Compile the Handlebars to generate a final response
          *    Set PARSE_BODY flag back to false and responseBody to blank
          *    Set express.Response Status code to response.status
-         *    Send the generated Response
+         *    Send the generated Response, from a timeout set to send the response after a DELAY value
          */
         if (index == fileContent.length - 1) {
           responseBody = responseBody.replace(/\s+/g, " ").trim();

@@ -9,6 +9,11 @@ protocols:
     port: 8443
     cert: "./certs/server.cert"
     key: "./certs/server.key"
+  http2:
+    enable: true
+    port: 8081
+    cert: "./certs/server.cert"
+    key: "./certs/server.key"
   grpc:
     enable: false
     host: "10.111.22.333"
