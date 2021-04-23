@@ -10,7 +10,7 @@ protocols:
     cert: "./certs/server.cert"
     key: "./certs/server.key"
   http2:
-    enable: true
+    enable: false
     port: 8081
     cert: "./certs/server.cert"
     key: "./certs/server.key"

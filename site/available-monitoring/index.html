@@ -371,8 +371,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../releases/" class="md-nav__link">
-        Releases
+      <a href="../releases.md" class="md-nav__link">
+        None
       </a>
     </li>
   
@@ -421,19 +421,22 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/monitoring.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/available-monitoring.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
                 <h1 id="monitoring">Monitoring</h1>
-<p>Camouflage provides you with a prometheus scraping endpoint available at /metrics which contains information about your host and your mocks. You can install a Prometheus DB and configure it to scrape from /metrics endpoint, and use that data to create charts for monitoring your application. This might not be very useful when you are testing your frontends, or running a functional test. However while running a performance test, this data can prove to be useful. You can optionally install Grafana for even better visualizations.</p>
+<p>Monitoring might not be of paramount importance when you are running unit tests or functional automation tests, but if you plan to use Camouflage for performance testing purposes, you would definitely need some monitoring in place. Thanks to <code>swagger-stats</code>, Camouflage provides you two options. You can use the inbuilt UI provided by swagger-stats by navigating to http://localhost:8080/monitoring, which will lead you to following dashboard updating itself in real time</p>
+<p><img alt="Camouflage-MonitoringDashboard" src="../Camouflage-MonitoringDashboard.png" /></p>
+<p>If you'd like to store this data in Prometheus and then use Grafana to generate your own visualizations, Camouflage also provides you with a prometheus scraping endpoint available at <code>/monitoring/metrics</code> which contains information about your host and your mocks. You can install a Prometheus DB and configure it to scrape from <code>/monitoring/metrics</code> endpoint, and use that data to create charts for monitoring your application.</p>
 <p>Sample Prometheus yml</p>
 <pre><code>global:
   scrape_interval:     15s
   evaluation_interval: 15s
 scrape_configs:
   - job_name: 'camouflage'
+    metrics_path: '/monitoring/metrics'
     static_configs:
     - targets: ['localhost:8080']
 </code></pre>
