@@ -7,13 +7,14 @@ import cluster from "cluster";
 import child_process from "child_process";
 import path from "path";
 import * as expressWinston from "express-winston";
-import apiMetrics from "prometheus-api-metrics";
 import registerHandlebars from "./handlebar/helperInit";
 import Protocols from "./protocols/Protocols";
 import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
+// @ts-ignore
+import swStats from "swagger-stats";
 /**
  * Gets the location of globally installed camouflage distribution folder
  */
@@ -29,19 +30,6 @@ let httpsPort = 8443;
 let http2Port = 8081;
 let grpcPort = 4312;
 const app = express();
-// Configure prometheus middleware
-app.use(
-  apiMetrics({
-    metricsPrefix: "camouflage",
-    includeQueryParams: true,
-    extractAdditionalLabelValuesFn: (req, res) => {
-      const path = req.path;
-      return {
-        route: path,
-      };
-    },
-  })
-);
 // Configure logging for express requests
 app.use(
   expressWinston.logger({
@@ -52,10 +40,21 @@ app.use(
       "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
   })
 );
+// Comfigure swagger-stats middleware for monitoring
+app.use(
+  swStats.getMiddleware({
+    name: "Camouflage",
+    uriPath: "/monitoring",
+  })
+);
 // Configure express to understand json request body
 app.use(bodyParser.json());
 // Configure documentation directory as a source for static resources (eg. js, css, image)
 app.use(express.static(site_root));
+app.get("/stats", function (req, res) {
+  res.setHeader("Content-Type", "application/json");
+  res.send(swStats.getCoreStats());
+});
 /**
  * Initializes required variables and starts a 1 master X workers configuration
  * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir

@@ -16,7 +16,7 @@ nav:
   - response-delays.md
   - performance-mode.md
   - mocking-gRPC.md
-  - monitoring.md
+  - available-monitoring.md
   - tests.md
   - releases.md
   - future-plans.md
