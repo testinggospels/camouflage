@@ -9,7 +9,7 @@ volumes:
 
 services:
   camouflage:
-    image: camouflage:0.1.1
+    image: shubhendumadhukar/camouflage:latest
     container_name: camouflage
     volumes:
       - ./certs:/app/certs
