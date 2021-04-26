@@ -1,4 +1,11 @@
 version: "2.1"
+networks:
+  camouflage:
+    driver: bridge
+
+volumes:
+  prometheus_data: {}
+  grafana_data: {}
 
 services:
   camouflage:
@@ -9,14 +16,52 @@ services:
       - ./mocks:/app/mocks
       - ./grpc:/app/grpc
       - ./config.yml:/app/config.yml
+    restart: unless-stopped
     expose:
-      - 8080
-      - 8443
-      - 8081
-      - 4312
+      - 8080 # HTTP Port
+      - 8443 # HTTPs Port
+      - 8081 # HTTP/2 Port
+      - 4312 # GRPC Port
+      - 5555 # Monitoring Port
     ports:
       - "8080:8080"
       - "8443:8443"
       - "8081:8081"
       - "4312:4312"
+      - "5555:5555"
+    networks:
+      - camouflage
+    labels:
+      org.label-schema.group: "camouflage"
+
+  prometheus:
+    image: prom/prometheus:v2.26.0
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    restart: unless-stopped
+    expose:
+      - 9090
+    ports:
+      - "9090:9090"
+    networks:
+      - camouflage
+    labels:
+      org.label-schema.group: "camouflage"
+
+  grafana:
+    image: grafana/grafana:7.5.2
+    container_name: grafana
+    volumes:
+      - grafana_data:/var/lib/grafana
+    restart: unless-stopped
+    expose:
+      - 3000
+    ports:
+      - "3000:3000"
+    networks:
+      - camouflage
+    labels:
+      org.label-schema.group: "camouflage"
 

@@ -4,7 +4,6 @@ import bodyParser from "body-parser";
 import http from "http";
 import https from "https";
 import cluster from "cluster";
-import child_process from "child_process";
 import path from "path";
 import * as expressWinston from "express-winston";
 import registerHandlebars from "./handlebar/helperInit";
@@ -16,9 +15,9 @@ import { setLogLevel } from "./logger";
 // @ts-ignore
 import swStats from "swagger-stats";
 /**
- * Gets the location of globally installed camouflage distribution folder
+ * Gets the location of documentation folder
  */
-let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
+let site_root = path.resolve("./site");
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -77,7 +76,6 @@ const start = (
   enableHttps: boolean,
   enableHttp2: boolean,
   enableGrpc: boolean,
-  numCPUs: number,
   key?: string,
   cert?: string,
   http2key?: string,
@@ -92,65 +90,40 @@ const start = (
 ) => {
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
-  // Start a cluster
-  if (cluster.isMaster) {
-    logger.info(`[${process.pid}] Master Started`);
-    // If current node is a master node, use it to start X number of workers, where X comes from config
-    for (let i = 0; i < numCPUs; i++) {
-      let worker = cluster.fork();
-      // Attach a listner to each worker, so that if worker sends a restart message, running workers can be killed
-      worker.on("message", (message) => {
-        for (let id in cluster.workers) {
-          cluster.workers[id].process.kill();
-        }
-      });
-    }
-    // If workers are killed or crashed, a new worker should replace them
-    cluster.on("exit", (worker, code, signal) => {
-      logger.warn(`[${worker.process.pid}] Worker Stopped ${new Date(Date.now())}`);
-      let newWorker = cluster.fork();
-      // Same listener to be attached to new workers
-      newWorker.on("message", (message) => {
-        for (let id in cluster.workers) {
-          cluster.workers[id].process.kill();
-        }
-      });
-    });
-  } else {
-    logger.info(`[${process.pid}] Worker started`);
-    // Replace the default values for defined variables with actual values provided as input from config
-    mocksDir = inputMocksDir;
-    grpcMocksDir = inputGrpcMocksDir;
-    grpcProtosDir = inputGrpcProtosDir;
-    httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
-    http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
-    grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
-    grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
-    port = inputPort;
-    // Define route for root to host a single page UI to manage the mocks
-    app.get("/", (req: express.Request, res: express.Response) => {
-      res.sendFile("index.html", { root: site_root });
-    });
-    // Register Handlebars
-    registerHandlebars();
-    // Register Controllers
-    new CamouflageController(app, mocksDir, grpcMocksDir);
-    new GlobalController(app, mocksDir);
-    // Start the http server on the specified port
-    const protocols = new Protocols(app, port, httpsPort);
-    protocols.initHttp(http);
-    // If https protocol is enabled, start https server with additional inputs
-    if (enableHttps) {
-      protocols.initHttps(https, key, cert);
-    }
-    // If https protocol is enabled, start https server with additional inputs
-    if (enableHttp2) {
-      protocols.initHttp2(http2Port, http2key, http2cert);
-    }
-    // If grpc protocol is enabled, start grpc server with additional inputs
-    if (enableGrpc) {
-      protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
-    }
+  logger.info(`[${process.pid}] Worker started`);
+  // Replace the default values for defined variables with actual values provided as input from config
+  mocksDir = inputMocksDir;
+  grpcMocksDir = inputGrpcMocksDir;
+  grpcProtosDir = inputGrpcProtosDir;
+  httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
+  http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
+  grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
+  grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
+  port = inputPort;
+  swStats.getPromClient().register.setDefaultLabels({ workerId: cluster.worker.id });
+  // Define route for root to host a single page UI to manage the mocks
+  app.get("/", (req: express.Request, res: express.Response) => {
+    res.sendFile("index.html", { root: site_root });
+  });
+  // Register Handlebars
+  registerHandlebars();
+  // Register Controllers
+  new CamouflageController(app, mocksDir, grpcMocksDir);
+  new GlobalController(app, mocksDir);
+  // Start the http server on the specified port
+  const protocols = new Protocols(app, port, httpsPort);
+  protocols.initHttp(http);
+  // If https protocol is enabled, start https server with additional inputs
+  if (enableHttps) {
+    protocols.initHttps(https, key, cert);
+  }
+  // If https protocol is enabled, start https server with additional inputs
+  if (enableHttp2) {
+    protocols.initHttp2(http2Port, http2key, http2cert);
+  }
+  // If grpc protocol is enabled, start grpc server with additional inputs
+  if (enableGrpc) {
+    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
   }
 };
 /**

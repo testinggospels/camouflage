@@ -198,7 +198,7 @@
   
     <li class="md-nav__item">
       <a href=".." class="md-nav__link">
-        Camouflage Documentation
+        Home
       </a>
     </li>
   
@@ -412,36 +412,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../releases.md" class="md-nav__link">
-        None
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../future-plans/" class="md-nav__link">
-        Future plans
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -519,6 +489,8 @@
 <h2 id="configuration-options-sample-config-yml-file">Configuration Options / Sample Config yml File</h2>
 <pre><code class="language-yaml">loglevel: info
 cpus: 2
+monitoring:
+  port: 5555
 protocols:
   http:
     mocks_dir: &quot;./mocks&quot;
@@ -552,7 +524,7 @@ X-Custom-Header: Custom-Value
 Content-Type: application/json
 
 {
-    &quot;greeting&quot;: &quot;Hey! It works&quot;
+    &quot;greeting&quot;: &quot;Hey! It works!&quot;
 }
 </code></pre>
 <p>Navigate to <a href="http://localhost:8080/hello-world" target="_blank">http://localhost:8080/hello-world</a></p>
@@ -597,7 +569,7 @@ Content-Type: application/json
               <span class="md-footer__direction">
                 Previous
               </span>
-              Camouflage Documentation
+              Home
             </div>
           </div>
         </a>

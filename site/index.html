@@ -61,7 +61,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#camouflage-documentation" class="md-skip">
+        <a href="#home" class="md-skip">
           Skip to content
         </a>
       
@@ -91,7 +91,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Camouflage Documentation
+              Home
             
           </span>
         </div>
@@ -206,12 +206,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Camouflage Documentation
+          Home
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="." class="md-nav__link md-nav__link--active">
-        Camouflage Documentation
+        Home
       </a>
       
         
@@ -392,36 +392,6 @@
   
 
     
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="releases.md" class="md-nav__link">
-        None
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="future-plans/" class="md-nav__link">
-        Future plans
-      </a>
-    </li>
-  
-
-    
   </ul>
 </nav>
                   </div>
@@ -470,18 +440,18 @@
                   </a>
                 
                 
-                <h1 id="camouflage-documentation">Camouflage Documentation</h1>
+                <h1 id="home">Home</h1>
 <p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
 <h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
 <p>Well, the original tool has not been maintained for some time now. But more importantly, Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch.</p>
 <ol>
 <li>The underlying codebase has been re-written using typescript.</li>
-<li>Since we are still in development phase, some features from the original tool might be missing. (Because we are yet to develop it, or simply because we haven't made up our mind yet if those features are going to be included or not.)</li>
+<li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
 <li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
 <li>Using handlebars, you can generate random numbers, string, alphanumeric string, UUIDs and random dates.</li>
 <li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
 <li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>And, we saved the best for last. Camouflage supports gRPC Mocking!!</li>
+<li>And, we saved the best for last. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2 and gRPC!!</li>
 </ol>
                 
               

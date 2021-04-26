@@ -9,6 +9,8 @@
 ```yaml
 loglevel: info
 cpus: 2
+monitoring:
+  port: 5555
 protocols:
   http:
     mocks_dir: "./mocks"
@@ -45,7 +47,7 @@ X-Custom-Header: Custom-Value
 Content-Type: application/json
 
 {
-    "greeting": "Hey! It works"
+    "greeting": "Hey! It works!"
 }
 ```
 

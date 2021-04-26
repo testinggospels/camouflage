@@ -2,12 +2,10 @@ let chai = require("chai");
 let chaiHttp = require("chai-http");
 let expect = chai.expect;
 let app = require("../dist/index").app;
-let path = require("path");
-let MOCKS_DIR = path.resolve("./mocks");
 chai.use(chaiHttp);
 
 before((done) => {
-  require("../dist/index").start(MOCKS_DIR, 8080, false);
+  require("../dist/index").start("./mocks", 8080, false, false, false, "", "", "", "", 8443, 8081, "", "", "./grpc/mocks", "./grpc/protos", "info");
   app.on("server-started", function () {
     setTimeout(() => {
       done();

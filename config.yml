@@ -1,5 +1,7 @@
 loglevel: info
-cpus: 2
+cpus: 1
+monitoring:
+  port: 5555
 protocols:
   http:
     mocks_dir: "./mocks"
