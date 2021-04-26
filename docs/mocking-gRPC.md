@@ -1,6 +1,6 @@
 # Mocking gRPC
 
-Camouflage v1.0.3 introduces mocking gRPC services. Creation of mocks remains similar to HTTP mocks with some minor changes.
+Camouflage introduces mocking gRPC services. Creation of mocks remains similar to HTTP mocks with some minor changes.
 
 For starters, gRPC mocks should not be placed in the same mocks directory as HTTP mocks, instead they should have their own mocks and protos directories. Secondly, the folder structure inside grpc mocks directory will follow the convention ./grpc/mocks/**_package_name_/_service_name_/_method_name_.mock**
 

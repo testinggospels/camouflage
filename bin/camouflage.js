@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+const cluster = require("cluster");
+const express = require("express");
+const metricsServer = express();
+const AggregatorRegistry = require("prom-client").AggregatorRegistry;
+const aggregatorRegistry = new AggregatorRegistry();
 var argv = require("yargs").argv;
 const yaml = require("js-yaml");
 const winston = require("winston");
@@ -6,6 +11,7 @@ const fs = require("fs");
 var config = argv.c || argv.config;
 var help = argv.h || argv.help;
 const osCPUs = require("os").cpus().length;
+const camouflage = require("../dist/index");
 if (help) {
   console.log(
     [
@@ -51,7 +57,6 @@ let inputs = [
   config.protocols.https.enable,
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
-  config.cpus,
   config.protocols.https.key,
   config.protocols.https.cert,
   config.protocols.http2.key,
@@ -64,10 +69,53 @@ let inputs = [
   config.protocols.grpc.protos_dir,
   config.loglevel,
 ];
-if (config.cpus > osCPUs) {
+const numCPUs = config.cpus || 1;
+const monitoringPort = config.monitoring.port || 5555;
+if (numCPUs > osCPUs) {
   logger.error("Number of CPUs specified is greater than or equal to availale CPUs. Please specify a lesser number.");
   process.exit(1);
 }
-const camouflage = require("../dist/index");
-camouflage.start(...inputs);
+if (cluster.isMaster) {
+  logger.info(`[${process.pid}] Master Started`);
+  // If current node is a master node, use it to start X number of workers, where X comes from config
+  for (let i = 0; i < numCPUs; i++) {
+    let worker = cluster.fork();
+    // Attach a listner to each worker, so that if worker sends a restart message, running workers can be killed
+    worker.on("message", (message) => {
+      if (message === "restart") {
+        for (let id in cluster.workers) {
+          cluster.workers[id].process.kill();
+        }
+      }
+    });
+  }
+  // If workers are killed or crashed, a new worker should replace them
+  cluster.on("exit", (worker, code, signal) => {
+    logger.warn(`[${worker.process.pid}] Worker Stopped ${new Date(Date.now())}`);
+    let newWorker = cluster.fork();
+    // Same listener to be attached to new workers
+    newWorker.on("message", (message) => {
+      if (message === "restart") {
+        for (let id in cluster.workers) {
+          cluster.workers[id].process.kill();
+        }
+      }
+    });
+  });
+  metricsServer.get("/metrics", async (req, res) => {
+    try {
+      const metrics = await aggregatorRegistry.clusterMetrics();
+      res.set("Content-Type", aggregatorRegistry.contentType);
+      res.send(metrics);
+    } catch (ex) {
+      res.statusCode = 500;
+      res.send(ex.message);
+    }
+  });
+
+  metricsServer.listen(monitoringPort);
+  logger.info(`Cluster metrics server listening to ${monitoringPort}, metrics exposed on http://localhost:${monitoringPort}/metrics`);
+} else {
+  camouflage.start(...inputs);
+}
 

@@ -4,7 +4,11 @@ Monitoring might not be of paramount importance when you are running unit tests 
 
 ![Camouflage-MonitoringDashboard](Camouflage-MonitoringDashboard.png)
 
-If you'd like to store this data in Prometheus and then use Grafana to generate your own visualizations, Camouflage also provides you with a prometheus scraping endpoint available at `/monitoring/metrics` which contains information about your host and your mocks. You can install a Prometheus DB and configure it to scrape from `/monitoring/metrics` endpoint, and use that data to create charts for monitoring your application.
+!!!note
+
+    If you are running more than one worker, above UI would not provide you aggregated metrics. Data displayed will be worker specific data and at this point, we don't have a control on which worker's data will be displayed. Every time UI refreshes, the displayed data might belong to any of the running workers.
+
+To provide the aggregated metrics, Camouflage runs a separate monitoring server, which runs by default on port 5555. The URL `http://localhost:5555/metrics` acts as a scraping endpoint for your Prometheus server. Store this data in Prometheus and then use Grafana to generate your own visualizations. You can install a Prometheus DB and configure it to scrape from `/metrics` endpoint, and use that data to create charts for monitoring your application.
 
 Sample Prometheus yml
 
@@ -14,9 +18,8 @@ global:
   evaluation_interval: 15s
 scrape_configs:
   - job_name: 'camouflage'
-    metrics_path: '/monitoring/metrics'
     static_configs:
-    - targets: ['localhost:8080']
+    - targets: ['localhost:5555']
 ```
 
 !!!note

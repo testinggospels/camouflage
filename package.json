@@ -1,6 +1,6 @@
 {
   "name": "camouflage-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Easily mock your webservices while testing frontends.",
   "homepage": "https://fauxauldrich.github.io/camouflage/",
   "keywords": [
