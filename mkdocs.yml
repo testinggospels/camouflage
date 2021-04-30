@@ -3,6 +3,19 @@ site_author: Shubhendu Madhukar
 repo_url: https://github.com/fauxauldrich/camouflage
 theme:
   name: material
+  logo: camouflage.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle:
+        icon: material/toggle-switch-off-outline
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      primary: red
+      scheme: slate
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to light mode
 markdown_extensions:
   - admonition
   - attr_list
@@ -18,4 +31,5 @@ nav:
   - mocking-gRPC.md
   - available-monitoring.md
   - tests.md
-
+extra:
+  logo: "camouflage.svg"
