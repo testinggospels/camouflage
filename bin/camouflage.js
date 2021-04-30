@@ -7,6 +7,7 @@ const aggregatorRegistry = new AggregatorRegistry();
 var argv = require("yargs").argv;
 const yaml = require("js-yaml");
 const winston = require("winston");
+const path = require("path");
 const fs = require("fs");
 var config = argv.c || argv.config;
 var help = argv.h || argv.help;
@@ -49,7 +50,12 @@ const logger = winston.createLogger({
     winston.format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }),
     winston.format.printf((log) => `${log.timestamp} ${log.level}: ${log.message}` + (log.splat !== undefined ? `${log.splat}` : " "))
   ),
-  transports: [new winston.transports.Console()],
+  transports: [
+    new winston.transports.Console(),
+    new winston.transports.File({
+      filename: path.join(process.cwd(), "camouflage.log"),
+    }),
+  ],
 });
 let inputs = [
   config.protocols.http.mocks_dir,
@@ -118,4 +124,3 @@ if (cluster.isMaster) {
 } else {
   camouflage.start(...inputs);
 }
-

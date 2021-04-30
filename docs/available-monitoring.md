@@ -12,17 +12,16 @@ To provide the aggregated metrics, Camouflage runs a separate monitoring server,
 
 Sample Prometheus yml
 
-```
+```yaml
 global:
-  scrape_interval:     15s
+  scrape_interval: 15s
   evaluation_interval: 15s
 scrape_configs:
-  - job_name: 'camouflage'
+  - job_name: "camouflage"
     static_configs:
-    - targets: ['localhost:5555']
+      - targets: ["localhost:5555"]
 ```
 
 !!!note
 
         Update the target with your IP and port if running remotely or if you have specified a different port while starting Camouflage
-
