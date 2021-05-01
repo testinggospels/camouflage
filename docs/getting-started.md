@@ -2,7 +2,9 @@
 
 1.  Install Camouflage: `npm install -g camouflage-server`
 2.  Run `camouflage --version` to validate the installation was successful.
-3.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
+3.  Create an empty directory anywhere in you machine and navigate to it in your terminal.
+4.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
+5.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
 
 ## Configuration Options / Sample Config yml File
 
@@ -16,12 +18,12 @@ protocols:
     mocks_dir: "./mocks"
     port: 8080
   https:
-    enable: true
+    enable: false
     port: 8443
     cert: "./certs/server.cert"
     key: "./certs/server.key"
   http2:
-    enable: true
+    enable: false
     port: 8081
     cert: "./certs/server.cert"
     key: "./certs/server.key"
@@ -67,4 +69,3 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 4. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
 5. However if you'd like to install Camouflage globally, execute: `npm pack`
 6. Install by running command: `npm install -g camouflage-server-${version}.tgz` or `npm install -g camouflage-server-${version}.zip`
-

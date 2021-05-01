@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const child_process = require("child_process");
 const cluster = require("cluster");
 const express = require("express");
 const metricsServer = express();
@@ -11,8 +12,11 @@ const path = require("path");
 const fs = require("fs");
 var config = argv.c || argv.config;
 var help = argv.h || argv.help;
+var init = argv._[0] === "init" ? "init" : null;
 const osCPUs = require("os").cpus().length;
 const camouflage = require("../dist/index");
+const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
+const fse = require("fs-extra");
 if (help) {
   console.log(
     [
@@ -35,6 +39,17 @@ if (help) {
       `   protos_dir: "./grpc/protos"`,
     ].join("\n")
   );
+  process.exit(1);
+}
+if (init) {
+  if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
+    fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
+    fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
+    fse.copySync(path.join(site_root, "config.yml"), path.join(process.cwd(), "config.yml"));
+    fse.mkdirSync(path.join(process.cwd(), "certs"));
+  } else {
+    console.log("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
+  }
   process.exit(1);
 }
 if (!config) {
