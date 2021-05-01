@@ -12,12 +12,13 @@ import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
+import child_process from "child_process";
 // @ts-ignore
 import swStats from "swagger-stats";
 /**
  * Gets the location of documentation folder
  */
-let site_root = path.resolve("./site");
+let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -134,4 +135,3 @@ module.exports.start = start;
  * Exports app for testing purpose
  */
 module.exports.app = app;
-
