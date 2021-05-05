@@ -6,7 +6,7 @@ For starters, gRPC mocks should not be placed in the same mocks directory as HTT
 
 !!!note
 
-    We currently support unary services only. But streams will be introduced soon.
+    We currently support unary services and server side streams. Client streams and BIDI streams will be introduced soon.
 
 ## Creating in a gRPC Mock
 
@@ -29,7 +29,39 @@ For starters, gRPC mocks should not be placed in the same mocks directory as HTT
 }
 ```
 
+In case you are creating a service with server side streaming, you can place a seperator between each chunk of responses in following manner:
+
+```json
+{
+  "id": "{{randomValue type='UUID'}}",
+  "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+}
+====
+{
+  "id": "{{randomValue type='UUID'}}",
+  "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+}
+====
+{
+  "id": "{{randomValue type='UUID'}}",
+  "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+}
+```
+
+You can also add delays in your grpc services, unary or server side stream, by adding a delay key with the value in your mock file.
+
+```json
+{
+  "id": "{{randomValue type='UUID'}}",
+  "text": "{{randomValue type='ALPHABETIC' length='100'}}",
+  "delay": {{num_between lower=500 upper=600}}
+}
+```
+
 !!!note
 
-    Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.
+    The seperator Camouflage understands is '====', i.e. 4 equals.
 
+!!!caution
+
+    Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.

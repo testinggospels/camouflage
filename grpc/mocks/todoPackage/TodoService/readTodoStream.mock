@@ -1,0 +1,23 @@
+{
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}",
+    "delay": {{num_between lower=500 upper=600}}
+}
+====
+{
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}",
+    "delay": {{num_between lower=500 upper=600}}
+}
+====
+{
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}",
+    "delay": {{num_between lower=500 upper=600}}
+}
+====
+{
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}",
+    "delay": {{num_between lower=500 upper=600}}
+}

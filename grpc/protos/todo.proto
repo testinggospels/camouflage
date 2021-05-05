@@ -8,7 +8,7 @@ message Todo {
 }
 
 message Todos {
-    repeated Todo todo = 1;
+    repeated Todo todos = 1;
 }
 
 message Empty {}
@@ -16,4 +16,5 @@ message Empty {}
 service TodoService{
     rpc createTodo(Todo) returns (Todo);
     rpc readTodo(Empty) returns (Todos);
+    rpc readTodoStream(Empty) returns (stream Todo);
 }

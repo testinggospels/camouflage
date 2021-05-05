@@ -465,7 +465,7 @@
 <p>For starters, gRPC mocks should not be placed in the same mocks directory as HTTP mocks, instead they should have their own mocks and protos directories. Secondly, the folder structure inside grpc mocks directory will follow the convention ./grpc/mocks/<strong><em>package_name</em>/<em>service_name</em>/<em>method_name</em>.mock</strong></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>We currently support unary services only. But streams will be introduced soon.</p>
+<p>We currently support unary services and server side streams. Client streams and BIDI streams will be introduced soon.</p>
 </div>
 <h2 id="creating-in-a-grpc-mock">Creating in a gRPC Mock</h2>
 <ul>
@@ -489,8 +489,35 @@
   &quot;text&quot;: &quot;{{randomValue type='ALPHABETIC' length='100'}}&quot;
 }
 </code></pre>
+<p>In case you are creating a service with server side streaming, you can place a seperator between each chunk of responses in following manner:</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;{{randomValue type='UUID'}}&quot;,
+  &quot;text&quot;: &quot;{{randomValue type='ALPHABETIC' length='100'}}&quot;
+}
+====
+{
+  &quot;id&quot;: &quot;{{randomValue type='UUID'}}&quot;,
+  &quot;text&quot;: &quot;{{randomValue type='ALPHABETIC' length='100'}}&quot;
+}
+====
+{
+  &quot;id&quot;: &quot;{{randomValue type='UUID'}}&quot;,
+  &quot;text&quot;: &quot;{{randomValue type='ALPHABETIC' length='100'}}&quot;
+}
+</code></pre>
+<p>You can also add delays in your grpc services, unary or server side stream, by adding a delay key with the value in your mock file.</p>
+<pre><code class="language-json">{
+  &quot;id&quot;: &quot;{{randomValue type='UUID'}}&quot;,
+  &quot;text&quot;: &quot;{{randomValue type='ALPHABETIC' length='100'}}&quot;,
+  &quot;delay&quot;: {{num_between lower=500 upper=600}}
+}
+</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
+<p>The seperator Camouflage understands is '====', i.e. 4 equals.</p>
+</div>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
 <p>Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.</p>
 </div>
                 

@@ -1,6 +1,6 @@
 {
   "name": "camouflage-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Easily mock your webservices while testing frontends.",
   "homepage": "https://fauxauldrich.github.io/camouflage/",
   "keywords": [
@@ -16,7 +16,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node bin/camouflage.js -m ./mocks",
-    "test": "mocha tests/functional.js --reporter mochawesome --timeout 10000 --exit"
+    "test": "mocha tests/functional.js --reporter mochawesome --timeout 10000 --exit || true"
   },
   "bin": {
     "camouflage": "bin/camouflage.js"

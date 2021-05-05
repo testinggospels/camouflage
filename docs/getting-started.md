@@ -1,10 +1,11 @@
 # Getting Started
 
-1.  Install Camouflage: `npm install -g camouflage-server`
-2.  Run `camouflage --version` to validate the installation was successful.
-3.  Create an empty directory anywhere in you machine and navigate to it in your terminal.
-4.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
-5.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
+1.  Camouflage is an NPM package, therefore to install Camouflage, you'd need to install NodeJS (>v14) first, if you haven't already done so.
+2.  Install Camouflage: `npm install -g camouflage-server`
+3.  Run `camouflage --version` to validate the installation was successful.
+4.  Create an empty directory anywhere in your machine and navigate to it in your terminal.
+5.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
+6.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
 
 ## Configuration Options / Sample Config yml File
 

@@ -3,11 +3,10 @@ import fs from "fs";
 import path from "path";
 // @ts-ignore
 import spdy from "spdy";
-import http2 from "http2";
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
-import Handlebars from "handlebars";
 import logger from "../logger";
+import GrpcParser from "../parser/GrpcParser";
 /**
  * Defines all protocols:
  * Currently active:
@@ -50,6 +49,7 @@ export default class Protocols {
   initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
     // Set location of gRPC mocks to be used by private methid camouflageMock
     this.grpcMocksDir = grpcMocksDir;
+    const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
     // Get an array of all .protofile in specified protos directory
     const availableProtoFiles: string[] = fs.readdirSync(grpcProtosDir);
     // Initialize required variables
@@ -87,7 +87,22 @@ export default class Protocols {
         let methods = Object.keys(service);
         let methodDefinition: Record<string, any> = {};
         methods.forEach((method) => {
-          methodDefinition[method] = this.camouflageMock;
+          if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
+            logger.debug(`Registering Unary method: ${method}`);
+            methodDefinition[method] = grpcParser.camouflageMock;
+          }
+          if (service[method]["responseStream"] && !service[method]["requestStream"]) {
+            logger.debug(`Registering method with server side streaming: ${method}`);
+            methodDefinition[method] = grpcParser.camouflageMockServerStream;
+          }
+          if (!service[method]["responseStream"] && service[method]["requestStream"]) {
+            logger.debug(`Registering method with client side streaming: ${method}`);
+            console.log(method);
+          }
+          if (service[method]["responseStream"] && service[method]["requestStream"]) {
+            logger.debug(`Registering method with BIDI streaming: ${method}`);
+            console.log(method);
+          }
         });
         server.addService(service, methodDefinition);
       });
@@ -108,17 +123,4 @@ export default class Protocols {
       });
   };
   //   initTcp = () => {};
-  private camouflageMock = (call: any, callback: any) => {
-    let handlerPath = call.call.handler.path;
-    let mockFile = handlerPath.replace(".", "/");
-    let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
-    if (fs.existsSync(mockFilePath)) {
-      const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-      const fileContent = template({ request: call.request });
-      callback(null, JSON.parse(fileContent));
-    } else {
-      logger.error(`No suitable mock file was found for ${mockFilePath}`);
-    }
-  };
 }
-
