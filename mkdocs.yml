@@ -31,5 +31,6 @@ nav:
   - mocking-gRPC.md
   - available-monitoring.md
   - tests.md
+  - back-up-and-restore.md
 extra:
   logo: "camouflage.svg"

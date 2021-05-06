@@ -1,6 +1,6 @@
 {
   "name": "camouflage-server",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Easily mock your webservices while testing frontends.",
   "homepage": "https://fauxauldrich.github.io/camouflage/",
   "keywords": [
@@ -39,6 +39,7 @@
     "js-yaml": "^4.1.0",
     "jsonpath": "^1.1.1",
     "moment": "^2.29.1",
+    "node-cron": "^3.0.0",
     "prom-client": "^13.0.0",
     "spdy": "^4.0.2",
     "swagger-stats": "^0.99.1",

@@ -70,6 +70,10 @@ If you are creating a bidirectional streaming mock, your mock file would contain
 }
 ```
 
+!!! caution
+
+    Since BIDI streaming are slightly more complicated to simulate, current implementation of Camouflage only supports ping-pong model of streaming, i.e. client can send multiple requests as a stream and server will respond to each request with one response as part of a stream. Finally when client ends the stream, server will also end the stream. As shown in the example above, server can also send a response just before ending the stream, but this is optional.
+
 ## Adding delays in gRPC
 
 You can also add delays in your grpc mock services, by adding a delay key with the value in your mock file.
@@ -87,4 +91,3 @@ You don't need to modify your proto file to accomodate the additional key, since
 !!!caution
 
     Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.
-

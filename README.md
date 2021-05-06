@@ -6,6 +6,16 @@
 
 Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver). As the original description says, the mocking/service virtualization works on a file based structure where you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.
 
+# Features
+
+- Mocking support for HTTP, HTTPS, HTTP2 and gRPC.
+- Dynamic/realistic responses without having to write any code.
+- Conditional responses based on request parameters.
+- Delay Simulation.
+- Inbuilt monitoring.
+- Inbuilt backup and restore mechanism.
+- Quick start with `camouflage init` and `camouflage restore` modules.
+
 # Getting Started
 
 1.  Camouflage is an NPM package, therefore to install Camouflage, you'd need to install NodeJS (>v14) first, if you haven't already done so.
@@ -19,9 +29,12 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 ```yaml
 loglevel: info
-cpus: 2
+cpus: 1
 monitoring:
   port: 5555
+ssl:
+  cert: "./certs/server.cert"
+  key: "./certs/server.key"
 protocols:
   http:
     mocks_dir: "./mocks"
@@ -29,19 +42,18 @@ protocols:
   https:
     enable: false
     port: 8443
-    cert: "./certs/server.cert"
-    key: "./certs/server.key"
   http2:
     enable: false
     port: 8081
-    cert: "./certs/server.cert"
-    key: "./certs/server.key"
   grpc:
     enable: false
     host: localhost
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+backup:
+  enable: true
+  cron: "0 * * * *" # Hourly Backup
 ```
 
 ## Create your first mock

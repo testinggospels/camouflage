@@ -10,9 +10,11 @@ const yaml = require("js-yaml");
 const winston = require("winston");
 const path = require("path");
 const fs = require("fs");
-var config = argv.c || argv.config;
+const os = require("os");
+var configFile = argv.c || argv.config;
 var help = argv.h || argv.help;
 var init = argv._[0] === "init" ? "init" : null;
+var restore = argv._[0] === "restore" ? "restore" : null;
 const osCPUs = require("os").cpus().length;
 const camouflage = require("../dist/index");
 const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
@@ -52,11 +54,11 @@ if (init) {
   }
   process.exit(1);
 }
-if (!config) {
+if (!configFile) {
   logger.error("Please provide a config file.");
   process.exit(1);
 }
-config = yaml.load(fs.readFileSync(config, "utf-8"));
+config = yaml.load(fs.readFileSync(configFile, "utf-8"));
 const logger = winston.createLogger({
   level: config.loglevel,
   format: winston.format.combine(
@@ -72,23 +74,57 @@ const logger = winston.createLogger({
     }),
   ],
 });
+if (restore) {
+  if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
+    logger.info("Restoring from previous backup.");
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "mocks"), path.resolve(config.protocols.http.mocks_dir));
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "grpc", "mocks"), path.resolve(config.protocols.grpc.mocks_dir));
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "grpc", "protos"), path.resolve(config.protocols.grpc.protos_dir));
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "certs", "server.key"), path.resolve(config.ssl.key));
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "certs", "server.cert"), path.resolve(config.ssl.cert));
+    logger.info("Restore complete.");
+  } else {
+    logger.error("No existing backup found.");
+  }
+  process.exit(1);
+}
+let inputsKeys = [
+  "mocks_dir",
+  "http.port",
+  "https.enable",
+  "http2.enable",
+  "grpc.enable",
+  "ssl.key",
+  "ssl.cert",
+  "https.port",
+  "http2.port",
+  "grpc.host",
+  "grpc.port",
+  "grpc.mocks_dir",
+  "grpc.protos_dir",
+  "loglevel",
+  "backup.enable",
+  "backup.cron",
+  "configFile",
+];
 let inputs = [
   config.protocols.http.mocks_dir,
   config.protocols.http.port,
   config.protocols.https.enable,
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
-  config.protocols.https.key,
-  config.protocols.https.cert,
-  config.protocols.http2.key,
-  config.protocols.http2.cert,
-  config.protocols.https.port,
-  config.protocols.http2.port,
-  config.protocols.grpc.host,
-  config.protocols.grpc.port,
-  config.protocols.grpc.mocks_dir,
-  config.protocols.grpc.protos_dir,
-  config.loglevel,
+  config.ssl.key || path.join(site_root, "certs", "server.key"),
+  config.ssl.cert || path.join(site_root, "certs", "server.cert"),
+  config.protocols.https.port || 8443,
+  config.protocols.http2.port || 8081,
+  config.protocols.grpc.host || "localhost",
+  config.protocols.grpc.port || 4312,
+  config.protocols.grpc.mocks_dir || path.join(site_root, "grpc", "mocks"),
+  config.protocols.grpc.protos_dir || path.join(site_root, "grpc", "protos"),
+  config.loglevel || "info",
+  config.backup.enable || true,
+  config.backup.cron || "0 * * * *",
+  configFile,
 ];
 const numCPUs = config.cpus || 1;
 const monitoringPort = config.monitoring.port || 5555;
@@ -97,6 +133,7 @@ if (numCPUs > osCPUs) {
   process.exit(1);
 }
 if (cluster.isMaster) {
+  logger.debug(`Camouflage configuration:\n========\n${inputsKeys.join(" | ")}\n========\n${inputs.join(" | ")}\n========\n`);
   logger.info(`[${process.pid}] Master Started`);
   // If current node is a master node, use it to start X number of workers, where X comes from config
   for (let i = 0; i < numCPUs; i++) {

@@ -10,6 +10,7 @@ import registerHandlebars from "./handlebar/helperInit";
 import Protocols from "./protocols/Protocols";
 import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
+import BackupScheduler from "./BackupScheduler/BackupScheduler";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
@@ -60,16 +61,20 @@ app.get("/stats", function (req, res) {
  * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
  * @param {number} inputPort Input http port, overrides default 8080 port
  * @param {boolean} enableHttps true if https is to be enabled
+ * @param {boolean} enableHttp2 true if http2 is to be enabled
  * @param {boolean} enableGrpc true if grpc is to be enabled
- * @param {number} numCPUs number of workers
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
  * @param {number} inputHttpsPort Input https port, overrides httpsPort
+ * @param {number} inputHttp2Port Input http2 port, overrides httpsPort
  * @param {string} inputGrpcHost Input gRPC host, overrides grpcHost
  * @param {number} inputGrpcPort Input gRPC port, overrides grpcPort
  * @param {string} inputGrpcMocksDir Input gRPC mocks directory location, overrides grpcMocksDir
  * @param {string} inputGrpcProtosDir Input gRPC protos directory location, overrides grpcProtos
  * @param {string} loglevel Desired loglevel
+ * @param {string} backupEnable true if backup is enabled
+ * @param {string} backupCron cron schedule for backup
+ * @param {string} configFilePath location of config file
  */
 const start = (
   inputMocksDir: string,
@@ -79,15 +84,16 @@ const start = (
   enableGrpc: boolean,
   key?: string,
   cert?: string,
-  http2key?: string,
-  http2cert?: string,
   inputHttpsPort?: number,
   inputHttp2Port?: number,
   inputGrpcHost?: string,
   inputGrpcPort?: number,
   inputGrpcMocksDir?: string,
   inputGrpcProtosDir?: string,
-  loglevel?: string
+  loglevel?: string,
+  backupEnable?: boolean,
+  backupCron?: string,
+  configFilePath?: string
 ) => {
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
@@ -120,11 +126,15 @@ const start = (
   }
   // If https protocol is enabled, start https server with additional inputs
   if (enableHttp2) {
-    protocols.initHttp2(http2Port, http2key, http2cert);
+    protocols.initHttp2(http2Port, key, cert);
   }
   // If grpc protocol is enabled, start grpc server with additional inputs
   if (enableGrpc) {
     protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
+  }
+  if (backupEnable) {
+    const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, key, cert, configFilePath);
+    backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc);
   }
 };
 /**

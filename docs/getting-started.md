@@ -11,9 +11,12 @@
 
 ```yaml
 loglevel: info
-cpus: 2
+cpus: 1
 monitoring:
   port: 5555
+ssl:
+  cert: "./certs/server.cert"
+  key: "./certs/server.key"
 protocols:
   http:
     mocks_dir: "./mocks"
@@ -21,19 +24,18 @@ protocols:
   https:
     enable: false
     port: 8443
-    cert: "./certs/server.cert"
-    key: "./certs/server.key"
   http2:
     enable: false
     port: 8081
-    cert: "./certs/server.cert"
-    key: "./certs/server.key"
   grpc:
     enable: false
     host: localhost
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+backup:
+  enable: true
+  cron: "0 * * * *" # Hourly Backup
 ```
 
 ## Create your first mock
