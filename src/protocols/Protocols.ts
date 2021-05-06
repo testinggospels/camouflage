@@ -97,11 +97,11 @@ export default class Protocols {
           }
           if (!service[method]["responseStream"] && service[method]["requestStream"]) {
             logger.debug(`Registering method with client side streaming: ${method}`);
-            console.log(method);
+            methodDefinition[method] = grpcParser.camouflageMockClientStream;
           }
           if (service[method]["responseStream"] && service[method]["requestStream"]) {
             logger.debug(`Registering method with BIDI streaming: ${method}`);
-            console.log(method);
+            methodDefinition[method] = grpcParser.camouflageMockBidiStream;
           }
         });
         server.addService(service, methodDefinition);

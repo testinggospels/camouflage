@@ -21,6 +21,7 @@ export default class GrpcParser {
         logger.debug(`Response: ${fileContent}`);
         const response = JSON.parse(fileContent);
         const delay: number = response.delay || 0;
+        delete response.delay;
         setTimeout(() => {
           callback(null, response);
         }, delay);
@@ -74,5 +75,93 @@ export default class GrpcParser {
       call.write({ error: `No suitable mock file was found for ${mockFilePath}` });
       call.end();
     }
+  };
+
+  camouflageMockClientStream = (call: any, callback: any) => {
+    call.on("data", () => {
+      // TODO: Not sure if it's needed
+    });
+    call.on("end", () => {
+      try {
+        let handlerPath = call.call.handler.path;
+        let mockFile = handlerPath.replace(".", "/");
+        let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+        if (fs.existsSync(mockFilePath)) {
+          const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
+          const fileContent = template({ request: call.request });
+          logger.debug(`Mock file path: ${mockFilePath}`);
+          logger.debug(`Response: ${fileContent}`);
+          const response = JSON.parse(fileContent);
+          const delay: number = response.delay || 0;
+          delete response.delay;
+          setTimeout(() => {
+            callback(null, response);
+          }, delay);
+        } else {
+          logger.error(`No suitable mock file was found for ${mockFilePath}`);
+          callback(null, { error: `No suitable mock file was found for ${mockFilePath}` });
+        }
+      } catch (error) {
+        logger.error(error);
+        callback(null, { error: error });
+      }
+    });
+  };
+
+  camouflageMockBidiStream = (call: any, callback: any) => {
+    let handlerPath = call.call.handler.path;
+    let mockFile = handlerPath.replace(".", "/");
+    let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+    call.on("data", () => {
+      if (fs.existsSync(mockFilePath)) {
+        try {
+          const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
+          const fileContent = template({ request: call.request });
+          logger.debug(`Mock file path: ${mockFilePath}`);
+          logger.debug(`Response: ${fileContent}`);
+          const response = JSON.parse(fileContent);
+          const delay: number = response.data.delay || 0;
+          delete response.data.delay;
+          setTimeout(() => {
+            call.write(response.data);
+          }, delay);
+        } catch (error) {
+          logger.error(error);
+          call.end();
+        }
+      } else {
+        logger.error(`No suitable mock file was found for ${mockFilePath}`);
+        call.write({ error: `No suitable mock file was found for ${mockFilePath}` });
+        call.end();
+      }
+    });
+    call.on("end", () => {
+      if (fs.existsSync(mockFilePath)) {
+        try {
+          const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
+          const fileContent = template({ request: call.request });
+          logger.debug(`Mock file path: ${mockFilePath}`);
+          logger.debug(`Response: ${fileContent}`);
+          const response = JSON.parse(fileContent);
+          if (response.end) {
+            const delay: number = response.end.delay || 0;
+            delete response.end.delay;
+            setTimeout(() => {
+              call.write(response.end);
+              call.end();
+            }, delay);
+          } else {
+            call.end();
+          }
+        } catch (error) {
+          logger.error(error);
+          call.end();
+        }
+      } else {
+        logger.error(`No suitable mock file was found for ${mockFilePath}`);
+        call.write({ error: `No suitable mock file was found for ${mockFilePath}` });
+        call.end();
+      }
+    });
   };
 }

@@ -17,4 +17,6 @@ service TodoService{
     rpc createTodo(Todo) returns (Todo);
     rpc readTodo(Empty) returns (Todos);
     rpc readTodoStream(Empty) returns (stream Todo);
+    rpc createTodoStream(stream Todo) returns (Todos);
+    rpc createTodoBidiStream(stream Todo) returns (stream Todo);
 }

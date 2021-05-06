@@ -1,0 +1,10 @@
+{
+    "data": {
+        "id": "{{randomValue type='UUID'}}",
+        "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+    },
+    "end": {
+        "id": "{{randomValue type='UUID'}}",
+        "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+    }
+}

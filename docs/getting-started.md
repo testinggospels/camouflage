@@ -30,7 +30,7 @@ protocols:
     key: "./certs/server.key"
   grpc:
     enable: false
-    host: "10.111.22.333"
+    host: localhost
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"

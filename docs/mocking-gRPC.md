@@ -4,11 +4,7 @@ Camouflage introduces mocking gRPC services. Creation of mocks remains similar t
 
 For starters, gRPC mocks should not be placed in the same mocks directory as HTTP mocks, instead they should have their own mocks and protos directories. Secondly, the folder structure inside grpc mocks directory will follow the convention ./grpc/mocks/**_package_name_/_service_name_/_method_name_.mock**
 
-!!!note
-
-    We currently support unary services and server side streams. Client streams and BIDI streams will be introduced soon.
-
-## Creating in a gRPC Mock
+## Creating a gRPC Mock - Unary Or Client Side Streaming
 
 - To create a new grpc mock, you would need the .proto file for your gRPC service. ex. `todo.proto`
 - Create two new directories `./grpc/mocks` and `./grpc/protos` (you can name them as you wish)
@@ -29,6 +25,8 @@ For starters, gRPC mocks should not be placed in the same mocks directory as HTT
 }
 ```
 
+## Creating a gRPC Mock - Server Side Streaming
+
 In case you are creating a service with server side streaming, you can place a seperator between each chunk of responses in following manner:
 
 ```json
@@ -48,7 +46,33 @@ In case you are creating a service with server side streaming, you can place a s
 }
 ```
 
-You can also add delays in your grpc services, unary or server side stream, by adding a delay key with the value in your mock file.
+!!!note
+
+    The seperator Camouflage understands is '====', i.e. 4 equals.
+
+## Creating a gRPC Mock - Bidi Streaming
+
+If you are creating a bidirectional streaming mock, your mock file would contain two different types of data.
+
+- One, what to send when client is streaming, defined by the key "data".
+- Two, an optional key "end", in case you want server to send something when client ends the connection. If your requirement is to simply end the stream when client ends the stream, without sending any additional data, you can simply omit the "end" key from your mockfile.
+
+```json
+{
+  "data": {
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+  },
+  "end": {
+    "id": "{{randomValue type='UUID'}}",
+    "text": "{{randomValue type='ALPHABETIC' length='100'}}"
+  }
+}
+```
+
+## Adding delays in gRPC
+
+You can also add delays in your grpc mock services, by adding a delay key with the value in your mock file.
 
 ```json
 {
@@ -58,10 +82,9 @@ You can also add delays in your grpc services, unary or server side stream, by a
 }
 ```
 
-!!!note
-
-    The seperator Camouflage understands is '====', i.e. 4 equals.
+You don't need to modify your proto file to accomodate the additional key, since Camouflage will delete the "delay" key from the response before sending it to the client.
 
 !!!caution
 
     Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.
+
