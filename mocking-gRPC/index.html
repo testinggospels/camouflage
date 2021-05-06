@@ -433,6 +433,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../back-up-and-restore/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -565,6 +580,10 @@
   }
 }
 </code></pre>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Since BIDI streaming are slightly more complicated to simulate, current implementation of Camouflage only supports ping-pong model of streaming, i.e. client can send multiple requests as a stream and server will respond to each request with one response as part of a stream. Finally when client ends the stream, server will also end the stream. As shown in the example above, server can also send a response just before ending the stream, but this is optional.</p>
+</div>
 <h2 id="adding-delays-in-grpc">Adding delays in gRPC</h2>
 <p>You can also add delays in your grpc mock services, by adding a delay key with the value in your mock file.</p>
 <pre><code class="language-json">{

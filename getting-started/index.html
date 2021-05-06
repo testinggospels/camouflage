@@ -432,6 +432,21 @@
   
 
     
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../back-up-and-restore/" class="md-nav__link">
+        Backup and Restore
+      </a>
+    </li>
+  
+
+    
   </ul>
 </nav>
                   </div>
@@ -511,9 +526,12 @@
 </ol>
 <h2 id="configuration-options-sample-config-yml-file">Configuration Options / Sample Config yml File</h2>
 <pre><code class="language-yaml">loglevel: info
-cpus: 2
+cpus: 1
 monitoring:
   port: 5555
+ssl:
+  cert: &quot;./certs/server.cert&quot;
+  key: &quot;./certs/server.key&quot;
 protocols:
   http:
     mocks_dir: &quot;./mocks&quot;
@@ -521,19 +539,18 @@ protocols:
   https:
     enable: false
     port: 8443
-    cert: &quot;./certs/server.cert&quot;
-    key: &quot;./certs/server.key&quot;
   http2:
     enable: false
     port: 8081
-    cert: &quot;./certs/server.cert&quot;
-    key: &quot;./certs/server.key&quot;
   grpc:
     enable: false
     host: localhost
     port: 4312
     mocks_dir: &quot;./grpc/mocks&quot;
     protos_dir: &quot;./grpc/protos&quot;
+backup:
+  enable: true
+  cron: &quot;0 * * * *&quot; # Hourly Backup
 </code></pre>
 <h2 id="create-your-first-mock">Create your first mock</h2>
 <p>Camouflage follows the same convention as mockserver to create mocks. For example,</p>
