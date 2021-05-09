@@ -102,6 +102,7 @@ const start = (
 ) => {
   const config = {
     fsRoot: path.resolve(mocksDir),
+    readOnly: false,
     rootName: "Camouflage",
     logger: logger,
   };
