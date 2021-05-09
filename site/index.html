@@ -184,7 +184,9 @@
                     
 
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href="." title="Camouflage" class="md-nav__button md-logo" aria-label="Camouflage" data-md-component="logo">
       
@@ -390,6 +392,21 @@
   
   
     <li class="md-nav__item">
+      <a href="camouflage-ui/" class="md-nav__link">
+        Camouflage UI
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="available-monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -434,37 +451,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
-    Why did we create Camouflage if a similar tool already exists?
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -479,16 +465,19 @@
 <p><img src="camouflage.png" alt="camouflage.png" width="300"/></p>
 <p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
 <h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
-<p>Well, the original tool has not been maintained for some time now. But more importantly, Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch.</p>
+<p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
 <ol>
-<li>The underlying codebase has been re-written using typescript.</li>
+<li>The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.</li>
 <li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
 <li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
-<li>Using handlebars, you can generate random numbers, string, alphanumeric string, UUIDs and random dates.</li>
+<li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
 <li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
 <li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>And, we saved the best for last. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2 and gRPC!!</li>
+<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2 and gRPC.</li>
+<li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
+<li>Camouflage provides support for monitoring.</li>
 </ol>
+<p>Head on over to the Getting Started page and set up your first Camouflage project.</p>
                 
               
               
@@ -543,7 +532,7 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
       <script src="assets/javascripts/bundle.7353b375.min.js"></script>

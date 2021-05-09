@@ -2,6 +2,10 @@
 
 Handlebars help you add character to your response. Instead of sending a static response or writing some code to generate a dynamic response, you can now simply use handlebars and let Camouflage do the work for you.
 
+!!! note
+
+    Though Camouflage does not provide any tools to help you create your mocks, there are numerous Handlerbar snippet extensions available in VS Code marketplace which should help speed up your mocks creation process.
+
 ## Custom Helpers
 
 ## randomValue
@@ -147,4 +151,3 @@ Explanation
 3. Finally we put an if condition to check if we are at the last element of the array, we shouldn't append a comma at the end of our JSONObject, in order to get a valid JSON. If we are at any other element in the array, we'll add a comma to JSONObject.
 
 Available inbuilt helpers are `if`, `unless`, `each`, `with`, `lookup` and `log`. More details are available at [Handlebars Documentation](https://handlebarsjs.com/guide/builtin-helpers.html){target=\_blank}
-

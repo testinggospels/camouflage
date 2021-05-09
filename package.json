@@ -1,6 +1,6 @@
 {
   "name": "camouflage-server",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Easily mock your webservices while testing frontends.",
   "homepage": "https://fauxauldrich.github.io/camouflage/",
   "keywords": [
@@ -31,6 +31,7 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.2.12",
     "@grpc/proto-loader": "^0.6.1",
+    "@opuscapita/filemanager-server": "^1.1.7",
     "body-parser": "^1.19.0",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",

@@ -184,7 +184,9 @@
                     
 
 
-<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
     <a href=".." title="Camouflage" class="md-nav__button md-logo" aria-label="Camouflage" data-md-component="logo">
       
@@ -425,6 +427,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../camouflage-ui/" class="md-nav__link">
+        Camouflage UI
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../available-monitoring/" class="md-nav__link">
         Monitoring
       </a>
@@ -469,72 +486,6 @@
               </div>
             
             
-              
-              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
-                <div class="md-sidebar__scrollwrap">
-                  <div class="md-sidebar__inner">
-                    
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#custom-helpers" class="md-nav__link">
-    Custom Helpers
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#randomvalue" class="md-nav__link">
-    randomValue
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#now" class="md-nav__link">
-    now
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#capture" class="md-nav__link">
-    capture
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#num_between" class="md-nav__link">
-    num_between
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#inbuilt-helpers" class="md-nav__link">
-    Inbuilt Helpers
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-                  </div>
-                </div>
-              </div>
-            
           
           <div class="md-content" data-md-component="content">
             <article class="md-content__inner md-typeset">
@@ -547,6 +498,10 @@
                 
                 <h1 id="handlebars">Handlebars</h1>
 <p>Handlebars help you add character to your response. Instead of sending a static response or writing some code to generate a dynamic response, you can now simply use handlebars and let Camouflage do the work for you.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Though Camouflage does not provide any tools to help you create your mocks, there are numerous Handlerbar snippet extensions available in VS Code marketplace which should help speed up your mocks creation process.</p>
+</div>
 <h2 id="custom-helpers">Custom Helpers</h2>
 <h2 id="randomvalue">randomValue</h2>
 <p>Type: Custom Helper</p>
@@ -775,7 +730,7 @@ Content-Type: application/json
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
       <script src="../assets/javascripts/bundle.7353b375.min.js"></script>

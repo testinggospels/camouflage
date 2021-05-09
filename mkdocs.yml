@@ -4,6 +4,8 @@ repo_url: https://github.com/fauxauldrich/camouflage
 theme:
   name: material
   logo: camouflage.png
+  features:
+    - toc.integrate
   palette:
     - media: "(prefers-color-scheme: light)"
       scheme: default
@@ -29,6 +31,7 @@ nav:
   - response-delays.md
   - performance-mode.md
   - mocking-gRPC.md
+  - camouflage-ui.md
   - available-monitoring.md
   - tests.md
   - back-up-and-restore.md

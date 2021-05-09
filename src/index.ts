@@ -15,11 +15,15 @@ import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
 // @ts-ignore
+import * as filemanager from "@opuscapita/filemanager-server";
+const filemanagerMiddleware = filemanager.middleware;
+// @ts-ignore
 import swStats from "swagger-stats";
 /**
  * Gets the location of documentation folder
  */
 let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
+let ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -52,6 +56,7 @@ app.use(
 app.use(bodyParser.json());
 // Configure documentation directory as a source for static resources (eg. js, css, image)
 app.use(express.static(site_root));
+app.use(express.static(ui_root));
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
@@ -95,6 +100,12 @@ const start = (
   backupCron?: string,
   configFilePath?: string
 ) => {
+  const config = {
+    fsRoot: path.resolve(mocksDir),
+    rootName: "Camouflage",
+    logger: logger,
+  };
+  app.use(filemanagerMiddleware(config));
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
   logger.info(`[${process.pid}] Worker started`);
@@ -112,6 +123,10 @@ const start = (
   app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: site_root });
   });
+  app.get("/ui", (req: express.Request, res: express.Response) => {
+    res.sendFile("index.html", { root: ui_root });
+  });
+  logger.info(`Camouflage file explorer running at: http://localhost:${inputPort}/ui`);
   // Register Handlebars
   registerHandlebars();
   // Register Controllers
