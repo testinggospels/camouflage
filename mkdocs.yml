@@ -35,5 +35,6 @@ nav:
   - available-monitoring.md
   - tests.md
   - back-up-and-restore.md
+  - contributing.md
 extra:
   logo: "camouflage.svg"

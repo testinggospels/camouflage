@@ -25,13 +25,33 @@ export default class BackupScheduler {
     this.configFilePath = configFilePath;
     this.configFileName = configFilePath.split(path.sep).slice(-1)[0];
   }
+  /**
+   * @param enableHttps
+   * @param enableHttp2
+   * @param enablegRPC
+   * If above protocols are not enabled, camouflage will not look for directories specific to these protocols,
+   * such as certs and grpc/mocks or grpc/protos while creating a backup
+   */
   schedule = (enableHttps: boolean, enableHttp2: boolean, enablegRPC: boolean) => {
+    /**
+     * Create an initial back up while starting the application.
+     * Schedule further backup as specified by cron schedule in config
+     */
     this.createBackup(enableHttps, enableHttp2, enablegRPC);
     scheduler.schedule(this.cron, () => {
       this.createBackup(enableHttps, enableHttp2, enablegRPC);
     });
     logger.info(`Scheduled a backup cron job with specified cron: ${this.cron}`);
   };
+  /**
+   * @param enableHttps
+   * @param enableHttp2
+   * @param enablegRPC
+   * If above protocols are not enabled, camouflage will not look for directories specific to these protocols,
+   * such as certs and grpc/mocks or grpc/protos while creating a backup
+   * Copy mocks directory, grpc/mocks and grpc/protos directories, certs directory and config file to backup
+   * folder in users' home directory
+   */
   private createBackup = (enableHttps: boolean, enableHttp2: boolean, enablegRPC: boolean) => {
     logger.debug("Creating a new back up.");
     fse.copySync(path.resolve(this.mocksDir), path.join(os.homedir(), ".camouflage_backup", "mocks"));

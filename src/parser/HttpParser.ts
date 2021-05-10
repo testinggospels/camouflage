@@ -93,7 +93,7 @@ export class Parser {
               logger.debug(`Delay Set ${headerValue}`);
             } else {
               this.res.setHeader(headerKey, headerValue);
-              logger.debug(`Headers Set ${headerKey}: ${headerKey}`);
+              logger.debug(`Headers Set ${headerKey}: ${headerValue}`);
             }
           }
         }
@@ -160,4 +160,3 @@ const getWildcardPath = (dir: string, mockDir: string) => {
   }
   return newPath;
 };
-

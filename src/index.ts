@@ -6,11 +6,11 @@ import https from "https";
 import cluster from "cluster";
 import path from "path";
 import * as expressWinston from "express-winston";
-import registerHandlebars from "./handlebar/helperInit";
-import Protocols from "./protocols/Protocols";
+import registerHandlebars from "./handlebar";
+import Protocols from "./protocols";
 import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
-import BackupScheduler from "./BackupScheduler/BackupScheduler";
+import BackupScheduler from "./BackupScheduler";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
@@ -41,11 +41,10 @@ app.use(
     level: (req, res) => "level",
     winstonInstance: logger,
     statusLevels: { error: "error", success: "debug", warn: "warn" },
-    msg:
-      "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
+    msg: "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
   })
 );
-// Comfigure swagger-stats middleware for monitoring
+// Configure swagger-stats middleware for monitoring
 app.use(
   swStats.getMiddleware({
     name: "Camouflage",
@@ -56,6 +55,7 @@ app.use(
 app.use(bodyParser.json());
 // Configure documentation directory as a source for static resources (eg. js, css, image)
 app.use(express.static(site_root));
+// Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
@@ -120,10 +120,11 @@ const start = (
   grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
   port = inputPort;
   swStats.getPromClient().register.setDefaultLabels({ workerId: cluster.worker.id });
-  // Define route for root to host a single page UI to manage the mocks
+  // Define route for root to host a local copy of documentation
   app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: site_root });
   });
+  // Define route for /ui to host a single page UI to manage the mocks
   app.get("/ui", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: ui_root });
   });
@@ -148,6 +149,7 @@ const start = (
   if (enableGrpc) {
     protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
   }
+  // If backup is enabled, schedule a cron job to copy file to backup directory
   if (backupEnable) {
     const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, key, cert, configFilePath);
     backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc);

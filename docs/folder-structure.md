@@ -95,3 +95,10 @@ alt-svc: h3-27=":443"; ma=86400, h3-28=":443"; ma=86400, h3-29=":443"; ma=86400
 }
 ```
 
+Another, easier, approach to create mocks is by installing the [REST Client VS Code Extension](https://marketplace.visualstudio.com/items?itemName=humao.rest-client){target=\_blank} and using it to fetch the required data for mocks.
+
+- Launch VS Code and install "REST Client" Extension by Huachao Mao or simply open the link above.
+- Create a .http file in your project to document your actual http endpoints and make the requests.
+- Visit [REST Client github repository](https://github.com/Huachao/vscode-restclient){target=\_blank} for more details on usage
+
+![REST-Client](REST-Client.gif)

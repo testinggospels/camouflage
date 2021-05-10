@@ -81,7 +81,8 @@ export default class Protocols {
       keys = keys.filter((key) => {
         return entry[key]["service"] !== undefined;
       });
-      //For each method in the service definition, attach a generic handler camouflageMock, finally add service to running server
+      // For each method in the service definition, attach a generic handler, finally add service to running server
+      // Handlers will vary based on the type of request, i.e. unary, bidi streams or one sided streams
       keys.forEach((key) => {
         let service = entry[key]["service"];
         let methods = Object.keys(service);

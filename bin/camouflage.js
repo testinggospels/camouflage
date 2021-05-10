@@ -5,26 +5,34 @@ const express = require("express");
 const metricsServer = express();
 const AggregatorRegistry = require("prom-client").AggregatorRegistry;
 const aggregatorRegistry = new AggregatorRegistry();
-var argv = require("yargs").argv;
+const argv = require("yargs").argv;
 const yaml = require("js-yaml");
 const winston = require("winston");
 const path = require("path");
 const fs = require("fs");
 const os = require("os");
-var configFile = argv.c || argv.config;
-var help = argv.h || argv.help;
-var init = argv._[0] === "init" ? "init" : null;
-var restore = argv._[0] === "restore" ? "restore" : null;
+const configFile = argv.c || argv.config;
+const help = argv.h || argv.help;
+const init = argv._[0] === "init" ? "init" : null;
+const restore = argv._[0] === "restore" ? "restore" : null;
 const osCPUs = require("os").cpus().length;
 const camouflage = require("../dist/index");
 const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
 const fse = require("fs-extra");
+/**
+ * If user runs command camouflage -h, this if block will log the required format for a config.yml file and exit.
+ */
 if (help) {
   console.log(
     [
       "Create a config.yml file as shown in the sample yml below",
       `loglevel: 'info'`,
       `cpus: 1`,
+      `monitoring:`,
+      ` port: 5555`,
+      `ssl:`,
+      ` cert: "./certs/server.cert"`,
+      ` key: "./certs/server.key"`,
       `protocols:`,
       ` http:`,
       `   mocks_dir: "./mocks"`,
@@ -32,17 +40,27 @@ if (help) {
       ` https:`,
       `   enable: false`,
       `   port: 8443`,
-      `   cert: "./certs/server.cert"`,
-      `   key: "./certs/server.key"`,
+      ` http2:`,
+      `   enable: true`,
+      `   port: 8081`,
       ` grpc:`,
       `   enable: false`,
       `   port: 5000`,
       `   mocks_dir: "./grpc/mocks"`,
       `   protos_dir: "./grpc/protos"`,
+      `backup:`,
+      `  enable: true`,
+      `  cron: "0 * * * *" # Hourly Backup`,
     ].join("\n")
   );
   process.exit(1);
 }
+/**
+ * If user runs command camouflage init and if the current working directory is empty,
+ * this if block will copy mocks, grpc, config.yml from the globally installed camouflage source files.
+ * And it will create an empty directory for certs, where users would place their generated server.cert and server.key files.
+ * If the directory is not empty, application will exit with an error message.
+ */
 if (init) {
   if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
@@ -50,15 +68,24 @@ if (init) {
     fse.copySync(path.join(site_root, "config.yml"), path.join(process.cwd(), "config.yml"));
     fse.mkdirSync(path.join(process.cwd(), "certs"));
   } else {
-    console.log("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
+    console.error("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
   }
   process.exit(1);
 }
+/**
+ * If config file is not passed while starting the app, this block will log an error message and exit.
+ */
 if (!configFile) {
-  logger.error("Please provide a config file.");
+  console.error("Please provide a config file.");
   process.exit(1);
 }
+/**
+ * If a valid config file is found, load the data using yaml loader
+ */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
+/**
+ * Define logger with specified configured log level
+ */
 const logger = winston.createLogger({
   level: config.loglevel,
   format: winston.format.combine(
@@ -74,6 +101,11 @@ const logger = winston.createLogger({
     }),
   ],
 });
+/**
+ * If user runs command camouflage restore, this block will look for a .camouflage_backup directory
+ * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
+ * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
+ */
 if (restore) {
   if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
     logger.info("Restoring from previous backup.");
@@ -88,6 +120,9 @@ if (restore) {
   }
   process.exit(1);
 }
+/**
+ * Defined only for logging purposes, does not hold any significance from application logic perspective.
+ */
 let inputsKeys = [
   "mocks_dir",
   "http.port",
@@ -107,6 +142,12 @@ let inputsKeys = [
   "backup.cron",
   "configFile",
 ];
+/**
+ * Create a configuration array in the order of parameters as defined by start() function in main app.
+ * The reason we are storing the parameters in an is to have a error check in case of undefined values,
+ * before we actually pass the values to start() function. If all values are passed correctly,
+ * start() function can be called by simply spreading the array ...inputs
+ */
 let inputs = [
   config.protocols.http.mocks_dir,
   config.protocols.http.port,
@@ -126,12 +167,21 @@ let inputs = [
   config.backup.cron || "0 * * * *",
   configFile,
 ];
+/**
+ * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
+ * than available number of cores, log an error and exit. Default value 1.
+ * Fetch monitoring port for aggregated metrics (prometheus). Default value 5555.
+ */
 const numCPUs = config.cpus || 1;
 const monitoringPort = config.monitoring.port || 5555;
 if (numCPUs > osCPUs) {
   logger.error("Number of CPUs specified is greater than or equal to availale CPUs. Please specify a lesser number.");
   process.exit(1);
 }
+/**
+ * Spin up 1 master and n workers, where n is defined by numCPUs variable.
+ * If the instance is master, debug log configuration parameters.
+ */
 if (cluster.isMaster) {
   logger.debug(`Camouflage configuration:\n========\n${inputsKeys.join(" | ")}\n========\n${inputs.join(" | ")}\n========\n`);
   logger.info(`[${process.pid}] Master Started`);
@@ -160,6 +210,10 @@ if (cluster.isMaster) {
       }
     });
   });
+  /**
+   * Define a metrics server to be used to gather and publish aggregated prometheus metrics.
+   * Per worker metrics are also avaulable via a UI, but only useful if running with single worker instance.
+   */
   metricsServer.get("/metrics", async (req, res) => {
     try {
       const metrics = await aggregatorRegistry.clusterMetrics();
@@ -170,9 +224,15 @@ if (cluster.isMaster) {
       res.send(ex.message);
     }
   });
-
+  /**
+   * Start metricsServer on specified port
+   */
   metricsServer.listen(monitoringPort);
   logger.info(`Cluster metrics server listening to ${monitoringPort}, metrics exposed on http://localhost:${monitoringPort}/metrics`);
 } else {
+  /**
+   * If all checks pass and process has not exited yet, and the cluster instance type is of worker,
+   * Start the main application with the required parameters
+   */
   camouflage.start(...inputs);
 }
