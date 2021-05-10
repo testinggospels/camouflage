@@ -49,7 +49,7 @@ Once application passes the first stage of checks, it will reach this file, whic
 - Register handlebars, management controllers and global generic controllers.
 - Export start function to be used by bin/camouflage.js and express app object to be used by functional tests.
 
-### [src/BackupScheduler/index.ts](https://github.com/fauxauldrich/camouflage/blob/main/src/BackupScheduler/BackupScheduler.ts){target=\_blank}
+### [src/BackupScheduler/index.ts](https://github.com/fauxauldrich/camouflage/blob/main/src/BackupScheduler/index.ts){target=\_blank}
 
 This module simply creates a cron job which in turn copies mocks directories, certs directory and config file to the users' home directory as a backup procedure. The backup directory then can be used to restore the files to current working directory or a new project altogether. User can disable the backup feature if required via config file and can also control how often backups should be created by specifying a cron schedule
 
