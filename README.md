@@ -1,5 +1,15 @@
 [![NPM Download Stats](https://nodei.co/npm/camouflage-server.png?downloads=true)](https://www.npmjs.com/package/camouflage-server)
 
+[![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/fauxauldrich/camouflage/graphs/commit-activity)
+[![GitHub license](https://img.shields.io/github/license/fauxauldrich/camouflage.svg)](https://github.com/fauxauldrich/camouflage/blob/master/LICENSE)
+[![GitHub release](https://img.shields.io/github/release/fauxauldrich/camouflage.svg)](https://GitHub.com/fauxauldrich/camouflage/releases/)
+
+[![GitHub issues](https://img.shields.io/github/issues/fauxauldrich/camouflage.svg)](https://GitHub.com/fauxauldrich/camouflage/issues/)
+[![GitHub issues-closed](https://img.shields.io/github/issues-closed/fauxauldrich/camouflage.svg)](https://GitHub.com/fauxauldrich/camouflage/issues?q=is%3Aissue+is%3Aclosed)
+
+[![GitHub pull-requests](https://img.shields.io/github/issues-pr/fauxauldrich/camouflage.svg)](https://GitHub.com/fauxauldrich/camouflage/pull/)
+[![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/fauxauldrich/camouflage.svg)](https://GitHub.com/fauxauldrich/camouflage/pull/)
+
 # Camouflage
 
 <img src="docs/camouflage.png" alt="camouflage.png" width="300"/>
