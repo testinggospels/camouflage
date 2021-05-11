@@ -8,10 +8,6 @@
       <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
       <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/issues/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/issues-closed/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/issues-pr/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/issues-pr-closed/fauxauldrich/camouflage.svg"><br/>
       <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
       <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
     </p>
@@ -75,8 +71,8 @@ backup:
 
 Camouflage follows the same convention as mockserver to create mocks. For example,
 
-1. You start by creating a directory ${MOCKS_DIR}/hello-world
-2. Create a file GET.mock under ${MOCKS_DIR}/hello-world.
+1. You start by creating a directory `${MOCKS_DIR}/hello-world`
+2. Create a file GET.mock under `${MOCKS_DIR}/hello-world`
 3. Paste following content:
 
 ```
