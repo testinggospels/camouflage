@@ -1,0 +1,4 @@
+{
+    "self": "{{randomValue}}",
+    "delay": "{{num_between lower=500 upper=600}}"
+}

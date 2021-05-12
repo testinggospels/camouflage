@@ -42,8 +42,8 @@ backup:
 
 Camouflage follows the same convention as mockserver to create mocks. For example,
 
-1. You start by creating a directory ${MOCKS_DIR}/hello-world
-2. Create a file GET.mock under ${MOCKS_DIR}/hello-world.
+1. You start by creating a directory `${MOCKS_DIR}/hello-world`
+2. Create a file GET.mock under `${MOCKS_DIR}/hello-world`
 3. Paste following content:
 
 ```
@@ -72,3 +72,4 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 4. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
 5. However if you'd like to install Camouflage globally, execute: `npm pack`
 6. Install by running command: `npm install -g camouflage-server-${version}.tgz` or `npm install -g camouflage-server-${version}.zip`
+

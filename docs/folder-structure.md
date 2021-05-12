@@ -27,7 +27,7 @@ Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For w
 
 !!! caution
 
-    Protocols http, https and http2, share the same mocks directory and folder structure, however folder structure and mocks directory for gRPC mocks is different. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
+    Protocols http, https and http2, share the same mocks directory and folder structure, however folder structure and mocks directory for gRPC and websockets mocks is different. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
 
 ## What data to put in .mock files
 
