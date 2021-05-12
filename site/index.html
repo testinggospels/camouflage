@@ -250,6 +250,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#what-is-camouflage" class="md-nav__link">
+    What is Camouflage?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
     Why did we create Camouflage if a similar tool already exists?
   </a>
@@ -392,6 +399,21 @@
   
   
     <li class="md-nav__item">
+      <a href="mocking-websockets/" class="md-nav__link">
+        Mocking Websockets
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -477,7 +499,22 @@
                 
                 
                 <h1 id="home">Home</h1>
-<p><img src="camouflage.png" alt="camouflage.png" width="300"/></p>
+<p align="center">
+    <img src="camouflage.png" alt="camouflage.png" width="300"/>
+    <h3 align="center">Camouflage</h3>
+    <p align="center">HTTP/gRPC Mocking tool</p>
+    <p align="center">
+      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
+      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
+      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
+      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+    </p>
+</p>
+
+<h2 id="what-is-camouflage">What is Camouflage?</h2>
 <p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
 <h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
 <p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
@@ -488,7 +525,7 @@
 <li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
 <li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
 <li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2 and gRPC.</li>
+<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)</li>
 <li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
 <li>Camouflage provides support for monitoring.</li>
 </ol>

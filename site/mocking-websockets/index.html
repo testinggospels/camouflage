@@ -16,7 +16,7 @@
     
     
       
-        <title>Request model - Camouflage</title>
+        <title>Mocking Websockets - Camouflage</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-model" class="md-skip">
+        <a href="#mocking-websockets" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Request model
+              Mocking Websockets
             
           </span>
         </div>
@@ -292,20 +292,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../request-model/" class="md-nav__link">
         Request model
       </a>
-      
     </li>
   
 
@@ -361,11 +352,56 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../mocking-websockets/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Mocking Websockets
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Mocking Websockets
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-mock-websockets" class="md-nav__link">
+    How to mock websockets?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#client-list" class="md-nav__link">
+    Client List
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -457,26 +493,59 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/request-model.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/mocking-websockets.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="request-model">Request model</h1>
-<p>Request object made available by camouflage is simply an instance of express request object for a given incoming request. Following are the properties/objects available on the request object which can be used in request matching or to extract information out of the request.</p>
+                <h1 id="mocking-websockets">Mocking Websockets</h1>
+<p>Camouflage supports mocking for websockets via native WebSockets API. Note that at this time, custom websockets implementations such as via Socket.io is not supported.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In following instructions ${WS_MOCKS} refers to the location of websockets' mocks directory as specified under config.ws.mocks_dir in config.yml</p>
+</div>
+<h3 id="how-to-mock-websockets">How to mock websockets?</h3>
 <ul>
-<li>request.baseUrl</li>
-<li>request.body</li>
-<li>request.cookies</li>
-<li>request.method</li>
-<li>request.originalUrl</li>
-<li>request.path</li>
-<li>request.protocol</li>
-<li>request.query</li>
-<li>request.headers</li>
-<li>request.body</li>
+<li>Start by enabling ws protocol in config file, provide the location of your ${WS_MOCKS} directory and optionally update the port.</li>
+<li>The folder structure for ${WS_MOCKS} resembles HTTP mocks, where you create a series of folders under ${WS_MOCKS} e.g. ${WS_MOCKS}/hello/world. This will allow you to connect to the websockets server using the url <code>ws://localhost:8082/hello/world</code></li>
+<li>Under /hello/world, you would need to provide two mock files, <code>connection.mock</code> (optional) and <code>message.mock</code>.</li>
+<li>Camouflage uses <code>connection.mock</code> to send you a custom message when you first connect to the server. This is optional, not providing this file would simply log a warning message in Camouflage console.</li>
+<li>Camouflage uses <code>message.mock</code> to respond to all incoming messages. This too can be optional if you don't want server to return any messages, but not providing this file would log an error message in Camouflage console.</li>
+<li>The mock file, as you'd expect, supports handlebars! So you can generate random numbers, put conditional blocks etc.</li>
+<li>The format of mock file would be as follows:</li>
 </ul>
-<p>Refer to <a href="http://expressjs.com/en/4x/api.html#req">Express Documentation</a> for more information on each of these properties.</p>
+<pre><code class="language-json">{
+  &quot;broadcast&quot;: &quot;{{now}}&quot;,
+  &quot;emit&quot;: &quot;{{randomValue type='UUID'}}&quot;,
+  &quot;self&quot;: &quot;{{randomValue}}&quot;,
+  &quot;delay&quot;: &quot;{{num_between lower=500 upper=600}}&quot;
+}
+</code></pre>
+<p>The JSON can have one or more of these three keys: <code>broadcast</code>, <code>emit</code> or <code>self</code></p>
+<ul>
+<li>boardcast: Camouflage will broadcast these messages, i.e. The value {{now}} evaluates to in above example, will be sent to all the connected clients, including the client emitting the message.</li>
+<li>emit: Camouflage will emit these messages, i.e. The value {{randomValue type='UUID'}} evaluates to in above example, will be sent to all the connected clients, except the client emitting the message.</li>
+<li>self: Camouflage will only send these messages to the client who made the request, i.e. The value {{randomValue}} evaluates to in above example, will be sent only to the client who made the request.</li>
+<li>Finally, you can also add a delay as shown in the example above.</li>
+</ul>
+<h3 id="client-list">Client List</h3>
+<p>When a client is connected to or disconnected from the server, server sends a clients object as an acknowledgement, this object will contain</p>
+<ul>
+<li>The array of all the clients already in the server;</li>
+<li>A client id of a client either joining or leaving; and</li>
+<li>A status indicating if the client is joining or leaving.</li>
+</ul>
+<p>Client Object:</p>
+<pre><code class="language-json">{
+  &quot;clients&quot;: [&quot;af221761-d55e-4f8d-a5f3-d7418fe8be92&quot;, &quot;1a8a73df-4abb-46fd-93dd-19a96e614834&quot;],
+  &quot;client&quot;: &quot;1a8a73df-4abb-46fd-93dd-19a96e614834&quot;,
+  &quot;status&quot;: &quot;joining&quot;
+}
+</code></pre>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The client object is broadcasted, meaning all the connected clients will recieve the clients object any time a client joins or leaves the server.</p>
+</div>
                 
               
               
@@ -495,7 +564,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../request-matching/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../mocking-gRPC/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -504,19 +573,19 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Request matching
+              Mocking gRPC
             </div>
           </div>
         </a>
       
       
-        <a href="../response-delays/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../camouflage-ui/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Response delays
+              Camouflage UI
             </div>
           </div>
           <div class="md-footer__button md-icon">

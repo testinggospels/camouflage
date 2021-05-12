@@ -112,6 +112,7 @@ if (restore) {
     fse.copySync(path.join(os.homedir(), ".camouflage_backup", "mocks"), path.resolve(config.protocols.http.mocks_dir));
     fse.copySync(path.join(os.homedir(), ".camouflage_backup", "grpc", "mocks"), path.resolve(config.protocols.grpc.mocks_dir));
     fse.copySync(path.join(os.homedir(), ".camouflage_backup", "grpc", "protos"), path.resolve(config.protocols.grpc.protos_dir));
+    fse.copySync(path.join(os.homedir(), ".camouflage_backup", "ws_mocks"), path.resolve(config.protocols.ws.protos_dir));
     fse.copySync(path.join(os.homedir(), ".camouflage_backup", "certs", "server.key"), path.resolve(config.ssl.key));
     fse.copySync(path.join(os.homedir(), ".camouflage_backup", "certs", "server.cert"), path.resolve(config.ssl.cert));
     logger.info("Restore complete.");
@@ -150,14 +151,17 @@ let inputsKeys = [
  */
 let inputs = [
   config.protocols.http.mocks_dir,
+  config.protocols.ws.mocks_dir,
   config.protocols.http.port,
   config.protocols.https.enable,
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
+  config.protocols.ws.enable,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
   config.protocols.https.port || 8443,
   config.protocols.http2.port || 8081,
+  config.protocols.ws.port || 8082,
   config.protocols.grpc.host || "localhost",
   config.protocols.grpc.port || 4312,
   config.protocols.grpc.mocks_dir || path.join(site_root, "grpc", "mocks"),

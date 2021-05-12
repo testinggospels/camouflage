@@ -5,8 +5,14 @@ import path from "path";
 import spdy from "spdy";
 import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
+import WebSocket from "ws";
 import logger from "../logger";
 import GrpcParser from "../parser/GrpcParser";
+import { IncomingMessage } from "http";
+import WebsocketParser from "../parser/WebsocketParser";
+// @ts-ignore
+import { v4 as uuidv4 } from "uuid";
+const clients: string[] = [];
 /**
  * Defines all protocols:
  * Currently active:
@@ -33,7 +39,7 @@ export default class Protocols {
   }
   initHttp = (http: any): void => {
     http.createServer(this.app).listen(this.port, () => {
-      logger.info(`Worker sharing HTTP server at http://localhost:${this.port}`);
+      logger.info(`Worker sharing HTTP server at http://localhost:${this.port} ⛳`);
       this.app.emit("server-started");
     });
   };
@@ -43,7 +49,7 @@ export default class Protocols {
     let certificate = fs.readFileSync(cert, "utf8");
     let credentials = { key: privateKey, cert: certificate };
     https.createServer(credentials, this.app).listen(this.httpsPort, () => {
-      logger.info(`Worker sharing HTTPs server at https://localhost:${this.httpsPort}`);
+      logger.info(`Worker sharing HTTPs server at https://localhost:${this.httpsPort} ⛳`);
     });
   };
   initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
@@ -72,7 +78,7 @@ export default class Protocols {
     // Create an insecure binding to given grpc host and port, and start the server
     server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err) => {
       if (err) logger.error(err.message);
-      logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort}`);
+      logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort} ⛳`);
       server.start();
     });
     // For each package, filter out objects with service definition, discard rest
@@ -120,8 +126,38 @@ export default class Protocols {
       )
       .listen(http2Port, (err: any) => {
         if (err) logger.error(err.message);
-        logger.info(`Worker sharing HTTP2 server at https://localhost:${http2Port}`);
+        logger.info(`Worker sharing HTTP2 server at https://localhost:${http2Port} ⛳`);
       });
   };
-  //   initTcp = () => {};
+  initws = (wsPort: number, wsMockDir: string) => {
+    const WebSocket = require("ws");
+    const wss = new WebSocket.Server({ port: wsPort });
+    logger.info(`Worker sharing WS server at ws://localhost:${wsPort} ⛳`);
+    const websocketParser = new WebsocketParser(wss);
+    wss.on("connection", (ws: WebSocket, request: IncomingMessage) => {
+      const clientId = uuidv4();
+      clients.push(clientId);
+      // @ts-ignore
+      ws["clientId"] = clientId;
+      let mockFile = path.join(wsMockDir, ...request.url.substring(1).split("/"), "connection.mock");
+      if (fs.existsSync(mockFile)) {
+        websocketParser.sendConnect(ws, request, clients, clientId, "joining", mockFile);
+      } else {
+        websocketParser.sendConnect(ws, request, clients, clientId, "joining");
+      }
+      ws.on("message", (message) => {
+        logger.debug(`Client sent message ${message}`);
+        mockFile = path.join(wsMockDir, ...request.url.substring(1).split("/"), "message.mock");
+        if (fs.existsSync(mockFile)) {
+          websocketParser.send(mockFile, ws, request, message);
+        } else {
+          logger.error(`No suitable message.mock file found for ${request.url}`);
+        }
+      });
+      ws.on("close", () => {
+        clients.splice(clients.indexOf(clientId), 1);
+        websocketParser.sendConnect(ws, request, clients, clientId, "leaving");
+      });
+    });
+  };
 }

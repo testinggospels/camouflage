@@ -28,12 +28,14 @@ let ui_root = path.join(child_process.execSync("npm root -g").toString().trim(),
 // Initialize variables with default values
 let mocksDir = "";
 let grpcMocksDir = "";
+let wsMocksDir = "";
 let grpcProtosDir = "";
 let grpcHost = "localhost";
 let port = 8080;
 let httpsPort = 8443;
 let http2Port = 8081;
 let grpcPort = 4312;
+let wsPort = 8082;
 const app = express();
 // Configure logging for express requests
 app.use(
@@ -83,14 +85,17 @@ app.get("/stats", function (req, res) {
  */
 const start = (
   inputMocksDir: string,
+  inputWsMocksDir: string,
   inputPort: number,
   enableHttps: boolean,
   enableHttp2: boolean,
   enableGrpc: boolean,
+  enableWs: boolean,
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
   inputHttp2Port?: number,
+  inputWsPort?: number,
   inputGrpcHost?: string,
   inputGrpcPort?: number,
   inputGrpcMocksDir?: string,
@@ -113,11 +118,13 @@ const start = (
   // Replace the default values for defined variables with actual values provided as input from config
   mocksDir = inputMocksDir;
   grpcMocksDir = inputGrpcMocksDir;
+  wsMocksDir = inputWsMocksDir;
   grpcProtosDir = inputGrpcProtosDir;
   httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
   http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
   grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
   grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
+  wsPort = inputWsPort ? inputWsPort : wsPort;
   port = inputPort;
   swStats.getPromClient().register.setDefaultLabels({ workerId: cluster.worker.id });
   // Define route for root to host a local copy of documentation
@@ -149,10 +156,14 @@ const start = (
   if (enableGrpc) {
     protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
   }
+  // If websocket protocol is enabled, start ws server with additional inputs
+  if (enableWs) {
+    protocols.initws(wsPort, wsMocksDir);
+  }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (backupEnable) {
-    const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, key, cert, configFilePath);
-    backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc);
+    const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, wsMocksDir, key, cert, configFilePath);
+    backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc, enableWs);
   }
 };
 /**

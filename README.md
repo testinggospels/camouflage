@@ -1,14 +1,25 @@
-[![NPM Download Stats](https://nodei.co/npm/camouflage-server.png?downloads=true)](https://www.npmjs.com/package/camouflage-server)
+<p align="center">
+    <img src="docs/camouflage.png" alt="camouflage.png" width="300"/>
+    <h3 align="center">Camouflage</h3>
+    <p align="center">HTTP/gRPC Mocking tool</p>
+    <p align="center">
+      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
+      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
+      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
+      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+    </p>
+</p>
 
-# Camouflage
-
-<img src="docs/camouflage.png" alt="camouflage.png" width="300"/>
+# What is Camouflage?
 
 Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver). As the original description says, the mocking/service virtualization works on a file based structure where you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.
 
 # Features
 
-- Mocking support for HTTP, HTTPS, HTTP2 and gRPC.
+- Mocking support for HTTP, HTTPS, HTTP2 and gRPC. (websockets mocking support development ongoing)
 - Dynamic/realistic responses without having to write any code.
 - Conditional responses based on request parameters.
 - Delay Simulation.
@@ -60,8 +71,8 @@ backup:
 
 Camouflage follows the same convention as mockserver to create mocks. For example,
 
-1. You start by creating a directory ${MOCKS_DIR}/hello-world
-2. Create a file GET.mock under ${MOCKS_DIR}/hello-world.
+1. You start by creating a directory `${MOCKS_DIR}/hello-world`
+2. Create a file GET.mock under `${MOCKS_DIR}/hello-world`
 3. Paste following content:
 
 ```

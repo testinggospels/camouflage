@@ -1,6 +1,21 @@
 # Home
 
-<img src="camouflage.png" alt="camouflage.png" width="300"/>
+<p align="center">
+    <img src="camouflage.png" alt="camouflage.png" width="300"/>
+    <h3 align="center">Camouflage</h3>
+    <p align="center">HTTP/gRPC Mocking tool</p>
+    <p align="center">
+      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
+      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
+      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
+      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+    </p>
+</p>
+
+## What is Camouflage?
 
 Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver){target=\_blank}. As the original description says, the mocking/service virtualization works on a file based structure where _you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not._
 
@@ -14,7 +29,7 @@ Camouflage simply borrows the idea from the original and though it does use some
 4. Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.
 5. You can also extract information from request queries, path, body or headers and use them in your response.
 6. You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.
-7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2 and gRPC.
+7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)
 8. Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.
 9. Camouflage provides support for monitoring.
 

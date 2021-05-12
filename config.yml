@@ -15,6 +15,10 @@ protocols:
   http2:
     enable: false
     port: 8081
+  ws:
+    enable: true
+    mocks_dir: "./ws_mocks"
+    port: 8082
   grpc:
     enable: false
     host: localhost
