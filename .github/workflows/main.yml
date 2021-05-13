@@ -28,6 +28,6 @@ jobs:
       - name: Build Project
         run: npm run build
       - name: Patch
-        run: npm run patch
+        run: npm version patch
       - name: Publish
         run: npm publish
