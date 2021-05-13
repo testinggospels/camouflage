@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/camouflage.png" alt="camouflage.png" width="300"/>
+    <img src="https://fauxauldrich.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
     <h3 align="center">Camouflage</h3>
     <p align="center">HTTP/gRPC Mocking tool</p>
     <p align="center">
