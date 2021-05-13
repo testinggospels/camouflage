@@ -29,5 +29,9 @@ jobs:
         run: npm run build
       - name: Patch
         run: npm version patch
+      - name: Set git config
+        run: git config --global user.email "shubhendumadhukar@gmail.com"
+      - name: Set git config
+        run: git config --global user.name "Shubhendu Madhukar"
       - name: Publish
         run: npm publish
