@@ -70,6 +70,22 @@ Usage:
 
 1. **{{num_between lower=500 upper=600}}**: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
+## file
+
+Type: Custom Helper
+
+Usage:
+
+1. **{{file path='/location/of/the/image/or/text/or/any/file'}}**: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:
+
+```
+HTTP/1.1 200 OK
+X-Custom-Header: Any Custom Value
+Response-Delay: 500
+
+{{file path='./docs/camouflage.png'}}
+```
+
 ## Inbuilt Helpers
 
 !!! note

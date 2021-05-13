@@ -6,6 +6,8 @@ import { v4 as uuidv4 } from "uuid";
 // @ts-ignore
 import jsonpath from "jsonpath";
 import logger from "../logger";
+import fs from "fs";
+import path from "path";
 /**
  * Defines and registers custom handlebar helpers now, randomValue, capture and num_between
  *
@@ -135,6 +137,18 @@ export class HandlerBarHelper {
       }
     });
   };
+
+  fileHelper = () => {
+    Handlebars.registerHelper("file", (context) => {
+      if (typeof context.hash.path === "undefined") {
+        logger.error("File path not specified.");
+      } else {
+        if (fs.existsSync(path.resolve(context.hash.path))) {
+          return `camouflage_file_helper=${path.resolve(context.hash.path)}`;
+        }
+      }
+    });
+  };
 }
 
 /**
@@ -194,4 +208,3 @@ const genCharArray = (type: string): string => {
       break;
   }
 };
-
