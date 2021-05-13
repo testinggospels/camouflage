@@ -146,16 +146,22 @@ const removeBlanks = (array: Array<any>) => {
 const getWildcardPath = (dir: string, mockDir: string) => {
   let steps = removeBlanks(dir.split("/"));
   let testPath;
-  let newPath = path.join(mockDir, steps.join("/"));
-  let exists = false;
-
+  let newPath = path.resolve(mockDir);
   while (steps.length) {
-    steps.pop();
-    testPath = path.join(mockDir, steps.join("/"), "__");
-    exists = fs.existsSync(testPath);
-    if (exists) {
+    let next = steps.shift();
+    testPath = path.join(newPath, next);
+    if (fs.existsSync(testPath)) {
       newPath = testPath;
-      break;
+      testPath = path.join(newPath, next);
+    } else {
+      testPath = path.join(newPath, "__");
+      if (fs.existsSync(testPath)) {
+        newPath = testPath;
+        continue;
+      } else {
+        newPath = testPath;
+        break;
+      }
     }
   }
   return newPath;
