@@ -106,4 +106,4 @@ dist
 certs
 .idea
 __pycache__
-docs
+site
