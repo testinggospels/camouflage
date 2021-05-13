@@ -22,7 +22,6 @@ import swStats from "swagger-stats";
 /**
  * Gets the location of documentation folder
  */
-let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "site");
 let ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
 
 // Initialize variables with default values
@@ -55,8 +54,6 @@ app.use(
 );
 // Configure express to understand json request body
 app.use(bodyParser.json());
-// Configure documentation directory as a source for static resources (eg. js, css, image)
-app.use(express.static(site_root));
 // Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
 app.get("/stats", function (req, res) {
@@ -127,15 +124,10 @@ const start = (
   wsPort = inputWsPort ? inputWsPort : wsPort;
   port = inputPort;
   swStats.getPromClient().register.setDefaultLabels({ workerId: cluster.worker.id });
-  // Define route for root to host a local copy of documentation
-  app.get("/", (req: express.Request, res: express.Response) => {
-    res.sendFile("index.html", { root: site_root });
-  });
   // Define route for /ui to host a single page UI to manage the mocks
-  app.get("/ui", (req: express.Request, res: express.Response) => {
+  app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: ui_root });
   });
-  logger.info(`Camouflage file explorer running at: http://localhost:${inputPort}/ui`);
   // Register Handlebars
   registerHandlebars();
   // Register Controllers
