@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="docs/camouflage.png" alt="camouflage.png" width="300"/>
+    <img src="https://fauxauldrich.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
     <h3 align="center">Camouflage</h3>
     <p align="center">HTTP/gRPC Mocking tool</p>
     <p align="center">
@@ -9,7 +9,8 @@
       <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
       <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
+      <h3 align="center"><a href="https://fauxauldrich.github.io/camouflage">Complete Documentation</a></h3>
     </p>
 </p>
 
@@ -100,4 +101,31 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 5. However if you'd like to install Camouflage globally, execute: `npm pack`
 6. Install by running command: `npm install -g camouflage-server-${version}.tgz` or `npm install -g camouflage-server-${version}.zip`
 
-Full Documentation: [https://fauxauldrich.github.io/camouflage/](https://fauxauldrich.github.io/camouflage/)
+### Contributing
+
+Read the [contributing guide](https://github.com/fauxauldrich/camouflage/blob/development/CONTRIBUTING.md)
+
+### License
+```
+MIT License
+
+Copyright (c) 2021 fauxauldrich
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```

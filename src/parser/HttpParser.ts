@@ -110,17 +110,24 @@ export class Parser {
          *    Send the generated Response, from a timeout set to send the response after a DELAY value
          */
         if (index == fileContent.length - 1) {
-          responseBody = responseBody.replace(/\s+/g, " ").trim();
-          responseBody = responseBody.replace(/{{{/, "{ {{");
-          responseBody = responseBody.replace(/}}}/, "}} }");
-          const template = Handlebars.compile(responseBody);
-          PARSE_BODY = false;
-          responseBody = "";
           this.res.statusCode = response.status;
-          setTimeout(() => {
-            logger.debug(`Generated Response ${template({ request: this.req })}`);
-            this.res.send(template({ request: this.req }));
-          }, DELAY);
+          if (responseBody.includes("camouflage_file_helper")) {
+            const fileResponse = responseBody.split(";")[1];
+            setTimeout(() => {
+              this.res.sendFile(fileResponse);
+            }, DELAY);
+          } else {
+            responseBody = responseBody.replace(/\s+/g, " ").trim();
+            responseBody = responseBody.replace(/{{{/, "{ {{");
+            responseBody = responseBody.replace(/}}}/, "}} }");
+            const template = Handlebars.compile(responseBody);
+            PARSE_BODY = false;
+            responseBody = "";
+            setTimeout(() => {
+              logger.debug(`Generated Response ${template({ request: this.req })}`);
+              this.res.send(template({ request: this.req }));
+            }, DELAY);
+          }
           DELAY = 0;
         }
       });
@@ -146,16 +153,22 @@ const removeBlanks = (array: Array<any>) => {
 const getWildcardPath = (dir: string, mockDir: string) => {
   let steps = removeBlanks(dir.split("/"));
   let testPath;
-  let newPath = path.join(mockDir, steps.join("/"));
-  let exists = false;
-
+  let newPath = path.resolve(mockDir);
   while (steps.length) {
-    steps.pop();
-    testPath = path.join(mockDir, steps.join("/"), "__");
-    exists = fs.existsSync(testPath);
-    if (exists) {
+    let next = steps.shift();
+    testPath = path.join(newPath, next);
+    if (fs.existsSync(testPath)) {
       newPath = testPath;
-      break;
+      testPath = path.join(newPath, next);
+    } else {
+      testPath = path.join(newPath, "__");
+      if (fs.existsSync(testPath)) {
+        newPath = testPath;
+        continue;
+      } else {
+        newPath = testPath;
+        break;
+      }
     }
   }
   return newPath;

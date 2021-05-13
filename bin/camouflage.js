@@ -65,6 +65,7 @@ if (init) {
   if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
     fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
+    fse.copySync(path.join(site_root, "ws_mocks"), path.join(process.cwd(), "ws_mocks"));
     fse.copySync(path.join(site_root, "config.yml"), path.join(process.cwd(), "config.yml"));
     fse.mkdirSync(path.join(process.cwd(), "certs"));
   } else {

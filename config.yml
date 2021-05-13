@@ -16,7 +16,7 @@ protocols:
     enable: false
     port: 8081
   ws:
-    enable: true
+    enable: false
     mocks_dir: "./ws_mocks"
     port: 8082
   grpc:

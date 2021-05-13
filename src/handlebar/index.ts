@@ -10,7 +10,7 @@ const registerHandlebars = () => {
   handlerBarHelper.randomValueHelper();
   handlerBarHelper.requestHelper();
   handlerBarHelper.numBetweenHelper();
+  handlerBarHelper.fileHelper();
   logger.info("Handlebar helpers registration completed");
 };
 export default registerHandlebars;
-
