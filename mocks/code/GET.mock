@@ -1,0 +1,23 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#code}}
+(()=>{
+    function getRandomNumberInRange(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+    const name = request.query.name;
+    const phone = getRandomNumberInRange(1000000000, 9999999999);
+    logger.info(phone);
+    return {
+        status: 201,
+        headers: {
+            'X-Requested-By': name
+        },
+        body: `{
+            "greeting": "Hello ${name}",
+            "phone": ${phone}
+        }`
+    };
+})();
+{{/code}}

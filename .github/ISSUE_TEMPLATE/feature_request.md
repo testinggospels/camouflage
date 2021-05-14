@@ -4,6 +4,7 @@ about: Suggest an idea for this project
 title: ''
 labels: enhancement
 assignees: shubhendumadhukar
+project: Camouflage Issue Tracker
 
 ---
 

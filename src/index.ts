@@ -123,7 +123,7 @@ const start = (
   grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
   wsPort = inputWsPort ? inputWsPort : wsPort;
   port = inputPort;
-  swStats.getPromClient().register.setDefaultLabels({ workerId: cluster.worker.id });
+  swStats.getPromClient().register.setDefaultLabels({ workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
   // Define route for /ui to host a single page UI to manage the mocks
   app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: ui_root });

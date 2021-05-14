@@ -56,7 +56,7 @@ export class Parser {
       // Compile the handlebars used in the contents of mockFile
       const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
       // Generate actual response i.e. replace handlebars with their actual values and split the content into lines
-      const fileContent = template({ request: this.req }).split(os.EOL);
+      const fileContent = template({ request: this.req, logger: logger }).split(os.EOL);
       //Read file line by line
       fileContent.forEach((line, index) => {
         /**
@@ -121,13 +121,32 @@ export class Parser {
             responseBody = responseBody.replace(/{{{/, "{ {{");
             responseBody = responseBody.replace(/}}}/, "}} }");
             const template = Handlebars.compile(responseBody);
-            PARSE_BODY = false;
-            responseBody = "";
-            setTimeout(() => {
-              logger.debug(`Generated Response ${template({ request: this.req })}`);
-              this.res.send(template({ request: this.req }));
-            }, DELAY);
+            try {
+              const codeResponse = JSON.parse(responseBody);
+              if (codeResponse["CamouflageResponseType"] === "code") {
+                this.res.statusCode = codeResponse["status"] || this.res.statusCode;
+                if(codeResponse["headers"]){
+                  Object.keys(codeResponse["headers"]).forEach((header) => {
+                    this.res.setHeader(header, codeResponse["headers"][header]);
+                  });
+                }
+                this.res.send(codeResponse["body"]);
+              } else {
+                setTimeout(() => {
+                  logger.debug(`Generated Response ${template({ request: this.req, logger: logger })}`);
+                  this.res.send(template({ request: this.req, logger: logger }));
+                }, DELAY);
+              }
+            } catch (error) {
+              logger.warn(error.message);
+              setTimeout(() => {
+                logger.debug(`Generated Response ${template({ request: this.req, logger: logger })}`);
+                this.res.send(template({ request: this.req, logger: logger }));
+              }, DELAY);
+            }
           }
+          PARSE_BODY = false;
+          responseBody = "";
           DELAY = 0;
         }
       });

@@ -149,8 +149,17 @@ export class HandlerBarHelper {
       }
     });
   };
-}
 
+  codeHelper = () => {
+    Handlebars.registerHelper("code", (context) => {
+      const request: express.Request = context.data.root.request;
+      const logger = context.data.root.logger;
+      const code = eval(context.fn(this));
+      code["CamouflageResponseType"] = "code";
+      return JSON.stringify(code);
+    });
+  };
+}
 /**
  * Generates an random sequence of characters
  * @param {number} length - length of generated string
