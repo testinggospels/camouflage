@@ -70,6 +70,67 @@ Usage:
 
 1. **{{num_between lower=500 upper=600}}**: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
+## file
+
+Type: Custom Helper
+
+Usage:
+
+{{file path='/location/of/the/image/or/text/or/any/file'}}: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:
+
+## code
+
+Type: Custom Helper
+
+Usage: Camouflage's implementation of Handlebars is robust enough to handle most dynamic responses i.e. capturing data from request, generating random numbers, as shown in examples above. However, if your requirement still cannot be fulfilled by Camouflage's helpers, you can write a custom code in javascript to achieve the same results. Refer to the example mock and explanation below:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#code}}
+(()=>{
+    function getRandomNumberInRange(min, max) {
+        return Math.round(Math.random() * (max - min) + min);
+    }
+    const name = request.query.name;
+    const phone = getRandomNumberInRange(1000000000, 9999999999)
+    logger.info(phone);
+    return {
+        status: 201,
+        headers: {
+            'X-Requested-By': name
+        },
+        body: `{
+            "greeting": "Hello ${name}",
+            "phone": ${phone}
+        }`
+    };
+})();
+{{/code}}
+```
+
+- `HTTP/1.1 200 OK`: We start by creating a GET.mock as usual (or any ${VERB}.mock as per your requirement), where 1st line of your file denotes protocol, version, status code and status message. This can be overridden from the code, however it is mandatory, in order to maintain a generic structure of mock files.
+- Next you will provide a set of static headers, which will not change irrespective of your code logic. If you expect the header value to be dynamic, you don't need to provide them here.
+- An empty line to mark the start of body.
+- Lastly, the most important part of your mock file. In place of the body, you write your code inside the code helper block provided by Camouflage. There are some restriction though, read further.
+- Code helper block can be defined by using `{{#code}}...{{/code}}`.
+- The code you write has to be encapsulated in an IIFE, i.e. Immediately Invoked Function Expression, which can be done by wrapping your code in `(() => { //your code here })();`
+- As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to `request` and `logger` object without having to bind `this` to the code's context. If that sounds complicated, all you need to understand is using an arrow function provides you access to `request` and `logger` objects.
+- Rest is just vanilla javascript code.
+    * Define a function to generate random numbers,
+    * Fetch the name from a request query parameter: `name`.
+    * Execute the random number function and store the return value in a phone variable.
+    * Log the generated phone number.
+    * Now comes the most important part. Your IIFE should return a JSON object, containing 3 keys
+        - `status`: An integer value (Optional)
+        - `headers`: A JSON object with keys as header name and values as header values. (Optional if you don't have any dynamic headers)
+        - `body`: A string (Required.)
+    * In this example, we have provided a static status code of 200.
+    * We have one header `X-Requested-By`, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.
+    * Finally, we have stringified JSON object as body, where we are using `name` and `phone` as dynamic values.
+- Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you abosolutely have to write a code, you have an option to do that.
+
 ## Inbuilt Helpers
 
 !!! note
