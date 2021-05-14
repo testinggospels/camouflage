@@ -138,7 +138,7 @@ export class Parser {
                 }, DELAY);
               }
             } catch (error) {
-              logger.error(error.message);
+              logger.warn(error.message);
               setTimeout(() => {
                 logger.debug(`Generated Response ${template({ request: this.req, logger: logger })}`);
                 this.res.send(template({ request: this.req, logger: logger }));
