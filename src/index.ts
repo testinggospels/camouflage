@@ -100,7 +100,8 @@ const start = (
   loglevel?: string,
   backupEnable?: boolean,
   backupCron?: string,
-  configFilePath?: string
+  configFilePath?: string,
+  extHelpers?: string
 ) => {
   const config = {
     fsRoot: path.resolve(mocksDir),
@@ -129,7 +130,7 @@ const start = (
     res.sendFile("index.html", { root: ui_root });
   });
   // Register Handlebars
-  registerHandlebars();
+  registerHandlebars(extHelpers);
   // Register Controllers
   new CamouflageController(app, mocksDir, grpcMocksDir);
   new GlobalController(app, mocksDir);
