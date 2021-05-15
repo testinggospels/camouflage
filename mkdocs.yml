@@ -27,6 +27,7 @@ nav:
   - folder-structure.md
   - handlebars.md
   - request-matching.md
+  - default-response.md
   - request-model.md
   - response-delays.md
   - performance-mode.md

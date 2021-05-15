@@ -118,17 +118,17 @@ Content-Type: application/json
 - The code you write has to be encapsulated in an IIFE, i.e. Immediately Invoked Function Expression, which can be done by wrapping your code in `(() => { //your code here })();`
 - As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to `request` and `logger` object without having to bind `this` to the code's context. If that sounds complicated, all you need to understand is using an arrow function provides you access to `request` and `logger` objects.
 - Rest is just vanilla javascript code.
-  - Define a function to generate random numbers,
-  - Fetch the name from a request query parameter: `name`.
-  - Execute the random number function and store the return value in a phone variable.
-  - Log the generated phone number.
-  - Now comes the most important part. Your IIFE should return a JSON object, containing 3 keys
-    - `status`: An integer value (Optional)
-    - `headers`: A JSON object with keys as header name and values as header values. (Optional if you don't have any dynamic headers)
-    - `body`: A string (Required.)
-  - In this example, we have provided a static status code of 200.
-  - We have one header `X-Requested-By`, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.
-  - Finally, we have stringified JSON object as body, where we are using `name` and `phone` as dynamic values.
+    * Define a function to generate random numbers,
+    * Fetch the name from a request query parameter: `name`.
+    * Execute the random number function and store the return value in a phone variable.
+    * Log the generated phone number.
+    * Now comes the most important part. Your IIFE should return a JSON object, containing 3 keys
+        - `status`: An integer value (Optional)
+        - `headers`: A JSON object with keys as header name and values as header values. (Optional if you don't have any dynamic headers)
+        - `body`: A string (Required.)
+    * In this example, we have provided a static status code of 200.
+    * We have one header `X-Requested-By`, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.
+    * Finally, we have stringified JSON object as body, where we are using `name` and `phone` as dynamic values.
 - Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you abosolutely have to write a code, you have an option to do that.
 
 ## inject
