@@ -17,6 +17,7 @@ const registerCustomHandlebars = (extHelpers: string) => {
         logger.info(`Registering custom handlebars: ${customHandlebar.name}`);
         Handlebars.registerHelper(customHandlebar.name, (context) => {
           const request: express.Request = context.data.root.request;
+          const logger = context.data.root.logger;
           const result = eval(customHandlebar.logic);
           return result;
         });

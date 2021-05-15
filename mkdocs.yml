@@ -28,6 +28,7 @@ nav:
   - handlebars.md
   - request-matching.md
   - default-response.md
+  - custom-handlebars.md
   - request-model.md
   - response-delays.md
   - performance-mode.md
