@@ -685,7 +685,7 @@ Content-Type: application/json
 <li>Code helper block can be defined by using <code>{{#code}}...{{/code}}</code>.</li>
 <li>The code you write has to be encapsulated in an IIFE, i.e. Immediately Invoked Function Expression, which can be done by wrapping your code in <code>(() =&gt; { //your code here })();</code></li>
 <li>As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to <code>request</code> and <code>logger</code> object without having to bind <code>this</code> to the code's context. If that sounds complicated, all you need to understand is using an arrow function provides you access to <code>request</code> and <code>logger</code> objects.</li>
-<li>Rest is just vanilla javascript code.</li>
+<li>Rest is just vanilla javascript code.<ul>
 <li>Define a function to generate random numbers,</li>
 <li>Fetch the name from a request query parameter: <code>name</code>.</li>
 <li>Execute the random number function and store the return value in a phone variable.</li>
@@ -699,6 +699,8 @@ Content-Type: application/json
 <li>In this example, we have provided a static status code of 200.</li>
 <li>We have one header <code>X-Requested-By</code>, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.</li>
 <li>Finally, we have stringified JSON object as body, where we are using <code>name</code> and <code>phone</code> as dynamic values.</li>
+</ul>
+</li>
 <li>Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you abosolutely have to write a code, you have an option to do that.</li>
 </ul>
 <h2 id="inject">inject</h2>
