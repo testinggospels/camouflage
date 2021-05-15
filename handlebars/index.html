@@ -350,6 +350,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#inject" class="md-nav__link">
+    inject
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inbuilt-helpers" class="md-nav__link">
     Inbuilt Helpers
   </a>
@@ -678,7 +685,7 @@ Content-Type: application/json
 <li>Code helper block can be defined by using <code>{{#code}}...{{/code}}</code>.</li>
 <li>The code you write has to be encapsulated in an IIFE, i.e. Immediately Invoked Function Expression, which can be done by wrapping your code in <code>(() =&gt; { //your code here })();</code></li>
 <li>As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to <code>request</code> and <code>logger</code> object without having to bind <code>this</code> to the code's context. If that sounds complicated, all you need to understand is using an arrow function provides you access to <code>request</code> and <code>logger</code> objects.</li>
-<li>Rest is just vanilla javascript code.<ul>
+<li>Rest is just vanilla javascript code.</li>
 <li>Define a function to generate random numbers,</li>
 <li>Fetch the name from a request query parameter: <code>name</code>.</li>
 <li>Execute the random number function and store the return value in a phone variable.</li>
@@ -692,10 +699,18 @@ Content-Type: application/json
 <li>In this example, we have provided a static status code of 200.</li>
 <li>We have one header <code>X-Requested-By</code>, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.</li>
 <li>Finally, we have stringified JSON object as body, where we are using <code>name</code> and <code>phone</code> as dynamic values.</li>
-</ul>
-</li>
 <li>Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you abosolutely have to write a code, you have an option to do that.</li>
 </ul>
+<h2 id="inject">inject</h2>
+<p>Type: Custom Helper</p>
+<p>Usage: Another use case for custom code could be when you don't want to write a code for entire response generation, but there are some parts of your response that need a custom code. Using <code>inject</code> helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to <code>code</code> helper, refer to the example below.</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    &quot;phone&quot;: {{#inject}}(()=&gt;{ return Math.round(Math.random() * 10000000000); })();{{/inject}}
+}
+</code></pre>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
