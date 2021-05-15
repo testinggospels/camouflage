@@ -16,7 +16,7 @@
     
     
       
-        <title>Backup and Restore - Camouflage</title>
+        <title>Default Response - Camouflage</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#backup-and-restore" class="md-skip">
+        <a href="#default-response" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Backup and Restore
+              Default Response
             
           </span>
         </div>
@@ -296,11 +296,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../default-response/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Default Response
       </a>
+      
     </li>
   
 
@@ -431,51 +441,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Backup and Restore
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../back-up-and-restore/" class="md-nav__link">
         Backup and Restore
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#how-does-camouflage-restore-work" class="md-nav__link">
-    How does Camouflage Restore work?
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -507,30 +477,28 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/back-up-and-restore.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/default-response.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="backup-and-restore">Backup and Restore</h1>
-<h3 id="how-does-camouflage-restore-work">How does Camouflage Restore work?</h3>
+                <h1 id="default-response">Default Response</h1>
+<p>By default, Camouflage sends a default response for the APIs for which it cannot find a corresponding mock file.</p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Not Found&quot;
+}
+</code></pre>
+<p>However as a user you have the abitlity to override it at API level or at the global level. Consider the example below.</p>
 <ul>
-<li>Camouflage has an inbuilt backup and restore mechanism to keep your mocks safe.</li>
-<li>To enable or disable backups, update <code>backup.enable</code> property in your config file.</li>
-<li>To define the schedule for backup, update <code>backup.cron</code> property with a valid cron schedule (Refer <a href="https://crontab.guru" target="_blank">Crontab.guru</a>, if you are not familiar with cron schedules )</li>
-<li>In order to restore your previously backed up data, all you need is your config.yml file. Run following command in your working directory.</li>
+<li>If you make a <code>GET</code> call to <code>/hello-world/greet/me</code>, Camouflage will first evaluate the mock file location as <code>${MOCK_DIR}/hello-world/greet/me/GET.mock</code>.</li>
+<li>If above file is not found, Camouflage will look for a closest match.<ul>
+<li>Let's say you don't have a folder <code>${MOCK_DIR}/hello-world/greet/me</code>, but you have a folder <code>${MOCK_DIR}/hello-world/greet</code>, closest match would be evalutated to <code>${MOCK_DIR}/hello-world/greet/__/GET.mock</code></li>
+<li>Similarily if you don't have a folder <code>${MOCK_DIR}/hello-world/greet/me</code>, but you have a folder <code>${MOCK_DIR}/hello-world</code>, closest match would be evalutated to <code>${MOCK_DIR}/hello-world/__/GET.mock</code></li>
+<li>In short, closest match is <code>${MOCK_DIR} + last available folder + wildcard + ${HTTP_VERB}.mock</code>. This is your API level default response.</li>
 </ul>
-<pre><code>camouflage restore --config config.yml
-</code></pre>
-<ul>
-<li>What to do if you don't have a config.yml? Run <code>init</code> command first and then restore.</li>
-</ul>
-<pre><code>camouflage init
-</code></pre>
-<pre><code>camouflage restore --config config.yml
-</code></pre>
-<ul>
-<li>Camouflage backs up <strong>Http mocks directory</strong>, <strong>key and certificates</strong> and <strong>gRPC mocks and protos</strong> from your project.</li>
+</li>
+<li>If none of the files are found as shown above, Camouflage will make one final attempt to find <code>${MOCK_DIR}/__/GET.mock</code>. This is your global level default response.</li>
+<li>In case a global level default response too, is not found, Camouflage will fallback to it's inbuilt default response.</li>
 </ul>
                 
               
@@ -550,7 +518,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../tests/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../request-matching/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -559,19 +527,19 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Tests
+              Request matching
             </div>
           </div>
         </a>
       
       
-        <a href="../contributing/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../request-model/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Contributing
+              Request model
             </div>
           </div>
           <div class="md-footer__button md-icon">
