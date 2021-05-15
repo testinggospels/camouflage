@@ -17,7 +17,7 @@ Please note we have a [Code of Conduct](https://github.com/fauxauldrich/camoufla
 - If you don't see an issue, open one using the provided templates.
 - Fork the repo.
 - Since Camouflage is built using Node.js, please ensure your development environment has Node >v14.
-- Make your changes.
+- Make your changes. If you are not sure where to start, referring to the [JSDocs](https://shubhendumadhukar.github.io/camouflage-jsdocs/) might help.
 - Open a Pull Request.
 - Submit PR and get it reviewed.
 
