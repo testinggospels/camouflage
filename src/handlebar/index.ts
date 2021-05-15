@@ -12,6 +12,7 @@ const registerHandlebars = () => {
   handlerBarHelper.numBetweenHelper();
   handlerBarHelper.fileHelper();
   handlerBarHelper.codeHelper();
+  handlerBarHelper.injectHelper();
   logger.info("Handlebar helpers registration completed");
 };
 export default registerHandlebars;

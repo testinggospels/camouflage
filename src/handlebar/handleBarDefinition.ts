@@ -140,9 +140,11 @@ export class HandlerBarHelper {
 
   fileHelper = () => {
     Handlebars.registerHelper("file", (context) => {
+      // If file path is not included in the defined handlebar, log an error.
       if (typeof context.hash.path === "undefined") {
         logger.error("File path not specified.");
       } else {
+        // If file path is passed, check if file exists and send the return value to HttpParser to process
         if (fs.existsSync(path.resolve(context.hash.path))) {
           return `camouflage_file_helper=${path.resolve(context.hash.path)}`;
         }
@@ -152,11 +154,23 @@ export class HandlerBarHelper {
 
   codeHelper = () => {
     Handlebars.registerHelper("code", (context) => {
+      // Define request and logger in the scope of the code helper context, allowing user to use request, logger in their mock files
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;
+      // Evaluate the response of the function passed in and return the resulting response object to HttpParser
       const code = eval(context.fn(this));
       code["CamouflageResponseType"] = "code";
       return JSON.stringify(code);
+    });
+  };
+  injectHelper = () => {
+    Handlebars.registerHelper("inject", (context) => {
+      // Define request and logger in the scope of the code helper context
+      const request: express.Request = context.data.root.request;
+      const logger = context.data.root.logger;
+      // Evaluate the response of the function passed in and return the resulting response object to HttpParser
+      const result = eval(context.fn(this));
+      return result;
     });
   };
 }

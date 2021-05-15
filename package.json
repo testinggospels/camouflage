@@ -16,7 +16,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node bin/camouflage.js -m ./mocks",
-    "test": "mocha tests/index.spec.js || true"
+    "test": "mocha tests/index.spec.js --exit || true"
   },
   "bin": {
     "camouflage": "bin/camouflage.js"

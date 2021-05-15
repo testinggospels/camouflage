@@ -171,4 +171,13 @@ describe("Camouflage Functional Test For HTTP", () => {
       done();
     });
   });
+  it("Test GET /code/inject example", (done) => {
+    requester.get(`/code/inject`).end((err, res) => {
+      res.should.have.status(200);
+      res.should.be.json;
+      res.body.should.have.property("phone");
+      expect(res.body.phone.toString().length).eql(10);
+      done();
+    });
+  });
 });
