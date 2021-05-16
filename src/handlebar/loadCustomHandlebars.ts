@@ -4,12 +4,18 @@ import logger from "../logger";
 import express from "express";
 import path from "path";
 const existingHandlebars = ["now", "randomValue", "capture", "num_between", "file", "code", "inject"];
-
+/**
+ * - If file exists read file and parse it to a JSONObject of type CustomHandleBar
+ * - For each custom handlebar, check if the name equals any of the inbuilt handlebars
+ * - If not, register helpers by their name and executing the IIFE code provided under logic
+ * - Create request and logger objects under the scope of each custom handlebar
+ * @param {string} extHelpers location of the external handlebars json file
+ */
 const registerCustomHandlebars = (extHelpers: string) => {
   if (fs.existsSync(path.resolve(extHelpers))) {
     logger.info(`Loading custom handlebar helpers from ${extHelpers}`);
     const customHandleBarDefinition = fs.readFileSync(path.resolve(extHelpers)).toString();
-    const customHandlebars: CustomHandlebars[] = JSON.parse(customHandleBarDefinition);
+    const customHandlebars: CustomHandlebar[] = JSON.parse(customHandleBarDefinition);
     customHandlebars.forEach((customHandlebar) => {
       if (customHandlebar.name in existingHandlebars) {
         logger.error(`Cannot override custom helper ${customHandlebar.name}`);
@@ -28,8 +34,14 @@ const registerCustomHandlebars = (extHelpers: string) => {
   }
 };
 
-interface CustomHandlebars {
+interface CustomHandlebar {
+  /**
+   * name of the custom helper
+   */
   name: string;
+  /**
+   * logic of the custom helper
+   */
   logic: string;
 }
 

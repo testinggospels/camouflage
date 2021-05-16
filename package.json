@@ -16,6 +16,7 @@
     "build": "tsc",
     "prestart": "npm run build",
     "start": "node bin/camouflage.js -m ./mocks",
+    "docs": "jsdoc -c jsdoc.json -t ./node_modules/foodoc/template",
     "test": "mocha tests/index.spec.js --exit || true"
   },
   "bin": {
@@ -55,6 +56,8 @@
     "@types/ws": "^7.4.4",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "jsdoc": "^3.6.7",
+    "foodoc": "0.0.9",
     "mocha": "^8.4.0",
     "typescript": "^4.2.4"
   }

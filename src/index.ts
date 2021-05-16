@@ -1,8 +1,6 @@
 // Import dependencies
 import express from "express";
 import bodyParser from "body-parser";
-import http from "http";
-import https from "https";
 import cluster from "cluster";
 import path from "path";
 import * as expressWinston from "express-winston";
@@ -79,6 +77,7 @@ app.get("/stats", function (req, res) {
  * @param {string} backupEnable true if backup is enabled
  * @param {string} backupCron cron schedule for backup
  * @param {string} configFilePath location of config file
+ * @param {string} extHelpers location of the external handlebars json file
  */
 const start = (
   inputMocksDir: string,
@@ -136,10 +135,10 @@ const start = (
   new GlobalController(app, mocksDir);
   // Start the http server on the specified port
   const protocols = new Protocols(app, port, httpsPort);
-  protocols.initHttp(http);
+  protocols.initHttp();
   // If https protocol is enabled, start https server with additional inputs
   if (enableHttps) {
-    protocols.initHttps(https, key, cert);
+    protocols.initHttps(key, cert);
   }
   // If https protocol is enabled, start https server with additional inputs
   if (enableHttp2) {

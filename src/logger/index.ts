@@ -2,10 +2,18 @@ import winston from "winston";
 import path from "path";
 const loglevel = "info";
 
+/**
+ *
+ * @param {string} loglevel set log level as provided by config
+ */
 export const setLogLevel = (loglevel: string) => {
   logger.level = loglevel;
 };
-
+/**
+ * Global logger object with console and file transports
+ * Uses formats, simple with timestamp format: YYYY-MM-DD HH:mm:ss, colorized
+ * Logs to file camouflage.log at the root of project
+ */
 const logger = winston.createLogger({
   level: loglevel,
   format: winston.format.combine(

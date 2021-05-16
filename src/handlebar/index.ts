@@ -3,6 +3,8 @@ import registerCustomHandlebars from "./loadCustomHandlebars";
 import logger from "../logger";
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
+ * - If external helper is null, do not call registerCustomHandlebars()
+ * @param {string} extHelpers location of the external handlebars json file
  */
 const registerHandlebars = (extHelpers: string) => {
   logger.info("Handlebar helpers registration started");
