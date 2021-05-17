@@ -110,7 +110,9 @@ describe("Camouflage Functional Test For HTTP", () => {
     requester.get("/note").end((err, res) => {
       res.should.have.status(200);
       res.should.have.header("content-type");
-      res.header["content-type"].should.contain("application/xml");
+      expect(res.header["content-type"]).to.satisfy((header) => {
+        return header.includes("application/xml") || header.includes("application/json");
+      });
       done();
     });
   });
