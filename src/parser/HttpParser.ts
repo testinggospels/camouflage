@@ -85,6 +85,7 @@ export class HttpParser {
    * - Set default response
    * - Compile the handlebars used in the contents of mockFile
    * - Generate actual response i.e. replace handlebars with their actual values and split the content into lines
+   * - If the mockfile contains the delimiter ====, split the content using the delimiter and pick one of the responses at random
    * - Split file contents by os.EOL and read file line by line
    * - Set PARSE_BODY flag to try when reader finds a blank line, since according to standard format of a raw HTTP Response, headers and body are separated by a blank line.
    * - If line includes HTTP/HTTPS i.e. first line. Get the response status code
@@ -114,7 +115,12 @@ export class HttpParser {
       },
     };
     const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
-    const fileContent = template({ request: this.req, logger: logger }).split(os.EOL);
+    let fileResponse = template({ request: this.req, logger: logger });
+    if (fileResponse.includes("====")) {
+      const fileContentArray = fileResponse.split("====");
+      fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
+    }
+    const fileContent = fileResponse.trim().split(os.EOL);
     fileContent.forEach((line, index) => {
       if (line === "") {
         PARSE_BODY = true;

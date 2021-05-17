@@ -38,6 +38,7 @@ nav:
   - available-monitoring.md
   - tests.md
   - back-up-and-restore.md
+  - openAPI-conversion.md
   - contributing.md
 extra:
   logo: "camouflage.svg"

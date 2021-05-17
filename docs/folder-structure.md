@@ -31,6 +31,14 @@ Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For w
 
 ## What data to put in .mock files
 
+Camuoflage expects a raw HTTP Response to be placed in the .mock files. Please refer to this [Wikipedia](https://en.wikipedia.org/wiki/HTTP_message_body){target=\_blank} page, if you are not sure what the response looks like.
+
+Each mock file can have the HTTP Responses in following manner:
+
+- One response per .mock file.
+- Multiple responses in one .mock file with conditions defined to help Camouflage decide which response should be sent under what conditions. (Read Handlebars section for more)
+- Multiple responses sepearated by Camouflage's delimiter i.e. "====" (four equals). Camouflage will pick one response at random and send it to the client. An example of this can be found [here](https://github.com/fauxauldrich/camouflage/blob/main/mocks/note/GET.mock){target=\_blank}
+
 The data you want to put can be easily fetched using a curl command with -i -X flags in following manner.
 
 Example:
