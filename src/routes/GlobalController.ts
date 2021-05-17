@@ -26,24 +26,36 @@ export default class GlobalController {
    */
   private register = (): void => {
     this.app.get("*", (req: express.Request, res: express.Response) => {
-      const parser = new HttpParser(req, res, this.mocksDir);
-      const mockFile = parser.getMatchedDir() + "/GET.mock";
-      parser.getResponse(mockFile);
+      this.handler(req, res, "GET");
     });
     this.app.post("*", (req: express.Request, res: express.Response) => {
-      const parser = new HttpParser(req, res, this.mocksDir);
-      const mockFile = parser.getMatchedDir() + "/POST.mock";
-      parser.getResponse(mockFile);
+      this.handler(req, res, "POST");
     });
     this.app.put("*", (req: express.Request, res: express.Response) => {
-      const parser = new HttpParser(req, res, this.mocksDir);
-      const mockFile = parser.getMatchedDir() + "/PUT.mock";
-      parser.getResponse(mockFile);
+      this.handler(req, res, "PUT");
     });
     this.app.delete("*", (req: express.Request, res: express.Response) => {
-      const parser = new HttpParser(req, res, this.mocksDir);
-      const mockFile = parser.getMatchedDir() + "/DELETE.mock";
-      parser.getResponse(mockFile);
+      this.handler(req, res, "DELETE");
     });
+    this.app.head("*", (req: express.Request, res: express.Response) => {
+      this.handler(req, res, "HEAD");
+    });
+    this.app.connect("*", (req: express.Request, res: express.Response) => {
+      this.handler(req, res, "CONNECT");
+    });
+    this.app.options("*", (req: express.Request, res: express.Response) => {
+      this.handler(req, res, "OPTIONS");
+    });
+    this.app.trace("*", (req: express.Request, res: express.Response) => {
+      this.handler(req, res, "TRACE");
+    });
+    this.app.patch("*", (req: express.Request, res: express.Response) => {
+      this.handler(req, res, "PATCH");
+    });
+  };
+  private handler = (req: express.Request, res: express.Response, verb: string) => {
+    const parser = new HttpParser(req, res, this.mocksDir);
+    const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
+    parser.getResponse(mockFile);
   };
 }
