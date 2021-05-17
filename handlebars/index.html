@@ -695,6 +695,10 @@
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
 <p>{{file path='/location/of/the/image/or/text/or/any/file'}}: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:</p>
+<pre><code>HTTP/1.1 200 OK
+
+{{file path=&quot;./docs/camouflage.png&quot;}}
+</code></pre>
 <h2 id="code">code</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Camouflage's implementation of Handlebars is robust enough to handle most dynamic responses i.e. capturing data from request, generating random numbers, as shown in examples above. However, if your requirement still cannot be fulfilled by Camouflage's helpers, you can write a custom code in javascript to achieve the same results. Refer to the example mock and explanation below:</p>
