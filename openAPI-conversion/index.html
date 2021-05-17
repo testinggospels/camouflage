@@ -546,9 +546,10 @@
 <p>If you have access to the OpenAPI specification for the APIs/Endpoints you want to mock, Camouflage supports the conversion via an external utility, <code>camoswag</code>.</p>
 <h3 id="getting-started">Getting started</h3>
 <ul>
-<li>Install camoswag using npm command: <code>npm install -g camoswag</code></li>
 <li>To use <code>camoswag</code>, you would need your OpenAPI specification file in either .json or .yaml format.</li>
-<li>Run the command: <code>camoswag --spec ./swagger.yaml</code> or <code>camoswag --spec ./swagger.json</code>. (Replace file location with your spec file location)</li>
+<li>You don't need to install camoswag locally on your machine, you can simply run the script using npx.</li>
+<li>Run the command: <code>npx camoswag --spec ./swagger.yaml</code> or <code>npx camoswag --spec ./swagger.json</code>. (Replace file location with your spec file location)</li>
+<li>If you would like to install <code>camoswag</code> locally, you can do so by running the command: <code>npm i -g camoswag</code>. For conversion use, <code>camoswag --spec ./swagger.yaml</code></li>
 <li>This would create a new folder with the name <code>camouflage-${current_timestamp}</code> containing the required folder structure and mock files corresponding to each endpoint defined in your spec file.</li>
 <li>You can either delete or modify the dummy responses placed in the mockfiles as per your expectations. Once you are satisfied with the modifications, you can move the contents of the folder to your original ${MOCK_DIR} of your running Camouflage server.</li>
 <li>Note that if your spec file doesn't contain a response defined for a given endpoint, <code>camoswag</code> would put following default response in the mock file.</li>
