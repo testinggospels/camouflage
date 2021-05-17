@@ -16,7 +16,7 @@
     
     
       
-        <title>Camouflage UI - Camouflage</title>
+        <title>Creating mocks from OpenAPI Specification file. - Camouflage</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#camouflage-ui" class="md-skip">
+        <a href="#creating-mocks-from-openapi-specification-file" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Camouflage UI
+              Creating mocks from OpenAPI Specification file.
             
           </span>
         </div>
@@ -401,21 +401,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
-      
     </li>
   
 
@@ -471,11 +461,51 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../openAPI-conversion/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Creating mocks from OpenAPI Specification file.
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Creating mocks from OpenAPI Specification file.
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -507,26 +537,30 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/camouflage-ui.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/openAPI-conversion.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="camouflage-ui">Camouflage UI</h1>
-<p>Camouflage also provide a file explorer UI allowing you to work with your mocks. UI is powered by <a href="https://github.com/OpusCapita/filemanager" target="_blank">OpusCapita/filemanager</a>, which provides abilities to perform following actions on the available mocks:</p>
+                <h1 id="creating-mocks-from-openapi-specification-file">Creating mocks from OpenAPI Specification file.</h1>
+<p>If you have access to the OpenAPI specification for the APIs/Endpoints you want to mock, Camouflage supports the conversion via an external utility, <code>camoswag</code>.</p>
+<h3 id="getting-started">Getting started</h3>
 <ul>
-<li>Upload mock files</li>
-<li>Download mock files</li>
-<li>Rename a mock folder to change stubbed API endpoint</li>
-<li>Update cert and key</li>
-<li>Download logs</li>
-<li>Download config yaml</li>
+<li>Install camoswag using npm command: <code>npm install -g camoswag</code></li>
+<li>To use <code>camoswag</code>, you would need your OpenAPI specification file in either .json or .yaml format.</li>
+<li>Run the command: <code>camoswag --spec ./swagger.yaml</code> or <code>camoswag --spec ./swagger.json</code>. (Replace file location with your spec file location)</li>
+<li>This would create a new folder with the name <code>camouflage-${current_timestamp}</code> containing the required folder structure and mock files corresponding to each endpoint defined in your spec file.</li>
+<li>You can either delete or modify the dummy responses placed in the mockfiles as per your expectations. Once you are satisfied with the modifications, you can move the contents of the folder to your original ${MOCK_DIR} of your running Camouflage server.</li>
+<li>Note that if your spec file doesn't contain a response defined for a given endpoint, <code>camoswag</code> would put following default response in the mock file.</li>
 </ul>
-<p>Screenshots:
-<img alt="CamouflageUI-1" src="../CamouflageUI-1.png" />
-<img alt="CamouflageUI-2" src="../CamouflageUI-2.png" />
-<img alt="CamouflageUI-3" src="../CamouflageUI-3.png" />
-<img alt="CamouflageUI-4" src="../CamouflageUI-4.png" /></p>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;More Configuration Needed&quot;
+}
+</code></pre>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>camoswag currenty supports JSON responses only.</p>
+</div>
                 
               
               
@@ -545,7 +579,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../mocking-websockets/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../back-up-and-restore/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -554,19 +588,19 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Mocking Websockets
+              Backup and Restore
             </div>
           </div>
         </a>
       
       
-        <a href="../available-monitoring/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../contributing/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Monitoring
+              Contributing
             </div>
           </div>
           <div class="md-footer__button md-icon">
