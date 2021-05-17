@@ -107,3 +107,4 @@ certs
 .idea
 __pycache__
 site
+jsdocs

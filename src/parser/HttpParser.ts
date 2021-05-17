@@ -9,20 +9,27 @@ let DELAY: number = 0;
  * Create a parser class which defines methods to parse
  * 1. Request URL to get a matching directory
  * 2. From matched directory get .mock file content and generate a response
- * @param {express.Request} req Express Request object used to perform request url parsing
- * @param {string} mockDir Location of all mocks
- * @param {express.Response} res Express response to send the parsed response body and headers to client
  */
-export class Parser {
+export class HttpParser {
   private req: express.Request;
   private mockDir: string;
   private res: express.Response;
+  /**
+   *
+   * @param {express.Request} req Express Request object for current instance of incoming request
+   * @param {express.Response} res Express response to be sent to client
+   * @param {string} mockDir location of http mocks
+   */
   constructor(req: express.Request, res: express.Response, mockDir: string) {
     this.req = req;
     this.mockDir = mockDir;
     this.res = res;
   }
-  getMatchedDir = () => {
+  /**
+   * Finds a closest match dir for an incoming request
+   * @returns {string} matchedDir for a given incoming request
+   */
+  getMatchedDir = (): string => {
     const reqDetails = {
       method: this.req.method.toUpperCase(),
       path: this.req.path,
@@ -35,7 +42,13 @@ export class Parser {
     const matchedDir = getWildcardPath(reqDetails.path, this.mockDir);
     return matchedDir;
   };
-
+  /**
+   * Defines a default response, if the closest matchedDir is present, parses and sends the response from mockfile,
+   * Looks for API Level, and Global level default response overrides if mockfile is not found.
+   * If no default response overrides are found, send the defined default response
+   * @param {string} mockFile location of of the closest mached mockfile for incoming request
+   * @returns {string} matchedDir for a given incoming request
+   */
   getResponse = (mockFile: string) => {
     // Default response
     let response = {
@@ -66,12 +79,32 @@ export class Parser {
       }
     }
   };
+  /**
+   * - Since response file contains headers and body both, a PARSE_BODY flag is required to tell the logic if it's currently parsing headers or body
+   * - Set responseBody to an empty string and set a default response object
+   * - Set default response
+   * - Compile the handlebars used in the contents of mockFile
+   * - Generate actual response i.e. replace handlebars with their actual values and split the content into lines
+   * - If the mockfile contains the delimiter ====, split the content using the delimiter and pick one of the responses at random
+   * - Split file contents by os.EOL and read file line by line
+   * - Set PARSE_BODY flag to try when reader finds a blank line, since according to standard format of a raw HTTP Response, headers and body are separated by a blank line.
+   * - If line includes HTTP/HTTPS i.e. first line. Get the response status code
+   * - If following conditions are met:
+   *   - Line is not blank; and
+   *   - Parser is not currently parsing response body yet i.e. PARSE_BODY === false
+   * - Then:
+   *   - Split line by :, of which first part will be header key and 2nd part will be header value
+   *   - If headerKey is response delay, set variable DELAY to headerValue
+   * - If parsing response body, i.e. PARSE_BODY === true. Concatenate every line till last line to a responseBody variable
+   * - If on last line of response, do following:
+   *   - Trim and remove whitespaces from the responseBody
+   *   - Compile the Handlebars to generate a final response
+   *   - Set PARSE_BODY flag back to false and responseBody to blank
+   *   - Set express.Response Status code to response.status
+   *   - Send the generated Response, from a timeout set to send the response after a DELAY value
+   * @param {string} mockFile location of of the closest mached mockfile for incoming request
+   */
   private prepareResponse = (mockFile: string) => {
-    /**
-     * Since response file contains headers and body both, a PARSE_BODY flag is required
-     * to tell the logic if it's currently parsing headers or body
-     * Set responseBody to an empty string and set a default response object
-     */
     let PARSE_BODY = false;
     let responseBody = "";
     let response = {
@@ -81,21 +114,17 @@ export class Parser {
         "content-type": "application/json",
       },
     };
-    // Compile the handlebars used in the contents of mockFile
     const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
-    // Generate actual response i.e. replace handlebars with their actual values and split the content into lines
-    const fileContent = template({ request: this.req, logger: logger }).split(os.EOL);
-    //Read file line by line
+    let fileResponse = template({ request: this.req, logger: logger });
+    if (fileResponse.includes("====")) {
+      const fileContentArray = removeBlanks(fileResponse.split("===="));
+      fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
+    }
+    const fileContent = fileResponse.trim().split(os.EOL);
     fileContent.forEach((line, index) => {
-      /**
-       * Set PARSE_BODY flag to try when reader finds a blank line,
-       * since according to standard format of a raw HTTP Response,
-       * headers and body are separated by a blank line.
-       */
       if (line === "") {
         PARSE_BODY = true;
       }
-      //If line includes HTTP/HTTPS i.e. first line. Get the response status code
       if (line.includes("HTTP")) {
         const regex = /(?<=HTTP\/\d).*?\s+(\d{3,3})/i;
         if (!regex.test(line)) {
@@ -105,14 +134,6 @@ export class Parser {
         response.status = <number>(<unknown>line.match(regex)[1]);
         logger.debug("Response Status set to " + response.status);
       } else {
-        /**
-         * If following conditions are met:
-         *      Line is not blank
-         *      And parser is not currently parsing response body yet i.e. PARSE_BODY === false
-         * Then:
-         *      Split line by :, of which first part will be header key and 2nd part will be header value
-         *      If headerKey is response delay, set variable DELAY to headerValue
-         */
         if (line !== "" && !PARSE_BODY) {
           let headerKey = line.split(":")[0];
           let headerValue = line.split(":")[1];
@@ -125,18 +146,9 @@ export class Parser {
           }
         }
       }
-      // If parsing response body. Concatenate every line till last line to a responseBody variable
       if (PARSE_BODY) {
         responseBody = responseBody + line;
       }
-      /**
-       * If on last line, do following:
-       *    Trim and remove whitespaces from the responseBody
-       *    Compile the Handlebars to generate a final response
-       *    Set PARSE_BODY flag back to false and responseBody to blank
-       *    Set express.Response Status code to response.status
-       *    Send the generated Response, from a timeout set to send the response after a DELAY value
-       */
       if (index == fileContent.length - 1) {
         this.res.statusCode = response.status;
         if (responseBody.includes("camouflage_file_helper")) {

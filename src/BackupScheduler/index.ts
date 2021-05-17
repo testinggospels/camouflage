@@ -5,7 +5,9 @@ import os from "os";
 // @ts-ignore
 import * as fse from "fs-extra";
 import logger from "../logger";
-
+/**
+ * Define a schedule and implementation for backup using config.backup.cron
+ */
 export default class BackupScheduler {
   private cron: string;
   private mocksDir: string;
@@ -16,6 +18,17 @@ export default class BackupScheduler {
   private cert: string;
   private configFilePath: string;
   private configFileName: string;
+  /**
+   *
+   * @param {string} cron cron schedule
+   * @param {string} mocksDir location of http mockdir to be backed up
+   * @param {string} grpcMocksDir location of grpc mockdir to be backed up
+   * @param {string} grpcProtosDir location of grpc protos dir to be backed up
+   * @param {string} wsMocksDir location of ws mockdir to be backed up
+   * @param {string} key location of server.key to be backed up
+   * @param {string} cert location of server.cert to be backed up
+   * @param {string} configFilePath location of config file to be backed up
+   */
   constructor(
     cron: string,
     mocksDir: string,
@@ -37,17 +50,15 @@ export default class BackupScheduler {
     this.configFileName = configFilePath.split(path.sep).slice(-1)[0];
   }
   /**
-   * @param enableHttps
-   * @param enableHttp2
-   * @param enablegRPC
-   * If above protocols are not enabled, camouflage will not look for directories specific to these protocols,
-   * such as certs and grpc/mocks or grpc/protos while creating a backup
+   *
+   * Create an initial back up while starting the application.
+   * Schedule further backup as specified by cron schedule in config
+   * @param {boolean} enableHttps Indicates whether HTTPs is enabled/disabled
+   * @param {boolean} enableHttp2 Indicates whether HTTP2 is enabled/disabled
+   * @param {boolean} enablegRPC Indicates whether gRPC is enabled/disabled
+   * @param {boolean} enableWs Indicates whether Websocket is enabled/disabled
    */
   schedule = (enableHttps: boolean, enableHttp2: boolean, enablegRPC: boolean, enableWs: boolean) => {
-    /**
-     * Create an initial back up while starting the application.
-     * Schedule further backup as specified by cron schedule in config
-     */
     this.createBackup(enableHttps, enableHttp2, enablegRPC, enableWs);
     scheduler.schedule(this.cron, () => {
       this.createBackup(enableHttps, enableHttp2, enablegRPC, enableWs);
@@ -55,13 +66,14 @@ export default class BackupScheduler {
     logger.info(`Scheduled a backup cron job with specified cron: ${this.cron}`);
   };
   /**
-   * @param enableHttps
-   * @param enableHttp2
-   * @param enablegRPC
-   * If above protocols are not enabled, camouflage will not look for directories specific to these protocols,
+   * If following protocols are not enabled, camouflage will not look for directories specific to these protocols,
    * such as certs and grpc/mocks or grpc/protos while creating a backup
    * Copy mocks directory, grpc/mocks and grpc/protos directories, certs directory and config file to backup
    * folder in users' home directory
+   * @param {boolean} enableHttps Indicates whether HTTPs is enabled/disabled
+   * @param {boolean} enableHttp2 Indicates whether HTTP2 is enabled/disabled
+   * @param {boolean} enablegRPC Indicates whether gRPC is enabled/disabled
+   * @param {boolean} enableWs Indicates whether Websocket is enabled/disabled
    */
   private createBackup = (enableHttps: boolean, enableHttp2: boolean, enablegRPC: boolean, enableWs: boolean) => {
     logger.debug("Creating a new back up.");

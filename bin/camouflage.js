@@ -143,6 +143,7 @@ let inputsKeys = [
   "backup.enable",
   "backup.cron",
   "configFile",
+  "ext_helpers",
 ];
 /**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
@@ -171,6 +172,7 @@ let inputs = [
   config.backup.enable || true,
   config.backup.cron || "0 * * * *",
   configFile,
+  config.ext_helpers || null,
 ];
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater

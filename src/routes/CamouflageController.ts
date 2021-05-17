@@ -8,14 +8,30 @@ export default class MockController {
   private app: express.Application;
   private mocksDir: string;
   private grpcMocksDir: string;
+  /**
+   *
+   * @param {express.Application} app instance of express application
+   * @param {string} mocksDir location of http mocks
+   * @param {string} grpcMocksDir location of grpc mocks
+   */
   constructor(app: express.Application, mocksDir: string, grpcMocksDir: string) {
     this.app = app;
     this.mocksDir = mocksDir;
     this.grpcMocksDir = grpcMocksDir;
     this.register();
   }
+  /**
+   * Registers management endpoints:
+   * - GET /mocks - DEPRECATED
+   * - DELETE /mocks - DEPRECATED
+   * - GET /restart
+   * - GET /ping
+   * @returns {void}
+   */
   private register = () => {
-    // Gets the list of available http and grpc mocks
+    /**
+     * Gets the list of available http and grpc mocks - deprecated
+     */
     this.app.get("/mocks", (req: express.Request, res: express.Response) => {
       let results: string[] | any = walk(this.mocksDir);
       let grpcResults: string[] | any = walk(this.grpcMocksDir);
@@ -40,7 +56,9 @@ export default class MockController {
       };
       res.send(response);
     });
-    // Deletes a mock with it's path and http method
+    /**
+     * Deletes a mock with it's path and http method - deprecated
+     */
     this.app.delete("/mocks", (req: express.Request, res: express.Response) => {
       let mock = path.join(this.mocksDir, req.body.basePath.replace("*", "__"), req.body.method + ".mock");
       let status = "Mock Deleted Successfully";
@@ -51,9 +69,11 @@ export default class MockController {
       }
       res.send({ status: status, fileFound: fs.existsSync(mock) });
     });
-    // Send message to master to kill all running workers and replace them with new workers
-    // This is specifically for grpc services
-    // In case a new protofile is added. server needs to be restarted to register new services
+    /**
+     * Send message to master to kill all running workers and replace them with new workers
+     * This is specifically for grpc services
+     * In case a new protofile is added. server needs to be restarted to register new services
+     */
     this.app.get("/restart", (req: express.Request, res: express.Response) => {
       setTimeout(() => {
         process.send("restart");
@@ -64,6 +84,9 @@ export default class MockController {
         currentProcessPptime: process.uptime(),
       });
     });
+    /**
+     * Get the status and uptime for a running process
+     */
     this.app.get("/ping", (req: express.Request, res: express.Response) => {
       res.send({
         message: "I am alive.",
@@ -94,6 +117,4 @@ var walk = function (dir: string): string[] {
     }
   });
   return results;
-
 };
-

@@ -3,12 +3,32 @@ import fs from "fs";
 import os from "os";
 import logger from "../logger";
 import Handlebars from "handlebars";
-
+/**
+ * Parser class for GRPC Protocol mocks to define handlers for:
+ * - Unary calls
+ * - Server streaming calls
+ * - Client streaming calls
+ * - Bidirectional streaming calls
+ */
 export default class GrpcParser {
   private grpcMocksDir: string;
+  /**
+   *
+   * @param {string} grpcMocksDir location of mocks dir for grpc mocks
+   */
   constructor(grpcMocksDir: string) {
     this.grpcMocksDir = grpcMocksDir;
   }
+  /**
+   * - Get the path of the determined handler from the call
+   * - Find a mock file for the handler
+   * - If mock file exists, apply handler compilation to generate actual values from helpers
+   * - Execute callback with the response and delay
+   * - Remove delay key if present before sending the response
+   * - If mock file is not found, log error and send the same error to client
+   * @param {any} call call object recieved with every unary call
+   * @param {any} callback callback to be executed once server is ready to return response
+   */
   camouflageMock = (call: any, callback: any) => {
     try {
       let handlerPath = call.call.handler.path;
@@ -34,7 +54,18 @@ export default class GrpcParser {
       callback(null, { error: error });
     }
   };
-
+  /**
+   * - Get the path of the determined handler from the call
+   * - Find a mock file for the handler
+   * - If mock file exists, apply handler compilation to generate actual values from helpers
+   * - Split the contents of file with ==== to get responses each stream
+   * - Run a forEach and execute call.write() with the response and delay
+   * - On last index of streamArray, execute call.end()
+   * - Remove delay key if present before sending the response
+   * - If mock file is not found, log error and send the same error to client
+   * @param {any} call call object recieved with every unary call
+   * @param {any} callback callback to be executed once server is ready to return response
+   */
   camouflageMockServerStream = (call: any, callback: any) => {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(".", "/");
@@ -76,7 +107,17 @@ export default class GrpcParser {
       call.end();
     }
   };
-
+  /**
+   * - Get the path of the determined handler from the call
+   * - Find a mock file for the handler
+   * - If mock file exists, apply handler compilation to generate actual values from helpers
+   * - No action required on recieving client's streams
+   * - Once client calls end, respond with the compiled contents of the mockfile and delay
+   * - Remove delay key if present before sending the response
+   * - If mock file is not found, log error and send the same error to client
+   * @param {any} call call object recieved with every unary call
+   * @param {any} callback callback to be executed once server is ready to return response
+   */
   camouflageMockClientStream = (call: any, callback: any) => {
     call.on("data", () => {
       // TODO: Not sure if it's needed
@@ -107,7 +148,18 @@ export default class GrpcParser {
       }
     });
   };
-
+  /**
+   * - Get the path of the determined handler from the call
+   * - Find a mock file for the handler
+   * - If mock file exists, apply handler compilation to generate actual values from helpers
+   * - Follow a ping pong model, i.e. for every client's stream, respond with a server stream.
+   * - On client stream, respond with filecontent.data
+   * - Once client calls end, respond with filecontent.end
+   * - Remove delay key if present before sending the response
+   * - If mock file is not found, log error and send the same error to client
+   * @param {any} call call object recieved with every unary call
+   * @param {any} callback callback to be executed once server is ready to return response
+   */
   camouflageMockBidiStream = (call: any, callback: any) => {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(".", "/");

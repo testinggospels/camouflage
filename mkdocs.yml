@@ -28,6 +28,7 @@ nav:
   - handlebars.md
   - request-matching.md
   - default-response.md
+  - custom-handlebars.md
   - request-model.md
   - response-delays.md
   - performance-mode.md
@@ -37,6 +38,7 @@ nav:
   - available-monitoring.md
   - tests.md
   - back-up-and-restore.md
+  - openAPI-conversion.md
   - contributing.md
 extra:
   logo: "camouflage.svg"

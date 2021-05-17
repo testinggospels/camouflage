@@ -1,0 +1,18 @@
+{
+  "source": {
+    "include": ["dist", "bin"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules/|jsdocs/|src)"
+  },
+  "plugins": ["plugins/markdown"],
+  "templates": {
+    "cleverLinks": true,
+    "monospaceLinks": true
+  },
+  "template": "node_modules/foodoc/template",
+  "opts": {
+    "recurse": true,
+    "destination": "./jsdocs/",
+    "readme": "./README.md"
+  }
+}
