@@ -117,7 +117,7 @@ export class HttpParser {
     const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
     let fileResponse = template({ request: this.req, logger: logger });
     if (fileResponse.includes("====")) {
-      const fileContentArray = fileResponse.split("====");
+      const fileContentArray = removeBlanks(fileResponse.split("===="));
       fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
     }
     const fileContent = fileResponse.trim().split(os.EOL);
