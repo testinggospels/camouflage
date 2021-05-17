@@ -1,4 +1,4 @@
-# Creating mocks from OpenAPI Specification file.
+# OpenAPI Conversion
 
 If you have access to the OpenAPI specification for the APIs/Endpoints you want to mock, Camouflage supports the conversion via an external utility, `camoswag`.
 
