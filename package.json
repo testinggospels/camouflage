@@ -14,6 +14,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
+    "lint": "eslint \"dist/**/*.js\"",
     "prestart": "npm run build",
     "start": "node bin/camouflage.js -m ./mocks",
     "docs": "jsdoc -c jsdoc.json -t ./node_modules/foodoc/template",
@@ -61,6 +62,7 @@
     "@types/ws": "^7.4.4",
     "chai": "^4.3.4",
     "chai-http": "^4.3.0",
+    "eslint": "^7.26.0",
     "foodoc": "0.0.9",
     "jsdoc": "^3.6.7",
     "mocha": "^8.4.0",

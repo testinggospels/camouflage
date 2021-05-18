@@ -32,7 +32,7 @@ export default class WebsocketParser {
     let message: WebSocketMessage;
     let delay: number;
     try {
-      message = JSON.parse(template({ request: request }));
+      message = JSON.parse(template({ request: request, message: incomingMessage }));
       delay = message.delay || 0;
       logger.debug(`Delay set to ${delay}`);
 

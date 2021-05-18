@@ -46,7 +46,8 @@ export default class MockController {
       grpcResults = grpcResults.map((grpcResult: any) => {
         grpcResult = grpcResult.replace(this.grpcMocksDir, "");
         grpcResult = grpcResult.replace(".mock", "");
-        let [__, packageName, serviceName, methodName] = grpcResult.split("/");
+        let [packageName, serviceName, methodName] = removeBlanks(grpcResult.split("/"));
+        console.log(removeBlanks(grpcResult.split("/")));
         return { packageName: packageName, serviceName: serviceName, methodName: methodName };
       });
       let response = {
@@ -117,4 +118,10 @@ var walk = function (dir: string): string[] {
     }
   });
   return results;
+};
+
+const removeBlanks = (array: Array<any>) => {
+  return array.filter(function (i) {
+    return i;
+  });
 };

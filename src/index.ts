@@ -37,7 +37,7 @@ const app = express();
 // Configure logging for express requests
 app.use(
   expressWinston.logger({
-    level: (req, res) => "level",
+    level: () => "level",
     winstonInstance: logger,
     statusLevels: { error: "error", success: "debug", warn: "warn" },
     msg: "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
@@ -83,6 +83,7 @@ const start = (
   inputMocksDir: string,
   inputWsMocksDir: string,
   inputPort: number,
+  enableHttp: boolean,
   enableHttps: boolean,
   enableHttp2: boolean,
   enableGrpc: boolean,
@@ -135,7 +136,9 @@ const start = (
   new GlobalController(app, mocksDir);
   // Start the http server on the specified port
   const protocols = new Protocols(app, port, httpsPort);
-  protocols.initHttp();
+  if (enableHttp) {
+    protocols.initHttp();
+  }
   // If https protocol is enabled, start https server with additional inputs
   if (enableHttps) {
     protocols.initHttps(key, cert);

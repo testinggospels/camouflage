@@ -22,8 +22,10 @@ const registerCustomHandlebars = (extHelpers: string) => {
       } else {
         logger.info(`Registering custom handlebars: ${customHandlebar.name}`);
         Handlebars.registerHelper(customHandlebar.name, (context) => {
+          /* eslint-disable no-unused-vars */
           const request: express.Request = context.data.root.request;
           const logger = context.data.root.logger;
+          /* eslint-disable no-unused-vars */
           const result = eval(customHandlebar.logic);
           return result;
         });
