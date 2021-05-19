@@ -357,6 +357,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#csv" class="md-nav__link">
+    csv
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inbuilt-helpers" class="md-nav__link">
     Inbuilt Helpers
   </a>
@@ -755,6 +762,19 @@ Content-Type: application/json
 <h2 id="inject">inject</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Another use case for custom code could be when you don't want to write a code for entire response generation, but there are some parts of your response that need a custom code. Using <code>inject</code> helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to <code>code</code> helper, refer to the example below.</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    &quot;phone&quot;: {{#inject}}(()=&gt;{ return Math.round(Math.random() * 10000000000); })();{{/inject}}
+}
+</code></pre>
+<h2 id="csv">csv</h2>
+<p>Type: Custom Helper</p>
+<p>Usage: CSV Helper allows you to provide a data source as an input along with two combinations of policies
+- With a key and value: In this case the helper will return a response specific to a given key and value
+- Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row</p>
+<p>For more details on how to use csv helper, refer to CSV Data Source page.</p>
 <pre><code>HTTP/1.1 200 OK
 Content-Type: application/json
 
