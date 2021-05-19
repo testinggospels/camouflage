@@ -534,10 +534,12 @@
 </p>
 </div>
 <p>Usage:</p>
-<p>CSV helper can be invoked in following manner, with three parameters, i.e. 
-- src: The location of your csv file.
-- key: The column name in which you would like Camouflage to search for a specific value
-- value: The value you want to search</p>
+<p>CSV helper can be invoked in following manner, with three parameters, i.e.</p>
+<ul>
+<li>src: The location of your csv file.</li>
+<li>key: The column name in which you would like Camouflage to search for a specific value</li>
+<li>value: The value you want to search</li>
+</ul>
 <p>Camouflage then gives you access to a <code>result</code> array, which you can use inside an IIFE. It's your resposibility of how you want to use the <code>result</code> array. For example, in snippet shown below, we are simply using 1st element of the array i.e. <code>result[0]</code>. But you could also write a for loop to iterate over the array and generate your response body.</p>
 <p>Please note that the value you return MUST be a string.</p>
 <pre><code>HTTP/1.1 200 OK
@@ -558,6 +560,10 @@ Content-Type: application/json
 </code></pre>
 <p>Camouflage provides you another alternative, in case you don't want to search for a specific value, instead you just want to pick one row at random and tailor your response to that specific row.</p>
 <p>In that case you'd remove <code>key</code> and <code>value</code> from the snippet show above, and simply put <code>random=true</code> instead.</p>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>Keep in mind that if you use random=true, you don't get <code>result</code> object as an array, you would get one single object. So in the example above, <code>result[0].City</code> will not work, you'd need to update it to simply <code>result.City</code></p>
+</div>
                 
               
               
