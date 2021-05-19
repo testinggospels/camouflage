@@ -100,16 +100,17 @@ export class HandlerBarHelper {
             return "Please specify using and selector fields.";
           } else {
             switch (context.hash.using) {
-              case "regex":
-                const regex = new RegExp(context.hash.selector);
-                const body = JSON.stringify(request.body, null, 2);
+              case "regex": {
+                let regex = new RegExp(context.hash.selector);
+                let body = JSON.stringify(request.body, null, 2);
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {
                   logger.debug(`ERROR: No match found for specified regex ${context.hash.selector}`);
                   return "No match found.";
                 }
-              case "jsonpath":
+              }
+              case "jsonpath": {
                 try {
                   return jsonpath.query(request.body, context.hash.selector);
                 } catch (err) {
@@ -117,6 +118,7 @@ export class HandlerBarHelper {
                   logger.error(`ERROR: ${err}`);
                   return "some error occuered";
                 }
+              }
               default:
                 return null;
             }
@@ -175,8 +177,10 @@ export class HandlerBarHelper {
    */
   codeHelper = () => {
     Handlebars.registerHelper("code", (context) => {
+      /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;
+      /* eslint-disable no-unused-vars */
       const code = eval(context.fn(this));
       code["CamouflageResponseType"] = "code";
       return JSON.stringify(code);

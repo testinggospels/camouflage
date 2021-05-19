@@ -1,0 +1,31 @@
+HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+
+{{#csv src="./test.csv" key="City" value="Worcester"}}
+(()=> {
+    return `
+    {
+        "City": "${result[0].City}",
+        "State": "${result[0].State}",
+        "LatD": ${result[0].LatD},
+        "LonD": ${result[0].LonD}
+    }`
+})();
+{{/csv}}
+====
+HTTP/1.1 200 OK
+X-Requested-By: Shubhendu Madhukar
+Content-Type: application/json
+
+{{#csv src="./test.csv" random=true}}
+(()=> {
+    return `
+    {
+        "City": "${result.City}",
+        "State": "${result.State}",
+        "LatD": ${result.LatD},
+        "LonD": ${result.LonD}
+    }`
+})();
+{{/csv}}

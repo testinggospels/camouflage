@@ -66,7 +66,7 @@ export default class GrpcParser {
    * @param {any} call call object recieved with every unary call
    * @param {any} callback callback to be executed once server is ready to return response
    */
-  camouflageMockServerStream = (call: any, callback: any) => {
+  camouflageMockServerStream = (call: any) => {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(".", "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
@@ -160,7 +160,7 @@ export default class GrpcParser {
    * @param {any} call call object recieved with every unary call
    * @param {any} callback callback to be executed once server is ready to return response
    */
-  camouflageMockBidiStream = (call: any, callback: any) => {
+  camouflageMockBidiStream = (call: any) => {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(".", "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");

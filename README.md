@@ -8,6 +8,7 @@
       <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
       <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
+      <img src="https://github.com/fauxauldrich/camouflage/actions/workflows/release.yaml/badge.svg">
       <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
       <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
       <h3 align="center"><a href="https://fauxauldrich.github.io/camouflage">Complete Documentation</a></h3>

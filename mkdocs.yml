@@ -31,6 +31,7 @@ nav:
   - custom-handlebars.md
   - request-model.md
   - response-delays.md
+  - csv-data-source.md
   - performance-mode.md
   - mocking-gRPC.md
   - mocking-websockets.md
