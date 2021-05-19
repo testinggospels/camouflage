@@ -1,6 +1,7 @@
 import { HandlerBarHelper } from "./handleBarDefinition";
 import registerCustomHandlebars from "./loadCustomHandlebars";
 import logger from "../logger";
+import { CsvHelper } from "./CsvHelper";
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()
@@ -9,6 +10,7 @@ import logger from "../logger";
 const registerHandlebars = (extHelpers: string) => {
   logger.info("Handlebar helpers registration started");
   const handlerBarHelper = new HandlerBarHelper();
+  const csvHelper = new CsvHelper();
   handlerBarHelper.nowHelper();
   handlerBarHelper.randomValueHelper();
   handlerBarHelper.requestHelper();
@@ -16,6 +18,7 @@ const registerHandlebars = (extHelpers: string) => {
   handlerBarHelper.fileHelper();
   handlerBarHelper.codeHelper();
   handlerBarHelper.injectHelper();
+  csvHelper.csvHelper();
   if (extHelpers !== null) {
     registerCustomHandlebars(extHelpers);
   }
