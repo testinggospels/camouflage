@@ -1,11 +1,16 @@
 import Handlebars from "handlebars";
 import logger from "../logger";
 import path from "path";
+import express from "express";
 const csv = require("convert-csv-to-json");
 
 export class CsvHelper {
   csvHelper = () => {
     Handlebars.registerHelper("csv", (context) => {
+      /* eslint-disable no-unused-vars */
+      const request: express.Request = context.data.root.request;
+      /* eslint-disable no-unused-vars */
+      const logger = context.data.root.logger;
       const src = context.hash.src;
       const key = context.hash.key;
       const value = context.hash.value;

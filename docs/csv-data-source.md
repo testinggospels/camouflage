@@ -14,7 +14,7 @@ CSV helper can be invoked in following manner, with three parameters, i.e.
 - key: The column name in which you would like Camouflage to search for a specific value
 - value: The value you want to search
 
-Camouflage then gives you access to a `result` array, which you can use inside an IIFE. It's your resposibility of how you want to use the `result` array. For example, in snippet shown below, we are simply using 1st element of the array i.e. `result[0]`. But you could also write a for loop to iterate over the array and generate your response body.
+Camouflage then gives you access to a `result` array, which you can use inside an IIFE. It's your resposibility to decide how you want to use the `result` array. For example, in snippet shown below, we are simply using 1st element of the array i.e. `result[0]`. But you could also write a for loop to iterate over the array and generate your response body.
 
 Please note that the value you return MUST be a string.
 
