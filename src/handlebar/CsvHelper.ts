@@ -28,7 +28,7 @@ export class CsvHelper {
           }
           result = jsonArr.filter((jsonObj: any) => {
             return jsonObj[key] === value;
-          })[0];
+          });
         }
         const output = eval(context.fn(this)).trim();
         return output;

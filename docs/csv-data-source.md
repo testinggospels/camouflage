@@ -8,7 +8,8 @@ Camouflage lets you condition your resposne for a specific set of data. Because 
 
 Usage:
 
-CSV helper can be invoked in following manner, with three parameters, i.e. 
+CSV helper can be invoked in following manner, with three parameters, i.e.
+
 - src: The location of your csv file.
 - key: The column name in which you would like Camouflage to search for a specific value
 - value: The value you want to search
@@ -38,3 +39,7 @@ Content-Type: application/json
 Camouflage provides you another alternative, in case you don't want to search for a specific value, instead you just want to pick one row at random and tailor your response to that specific row.
 
 In that case you'd remove `key` and `value` from the snippet show above, and simply put `random=true` instead.
+
+!!!caution
+
+    Keep in mind that if you use random=true, you don't get `result` object as an array, you would get one single object. So in the example above, `result[0].City` will not work, you'd need to update it to simply `result.City`

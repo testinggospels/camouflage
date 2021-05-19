@@ -18,7 +18,7 @@ HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
 Content-Type: application/json
 
-{{#csv src="./test.csv" random}}
+{{#csv src="./test.csv" random=true}}
 (()=> {
     return `
     {
