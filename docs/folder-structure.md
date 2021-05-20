@@ -31,7 +31,7 @@ Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For w
 
 ## What data to put in .mock files
 
-Camuoflage expects a raw HTTP Response to be placed in the .mock files. Please refer to this [Wikipedia](https://en.wikipedia.org/wiki/HTTP_message_body){target=\_blank} page, if you are not sure what the response looks like.
+Camouflage expects a raw HTTP Response to be placed in the .mock files. Please refer to this [Wikipedia](https://en.wikipedia.org/wiki/HTTP_message_body){target=\_blank} page, if you are not sure what the response looks like.
 
 Each mock file can have the HTTP Responses in following manner:
 

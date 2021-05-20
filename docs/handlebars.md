@@ -80,6 +80,7 @@ Usage:
 
 ```
 HTTP/1.1 200 OK
+Content-Type: application/pdf
 
 {{file path="./docs/camouflage.png"}}
 ```
@@ -161,15 +162,6 @@ Usage: CSV Helper allows you to provide a data source as an input along with two
 - Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row
 
 For more details on how to use csv helper, refer to CSV Data Source page.
-
-```
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-    "phone": {{#inject}}(()=>{ return Math.round(Math.random() * 10000000000); })();{{/inject}}
-}
-```
 
 ## Inbuilt Helpers
 

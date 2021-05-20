@@ -1,11 +1,23 @@
 import Handlebars from "handlebars";
 import logger from "../logger";
 import path from "path";
+import fs from "fs";
 import express from "express";
 const csv = require("convert-csv-to-json");
-
+/**
+ * Defines and registers custom handlebar helper - csv
+ */
 export class CsvHelper {
-  csvHelper = () => {
+  /**
+   * Registers csv helper
+   * - Define request and logger in the scope of the code helper context, allowing user to use request, logger in their mock files
+   * - Fetch the file path, key, value and random variables from the the helper
+   * - Throw error if file path not defined log and return appropriate error
+   * - if random is true, evaluate response for one random row from csv file
+   * - else, evaluate response for all rows from csv file matching a search pattern using specified key and value
+   * @returns {void}
+   */
+  register = () => {
     Handlebars.registerHelper("csv", (context) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
@@ -20,23 +32,28 @@ export class CsvHelper {
         return "'src' is a required parameter and has not been set.";
       } else {
         const file = path.resolve(src);
-        const jsonArr = csv.getJsonFromCsv(file);
-        /* eslint-disable no-unused-vars */
-        let result = {};
-        /* eslint-disable no-unused-vars */
-        if (random) {
-          result = jsonArr[Math.floor(Math.random() * jsonArr.length)];
-        } else {
-          if (typeof key === "undefined" || typeof value === "undefined") {
-            logger.error("If random is false, 'key' & 'value' are required parameters");
-            return "If random is false, 'key' & 'value' are required parameters";
+        if (fs.existsSync(file)) {
+          const jsonArr = csv.getJsonFromCsv(file);
+          /* eslint-disable no-unused-vars */
+          let result = {};
+          /* eslint-disable no-unused-vars */
+          if (random) {
+            result = jsonArr[Math.floor(Math.random() * jsonArr.length)];
+          } else {
+            if (typeof key === "undefined" || typeof value === "undefined") {
+              logger.error("If random is false, 'key' & 'value' are required parameters");
+              return "If random is false, 'key' & 'value' are required parameters";
+            }
+            result = jsonArr.filter((jsonObj: any) => {
+              return jsonObj[key] === value;
+            });
           }
-          result = jsonArr.filter((jsonObj: any) => {
-            return jsonObj[key] === value;
-          });
+          const output = eval(context.fn(this)).trim();
+          return output;
+        } else {
+          logger.error("CSV file not found");
+          return "CSV file not found";
         }
-        const output = eval(context.fn(this)).trim();
-        return output;
       }
     });
   };
