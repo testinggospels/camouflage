@@ -28,7 +28,7 @@
 
 !!! note
 
-    Following section only tries to explain the tasks carried out by each module. Actual code level documentation is provided inline with each file for easier access.
+    Following section only tries to explain the tasks carried out by each module. Actual code level documentation is provided inline with each file for easier access. We also have a JSDocs available at [here](https://shubhendumadhukar.github.io/camouflage-jsdocs/){target=\_blank}
 
 ### [bin/camouflage.js](https://github.com/fauxauldrich/camouflage/blob/main/bin/camouflage.js){target=\_blank}
 

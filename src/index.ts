@@ -13,6 +13,8 @@ import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
 // @ts-ignore
+import apicache from "apicache";
+// @ts-ignore
 import * as filemanager from "@opuscapita/filemanager-server";
 const filemanagerMiddleware = filemanager.middleware;
 // @ts-ignore
@@ -54,6 +56,10 @@ app.use(
 app.use(bodyParser.json());
 // Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
+const compression = require("compression");
+app.use(compression());
+let cache = apicache.middleware;
+app.use(cache("5 minutes"));
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
