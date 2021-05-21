@@ -36,4 +36,12 @@ class VUser(HttpUser):
             "lastName": "Doe",
         }
         self.client.post("/users/get/1293", json=payload)
-
+    
+    @task
+    def code(self):
+        self.client.get("/code")
+        self.client.get("/code/inject")
+    
+    @task
+    def csv(self):
+        self.client.get("/csv")
