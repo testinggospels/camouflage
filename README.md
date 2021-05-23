@@ -5,11 +5,11 @@
     <p align="center">
       <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
       <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/license/testinggospels/camouflage.svg">
+      <img src="https://img.shields.io/github/release/testinggospels/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://github.com/fauxauldrich/camouflage/actions/workflows/release.yaml/badge.svg">
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
+      <img src="https://github.com/testinggospels/camouflage/actions/workflows/release.yaml/badge.svg">
+      <img src="https://img.shields.io/github/repo-size/testinggospels/camouflage">
       <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
       <h3 align="center"><a href="https://testinggospels.github.io/camouflage/">Complete Documentation</a></h3>
       <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
@@ -96,7 +96,7 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 
     Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.
 
-1. Clone the repository: `git clone https://github.com/fauxauldrich/camouflage.git`
+1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
 2. Install dependencies: `npm install`
 3. Build the project: `npm build`
 4. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
@@ -105,13 +105,13 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 
 ### Contributing
 
-Read the [contributing guide](https://github.com/fauxauldrich/camouflage/blob/development/CONTRIBUTING.md)
+Read the [contributing guide](https://github.com/testinggospels/camouflage/blob/development/CONTRIBUTING.md)
 
 ### License
 ```
 MIT License
 
-Copyright (c) 2021 fauxauldrich
+Copyright (c) 2021 testinggospels
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
