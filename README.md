@@ -1,5 +1,5 @@
 <p align="center">
-    <img src="https://fauxauldrich.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
+    <img src="https://testinggospels.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
     <h3 align="center">Camouflage</h3>
     <p align="center">HTTP/gRPC Mocking tool</p>
     <p align="center">
@@ -11,7 +11,7 @@
       <img src="https://github.com/fauxauldrich/camouflage/actions/workflows/release.yaml/badge.svg">
       <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
       <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
-      <h3 align="center"><a href="https://fauxauldrich.github.io/camouflage">Complete Documentation</a></h3>
+      <h3 align="center"><a href="https://testinggospels.github.io/camouflage/">Complete Documentation</a></h3>
       <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
     </p>
 </p>
