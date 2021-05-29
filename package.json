@@ -2,7 +2,7 @@
   "name": "camouflage-server",
   "version": "0.0.0-development",
   "description": "Easily mock your webservices while testing frontends.",
-  "homepage": "https://fauxauldrich.github.io/camouflage/",
+  "homepage": "https://testinggospels.github.io/camouflage/",
   "keywords": [
     "test",
     "mock",
@@ -30,7 +30,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/fauxauldrich/camouflage"
+    "url": "https://github.com/testinggospels/camouflage"
   },
   "author": "Shubhendu Madhukar <shubhendumadhukar@gmail.com>",
   "license": "MIT",
