@@ -12,7 +12,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.5">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.6">
     
     
       
@@ -20,10 +20,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.bde7dde4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.875de78c.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.f1a3b89f.min.css">
         
       
     
@@ -364,6 +364,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#proxy" class="md-nav__link">
+    proxy
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#inbuilt-helpers" class="md-nav__link">
     Inbuilt Helpers
   </a>
@@ -418,6 +425,21 @@
     <li class="md-nav__item">
       <a href="../custom-handlebars/" class="md-nav__link">
         Custom Handlebars
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../proxying/" class="md-nav__link">
+        Proxying
       </a>
     </li>
   
@@ -791,6 +813,19 @@ Content-Type: application/json
 - With a key and value: In this case the helper will return a response specific to a given key and value
 - Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row</p>
 <p>For more details on how to use csv helper, refer to CSV Data Source page.</p>
+<h2 id="proxy">proxy</h2>
+<p>Type: Custom Helper</p>
+<p>Usage: Proxy Helper allows you to redirect your calls to an actual downstream selectively. You might want to redirect all calls to actual downstream or some calls based on some condition, i.e. if a specific header exists, or a query param is provided. Example mock file content:</p>
+<pre><code>HTTP/1.1 200 OK
+x-additional-headers: somevalue
+
+{{#proxy}}
+{
+    &quot;target&quot;: &quot;http://target_host:3000/&quot;
+}
+{{/proxy}}
+</code></pre>
+<p>For more details on how to use proxy helper, refer to Proxy page.</p>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -935,7 +970,7 @@ Content-Type: application/json
     <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../assets/javascripts/workers/search.d351de03.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.a1609d9a.min.js"></script>
+      <script src="../assets/javascripts/bundle.34eae1b6.min.js"></script>
       
     
   </body>
