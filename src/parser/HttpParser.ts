@@ -181,9 +181,10 @@ export class HttpParser {
                 });
                 break;
               case "proxy":
-                let proxyResponse: ProxyResponse = JSON.parse(responseBody);
-                let target = proxyResponse.data.target;
-                console.log(target);
+                /* eslint-disable no-case-declarations */
+                const proxyResponse: ProxyResponse = JSON.parse(responseBody);
+                /* eslint-disable no-case-declarations */
+                const target = proxyResponse.data.target;
                 proxy.web(this.req, this.res, { target: target });
                 break;
               default:
