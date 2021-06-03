@@ -8,6 +8,7 @@ import { NumBetweenHelper } from "./NumBetweenHelper";
 import { FileHelper } from "./FileHelper";
 import { CodeHelper } from "./CodeHelper";
 import { InjectHelper } from "./InjectHelper";
+import { ProxyHelper } from "./ProxyHelper";
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()
@@ -15,22 +16,15 @@ import { InjectHelper } from "./InjectHelper";
  */
 const registerHandlebars = (extHelpers: string) => {
   logger.info("Handlebar helpers registration started");
-  const csvHelper = new CsvHelper();
-  const nowHelper = new NowHelper();
-  const randomValueHelper = new RandomValueHelper();
-  const requestHelper = new RequestHelper();
-  const numBetweenHelper = new NumBetweenHelper();
-  const fileHelper = new FileHelper();
-  const codeHelper = new CodeHelper();
-  const injectHelper = new InjectHelper();
-  nowHelper.register();
-  randomValueHelper.register();
-  requestHelper.register();
-  numBetweenHelper.register();
-  fileHelper.register();
-  codeHelper.register();
-  injectHelper.register();
-  csvHelper.register();
+  new CsvHelper().register();
+  new NowHelper().register();
+  new RandomValueHelper().register();
+  new RequestHelper().register();
+  new NumBetweenHelper().register();
+  new FileHelper().register();
+  new CodeHelper().register();
+  new InjectHelper().register();
+  new ProxyHelper().register();
   if (extHelpers !== null) {
     registerCustomHandlebars(extHelpers);
   }
