@@ -29,6 +29,7 @@ nav:
   - request-matching.md
   - default-response.md
   - custom-handlebars.md
+  - proxying.md
   - request-model.md
   - response-delays.md
   - csv-data-source.md
