@@ -26,7 +26,7 @@ if (help) {
   console.log(
     [
       "Create a config.yml file as shown in the sample yml below",
-      `loglevel: 'info'`,
+      `loglevel: "info"`,
       `cpus: 1`,
       `monitoring:`,
       ` port: 5555`,
@@ -36,7 +36,7 @@ if (help) {
       `protocols:`,
       ` http:`,
       `   mocks_dir: "./mocks"`,
-      `   port: 8080"`,
+      `   port: 8080`,
       ` https:`,
       `   enable: false`,
       `   port: 8443`,
