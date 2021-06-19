@@ -51,6 +51,7 @@ ssl:
   key: "./certs/server.key"
 protocols:
   http:
+    enable: true
     mocks_dir: "./mocks"
     port: 8080
   https:
@@ -59,6 +60,10 @@ protocols:
   http2:
     enable: false
     port: 8081
+  ws:
+    enable: false
+    mocks_dir: "./ws_mocks"
+    port: 8082
   grpc:
     enable: false
     host: localhost
