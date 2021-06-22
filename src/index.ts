@@ -1,6 +1,5 @@
 // Import dependencies
 import express from "express";
-import bodyParser from "body-parser";
 import cluster from "cluster";
 import path from "path";
 import * as expressWinston from "express-winston";
@@ -53,7 +52,8 @@ app.use(
   })
 );
 // Configure express to understand json request body
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
 const compression = require("compression");
