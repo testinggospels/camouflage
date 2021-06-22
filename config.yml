@@ -32,6 +32,8 @@ backup:
 cache:
   enable: false
   ttl_seconds: 300
+injection:
+  enable: true
 ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/

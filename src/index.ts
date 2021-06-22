@@ -74,6 +74,7 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableGrpc true if grpc is to be enabled
  * @param {boolean} enableWs true if websockets is to be enabled
  * @param {boolean} enableCache true if cache is to be enabled
+ * @param {boolean} enableInjection true if code injection is to be enabled
  * @param {string[]} origins array of allowed origins
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
@@ -100,6 +101,7 @@ const start = (
   enableGrpc: boolean,
   enableWs: boolean,
   enableCache: boolean,
+  enableInjection: boolean,
   origins: string[],
   key?: string,
   cert?: string,
@@ -154,7 +156,7 @@ const start = (
     res.sendFile("index.html", { root: ui_root });
   });
   // Register Handlebars
-  registerHandlebars(extHelpers);
+  registerHandlebars(extHelpers, enableInjection);
   // Register Controllers
   new CamouflageController(app, mocksDir, grpcMocksDir);
   new GlobalController(app, mocksDir);

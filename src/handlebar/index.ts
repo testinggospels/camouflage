@@ -14,7 +14,7 @@ import { ProxyHelper } from "./ProxyHelper";
  * - If external helper is null, do not call registerCustomHandlebars()
  * @param {string} extHelpers location of the external handlebars json file
  */
-const registerHandlebars = (extHelpers: string) => {
+const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   logger.info("Handlebar helpers registration started");
   new CsvHelper().register();
   new NowHelper().register();
@@ -22,8 +22,11 @@ const registerHandlebars = (extHelpers: string) => {
   new RequestHelper().register();
   new NumBetweenHelper().register();
   new FileHelper().register();
-  new CodeHelper().register();
-  new InjectHelper().register();
+  if (enableInjection) {
+    logger.warn("Code Injection is enabled.")
+    new CodeHelper().register();
+    new InjectHelper().register();
+  }
   new ProxyHelper().register();
   if (extHelpers !== null) {
     registerCustomHandlebars(extHelpers);
