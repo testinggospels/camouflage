@@ -18,6 +18,8 @@ import * as filemanager from "@opuscapita/filemanager-server";
 const filemanagerMiddleware = filemanager.middleware;
 // @ts-ignore
 import swStats from "swagger-stats";
+// @ts-ignore
+import cors from 'cors';
 /**
  * Gets the location of documentation folder
  */
@@ -71,6 +73,8 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableHttps true if https is to be enabled
  * @param {boolean} enableHttp2 true if http2 is to be enabled
  * @param {boolean} enableGrpc true if grpc is to be enabled
+ * @param {boolean} enableWs true if websockets is to be enabled
+ * @param {string[]} origins array of allowed origins
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
  * @param {number} inputHttpsPort Input https port, overrides httpsPort
@@ -94,6 +98,7 @@ const start = (
   enableHttp2: boolean,
   enableGrpc: boolean,
   enableWs: boolean,
+  origins: string[],
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
@@ -115,6 +120,12 @@ const start = (
     rootName: "Camouflage",
     logger: logger,
   };
+  // Configure cors
+  if (origins.length === 0) {
+    app.use(cors({
+      origin: origins
+    }));
+  }
   app.use(filemanagerMiddleware(config));
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);

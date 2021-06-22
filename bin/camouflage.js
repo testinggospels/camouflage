@@ -56,6 +56,11 @@ if (help) {
       `backup:`,
       `  enable: true`,
       `  cron: "0 * * * *" # Hourly Backup`,
+      `ext_helpers: "./custom_handlebar.json" # Remove if not needed`,
+      `origins:`,
+      `  - http://localhost:3000/`,
+      `  - http://localhost:3001/`,
+      `  - http://localhost:5000/`
     ].join("\n")
   );
   process.exit(1);
@@ -89,6 +94,7 @@ if (!configFile) {
  * If a valid config file is found, load the data using yaml loader
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
+const origins = config.origins ? config.origins : [];
 /**
  * Define logger with specified configured log level
  */
@@ -144,6 +150,8 @@ let inputsKeys = [
   "https.enable",
   "http2.enable",
   "grpc.enable",
+  "ws.enable",
+  "origins",
   "ssl.key",
   "ssl.cert",
   "https.port",
@@ -173,6 +181,7 @@ let inputs = [
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
   config.protocols.ws.enable,
+  origins,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
   config.protocols.https.port || 8443,

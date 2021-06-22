@@ -73,6 +73,11 @@ protocols:
 backup:
   enable: true
   cron: "0 * * * *" # Hourly Backup
+ext_helpers: "./custom_handlebar.json" # Remove if not needed
+origins:
+  - http://localhost:3000/
+  - http://localhost:3001/
+  - http://localhost:5000/
 ```
 
 ## Create your first mock
