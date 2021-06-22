@@ -61,7 +61,6 @@ app.use(express.static(ui_root));
 const compression = require("compression");
 app.use(compression());
 let cache = apicache.middleware;
-app.use(cache("5 minutes"));
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
@@ -74,6 +73,7 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableHttp2 true if http2 is to be enabled
  * @param {boolean} enableGrpc true if grpc is to be enabled
  * @param {boolean} enableWs true if websockets is to be enabled
+ * @param {boolean} enableCache true if cache is to be enabled
  * @param {string[]} origins array of allowed origins
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
@@ -88,6 +88,7 @@ app.get("/stats", function (req, res) {
  * @param {string} backupCron cron schedule for backup
  * @param {string} configFilePath location of config file
  * @param {string} extHelpers location of the external handlebars json file
+ * @param {number} cacheTtl cache age in seconds
  */
 const start = (
   inputMocksDir: string,
@@ -98,6 +99,7 @@ const start = (
   enableHttp2: boolean,
   enableGrpc: boolean,
   enableWs: boolean,
+  enableCache: boolean,
   origins: string[],
   key?: string,
   cert?: string,
@@ -112,7 +114,8 @@ const start = (
   backupEnable?: boolean,
   backupCron?: string,
   configFilePath?: string,
-  extHelpers?: string
+  extHelpers?: string,
+  cacheTtl?: number
 ) => {
   const config = {
     fsRoot: path.resolve(mocksDir),
@@ -125,6 +128,10 @@ const start = (
     app.use(cors({
       origin: origins
     }));
+  }
+  if (enableCache) {
+    logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
+    app.use(cache(`${cacheTtl} seconds`));
   }
   app.use(filemanagerMiddleware(config));
   // Set log level to the configured level from config.yaml

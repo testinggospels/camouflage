@@ -56,6 +56,9 @@ if (help) {
       `backup:`,
       `  enable: true`,
       `  cron: "0 * * * *" # Hourly Backup`,
+      `cache:`,
+      `  enable: false`,
+      `  ttl_seconds: 300`,
       `ext_helpers: "./custom_handlebar.json" # Remove if not needed`,
       `origins:`,
       `  - http://localhost:3000/`,
@@ -151,6 +154,7 @@ let inputsKeys = [
   "http2.enable",
   "grpc.enable",
   "ws.enable",
+  "cache.enable",
   "origins",
   "ssl.key",
   "ssl.cert",
@@ -165,6 +169,7 @@ let inputsKeys = [
   "backup.cron",
   "configFile",
   "ext_helpers",
+  "cache.ttl_seconds",
 ];
 /**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
@@ -181,6 +186,7 @@ let inputs = [
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
   config.protocols.ws.enable,
+  config.cache.enable,
   origins,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
@@ -196,6 +202,7 @@ let inputs = [
   config.backup.cron || "0 * * * *",
   configFile,
   config.ext_helpers || null,
+  config.cache.ttl_seconds || 0,
 ];
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
