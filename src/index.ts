@@ -126,7 +126,8 @@ const start = (
     logger: logger,
   };
   // Configure cors
-  if (origins.length === 0) {
+  if (origins.length !== 0) {
+    logger.info(`CORS enabled for ${origins.join(", ")}`)
     app.use(cors({
       origin: origins
     }));
