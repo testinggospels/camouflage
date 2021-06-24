@@ -19,6 +19,7 @@ ssl:
   key: "./certs/server.key"
 protocols:
   http:
+    enable: true
     mocks_dir: "./mocks"
     port: 8080
   https:
@@ -27,6 +28,10 @@ protocols:
   http2:
     enable: false
     port: 8081
+  ws:
+    enable: false
+    mocks_dir: "./ws_mocks"
+    port: 8082
   grpc:
     enable: false
     host: localhost
@@ -36,6 +41,11 @@ protocols:
 backup:
   enable: true
   cron: "0 * * * *" # Hourly Backup
+ext_helpers: "./custom_handlebar.json" # Remove if not needed
+origins:
+  - http://localhost:3000/
+  - http://localhost:3001/
+  - http://localhost:5000/
 ```
 
 ## Create your first mock

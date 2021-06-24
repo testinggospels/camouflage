@@ -35,7 +35,7 @@ if (help) {
       ` key: "./certs/server.key"`,
       `protocols:`,
       ` http:`,
-      `   enable: true`
+      `   enable: true`,
       `   mocks_dir: "./mocks"`,
       `   port: 8080`,
       ` https:`,
@@ -44,6 +44,10 @@ if (help) {
       ` http2:`,
       `   enable: true`,
       `   port: 8081`,
+      ` ws:`,
+      `   enable: false`,
+      `   mocks_dir: "./ws_mocks"`,
+      `   port: 8082`,
       ` grpc:`,
       `   enable: false`,
       `   port: 5000`,
@@ -54,6 +58,16 @@ if (help) {
       `backup:`,
       `  enable: true`,
       `  cron: "0 * * * *" # Hourly Backup`,
+      `cache:`,
+      `  enable: false`,
+      `  ttl_seconds: 300`,
+      `injection:`,
+      `  enable: false`,
+      `ext_helpers: "./custom_handlebar.json" # Remove if not needed`,
+      `origins:`,
+      `  - http://localhost:3000/`,
+      `  - http://localhost:3001/`,
+      `  - http://localhost:5000/`
     ].join("\n")
   );
   process.exit(1);
@@ -87,6 +101,7 @@ if (!configFile) {
  * If a valid config file is found, load the data using yaml loader
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
+const origins = config.origins ? config.origins : [];
 /**
  * Define logger with specified configured log level
  */
@@ -142,6 +157,10 @@ let inputsKeys = [
   "https.enable",
   "http2.enable",
   "grpc.enable",
+  "ws.enable",
+  "cache.enable",
+  "injection.enable",
+  "origins",
   "ssl.key",
   "ssl.cert",
   "https.port",
@@ -155,6 +174,7 @@ let inputsKeys = [
   "backup.cron",
   "configFile",
   "ext_helpers",
+  "cache.ttl_seconds",
 ];
 /**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
@@ -171,6 +191,9 @@ let inputs = [
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
   config.protocols.ws.enable,
+  config.cache.enable,
+  config.injection.enable,
+  origins,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
   config.protocols.https.port || 8443,
@@ -185,6 +208,7 @@ let inputs = [
   config.backup.cron || "0 * * * *",
   configFile,
   config.ext_helpers || null,
+  config.cache.ttl_seconds || 0,
 ];
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater

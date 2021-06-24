@@ -1,6 +1,5 @@
 // Import dependencies
 import express from "express";
-import bodyParser from "body-parser";
 import cluster from "cluster";
 import path from "path";
 import * as expressWinston from "express-winston";
@@ -19,6 +18,8 @@ import * as filemanager from "@opuscapita/filemanager-server";
 const filemanagerMiddleware = filemanager.middleware;
 // @ts-ignore
 import swStats from "swagger-stats";
+// @ts-ignore
+import cors from 'cors';
 /**
  * Gets the location of documentation folder
  */
@@ -53,13 +54,13 @@ app.use(
   })
 );
 // Configure express to understand json request body
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 // Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
 const compression = require("compression");
 app.use(compression());
 let cache = apicache.middleware;
-app.use(cache("5 minutes"));
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
@@ -71,6 +72,10 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableHttps true if https is to be enabled
  * @param {boolean} enableHttp2 true if http2 is to be enabled
  * @param {boolean} enableGrpc true if grpc is to be enabled
+ * @param {boolean} enableWs true if websockets is to be enabled
+ * @param {boolean} enableCache true if cache is to be enabled
+ * @param {boolean} enableInjection true if code injection is to be enabled
+ * @param {string[]} origins array of allowed origins
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
  * @param {number} inputHttpsPort Input https port, overrides httpsPort
@@ -84,6 +89,7 @@ app.get("/stats", function (req, res) {
  * @param {string} backupCron cron schedule for backup
  * @param {string} configFilePath location of config file
  * @param {string} extHelpers location of the external handlebars json file
+ * @param {number} cacheTtl cache age in seconds
  */
 const start = (
   inputMocksDir: string,
@@ -94,6 +100,9 @@ const start = (
   enableHttp2: boolean,
   enableGrpc: boolean,
   enableWs: boolean,
+  enableCache: boolean,
+  enableInjection: boolean,
+  origins: string[],
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
@@ -107,7 +116,8 @@ const start = (
   backupEnable?: boolean,
   backupCron?: string,
   configFilePath?: string,
-  extHelpers?: string
+  extHelpers?: string,
+  cacheTtl?: number
 ) => {
   const config = {
     fsRoot: path.resolve(mocksDir),
@@ -115,6 +125,17 @@ const start = (
     rootName: "Camouflage",
     logger: logger,
   };
+  // Configure cors
+  if (origins.length !== 0) {
+    logger.info(`CORS enabled for ${origins.join(", ")}`)
+    app.use(cors({
+      origin: origins
+    }));
+  }
+  if (enableCache) {
+    logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
+    app.use(cache(`${cacheTtl} seconds`));
+  }
   app.use(filemanagerMiddleware(config));
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
@@ -136,7 +157,7 @@ const start = (
     res.sendFile("index.html", { root: ui_root });
   });
   // Register Handlebars
-  registerHandlebars(extHelpers);
+  registerHandlebars(extHelpers, enableInjection);
   // Register Controllers
   new CamouflageController(app, mocksDir, grpcMocksDir);
   new GlobalController(app, mocksDir);

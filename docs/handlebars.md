@@ -163,6 +163,27 @@ Usage: CSV Helper allows you to provide a data source as an input along with two
 
 For more details on how to use csv helper, refer to CSV Data Source page.
 
+## proxy
+
+Type: Custom Helper
+
+Usage: Proxy Helper allows you to redirect your calls to an actual downstream selectively. You might want to redirect all calls to actual downstream or some calls based on some condition, i.e. if a specific header exists, or a query param is provided. Example mock file content:
+
+```
+HTTP/1.1 200 OK
+x-additional-headers: somevalue
+
+{{#proxy}}
+{
+    "target": "http://target_host:3000/"
+}
+{{/proxy}}
+```
+
+
+
+For more details on how to use proxy helper, refer to Proxy page.
+
 ## Inbuilt Helpers
 
 !!! note

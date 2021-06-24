@@ -4,6 +4,10 @@ import fs from "fs";
 import os from "os";
 import Handlebars from "handlebars";
 import logger from "../logger";
+import { ProxyResponse } from "../handlebar/ProxyHelper";
+// @ts-ignore
+import * as httpProxy from "http-proxy";
+const proxy = httpProxy.createProxyServer({});
 let DELAY: number = 0;
 /**
  * Create a parser class which defines methods to parse
@@ -175,6 +179,13 @@ export class HttpParser {
                   logger.debug(`Generated Response ${codeResponse["body"]}`);
                   this.res.send(codeResponse["body"]);
                 });
+                break;
+              case "proxy":
+                /* eslint-disable no-case-declarations */
+                const proxyResponse: ProxyResponse = JSON.parse(responseBody);
+                /* eslint-disable no-case-declarations */
+                const target = proxyResponse.data.target;
+                proxy.web(this.req, this.res, { target: target });
                 break;
               default:
                 setTimeout(() => {
