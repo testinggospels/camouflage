@@ -136,7 +136,7 @@ export class HttpParser {
       } else {
         if (line !== "" && !PARSE_BODY) {
           let headerKey = line.split(":")[0];
-          let headerValue = line.split(":")[1];
+          let headerValue = line.split(":").slice(1).join(":");
           if (headerKey === "Response-Delay") {
             DELAY = <number>(<unknown>headerValue);
             logger.debug(`Delay Set ${headerValue}`);
