@@ -53,6 +53,8 @@ if (help) {
       `   port: 5000`,
       `   mocks_dir: "./grpc/mocks"`,
       `   protos_dir: "./grpc/protos"`,
+      ` ws:`,
+      `   enable: false`,
       `backup:`,
       `  enable: true`,
       `  cron: "0 * * * *" # Hourly Backup`,
