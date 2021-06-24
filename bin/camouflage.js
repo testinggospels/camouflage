@@ -26,7 +26,7 @@ if (help) {
   console.log(
     [
       "Create a config.yml file as shown in the sample yml below",
-      `loglevel: 'info'`,
+      `loglevel: info`,
       `cpus: 1`,
       `monitoring:`,
       ` port: 5555`,
@@ -35,8 +35,9 @@ if (help) {
       ` key: "./certs/server.key"`,
       `protocols:`,
       ` http:`,
+      `   enable: true`
       `   mocks_dir: "./mocks"`,
-      `   port: 8080"`,
+      `   port: 8080`,
       ` https:`,
       `   enable: false`,
       `   port: 8443`,
@@ -48,6 +49,8 @@ if (help) {
       `   port: 5000`,
       `   mocks_dir: "./grpc/mocks"`,
       `   protos_dir: "./grpc/protos"`,
+      ` ws:`,
+      `   enable: false`,
       `backup:`,
       `  enable: true`,
       `  cron: "0 * * * *" # Hourly Backup`,
