@@ -16,7 +16,7 @@
     
     
       
-        <title>Camouflage</title>
+        <title>Default Response - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#home" class="md-skip">
+        <a href="#default-response" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Default Response
             
           </span>
         </div>
@@ -223,58 +223,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
         Home
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-camouflage" class="md-nav__link">
-    What is Camouflage?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
-    Why did we create Camouflage if a similar tool already exists?
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -345,11 +298,21 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="default-response.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="default-response.html" class="md-nav__link md-nav__link--active">
         Default Response
       </a>
+      
     </li>
   
 
@@ -576,44 +539,29 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/default-response.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="home">Home</h1>
-<p align="center">
-    <img src="camouflage.png" alt="camouflage.png" width="300"/>
-    <h3 align="center">Camouflage</h3>
-    <p align="center">HTTP/gRPC Mocking tool</p>
-    <p align="center">
-      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
-      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
-      <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
-    </p>
-</p>
-
-<h2 id="what-is-camouflage">What is Camouflage?</h2>
-<p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
-<h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
-<p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
-<ol>
-<li>The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.</li>
-<li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
-<li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
-<li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
-<li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
-<li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)</li>
-<li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
-<li>Camouflage provides support for monitoring.</li>
-</ol>
-<p>Head on over to the Getting Started page and set up your first Camouflage project.</p>
+                <h1 id="default-response">Default Response</h1>
+<p>By default, Camouflage sends a default response for the APIs for which it cannot find a corresponding mock file.</p>
+<pre><code class="language-json">{
+    &quot;error&quot;: &quot;Not Found&quot;
+}
+</code></pre>
+<p>However as a user you have the abitlity to override it at API level or at the global level. Consider the example below.</p>
+<ul>
+<li>If you make a <code>GET</code> call to <code>/hello-world/greet/me</code>, Camouflage will first evaluate the mock file location as <code>${MOCK_DIR}/hello-world/greet/me/GET.mock</code>.</li>
+<li>If above file is not found, Camouflage will look for a closest match.<ul>
+<li>Let's say you don't have a folder <code>${MOCK_DIR}/hello-world/greet/me</code>, but you have a folder <code>${MOCK_DIR}/hello-world/greet</code>, closest match would be evalutated to <code>${MOCK_DIR}/hello-world/greet/__/GET.mock</code></li>
+<li>Similarily if you don't have a folder <code>${MOCK_DIR}/hello-world/greet/me</code>, but you have a folder <code>${MOCK_DIR}/hello-world</code>, closest match would be evalutated to <code>${MOCK_DIR}/hello-world/__/GET.mock</code></li>
+<li>In short, closest match is <code>${MOCK_DIR} + last available folder + wildcard + ${HTTP_VERB}.mock</code>. This is your API level default response.</li>
+</ul>
+</li>
+<li>If none of the files are found as shown above, Camouflage will make one final attempt to find <code>${MOCK_DIR}/__/GET.mock</code>. This is your global level default response.</li>
+<li>In case a global level default response too, is not found, Camouflage will fallback to it's inbuilt default response.</li>
+</ul>
                 
               
               
@@ -632,15 +580,30 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        
+        <a href="request-matching.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Request matching" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Request matching
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="getting-started.html" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started" rel="next">
+        <a href="external-helper.html" class="md-footer__link md-footer__link--next" aria-label="Next: External Helpers" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Getting Started
+              External Helpers
             </div>
           </div>
           <div class="md-footer__button md-icon">

@@ -16,7 +16,7 @@
     
     
       
-        <title>Camouflage</title>
+        <title>OpenAPI Conversion - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#home" class="md-skip">
+        <a href="#openapi-conversion" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              OpenAPI Conversion
             
           </span>
         </div>
@@ -223,58 +223,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="index.html" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
         Home
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#what-is-camouflage" class="md-nav__link">
-    What is Camouflage?
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
-    Why did we create Camouflage if a similar tool already exists?
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -540,11 +493,51 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="openAPI-conversion.html" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          OpenAPI Conversion
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="openAPI-conversion.html" class="md-nav__link md-nav__link--active">
         OpenAPI Conversion
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#getting-started" class="md-nav__link">
+    Getting started
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -576,44 +569,31 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/openAPI-conversion.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="home">Home</h1>
-<p align="center">
-    <img src="camouflage.png" alt="camouflage.png" width="300"/>
-    <h3 align="center">Camouflage</h3>
-    <p align="center">HTTP/gRPC Mocking tool</p>
-    <p align="center">
-      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
-      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
-      <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
-    </p>
-</p>
-
-<h2 id="what-is-camouflage">What is Camouflage?</h2>
-<p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
-<h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
-<p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
-<ol>
-<li>The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.</li>
-<li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
-<li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
-<li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
-<li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
-<li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)</li>
-<li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
-<li>Camouflage provides support for monitoring.</li>
-</ol>
-<p>Head on over to the Getting Started page and set up your first Camouflage project.</p>
+                <h1 id="openapi-conversion">OpenAPI Conversion</h1>
+<p>If you have access to the OpenAPI specification for the APIs/Endpoints you want to mock, Camouflage supports the conversion via an external utility, <code>camoswag</code>.</p>
+<h3 id="getting-started">Getting started</h3>
+<ul>
+<li>To use <code>camoswag</code>, you would need your OpenAPI specification file in either .json or .yaml format.</li>
+<li>You don't need to install camoswag locally on your machine, you can simply run the script using npx.</li>
+<li>Run the command: <code>npx camoswag --spec ./swagger.yaml</code> or <code>npx camoswag --spec ./swagger.json</code>. (Replace file location with your spec file location)</li>
+<li>If you would like to install <code>camoswag</code> locally, you can do so by running the command: <code>npm i -g camoswag</code>. For conversion use, <code>camoswag --spec ./swagger.yaml</code></li>
+<li>This would create a new folder with the name <code>camouflage-${current_timestamp}</code> containing the required folder structure and mock files corresponding to each endpoint defined in your spec file.</li>
+<li>You can either delete or modify the dummy responses placed in the mockfiles as per your expectations. Once you are satisfied with the modifications, you can move the contents of the folder to your original ${MOCK_DIR} of your running Camouflage server.</li>
+<li>Note that if your spec file doesn't contain a response defined for a given endpoint, <code>camoswag</code> would put following default response in the mock file.</li>
+</ul>
+<pre><code class="language-json">{
+  &quot;message&quot;: &quot;More Configuration Needed&quot;
+}
+</code></pre>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>camoswag currenty supports JSON responses only.</p>
+</div>
                 
               
               
@@ -632,15 +612,30 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        
+        <a href="back-up-and-restore.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Backup and Restore" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Backup and Restore
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="getting-started.html" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started" rel="next">
+        <a href="contributing.html" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Getting Started
+              Contributing
             </div>
           </div>
           <div class="md-footer__button md-icon">
