@@ -1,4 +1,4 @@
-# Custom Handlebars
+# External Helpers
 
 Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file contaning the definition of your custom helper. Example:
 
