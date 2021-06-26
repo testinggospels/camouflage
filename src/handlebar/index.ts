@@ -26,11 +26,11 @@ const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
     logger.warn("Code Injection is enabled.")
     new CodeHelper().register();
     new InjectHelper().register();
+    if (extHelpers !== null) {
+      registerCustomHandlebars(extHelpers);
+    }
   }
   new ProxyHelper().register();
-  if (extHelpers !== null) {
-    registerCustomHandlebars(extHelpers);
-  }
   logger.info("Handlebar helpers registration completed");
 };
 export default registerHandlebars;
