@@ -110,3 +110,9 @@ Another, easier, approach to create mocks is by installing the [REST Client VS C
 - Visit [REST Client github repository](https://github.com/Huachao/vscode-restclient){target=\_blank} for more details on usage
 
 ![REST-Client](REST-Client.gif)
+
+## Line Breaks in mock files 
+
+!!! note
+
+    Camouflage by default looks for the OS specific line breaks. For example, if you are on MacOS or Unix based systems, default line break/new line is `\n`, whereas on windows it's `\r\n`. This might be an issue if your development environment and testing environment are different for Camouflage. For example, if you have created your mock file on a windows machine and uploaded it to a Camouflage server running on linux, your mocks might not work as expected. Or in case your text editor's line break settings does not match your OS default line break. We are currently working on a solution to help us move away from OS default line breaks and towards detecting line breaks by parsing the mock file itself.
