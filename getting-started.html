@@ -16,7 +16,7 @@
     
     
       
-        <title>Camouflage</title>
+        <title>Getting Started - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#home" class="md-skip">
+        <a href="#getting-started" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Getting Started
             
           </span>
         </div>
@@ -223,6 +223,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -235,12 +250,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Home
+          Getting Started
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="index.html" class="md-nav__link md-nav__link--active">
-        Home
+      <a href="getting-started.html" class="md-nav__link md-nav__link--active">
+        Getting Started
       </a>
       
         
@@ -258,16 +273,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-is-camouflage" class="md-nav__link">
-    What is Camouflage?
+  <a href="#configuration-options-sample-config-yml-file" class="md-nav__link">
+    Configuration Options / Sample Config yml File
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
-    Why did we create Camouflage if a similar tool already exists?
+  <a href="#create-your-first-mock" class="md-nav__link">
+    Create your first mock
   </a>
+  
+    <nav class="md-nav" aria-label="Create your first mock">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#building-from-source" class="md-nav__link">
+    Building from source
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -275,21 +303,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="getting-started.html" class="md-nav__link">
-        Getting Started
-      </a>
     </li>
   
 
@@ -576,44 +589,93 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/getting-started.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="home">Home</h1>
-<p align="center">
-    <img src="camouflage.png" alt="camouflage.png" width="300"/>
-    <h3 align="center">Camouflage</h3>
-    <p align="center">HTTP/gRPC Mocking tool</p>
-    <p align="center">
-      <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
-      <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
-      <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
-    </p>
-</p>
-
-<h2 id="what-is-camouflage">What is Camouflage?</h2>
-<p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
-<h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
-<p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
+                <h1 id="getting-started">Getting Started</h1>
 <ol>
-<li>The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.</li>
-<li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
-<li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
-<li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
-<li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
-<li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)</li>
-<li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
-<li>Camouflage provides support for monitoring.</li>
+<li>Camouflage is an NPM package, therefore to install Camouflage, you'd need to install NodeJS (&gt;v14) first, if you haven't already done so.</li>
+<li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
+<li>Run <code>camouflage --version</code> to validate the installation was successful.</li>
+<li>Create an empty directory anywhere in your machine and navigate to it in your terminal.</li>
+<li>Execute command <code>camouflage init</code>. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.</li>
+<li>Start the Camouflage server by initializing it with a config.yml file: <code>camouflage --config config.yml</code></li>
 </ol>
-<p>Head on over to the Getting Started page and set up your first Camouflage project.</p>
+<h2 id="configuration-options-sample-config-yml-file">Configuration Options / Sample Config yml File</h2>
+<pre><code class="language-yaml">loglevel: info
+cpus: 1
+monitoring:
+  port: 5555
+ssl:
+  cert: &quot;./certs/server.cert&quot;
+  key: &quot;./certs/server.key&quot;
+protocols:
+  http:
+    enable: true
+    mocks_dir: &quot;./mocks&quot;
+    port: 8080
+  https:
+    enable: false
+    port: 8443
+  http2:
+    enable: false
+    port: 8081
+  ws:
+    enable: false
+    mocks_dir: &quot;./ws_mocks&quot;
+    port: 8082
+  grpc:
+    enable: false
+    host: localhost
+    port: 4312
+    mocks_dir: &quot;./grpc/mocks&quot;
+    protos_dir: &quot;./grpc/protos&quot;
+backup:
+  enable: true
+  cron: &quot;0 * * * *&quot; # Hourly Backup
+cache:
+  enable: false
+  ttl_seconds: 300
+injection:
+  enable: true
+ext_helpers: &quot;./custom_handlebar.json&quot; # Remove if not needed
+origins:
+  - http://localhost:3000/
+  - http://localhost:3001/
+  - http://localhost:5000/
+</code></pre>
+<h2 id="create-your-first-mock">Create your first mock</h2>
+<p>Camouflage follows the same convention as mockserver to create mocks. For example,</p>
+<ol>
+<li>You start by creating a directory <code>${MOCKS_DIR}/hello-world</code></li>
+<li>Create a file GET.mock under <code>${MOCKS_DIR}/hello-world</code></li>
+<li>Paste following content:</li>
+</ol>
+<pre><code>HTTP/1.1 200 OK
+X-Custom-Header: Custom-Value
+Content-Type: application/json
+
+{
+    &quot;greeting&quot;: &quot;Hey! It works!&quot;
+}
+</code></pre>
+<p>Navigate to <a href="http://localhost:8080/hello-world" target="_blank">http://localhost:8080/hello-world</a></p>
+<h3 id="building-from-source">Building from source</h3>
+<p>If you'd like to get the latest version of Camouflage, you can build it from the source.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.</p>
+</div>
+<ol>
+<li>Clone the repository: <code>git clone https://github.com/fauxauldrich/camouflage.git</code></li>
+<li>Install dependencies: <code>npm install</code></li>
+<li>Build the project: <code>npm build</code></li>
+<li>At this point you can run Camouflage using: <code>node bin/camouflage.js --config ./config.yml</code></li>
+<li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
+<li>Install by running command: <code>npm install -g camouflage-server-${version}.tgz</code> or <code>npm install -g camouflage-server-${version}.zip</code></li>
+</ol>
                 
               
               
@@ -632,15 +694,30 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        
+        <a href="index.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Home
+            </div>
+          </div>
+        </a>
+      
       
         
-        <a href="getting-started.html" class="md-footer__link md-footer__link--next" aria-label="Next: Getting Started" rel="next">
+        <a href="folder-structure.html" class="md-footer__link md-footer__link--next" aria-label="Next: Folder Structure" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Getting Started
+              Folder Structure
             </div>
           </div>
           <div class="md-footer__button md-icon">
