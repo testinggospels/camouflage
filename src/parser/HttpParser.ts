@@ -124,7 +124,8 @@ export class HttpParser {
       const fileContentArray = removeBlanks(fileResponse.split("===="));
       fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
     }
-    const fileContent = fileResponse.trim().split(os.EOL);
+    const newLine = getNewLine(fileResponse);
+    const fileContent = fileResponse.trim().split(newLine);
     fileContent.forEach((line, index) => {
       if (line === "") {
         PARSE_BODY = true;
@@ -238,3 +239,26 @@ const getWildcardPath = (dir: string, mockDir: string) => {
   }
   return newPath;
 };
+const getNewLine = (source: string) => {
+  var cr = source.split("\r").length;
+  var lf = source.split("\n").length;
+  var crlf = source.split("\r\n").length;
+
+  if (cr + lf === 0) {
+    logger.warn(`No valid new line found in the mock file. Using OS default: ${os.EOL}`);
+    return os.EOL;
+  }
+
+  if (crlf === cr && crlf === lf) {
+    logger.debug("Using new line as \\r\\n")
+    return "\r\n";
+  }
+
+  if (cr > lf) {
+    logger.debug("Using new line as \\r")
+    return "\r";
+  } else {
+    logger.debug("Using new line as \\n")
+    return "\n";
+  }
+}

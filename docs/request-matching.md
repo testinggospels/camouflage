@@ -50,11 +50,9 @@ We are going to check if a query parameter with the key 'name' exists in the inc
 {{#if request.query.name}}
 ```
 
-You can also check if that parameter equals a certain value
+!!! note
 
-```
-{{#if request.query.name='John'}}
-```
+    `if` and `unless` helpers are provided by handlebarjs, which don't have comparison capabilities. These helpers only check if the provided value is truthy or falsy. i.e. you can not do something like this: `{{#if something = something}}`. For comparisons, you'd need to write your own helper and load it as an [external helpers](/external-helper.html) for Camouflage. More context can be found in this [discussion](https://github.com/testinggospels/camouflage/discussions/64){target=\_blank}
 
 Rest of the code is self explanatory, where if the condition is true, i.e. incoming request has a query parameter with key `name`, the `greeting` field in our response object would be `Hello John`, else the greeting would be `Hello World`.
 

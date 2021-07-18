@@ -73,6 +73,11 @@ protocols:
 backup:
   enable: true
   cron: "0 * * * *" # Hourly Backup
+cache:
+  enable: false
+  ttl_seconds: 300
+injection:
+  enable: true
 ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
@@ -115,7 +120,7 @@ If you'd like to get the latest version of Camouflage, you can build it from the
 
 ### Contributing
 
-Read the [contributing guide](https://github.com/testinggospels/camouflage/blob/development/CONTRIBUTING.md)
+Read the [contributing guide](https://github.com/testinggospels/camouflage/blob/main/CONTRIBUTING.md)
 
 ### License
 ```
