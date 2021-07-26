@@ -105,35 +105,42 @@ export default class Protocols {
       logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort} ⛳`);
       server.start();
     });
-    packages.forEach((entry: any) => {
-      let keys = Object.keys(entry);
-      keys = keys.filter((key) => {
-        return entry[key]["service"] !== undefined;
+    packages.forEach((pkg: any) => {
+      let service: any;
+      let getObject = function (pkg: any) {
+        for (var prop in pkg) {
+          if (prop == 'service') {
+            service = pkg[prop];
+            break;
+          } else {
+            if (pkg[prop] instanceof Object) {
+              getObject(pkg[prop]);
+            }
+          }
+        }
+      }
+      getObject(pkg);
+      let methods = Object.keys(service);
+      let methodDefinition: Record<string, any> = {};
+      methods.forEach((method) => {
+        if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
+          logger.debug(`Registering Unary method: ${method}`);
+          methodDefinition[method] = grpcParser.camouflageMock;
+        }
+        if (service[method]["responseStream"] && !service[method]["requestStream"]) {
+          logger.debug(`Registering method with server side streaming: ${method}`);
+          methodDefinition[method] = grpcParser.camouflageMockServerStream;
+        }
+        if (!service[method]["responseStream"] && service[method]["requestStream"]) {
+          logger.debug(`Registering method with client side streaming: ${method}`);
+          methodDefinition[method] = grpcParser.camouflageMockClientStream;
+        }
+        if (service[method]["responseStream"] && service[method]["requestStream"]) {
+          logger.debug(`Registering method with BIDI streaming: ${method}`);
+          methodDefinition[method] = grpcParser.camouflageMockBidiStream;
+        }
       });
-      keys.forEach((key) => {
-        let service = entry[key]["service"];
-        let methods = Object.keys(service);
-        let methodDefinition: Record<string, any> = {};
-        methods.forEach((method) => {
-          if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
-            logger.debug(`Registering Unary method: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMock;
-          }
-          if (service[method]["responseStream"] && !service[method]["requestStream"]) {
-            logger.debug(`Registering method with server side streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockServerStream;
-          }
-          if (!service[method]["responseStream"] && service[method]["requestStream"]) {
-            logger.debug(`Registering method with client side streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockClientStream;
-          }
-          if (service[method]["responseStream"] && service[method]["requestStream"]) {
-            logger.debug(`Registering method with BIDI streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockBidiStream;
-          }
-        });
-        server.addService(service, methodDefinition);
-      });
+      server.addService(service, methodDefinition);
     });
   };
   /**

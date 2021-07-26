@@ -4,7 +4,7 @@ Camouflage lets you condition your resposne for a specific set of data. Because 
 
 !!!caution
 
-        Not that, though we are calling it a "c"sv, it's not really comma seperated, Camouflage expects the values to be seperated by a semicolon. i.e. ;
+        Note that, though we are calling it a "c"sv, it's not really comma seperated, Camouflage expects the values to be seperated by a semicolon. i.e.;
 
 Usage:
 

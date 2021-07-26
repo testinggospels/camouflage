@@ -29,6 +29,8 @@ const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
     if (extHelpers !== null) {
       registerCustomHandlebars(extHelpers);
     }
+  } else {
+    logger.warn("Code Injection is disabled. Handlebars such as code and inject and functionalities such as external helpers, will not work. ")
   }
   new ProxyHelper().register();
   logger.info("Handlebar helpers registration completed");

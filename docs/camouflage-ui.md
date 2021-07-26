@@ -9,6 +9,10 @@ Camouflage also provide a file explorer UI allowing you to work with your mocks.
 - Download logs
 - Download config yaml
 
+!!!caution
+
+        To access Camouflage UI, one of these protocols, i.e. http, https should be enabled.
+
 Screenshots:
 ![CamouflageUI-1](CamouflageUI-1.png)
 ![CamouflageUI-2](CamouflageUI-2.png)

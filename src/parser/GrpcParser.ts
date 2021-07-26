@@ -32,7 +32,7 @@ export default class GrpcParser {
   camouflageMock = (call: any, callback: any) => {
     try {
       let handlerPath = call.call.handler.path;
-      let mockFile = handlerPath.replace(".", "/");
+      let mockFile = handlerPath.replace(/\./g, "/");
       let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
       if (fs.existsSync(mockFilePath)) {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
@@ -68,7 +68,7 @@ export default class GrpcParser {
    */
   camouflageMockServerStream = (call: any) => {
     let handlerPath = call.call.handler.path;
-    let mockFile = handlerPath.replace(".", "/");
+    let mockFile = handlerPath.replace(/\./g, "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
     if (fs.existsSync(mockFilePath)) {
       try {
@@ -125,7 +125,7 @@ export default class GrpcParser {
     call.on("end", () => {
       try {
         let handlerPath = call.call.handler.path;
-        let mockFile = handlerPath.replace(".", "/");
+        let mockFile = handlerPath.replace(/\./g, "/");
         let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
         if (fs.existsSync(mockFilePath)) {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
@@ -162,7 +162,7 @@ export default class GrpcParser {
    */
   camouflageMockBidiStream = (call: any) => {
     let handlerPath = call.call.handler.path;
-    let mockFile = handlerPath.replace(".", "/");
+    let mockFile = handlerPath.replace(/\./g, "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
     call.on("data", () => {
       if (fs.existsSync(mockFilePath)) {
