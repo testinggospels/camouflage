@@ -107,7 +107,7 @@ export default class Protocols {
     });
     packages.forEach((pkg: any) => {
       let service: any;
-      function getObject(pkg: any) {
+      let getObject = function (pkg: any) {
         for (var prop in pkg) {
           if (prop == 'service') {
             service = pkg[prop];
