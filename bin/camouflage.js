@@ -204,7 +204,7 @@ let inputs = [
   config.protocols.grpc.mocks_dir || path.join(site_root, "grpc", "mocks"),
   config.protocols.grpc.protos_dir || path.join(site_root, "grpc", "protos"),
   config.loglevel || "info",
-  config.backup.enable || true,
+  config.backup.enable,
   config.backup.cron || "0 * * * *",
   configFile,
   config.ext_helpers || null,
