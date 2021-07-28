@@ -86,11 +86,11 @@ export default class Protocols {
   initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
     this.grpcMocksDir = grpcMocksDir;
     const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
-    const availableProtoFiles: string[] = fs.readdirSync(grpcProtosDir);
+    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto");
     let grpcObjects: grpc.GrpcObject[] = [];
     let packages: any = [];
     availableProtoFiles.forEach((availableProtoFile) => {
-      let packageDef = protoLoader.loadSync(path.join(grpcProtosDir, availableProtoFile), {});
+      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), {});
       let definition = grpc.loadPackageDefinition(packageDef);
       grpcObjects.push(definition);
     });
@@ -201,4 +201,26 @@ export default class Protocols {
       });
     });
   };
+}
+
+let fromDir = function (startPath: string, filter: string) {
+  let availableFiles = [];
+  if (!fs.existsSync(startPath)) {
+    console.log("no dir ", startPath);
+    return;
+  }
+
+  var files = fs.readdirSync(startPath);
+  for (var i = 0; i < files.length; i++) {
+    var filename = path.join(startPath, files[i]);
+    var stat = fs.lstatSync(filename);
+    if (stat.isDirectory()) {
+      fromDir(filename, filter);
+    }
+    else if (filename.indexOf(filter) >= 0) {
+      logger.debug(`Found protofile: ${filename}`)
+      availableFiles.push(filename)
+    }
+  }
+  return availableFiles;
 }
