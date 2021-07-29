@@ -122,26 +122,36 @@ export default class Protocols {
       getObject(pkg);
       if (service) {
         let methods = Object.keys(service);
-        let methodDefinition: Record<string, any> = {};
         methods.forEach((method) => {
           if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
-            logger.debug(`Registering Unary method: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMock;
+            if (server.register(service[method]["path"], grpcParser.camouflageMock, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'unary')) {
+              logger.debug(`Registering Unary method: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
           }
           if (service[method]["responseStream"] && !service[method]["requestStream"]) {
-            logger.debug(`Registering method with server side streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockServerStream;
+            if (server.register(service[method]["path"], grpcParser.camouflageMockServerStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'serverStream')) {
+              logger.debug(`Registering method with server side streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
           }
           if (!service[method]["responseStream"] && service[method]["requestStream"]) {
-            logger.debug(`Registering method with client side streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockClientStream;
+            if (server.register(service[method]["path"], grpcParser.camouflageMockClientStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'clientStream')) {
+              logger.debug(`Registering method with client side streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
           }
           if (service[method]["responseStream"] && service[method]["requestStream"]) {
-            logger.debug(`Registering method with BIDI streaming: ${method}`);
-            methodDefinition[method] = grpcParser.camouflageMockBidiStream;
+            if (server.register(service[method]["path"], grpcParser.camouflageMockBidiStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'bidi')) {
+              logger.debug(`Registering method with BIDI streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
           }
         });
-        server.addService(service, methodDefinition);
       }
     });
   };
@@ -202,9 +212,8 @@ export default class Protocols {
     });
   };
 }
-
+let availableFiles: string[] = [];
 let fromDir = function (startPath: string, filter: string) {
-  let availableFiles = [];
   if (!fs.existsSync(startPath)) {
     console.log("no dir ", startPath);
     return;
