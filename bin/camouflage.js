@@ -25,8 +25,7 @@ if (fs.existsSync(path.resolve("./.protoignore"))) {
   lines = lines.split(/\r?\n/).filter((line) => line.trim() !== "" && line.charAt(0) !== "#");
   lines.forEach(line => {
     protoIgnore.push(path.resolve(line))
-  })
-  console.log(protoIgnore)
+  });
 }
 /**
  * If user runs command camouflage -h, this if block will log the required format for a config.yml file and exit.

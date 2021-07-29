@@ -35,6 +35,11 @@ If your package name is in the format **com.foo.bar.package**, format your folde
 }
 ```
 
+!!!note
+
+    If your protofile is importing any other local protofile, Camouflage registers the services/methods in the imported protofile as part of the primary protofile. In this case you'd need to specify the absolute or relative path of the imported protofile in a .protoignore file placed at the root of your Camouflage project.
+    For example, you have a protofile A. i.e. `./grpc/protos/protofileA.proto`, which imports protofile B, i.e. `./grpc/protos/subdir/protofileB.proto`. All necessary parsing and registrations will be done as part of loading protofile A, Camouflage does not need to load protofile B seperately. However, this instruction needs to be passed to Camouflage by placing the path `./grpc/protos/subdir/protofileB.proto` in a `.protoignore` placed at the root of your Camouflage project. If appropriate protoignore does not exist, Camouflage will show a warning in your logs as `Not re-registering some_method. Already registered.`
+
 ## Creating a gRPC Mock - Server Side Streaming
 
 In case you are creating a service with server side streaming, you can place a seperator between each chunk of responses in following manner:

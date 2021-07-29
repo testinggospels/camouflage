@@ -1,200 +1,236 @@
-// Import dependencies
 import express from "express";
-import cluster from "cluster";
+import fs from "fs";
 import path from "path";
-import * as expressWinston from "express-winston";
-import registerHandlebars from "./handlebar";
-import Protocols from "./protocols";
-import GlobalController from "./routes/GlobalController";
-import CamouflageController from "./routes/CamouflageController";
-import BackupScheduler from "./BackupScheduler";
-import logger from "./logger";
-import { setLogLevel } from "./logger";
-import child_process from "child_process";
+import http from "http";
+import https from "https";
 // @ts-ignore
-import apicache from "apicache";
+import spdy from "spdy";
+import * as grpc from "@grpc/grpc-js";
+import * as protoLoader from "@grpc/proto-loader";
+import WebSocket from "ws";
+import logger from "../logger";
+import GrpcParser from "../parser/GrpcParser";
+import { IncomingMessage } from "http";
+import WebsocketParser from "../parser/WebsocketParser";
 // @ts-ignore
-import * as filemanager from "@opuscapita/filemanager-server";
-const filemanagerMiddleware = filemanager.middleware;
-// @ts-ignore
-import swStats from "swagger-stats";
-// @ts-ignore
-import cors from 'cors';
+import { v4 as uuidv4 } from "uuid";
+const clients: string[] = [];
 /**
- * Gets the location of documentation folder
+ * Defines all protocols:
+ * Currently active:
+ * - HTTP
+ * - HTTPS
+ * - HTTP2
+ * - gRPC
+ * - Websocket
+ * @param {string} grpcMocksDir location of grpc mocks, not initialized as constructor variable, because grpc is an optional protocol
+ *                              instead it will be initialized in initGRPC method, if called.
  */
-let ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
-
-// Initialize variables with default values
-let mocksDir = "";
-let grpcMocksDir = "";
-let wsMocksDir = "";
-let grpcProtosDir = "";
-let grpcHost = "localhost";
-let port = 8080;
-let httpsPort = 8443;
-let http2Port = 8081;
-let grpcPort = 4312;
-let wsPort = 8082;
-const app = express();
-// Configure logging for express requests
-app.use(
-  expressWinston.logger({
-    level: () => "level",
-    winstonInstance: logger,
-    statusLevels: { error: "error", success: "debug", warn: "warn" },
-    msg: "HTTP {{req.method}} {{req.path}} :: Query Parameters: {{JSON.stringify(req.query)}} | Request Headers {{JSON.stringify(req.headers)}} | Request Body {{JSON.stringify(req.body)}}",
-  })
-);
-// Configure swagger-stats middleware for monitoring
-app.use(
-  swStats.getMiddleware({
-    name: "Camouflage",
-    uriPath: "/monitoring",
-  })
-);
-// Configure express to understand json request body
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-// Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
-app.use(express.static(ui_root));
-const compression = require("compression");
-app.use(compression());
-let cache = apicache.middleware;
-app.get("/stats", function (req, res) {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swStats.getCoreStats());
-});
-/**
- * Initializes required variables and starts a 1 master X workers configuration
- * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
- * @param {number} inputPort Input http port, overrides default 8080 port
- * @param {boolean} enableHttps true if https is to be enabled
- * @param {boolean} enableHttp2 true if http2 is to be enabled
- * @param {boolean} enableGrpc true if grpc is to be enabled
- * @param {boolean} enableWs true if websockets is to be enabled
- * @param {boolean} enableCache true if cache is to be enabled
- * @param {boolean} enableInjection true if code injection is to be enabled
- * @param {string[]} origins array of allowed origins
- * @param {string[]} protoIgnore array of ignored protoFiles
- * @param {string} key location of server.key file if https is enabled
- * @param {string} cert location of server.cert file if https is enabled
- * @param {number} inputHttpsPort Input https port, overrides httpsPort
- * @param {number} inputHttp2Port Input http2 port, overrides httpsPort
- * @param {string} inputGrpcHost Input gRPC host, overrides grpcHost
- * @param {number} inputGrpcPort Input gRPC port, overrides grpcPort
- * @param {string} inputGrpcMocksDir Input gRPC mocks directory location, overrides grpcMocksDir
- * @param {string} inputGrpcProtosDir Input gRPC protos directory location, overrides grpcProtos
- * @param {string} loglevel Desired loglevel
- * @param {string} backupEnable true if backup is enabled
- * @param {string} backupCron cron schedule for backup
- * @param {string} configFilePath location of config file
- * @param {string} extHelpers location of the external handlebars json file
- * @param {number} cacheTtl cache age in seconds
- */
-const start = (
-  inputMocksDir: string,
-  inputWsMocksDir: string,
-  inputPort: number,
-  enableHttp: boolean,
-  enableHttps: boolean,
-  enableHttp2: boolean,
-  enableGrpc: boolean,
-  enableWs: boolean,
-  enableCache: boolean,
-  enableInjection: boolean,
-  origins: string[],
-  protoIgnore: string[],
-  key?: string,
-  cert?: string,
-  inputHttpsPort?: number,
-  inputHttp2Port?: number,
-  inputWsPort?: number,
-  inputGrpcHost?: string,
-  inputGrpcPort?: number,
-  inputGrpcMocksDir?: string,
-  inputGrpcProtosDir?: string,
-  loglevel?: string,
-  backupEnable?: boolean,
-  backupCron?: string,
-  configFilePath?: string,
-  extHelpers?: string,
-  cacheTtl?: number,
-) => {
-  const config = {
-    fsRoot: path.resolve(mocksDir),
-    readOnly: false,
-    rootName: "Camouflage",
-    logger: logger,
+export default class Protocols {
+  private app: express.Application;
+  private port: number;
+  private httpsPort: number;
+  private grpcMocksDir: string;
+  /**
+   *
+   * @param {express.Application} app Express application to form the listener for http and https server
+   * @param {number} port HTTP server port
+   * @param {number} httpsPort HTTPs server port - currently initialized in constructor optionally but in future it'll be initialized if https is enabled
+   */
+  constructor(app: express.Application, port: number, httpsPort?: number) {
+    this.app = app;
+    this.port = port;
+    this.httpsPort = httpsPort;
+  }
+  /**
+   * Initialize HTTP server at specified port
+   * @returns {void}
+   */
+  initHttp = (): void => {
+    http.createServer(this.app).listen(this.port, () => {
+      logger.info(`Worker sharing HTTP server at http://localhost:${this.port} ⛳`);
+      this.app.emit("server-started");
+    });
   };
-  // Configure cors
-  if (origins.length !== 0) {
-    logger.info(`CORS enabled for ${origins.join(", ")}`)
-    app.use(cors({
-      origin: origins
-    }));
+  /**
+   * Initialize HTTPs server at specified port
+   * @param {string} key location of server.key file
+   * @param {string} cert location of server.cert file
+   * @returns {void}
+   */
+  initHttps = (key: string, cert: string) => {
+    let privateKey = fs.readFileSync(key, "utf8");
+    let certificate = fs.readFileSync(cert, "utf8");
+    let credentials = { key: privateKey, cert: certificate };
+    https.createServer(credentials, this.app).listen(this.httpsPort, () => {
+      logger.info(`Worker sharing HTTPs server at https://localhost:${this.httpsPort} ⛳`);
+    });
+  };
+  /**
+   * Initializes a gRPC server at specified host and port
+   * - Set location of gRPC mocks to be used by metod camouflageMock
+   * - Get an array of all .protofile in specified protos directory
+   * - Run forEach on the array and read and load package definition for each protofile in protos dir
+   * - For each definition, get the package details from all .proto files and store in a master packages object
+   * - Initialize a grpcServer
+   * - Create an insecure binding to given grpc host and port, and start the server
+   * - For each package, filter out objects with service definition, discard rest
+   * - For each method in the service definition, attach a generic handler, finally add service to running server
+   * - Handlers will vary based on the type of request, i.e. unary, bidi streams or one sided streams
+   * - Finally add all services to the server
+   * @param {string} grpcProtosDir location of proto files
+   * @param {string} grpcMocksDir location of mock files for grpc
+   * @param {string} grpcHost grpc host
+   * @param {number} grpcPort grpc port
+   */
+  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[]) => {
+    this.grpcMocksDir = grpcMocksDir;
+    const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
+    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto", protoIgnore);
+    let grpcObjects: grpc.GrpcObject[] = [];
+    let packages: any = [];
+    availableProtoFiles.forEach((availableProtoFile) => {
+      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), {});
+      let definition = grpc.loadPackageDefinition(packageDef);
+      grpcObjects.push(definition);
+    });
+    grpcObjects.forEach((grpcObject: grpc.GrpcObject) => {
+      Object.keys(grpcObject).forEach((availablePackage) => {
+        packages.push(grpcObject[`${availablePackage}`]);
+      });
+    });
+    const server = new grpc.Server();
+    server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err) => {
+      if (err) logger.error(err.message);
+      logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort} ⛳`);
+      server.start();
+    });
+    packages.forEach((pkg: any) => {
+      let service: any = [];
+      let getObject = function (pkg: any) {
+        for (var prop in pkg) {
+          if (prop == 'service') {
+            service.push(pkg[prop]);
+            break;
+          } else {
+            if (pkg[prop] instanceof Object) {
+              getObject(pkg[prop]);
+            }
+          }
+        }
+      }
+      getObject(pkg);
+      service.forEach((service: any) => {
+        let methods = Object.keys(service);
+        methods.forEach((method) => {
+          if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
+            if (server.register(service[method]["path"], grpcParser.camouflageMock, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'unary')) {
+              logger.debug(`Registering Unary method: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
+          }
+          if (service[method]["responseStream"] && !service[method]["requestStream"]) {
+            if (server.register(service[method]["path"], grpcParser.camouflageMockServerStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'serverStream')) {
+              logger.debug(`Registering method with server side streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
+          }
+          if (!service[method]["responseStream"] && service[method]["requestStream"]) {
+            if (server.register(service[method]["path"], grpcParser.camouflageMockClientStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'clientStream')) {
+              logger.debug(`Registering method with client side streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
+          }
+          if (service[method]["responseStream"] && service[method]["requestStream"]) {
+            if (server.register(service[method]["path"], grpcParser.camouflageMockBidiStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'bidi')) {
+              logger.debug(`Registering method with BIDI streaming: ${method}`);
+            } else {
+              logger.warn(`Not re-registering ${method}. Already registered.`)
+            }
+          }
+        });
+      });
+    });
+  };
+  /**
+   * Initializes an HTTP2 server
+   * @param {number} http2Port
+   * @param {string} http2key
+   * @param {string} http2cert
+   */
+  initHttp2 = (http2Port: number, http2key: string, http2cert: string) => {
+    spdy
+      .createServer(
+        {
+          key: fs.readFileSync(http2key),
+          cert: fs.readFileSync(http2cert),
+        },
+        this.app
+      )
+      .listen(http2Port, (err: any) => {
+        if (err) logger.error(err.message);
+        logger.info(`Worker sharing HTTP2 server at https://localhost:${http2Port} ⛳`);
+      });
+  };
+  /**
+   * Initializes a WebSocketserver
+   * @param {number} wsPort
+   * @param {string} wsMockDir
+   */
+  initws = (wsPort: number, wsMockDir: string) => {
+    const WebSocket = require("ws");
+    const wss = new WebSocket.Server({ port: wsPort });
+    logger.info(`Worker sharing WS server at ws://localhost:${wsPort} ⛳`);
+    const websocketParser = new WebsocketParser(wss);
+    wss.on("connection", (ws: WebSocket, request: IncomingMessage) => {
+      const clientId = uuidv4();
+      clients.push(clientId);
+      // @ts-ignore
+      ws["clientId"] = clientId;
+      let mockFile = path.join(wsMockDir, ...request.url.substring(1).split("/"), "connection.mock");
+      if (fs.existsSync(mockFile)) {
+        websocketParser.sendConnect(ws, request, clients, clientId, "joining", mockFile);
+      } else {
+        websocketParser.sendConnect(ws, request, clients, clientId, "joining");
+      }
+      ws.on("message", (message) => {
+        logger.debug(`Client sent message ${message}`);
+        mockFile = path.join(wsMockDir, ...request.url.substring(1).split("/"), "message.mock");
+        if (fs.existsSync(mockFile)) {
+          websocketParser.send(mockFile, ws, request, message);
+        } else {
+          logger.error(`No suitable message.mock file found for ${request.url}`);
+        }
+      });
+      ws.on("close", () => {
+        clients.splice(clients.indexOf(clientId), 1);
+        websocketParser.sendConnect(ws, request, clients, clientId, "leaving");
+      });
+    });
+  };
+}
+let availableFiles: string[] = [];
+let fromDir = function (startPath: string, filter: string, protoIgnore: string[]) {
+  if (!fs.existsSync(startPath)) {
+    console.log("no dir ", startPath);
+    return;
   }
-  if (enableCache) {
-    logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
-    app.use(cache(`${cacheTtl} seconds`));
+
+  var files = fs.readdirSync(startPath);
+  for (var i = 0; i < files.length; i++) {
+    var filename = path.join(startPath, files[i]);
+    var stat = fs.lstatSync(filename);
+    if (stat.isDirectory()) {
+      fromDir(filename, filter, protoIgnore);
+    }
+    else if (filename.indexOf(filter) >= 0 && !protoIgnore.includes(path.resolve(filename))) {
+      let protoFile = path.resolve(filename)
+      logger.debug(`Found protofile: ${protoFile}`)
+      availableFiles.push(protoFile)
+    }
   }
-  app.use(filemanagerMiddleware(config));
-  // Set log level to the configured level from config.yaml
-  setLogLevel(loglevel);
-  logger.info(`[${process.pid}] Worker started`);
-  // Replace the default values for defined variables with actual values provided as input from config
-  mocksDir = inputMocksDir;
-  grpcMocksDir = inputGrpcMocksDir;
-  wsMocksDir = inputWsMocksDir;
-  grpcProtosDir = inputGrpcProtosDir;
-  httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
-  http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
-  grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
-  grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
-  wsPort = inputWsPort ? inputWsPort : wsPort;
-  port = inputPort;
-  swStats.getPromClient().register.setDefaultLabels({ workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
-  // Define route for /ui to host a single page UI to manage the mocks
-  app.get("/", (req: express.Request, res: express.Response) => {
-    res.sendFile("index.html", { root: ui_root });
-  });
-  // Register Handlebars
-  registerHandlebars(extHelpers, enableInjection);
-  // Register Controllers
-  new CamouflageController(app, mocksDir, grpcMocksDir);
-  new GlobalController(app, mocksDir);
-  // Start the http server on the specified port
-  const protocols = new Protocols(app, port, httpsPort);
-  if (enableHttp) {
-    protocols.initHttp();
-  }
-  // If https protocol is enabled, start https server with additional inputs
-  if (enableHttps) {
-    protocols.initHttps(key, cert);
-  }
-  // If https protocol is enabled, start https server with additional inputs
-  if (enableHttp2) {
-    protocols.initHttp2(http2Port, key, cert);
-  }
-  // If grpc protocol is enabled, start grpc server with additional inputs
-  if (enableGrpc) {
-    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore);
-  }
-  // If websocket protocol is enabled, start ws server with additional inputs
-  if (enableWs) {
-    protocols.initws(wsPort, wsMocksDir);
-  }
-  // If backup is enabled, schedule a cron job to copy file to backup directory
-  if (backupEnable) {
-    const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, wsMocksDir, key, cert, configFilePath);
-    backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc, enableWs);
-  }
-};
-/**
- * Exports the start function which should be called from bin/camouflage.js with required parameters
- */
-module.exports.start = start;
-/**
- * Exports app for testing purpose
- */
-module.exports.app = app;
+  return availableFiles;
+}
