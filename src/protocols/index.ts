@@ -83,10 +83,10 @@ export default class Protocols {
    * @param {string} grpcHost grpc host
    * @param {number} grpcPort grpc port
    */
-  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
+  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[]) => {
     this.grpcMocksDir = grpcMocksDir;
     const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
-    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto");
+    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto", protoIgnore);
     let grpcObjects: grpc.GrpcObject[] = [];
     let packages: any = [];
     availableProtoFiles.forEach((availableProtoFile) => {
@@ -213,7 +213,7 @@ export default class Protocols {
   };
 }
 let availableFiles: string[] = [];
-let fromDir = function (startPath: string, filter: string) {
+let fromDir = function (startPath: string, filter: string, protoIgnore: string[]) {
   if (!fs.existsSync(startPath)) {
     console.log("no dir ", startPath);
     return;
@@ -224,11 +224,12 @@ let fromDir = function (startPath: string, filter: string) {
     var filename = path.join(startPath, files[i]);
     var stat = fs.lstatSync(filename);
     if (stat.isDirectory()) {
-      fromDir(filename, filter);
+      fromDir(filename, filter, protoIgnore);
     }
-    else if (filename.indexOf(filter) >= 0) {
-      logger.debug(`Found protofile: ${filename}`)
-      availableFiles.push(filename)
+    else if (filename.indexOf(filter) >= 0 && !protoIgnore.includes(path.resolve(filename))) {
+      let protoFile = path.resolve(filename)
+      logger.debug(`Found protofile: ${protoFile}`)
+      availableFiles.push(protoFile)
     }
   }
   return availableFiles;

@@ -76,6 +76,7 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableCache true if cache is to be enabled
  * @param {boolean} enableInjection true if code injection is to be enabled
  * @param {string[]} origins array of allowed origins
+ * @param {string[]} protoIgnore array of ignored protoFiles
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
  * @param {number} inputHttpsPort Input https port, overrides httpsPort
@@ -103,6 +104,7 @@ const start = (
   enableCache: boolean,
   enableInjection: boolean,
   origins: string[],
+  protoIgnore: string[],
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
@@ -117,7 +119,7 @@ const start = (
   backupCron?: string,
   configFilePath?: string,
   extHelpers?: string,
-  cacheTtl?: number
+  cacheTtl?: number,
 ) => {
   const config = {
     fsRoot: path.resolve(mocksDir),
@@ -176,7 +178,7 @@ const start = (
   }
   // If grpc protocol is enabled, start grpc server with additional inputs
   if (enableGrpc) {
-    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort);
+    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore);
   }
   // If websocket protocol is enabled, start ws server with additional inputs
   if (enableWs) {

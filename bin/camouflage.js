@@ -19,6 +19,15 @@ const osCPUs = require("os").cpus().length;
 const camouflage = require("../dist/index");
 const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
 const fse = require("fs-extra");
+let protoIgnore = [];
+if (fs.existsSync(path.resolve("./.protoignore"))) {
+  let lines = fs.readFileSync(path.resolve("./.protoignore"), "utf-8").toString();
+  lines = lines.split(/\r?\n/).filter((line) => line.trim() !== "" && line.charAt(0) !== "#");
+  lines.forEach(line => {
+    protoIgnore.push(path.resolve(line))
+  })
+  console.log(protoIgnore)
+}
 /**
  * If user runs command camouflage -h, this if block will log the required format for a config.yml file and exit.
  */
@@ -194,6 +203,7 @@ let inputs = [
   config.cache.enable,
   config.injection.enable,
   origins,
+  protoIgnore,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
   config.protocols.https.port || 8443,
@@ -208,7 +218,7 @@ let inputs = [
   config.backup.cron || "0 * * * *",
   configFile,
   config.ext_helpers || null,
-  config.cache.ttl_seconds || 0,
+  config.cache.ttl_seconds || 0
 ];
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
