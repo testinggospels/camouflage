@@ -106,11 +106,11 @@ export default class Protocols {
       server.start();
     });
     packages.forEach((pkg: any) => {
-      let service: any;
+      let services: any[] = [];
       let getObject = function (pkg: any) {
         for (var prop in pkg) {
           if (prop == 'service') {
-            service = pkg[prop];
+            services.push(pkg[prop]);
             break;
           } else {
             if (pkg[prop] instanceof Object) {
@@ -120,7 +120,7 @@ export default class Protocols {
         }
       }
       getObject(pkg);
-      if (service) {
+      services.forEach((service) => {
         let methods = Object.keys(service);
         methods.forEach((method) => {
           if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
@@ -152,7 +152,7 @@ export default class Protocols {
             }
           }
         });
-      }
+      });
     });
   };
   /**
