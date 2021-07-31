@@ -11,6 +11,7 @@ import BackupScheduler from "./BackupScheduler";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
+import * as protoLoader from "@grpc/proto-loader";
 // @ts-ignore
 import apicache from "apicache";
 // @ts-ignore
@@ -104,6 +105,7 @@ const start = (
   enableInjection: boolean,
   origins: string[],
   protoIgnore: string[],
+  plconfig: protoLoader.Options,
   key?: string,
   cert?: string,
   inputHttpsPort?: number,
@@ -177,7 +179,7 @@ const start = (
   }
   // If grpc protocol is enabled, start grpc server with additional inputs
   if (enableGrpc) {
-    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore);
+    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore, plconfig);
   }
   // If websocket protocol is enabled, start ws server with additional inputs
   if (enableWs) {

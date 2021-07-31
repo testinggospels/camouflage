@@ -106,3 +106,18 @@ You don't need to modify your proto file to accomodate the additional key, since
 !!!caution
 
     Since Camouflage gRPC server needs to register the new services everytime you create new mock, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test.
+
+## Overriding proto-loader's default options
+
+Camouflage uses default options as specified by `@grpc/proto-loader`. You can however override the default values by creating a `plconfig.js` file at the root of your camouflage project. The contents of the file should export a variable `plconfig` as follows:
+
+```javascript
+module.exports.plconfig = {
+    keepCase: true,
+    longs: String,
+    enums: String,
+    bytes: Array
+}
+```
+
+Full list of the available options can be found in [@grpc/proto-loader](https://www.npmjs.com/package/@grpc/proto-loader){target=\_blank} README.

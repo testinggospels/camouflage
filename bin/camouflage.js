@@ -20,13 +20,7 @@ const camouflage = require("../dist/index");
 const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
 const fse = require("fs-extra");
 let protoIgnore = [];
-if (fs.existsSync(path.resolve("./.protoignore"))) {
-  let lines = fs.readFileSync(path.resolve("./.protoignore"), "utf-8").toString();
-  lines = lines.split(/\r?\n/).filter((line) => line.trim() !== "" && line.charAt(0) !== "#");
-  lines.forEach(line => {
-    protoIgnore.push(path.resolve(line))
-  });
-}
+let plconfig = {};
 /**
  * If user runs command camouflage -h, this if block will log the required format for a config.yml file and exit.
  */
@@ -104,6 +98,18 @@ if (init) {
 if (!configFile) {
   console.error("Please provide a config file.");
   process.exit(1);
+}
+const project_root = path.dirname(path.resolve(configFile));
+if (fs.existsSync(path.join(project_root, ".protoignore"))) {
+  let lines = fs.readFileSync(path.join(project_root, ".protoignore"), "utf-8").toString();
+  lines = lines.split(/\r?\n/).filter((line) => line.trim() !== "" && line.charAt(0) !== "#");
+  lines.forEach(line => {
+    protoIgnore.push(path.resolve(line))
+  });
+}
+if (fs.existsSync(path.join(project_root, "plconfig.js"))) {
+  let config = require(path.join(project_root, "plconfig.js"));
+  plconfig = typeof config.plconfig !== 'undefined' ? config.plconfig : {};
 }
 /**
  * If a valid config file is found, load the data using yaml loader
@@ -203,6 +209,7 @@ let inputs = [
   config.injection.enable,
   origins,
   protoIgnore,
+  plconfig,
   config.ssl.key || path.join(site_root, "certs", "server.key"),
   config.ssl.cert || path.join(site_root, "certs", "server.cert"),
   config.protocols.https.port || 8443,

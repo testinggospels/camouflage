@@ -82,15 +82,19 @@ export default class Protocols {
    * @param {string} grpcMocksDir location of mock files for grpc
    * @param {string} grpcHost grpc host
    * @param {number} grpcPort grpc port
+   * @param {string[]} protoIgnore array of protofiles to be ingored (used for the protofiles which are imported and have services)
+   * @param {protoLoader.Options} plconfig configuration for protoLoader
    */
-  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[]) => {
+  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[], plconfig: protoLoader.Options) => {
+    logger.debug(`Using proto-loader config as: ${JSON.stringify(plconfig)}`);
+    logger.debug(`Ignoring protofiles: ${protoIgnore}`);
     this.grpcMocksDir = grpcMocksDir;
     const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
     const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto", protoIgnore);
     let grpcObjects: grpc.GrpcObject[] = [];
     let packages: any = [];
     availableProtoFiles.forEach((availableProtoFile) => {
-      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), {});
+      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), plconfig);
       let definition = grpc.loadPackageDefinition(packageDef);
       grpcObjects.push(definition);
     });
