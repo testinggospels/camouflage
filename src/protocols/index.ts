@@ -82,15 +82,19 @@ export default class Protocols {
    * @param {string} grpcMocksDir location of mock files for grpc
    * @param {string} grpcHost grpc host
    * @param {number} grpcPort grpc port
+   * @param {string[]} protoIgnore array of protofiles to be ingored (used for the protofiles which are imported and have services)
+   * @param {protoLoader.Options} plconfig configuration for protoLoader
    */
-  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number) => {
+  initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[], plconfig: protoLoader.Options) => {
+    logger.debug(`Using proto-loader config as: ${JSON.stringify(plconfig)}`);
+    logger.debug(`Ignoring protofiles: ${protoIgnore}`);
     this.grpcMocksDir = grpcMocksDir;
     const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
-    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto");
+    const availableProtoFiles: string[] = fromDir(grpcProtosDir, ".proto", protoIgnore);
     let grpcObjects: grpc.GrpcObject[] = [];
     let packages: any = [];
     availableProtoFiles.forEach((availableProtoFile) => {
-      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), {});
+      let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), plconfig);
       let definition = grpc.loadPackageDefinition(packageDef);
       grpcObjects.push(definition);
     });
@@ -106,11 +110,11 @@ export default class Protocols {
       server.start();
     });
     packages.forEach((pkg: any) => {
-      let service: any;
+      let services: any[] = [];
       let getObject = function (pkg: any) {
         for (var prop in pkg) {
           if (prop == 'service') {
-            service = pkg[prop];
+            services.push(pkg[prop]);
             break;
           } else {
             if (pkg[prop] instanceof Object) {
@@ -120,7 +124,7 @@ export default class Protocols {
         }
       }
       getObject(pkg);
-      if (service) {
+      services.forEach((service) => {
         let methods = Object.keys(service);
         methods.forEach((method) => {
           if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
@@ -152,7 +156,7 @@ export default class Protocols {
             }
           }
         });
-      }
+      });
     });
   };
   /**
@@ -213,7 +217,7 @@ export default class Protocols {
   };
 }
 let availableFiles: string[] = [];
-let fromDir = function (startPath: string, filter: string) {
+let fromDir = function (startPath: string, filter: string, protoIgnore: string[]) {
   if (!fs.existsSync(startPath)) {
     console.log("no dir ", startPath);
     return;
@@ -224,11 +228,12 @@ let fromDir = function (startPath: string, filter: string) {
     var filename = path.join(startPath, files[i]);
     var stat = fs.lstatSync(filename);
     if (stat.isDirectory()) {
-      fromDir(filename, filter);
+      fromDir(filename, filter, protoIgnore);
     }
-    else if (filename.indexOf(filter) >= 0) {
-      logger.debug(`Found protofile: ${filename}`)
-      availableFiles.push(filename)
+    else if (filename.indexOf(filter) >= 0 && !protoIgnore.includes(path.resolve(filename))) {
+      let protoFile = path.resolve(filename)
+      logger.debug(`Found protofile: ${protoFile}`)
+      availableFiles.push(protoFile)
     }
   }
   return availableFiles;

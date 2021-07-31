@@ -2,19 +2,9 @@ syntax = "proto3";
 
 package foo.todoPackage;
 
-message Todo {
-    string id = 1;
-    string text = 2;
-}
-
-message Todos {
-    repeated Todo todos = 1;
-}
-
-message Empty {}
+import "./todoEnum.proto";
 
 service TodoService{
-    rpc createTodo(Todo) returns (Todo);
     rpc readTodo(Empty) returns (Todos);
     rpc readTodoStream(Empty) returns (stream Todo);
     rpc createTodoStream(stream Todo) returns (Todos);

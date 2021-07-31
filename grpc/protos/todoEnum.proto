@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package foo.todoEnumPackage;
+
+message Todo {
+    string id = 1;
+    string text = 2;
+}
+
+message Todos {
+    repeated Todo todos = 1;
+}
+
+message Empty {}
+
+service TodoEmumService{
+    rpc createTodo(Todo) returns (Todo);
+}

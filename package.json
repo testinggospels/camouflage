@@ -16,9 +16,10 @@
     "build": "tsc",
     "lint": "eslint \"dist/**/*.js\"",
     "prestart": "npm run build",
-    "start": "node bin/camouflage.js -m ./mocks",
+    "start": "node bin/camouflage.js --config ./config.yml",
     "docs": "jsdoc -c jsdoc.json -t ./node_modules/foodoc/template",
-    "test": "mocha tests/index.spec.js --exit || true"
+    "test": "mocha tests/index.spec.js --exit || true",
+    "dev": "nodemon -e ts --exec \"npm run start\""
   },
   "bin": {
     "camouflage": "bin/camouflage.js"
