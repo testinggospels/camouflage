@@ -11,14 +11,22 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 ```json
 [
   {
-    "name": "name",
-    "logic": "(()=>{const name = request.query.name; return name;})()"
-  },
-  {
-    "name": "phone",
-    "logic": "(()=>{ return Math.round(Math.random() * 10000000000); })()"
+    "name": "is",
+    "logic":"(()=>{ logger.info(JSON.stringify((context.hash))); if(context.hash.value1===context.hash.value2) {return context.fn(this);} else {return context.inverse(this);} })()"
   }
 ]
+```
+
+This loads a custom helper `is` which can be used in your mock files to compare to values. Use it as shown in example:
+
+```
+HTTP/1.1 200 OK
+
+{{#is value1=request.query.name value2='Shubhendu'}}
+   Response if true
+{{else}}
+   Response if false
+{{/is}}
 ```
 
 - `name`, can be anything of your choosing.

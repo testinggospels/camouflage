@@ -26,7 +26,8 @@ If your package name is in the format **com.foo.bar.package**, format your folde
       - Create a new folder in ./grpc/mocks directory with the package name. e.g. `./grpc/mocks/todoPackage`
       - Create another folder in ./grpc/mocks/todoPackage directory with the service name. e.g. `./grpc/mocks/todoPackage/TodoService`
       - Finally create a .mock file in the directory ./grpc/mocks/todoPackage/TodoService with the method name. e.g `./grpc/mocks/todoPackage/TodoService/createTodo.mock`
-      - Place your expected response in the mock file and you are done. You can use the handlebars as usual in your response!!
+      - Place your expected response in the mock file and you are done.
+      - You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols (eg. `capture` and `code`) and might not work as expected. You can always load your own handlebars to Camouflage (Check External Helpers section).
 
 ```json
 {
@@ -109,7 +110,7 @@ You don't need to modify your proto file to accomodate the additional key, since
 
 ## Overriding proto-loader's default options
 
-Camouflage uses default options as specified by `@grpc/proto-loader`. You can however override the default values by creating a `plconfig.js` file at the root of your camouflage project. The contents of the file should export a variable `plconfig` as follows:
+Camouflage uses default options as specified by `@grpc/proto-loader`. You can however override the default values by creating a `plconfig.js` file at the root of your Camouflage project. The contents of the file should export a variable `plconfig` as follows:
 
 ```javascript
 module.exports.plconfig = {

@@ -30,7 +30,7 @@ Camouflage simply borrows the idea from the original and though it does use some
 4. Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.
 5. You can also extract information from request queries, path, body or headers and use them in your response.
 6. You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.
-7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets(Beta)
+7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets.
 8. Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.
 9. Camouflage provides support for monitoring.
 
