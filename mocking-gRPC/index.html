@@ -615,7 +615,8 @@
 <li>Create a new folder in ./grpc/mocks directory with the package name. e.g. <code>./grpc/mocks/todoPackage</code></li>
 <li>Create another folder in ./grpc/mocks/todoPackage directory with the service name. e.g. <code>./grpc/mocks/todoPackage/TodoService</code></li>
 <li>Finally create a .mock file in the directory ./grpc/mocks/todoPackage/TodoService with the method name. e.g <code>./grpc/mocks/todoPackage/TodoService/createTodo.mock</code></li>
-<li>Place your expected response in the mock file and you are done. You can use the handlebars as usual in your response!!</li>
+<li>Place your expected response in the mock file and you are done.</li>
+<li>You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols (eg. <code>capture</code> and <code>code</code>) and might not work as expected. You can always load your own handlebars to Camouflage (Check External Helpers section).</li>
 </ul>
 </li>
 </ul>
