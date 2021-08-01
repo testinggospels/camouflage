@@ -111,7 +111,7 @@ Camouflage is still in it's early development and has a long way to go before it
 
 There might be times when latest changes have not gone to release yet, such changes exist in the `develop` branch, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.
 
-1. Clone the repository: `git clone https://github.com/fauxauldrich/camouflage.git`
+1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
 2. Checkout `develop` branch: `git checkout develop`
 3. Install dependencies: `npm install`
 4. Build the project: `npm build`
