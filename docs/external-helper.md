@@ -1,6 +1,6 @@
 # External Helpers
 
-Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file contaning the definition of your custom helper. Example:
+Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file containing the definition of your custom helper. Example:
 
 ```
 ext_helpers: "./custom_handlebar.json"
@@ -17,7 +17,7 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 ]
 ```
 
-This loads a custom helper `is` which can be used in your mock files to compare to values. Use it as shown in example:
+This loads a custom helper, `is`, which can be used in your mock files to compare to values. Use it as shown in example:
 
 ```
 HTTP/1.1 200 OK
@@ -34,7 +34,7 @@ HTTP/1.1 200 OK
 
 !!!caution
     
-    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted. Before starting Camouflage, run  the following command:
+    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on. Before starting Camouflage, run  the following command:
     
     - `npm root -g`
     

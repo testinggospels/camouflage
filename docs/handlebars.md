@@ -29,7 +29,7 @@ Usage:
 2. **{{now format='MM/DD/YYYY'}}** - Format not to your liking? Use any format you'd like as long as it is supported by momentjs.
 3. **{{now format='epoch'}}** - Time since epoch in milliseconds
 4. **{{now format='unix'}}** - Time since epoch in seconds
-5. **{{now format='MM/DD/YYYY hh:mm:ss' offset='-10 days'}}** - Use offset specify the delta for your desired date from current date.
+5. **{{now format='MM/DD/YYYY hh:mm:ss' offset='-10 days'}}** - Use offset to specify the delta for your desired date from the current date.
 
 Units for specifying offset are
 
@@ -51,7 +51,7 @@ Type: Custom Helper
 
 Usage:
 
-1. **{{capture from='query' key='firstName'}}** - Pretty self-explanatory, but if say your endpoint looks like /hello-world?firstName=John&lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as
+1. **{{capture from='query' key='firstName'}}** - Pretty self-explanatory, but if your endpoint looks like /hello-world?firstName=John&lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as
 
 ```
 {
@@ -60,7 +60,7 @@ Usage:
 ```
 
 2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path, you'd need to specify a regex to capture a value.
-3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
+3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from the request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
 
 ## num_between
 
@@ -76,7 +76,7 @@ Type: Custom Helper
 
 Usage:
 
-{{file path='/location/of/the/image/or/text/or/any/file'}}: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:
+**{{file path='/location/of/the/image/or/text/or/any/file'}}**: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:
 
 ```
 HTTP/1.1 200 OK
@@ -117,13 +117,13 @@ Content-Type: application/json
 {{/code}}
 ```
 
-- `HTTP/1.1 200 OK`: We start by creating a GET.mock as usual (or any ${VERB}.mock as per your requirement), where 1st line of your file denotes protocol, version, status code and status message. This can be overridden from the code, however it is mandatory, in order to maintain a generic structure of mock files.
+- `HTTP/1.1 200 OK`: We start by creating a GET.mock as usual (or any ${VERB}.mock as per your requirement), where the 1st line of your file denotes protocol, version, status code and status message. This can be overridden from the code, however it is mandatory, in order to maintain a generic structure of mock files.
 - Next you will provide a set of static headers, which will not change irrespective of your code logic. If you expect the header value to be dynamic, you don't need to provide them here.
-- An empty line to mark the start of body.
-- Lastly, the most important part of your mock file. In place of the body, you write your code inside the code helper block provided by Camouflage. There are some restriction though, read further.
+- An empty line to mark the start of the body.
+- Lastly, the most important part of your mock file. In place of the body, you write your code inside the code helper block provided by Camouflage. There are some restrictions though, read further.
 - Code helper block can be defined by using `{{#code}}...{{/code}}`.
 - The code you write has to be encapsulated in an IIFE, i.e. Immediately Invoked Function Expression, which can be done by wrapping your code in `(() => { //your code here })();`
-- As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to `request` and `logger` object without having to bind `this` to the code's context. If that sounds complicated, all you need to understand is using an arrow function provides you access to `request` and `logger` objects.
+- As you might have noticed, we have defined the IIFE as an arrow function, this too is mandatory, since this provides you access to `request` and `logger` objects without having to bind `this` to the code's context. If that sounds complicated, all you need to understand is that using an arrow function provides you access to `request` and `logger` objects.
 - Rest is just vanilla javascript code.
     * Define a function to generate random numbers,
     * Fetch the name from a request query parameter: `name`.
@@ -134,15 +134,15 @@ Content-Type: application/json
         - `headers`: A JSON object with keys as header name and values as header values. (Optional if you don't have any dynamic headers)
         - `body`: A string (Required.)
     * In this example, we have provided a static status code of 200.
-    * We have one header `X-Requested-By`, whose value is dynamic and changes based on the value user provided in name query parameter while calling the mock endpoint.
-    * Finally, we have stringified JSON object as body, where we are using `name` and `phone` as dynamic values.
-- Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you abosolutely have to write a code, you have an option to do that.
+    * We have one header `X-Requested-By`, whose value is dynamic and changes based on the value user provided in the name query parameter while calling the mock endpoint.
+    * Finally, we have a stringified JSON object as body, where we are using `name` and `phone` as dynamic values.
+- Please note that the same response can be easily achieved by other helpers also, and you don't necessarily need to write a code. This example was just to show you how we can use the code helper. Which is to say that you should avoid writing code if you don't have to, however if you absolutely have to write a code, you have an option to do that.
 
 ## inject
 
 Type: Custom Helper
 
-Usage: Another use case for custom code could be when you don't want to write a code for entire response generation, but there are some parts of your response that need a custom code. Using `inject` helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to `code` helper, refer to the example below.
+Usage: Another use case for custom code could be when you don't want to write a code for the entire response generation, but there are some parts of your response that need a custom code. Using `inject` helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to `code` helper, refer to the example below.
 
 ```
 HTTP/1.1 200 OK
@@ -182,13 +182,13 @@ x-additional-headers: somevalue
 
 
 
-For more details on how to use proxy helper, refer to Proxy page.
+For more details on how to use the proxy helper, refer to the Proxy page.
 
 ## Inbuilt Helpers
 
 !!! note
 
-    A variety of helpers are made available by Handlebar.js itself and Camouflage team had nothing to do with those, and we don't take credit for it. Following example just showcases how the inbuilt helpers can be used with Camouflage, more details and examples can be found just about anywhere on the internet. As far as inbuilt helpers are concerned, you can use any of them as long as it makes sense to you.
+    A variety of helpers are made available by Handlebar.js. Following example just showcases how the inbuilt helpers can be used with Camouflage, more details and examples can be found just about anywhere on the internet. As far as inbuilt helpers are concerned, you can use any of them as long as it makes sense to you.
 
 Raw HTML Request:
 
@@ -261,7 +261,7 @@ Content-Type: application/json
 Explanation
 
 1. We replaced the static UUID `f45a3d2d-8dfb-4fc6-a0b2-c94882cd5b91` with `{{randomValue type='UUID'}}`, so that this value updates on each request.
-2. We wrapped our JSONObject inside **data** array with an **each** helper which iterates over **nicknames** array from request body.
+2. We wrapped our JSONObject inside a **data** array with an **each** helper which iterates over **nicknames** array from request body.
 3. Finally we put an if condition to check if we are at the last element of the array, we shouldn't append a comma at the end of our JSONObject, in order to get a valid JSON. If we are at any other element in the array, we'll add a comma to JSONObject.
 
 Available inbuilt helpers are `if`, `unless`, `each`, `with`, `lookup` and `log`. More details are available at [Handlebars Documentation](https://handlebarsjs.com/guide/builtin-helpers.html){target=\_blank}

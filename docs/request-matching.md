@@ -1,8 +1,8 @@
 ## Request Matching
 
-There are scenarios when you would need to change your response based on some conditions met by fields on request objects. For example, if the end user passes an Authorization header, you'd want to send a 200 OK response if not you'd want to send a 401 Unauthorized resposne.
+There are scenarios when you would need to change your response based on some conditions met by fields on request objects. For example, if the end user passes an Authorization header, you'd want to send a 200 OK response if not you'd want to send a 401 Unauthorized response.
 
-To do so you can utilize the power of handlebars again. Simply provide an if else condition and you are good to go. Consider following example.
+To do so you can utilize the power of handlebars again. Simply provide an if else condition and you are good to go. Consider the following example.
 
 ```
 You expect the user to call the endpoint /hello-world in two ways.
@@ -14,7 +14,7 @@ You expect the user to call the endpoint /hello-world in two ways.
 Based on how the user calls the API, you'd want to send a different
 response. This can be done in following manner:
 
-Create GET.mock file under the directory ${MOCKS_DIR}/hello-world. And paste following content:
+Create a GET.mock file under the directory ${MOCKS_DIR}/hello-world. And paste following content:
 
 ```
 {{#if request.query.name}}

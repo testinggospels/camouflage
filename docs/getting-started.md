@@ -75,7 +75,7 @@ Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-worl
 
 ### Building from source
 
-Camouflage is still in it's early development and has a long way to go before it reaches v1.0.0. Which means there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, good news is that we are constantly evolving.
+Camouflage is still in its early development and has a long way to go before it reaches v1.0.0. Which means there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, the good news is that we are constantly evolving.
 
 There might be times when latest changes have not gone to release yet, such changes exist in the `develop` branch, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.
 

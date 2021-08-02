@@ -17,17 +17,17 @@ The way you organize your directories inside the ${MOCKS_DIR}, determine how you
 - Create a directory ${MOCKS_DIR}/users/\_\_ (double underscore)
 - Create a GET.mock file inside it with your required raw html response
 
-Similarily you can create PUT.mock, DELETE.mock etc in your intended path. For wildcard, use directory name as \_\_ (double underscore)
+Similarly you can create PUT.mock, DELETE.mock etc in your intended path. For wildcard, use directory name as \_\_ (double underscore)
 
 !!! note
 
-    Unlike original mockserver, request matching criteria, are taken care of inside the .mock files instead of
+    Unlike the original mockserver, request matching criteria are taken care of inside the .mock files instead of
     naming the files in a certain way. We intend to keep the file names simple and in the format
     *${HTTP_METHOD}.mock*
 
 !!! caution
 
-    Protocols http, https and http2, share the same mocks directory and folder structure, however folder structure and mocks directory for gRPC and websockets mocks is different. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
+    Protocols http, https and http2, share the same mocks directory and folder structure, however folder structure and mocks directory for gRPC and websockets mocks are different. Please refer to the section **Mocking gRPC** if you are planning to create gRPC mocks.
 
 ## What data to put in .mock files
 
@@ -37,9 +37,9 @@ Each mock file can have the HTTP Responses in following manner:
 
 - One response per .mock file.
 - Multiple responses in one .mock file with conditions defined to help Camouflage decide which response should be sent under what conditions. (Read Handlebars section for more)
-- Multiple responses sepearated by Camouflage's delimiter i.e. "====" (four equals). Camouflage will pick one response at random and send it to the client. An example of this can be found [here](https://github.com/fauxauldrich/camouflage/blob/main/mocks/note/GET.mock){target=\_blank}
+- Multiple responses separated by Camouflage's delimiter i.e. "====" (four equals). Camouflage will pick one response at random and send it to the client. An example of this can be found [here](https://github.com/fauxauldrich/camouflage/blob/main/mocks/note/GET.mock){target=\_blank}
 
-The data you want to put can be easily fetched using a curl command with -i -X flags in following manner.
+The data you want to put can be easily fetched using a curl command with -i -X flags in the following manner.
 
 Example:
 
@@ -115,4 +115,4 @@ Another, easier, approach to create mocks is by installing the [REST Client VS C
 
 !!! note
 
-    Camouflage by default looks for the OS specific line breaks. For example, if you are on MacOS or Unix based systems, default line break/new line is `\n`, whereas on windows it's `\r\n`. This is known to cause issues if your development environment and testing environment are different for Camouflage. For example, if you have created your mock file on a windows machine and uploaded it to a Camouflage server running on linux, your mocks might not work as expected. Or in case your text editor's line break settings do not match your OS default line break, you might not get an expected response. Starting v0.5.1, Camouflage detects new line used in the file irrespective of the OS default. However, if you face any issues where you are getting a blank response or any unexpected response, please create an issue attaching your log files. REMEMBER TO REMOVE SENSITIVE DATA, IF ANY, FROM YOUR LOGS.
+    Camouflage by default looks for the OS specific line breaks. For example, if you are on MacOS or Unix based systems, the default line break/new line is `\n`, whereas on windows it's `\r\n`. This is known to cause issues if your development environment and testing environment are different for Camouflage. For example, if you have created your mock file on a windows machine and uploaded it to a Camouflage server running on linux, your mocks might not work as expected. Or in case your text editor's line break settings do not match your OS default line break, you might not get an expected response. Starting v0.5.1, Camouflage detects new lines used in the file irrespective of the OS default. However, if you face any issues where you are getting a blank response or any unexpected response, please create an issue attaching your log files. REMEMBER TO REMOVE SENSITIVE DATA, IF ANY, FROM YOUR LOGS.
