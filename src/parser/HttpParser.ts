@@ -194,11 +194,6 @@ export class HttpParser {
                   case "ERR_EMPTY_RESPONSE":
                     this.res.socket.destroy()
                     break;
-                  // case "ERR_INVALID_HTTP_RESPONSE":
-                  //   this.res.socket.cork();
-                  //   this.res.socket.write(Buffer.from("123sdlyndb;aie10-)(&2*2++1dnb/vlaj", 'utf-8'));
-                  //   this.res.socket.end();
-                  //   break;
                   case "ERR_INCOMPLETE_CHUNKED_ENCODING":
                     this.res.writeHead(200);
                     this.res.write('123sdlyndb;aie10-)(&2*2++1dnb/vlaj');
