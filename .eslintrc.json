@@ -85,7 +85,7 @@
     "max-classes-per-file": "error",
     "max-depth": "off",
     "max-len": "off",
-    "max-lines": "error",
+    "max-lines": "off",
     "max-lines-per-function": "off",
     "max-nested-callbacks": "error",
     "max-params": "off",

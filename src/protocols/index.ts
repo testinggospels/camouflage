@@ -1,4 +1,6 @@
 import express from "express";
+// @ts-ignore
+import jp from 'jsonpath';
 import fs from "fs";
 import path from "path";
 import http from "http";
@@ -109,53 +111,38 @@ export default class Protocols {
       logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort} ⛳`);
       server.start();
     });
-    packages.forEach((pkg: any) => {
-      let services: any[] = [];
-      let getObject = function (pkg: any) {
-        for (var prop in pkg) {
-          if (prop == 'service') {
-            services.push(pkg[prop]);
-            break;
+    const services: any[] = jp.query(packages, "$..service");
+    services.forEach((service) => {
+      let methods = Object.keys(service);
+      methods.forEach((method) => {
+        if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
+          if (server.register(service[method]["path"], grpcParser.camouflageMock, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'unary')) {
+            logger.debug(`Registering Unary method: ${method}`);
           } else {
-            if (pkg[prop] instanceof Object) {
-              getObject(pkg[prop]);
-            }
+            logger.warn(`Not re-registering ${method}. Already registered.`)
           }
         }
-      }
-      getObject(pkg);
-      services.forEach((service) => {
-        let methods = Object.keys(service);
-        methods.forEach((method) => {
-          if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
-            if (server.register(service[method]["path"], grpcParser.camouflageMock, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'unary')) {
-              logger.debug(`Registering Unary method: ${method}`);
-            } else {
-              logger.warn(`Not re-registering ${method}. Already registered.`)
-            }
+        if (service[method]["responseStream"] && !service[method]["requestStream"]) {
+          if (server.register(service[method]["path"], grpcParser.camouflageMockServerStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'serverStream')) {
+            logger.debug(`Registering method with server side streaming: ${method}`);
+          } else {
+            logger.warn(`Not re-registering ${method}. Already registered.`)
           }
-          if (service[method]["responseStream"] && !service[method]["requestStream"]) {
-            if (server.register(service[method]["path"], grpcParser.camouflageMockServerStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'serverStream')) {
-              logger.debug(`Registering method with server side streaming: ${method}`);
-            } else {
-              logger.warn(`Not re-registering ${method}. Already registered.`)
-            }
+        }
+        if (!service[method]["responseStream"] && service[method]["requestStream"]) {
+          if (server.register(service[method]["path"], grpcParser.camouflageMockClientStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'clientStream')) {
+            logger.debug(`Registering method with client side streaming: ${method}`);
+          } else {
+            logger.warn(`Not re-registering ${method}. Already registered.`)
           }
-          if (!service[method]["responseStream"] && service[method]["requestStream"]) {
-            if (server.register(service[method]["path"], grpcParser.camouflageMockClientStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'clientStream')) {
-              logger.debug(`Registering method with client side streaming: ${method}`);
-            } else {
-              logger.warn(`Not re-registering ${method}. Already registered.`)
-            }
+        }
+        if (service[method]["responseStream"] && service[method]["requestStream"]) {
+          if (server.register(service[method]["path"], grpcParser.camouflageMockBidiStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'bidi')) {
+            logger.debug(`Registering method with BIDI streaming: ${method}`);
+          } else {
+            logger.warn(`Not re-registering ${method}. Already registered.`)
           }
-          if (service[method]["responseStream"] && service[method]["requestStream"]) {
-            if (server.register(service[method]["path"], grpcParser.camouflageMockBidiStream, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'bidi')) {
-              logger.debug(`Registering method with BIDI streaming: ${method}`);
-            } else {
-              logger.warn(`Not re-registering ${method}. Already registered.`)
-            }
-          }
-        });
+        }
       });
     });
   };
