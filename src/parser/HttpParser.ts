@@ -167,7 +167,7 @@ export class HttpParser {
           responseBody = responseBody.replace(/}}}/, "}} }");
           const template = Handlebars.compile(responseBody);
           try {
-            const codeResponse = JSON.parse(responseBody);
+            const codeResponse = JSON.parse(responseBody.replace(/&quot;/g, "\""));
             switch (codeResponse["CamouflageResponseType"]) {
               case "code":
                 this.res.statusCode = codeResponse["status"] || this.res.statusCode;
@@ -187,6 +187,36 @@ export class HttpParser {
                 /* eslint-disable no-case-declarations */
                 const target = proxyResponse.data.target;
                 proxy.web(this.req, this.res, { target: target });
+                break;
+              case "fault":
+                const faultType = codeResponse["FaultType"];
+                switch (faultType) {
+                  case "ERR_EMPTY_RESPONSE":
+                    this.res.socket.destroy()
+                    break;
+                  // case "ERR_INVALID_HTTP_RESPONSE":
+                  //   this.res.socket.cork();
+                  //   this.res.socket.write(Buffer.from("123sdlyndb;aie10-)(&2*2++1dnb/vlaj", 'utf-8'));
+                  //   this.res.socket.end();
+                  //   break;
+                  case "ERR_INCOMPLETE_CHUNKED_ENCODING":
+                    this.res.writeHead(200);
+                    this.res.write('123sdlyndb;aie10-)(&2*2++1dnb/vlaj');
+                    setTimeout(() => {
+                      this.res.socket.destroy();
+                    }, 100);
+                    break;
+                  case "ERR_CONTENT_LENGTH_MISMATCH":
+                    this.res.setHeader('Content-Length', 100);
+                    this.res.writeHead(200);
+                    this.res.write('123sdlyndb;aie10-)(&2*2++1dnb/vlaj');
+                    setTimeout(() => {
+                      this.res.socket.destroy();
+                    }, 100);
+                    break;
+                  default:
+                    break;
+                }
                 break;
               default:
                 setTimeout(() => {

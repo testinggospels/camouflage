@@ -1,6 +1,6 @@
 # External Helpers
 
-Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file contaning the definition of your custom helper. Example:
+Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file containing the definition of your custom helper. Example:
 
 ```
 ext_helpers: "./custom_handlebar.json"
@@ -11,14 +11,22 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 ```json
 [
   {
-    "name": "name",
-    "logic": "(()=>{const name = request.query.name; return name;})()"
-  },
-  {
-    "name": "phone",
-    "logic": "(()=>{ return Math.round(Math.random() * 10000000000); })()"
+    "name": "is",
+    "logic":"(()=>{ logger.info(JSON.stringify((context.hash))); if(context.hash.value1===context.hash.value2) {return context.fn(this);} else {return context.inverse(this);} })()"
   }
 ]
+```
+
+This loads a custom helper, `is`, which can be used in your mock files to compare to values. Use it as shown in example:
+
+```
+HTTP/1.1 200 OK
+
+{{#is value1=request.query.name value2='Shubhendu'}}
+   Response if true
+{{else}}
+   Response if false
+{{/is}}
 ```
 
 - `name`, can be anything of your choosing.
@@ -26,7 +34,7 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 
 !!!caution
     
-    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted. Before starting Camouflage, run  the following command:
+    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on. Before starting Camouflage, run  the following command:
     
     - `npm root -g`
     

@@ -75,16 +75,14 @@ Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-worl
 
 ### Building from source
 
-If you'd like to get the latest version of Camouflage, you can build it from the source.
+Camouflage is still in its early development and has a long way to go before it reaches v1.0.0. Which means there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, the good news is that we are constantly evolving.
 
-!!! note
+There might be times when latest changes have not gone to release yet, such changes exist in the `develop` branch, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.
 
-    Building from source might have it's own drawbacks, most important of all is that source is always in beta. There might be some bugs which are still being worked upon. You might want to proceed with that aspect in mind.
-
-1. Clone the repository: `git clone https://github.com/fauxauldrich/camouflage.git`
-2. Install dependencies: `npm install`
-3. Build the project: `npm build`
-4. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
-5. However if you'd like to install Camouflage globally, execute: `npm pack`
-6. Install by running command: `npm install -g camouflage-server-${version}.tgz` or `npm install -g camouflage-server-${version}.zip`
-
+1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
+2. Checkout `develop` branch: `git checkout develop`
+3. Install dependencies: `npm install`
+4. Build the project: `npm build`
+5. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
+6. However if you'd like to install Camouflage globally, execute: `npm pack`
+7. Install by running command: `npm install -g camouflage-server-0.0.0-development.tgz` or `npm install -g camouflage-server-0.0.0-development.zip`

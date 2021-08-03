@@ -6,7 +6,7 @@ Monitoring might not be of paramount importance when you are running unit tests 
 
 !!!note
 
-    If you are running more than one worker, above UI would not provide you aggregated metrics. Data displayed will be worker specific data and at this point, we don't have a control on which worker's data will be displayed. Every time UI refreshes, the displayed data might belong to any of the running workers.
+    If you are running more than one worker, the above UI would not provide you aggregated metrics. Data displayed will be worker specific data and at this point, we don't have a control on which worker's data will be displayed. Every time UI refreshes, the displayed data might belong to any of the running workers.
 
 To provide the aggregated metrics, Camouflage runs a separate monitoring server, which runs by default on port 5555. The URL `http://localhost:5555/metrics` acts as a scraping endpoint for your Prometheus server. Store this data in Prometheus and then use Grafana to generate your own visualizations. You can install a Prometheus DB and configure it to scrape from `/metrics` endpoint, and use that data to create charts for monitoring your application.
 

@@ -1,6 +1,6 @@
 # Camouflage UI
 
-Camouflage also provide a file explorer UI allowing you to work with your mocks. UI is powered by [OpusCapita/filemanager](https://github.com/OpusCapita/filemanager){target=\_blank}, which provides abilities to perform following actions on the available mocks:
+Camouflage also provides a file explorer UI allowing you to work with your mocks. UI is powered by [OpusCapita/filemanager](https://github.com/OpusCapita/filemanager){target=\_blank}, which provides abilities to perform following actions on the available mocks:
 
 - Upload mock files
 - Download mock files

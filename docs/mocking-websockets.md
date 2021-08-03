@@ -1,6 +1,6 @@
 # Mocking Websockets
 
-Camouflage supports mocking for websockets via native WebSockets API. Note that at this time, custom websockets implementations such as via Socket.io is not supported.
+Camouflage supports mocking for websockets via native WebSockets API. Note that at this time, custom websockets implementations such as via Socket.io are not supported.
 
 !!!note
 
@@ -8,11 +8,11 @@ Camouflage supports mocking for websockets via native WebSockets API. Note that 
 
 ### How to mock websockets?
 
-- Start by enabling ws protocol in config file, provide the location of your ${WS_MOCKS} directory and optionally update the port.
+- Start by enabling ws protocol in the config file, provide the location of your ${WS_MOCKS} directory and optionally update the port.
 - The folder structure for ${WS_MOCKS} resembles HTTP mocks, where you create a series of folders under ${WS_MOCKS} e.g. ${WS_MOCKS}/hello/world. This will allow you to connect to the websockets server using the url `ws://localhost:8082/hello/world`
 - Under /hello/world, you would need to provide two mock files, `connection.mock` (optional) and `message.mock`.
-- Camouflage uses `connection.mock` to send you a custom message when you first connect to the server. This is optional, not providing this file would simply log a warning message in Camouflage console.
-- Camouflage uses `message.mock` to respond to all incoming messages. This too can be optional if you don't want server to return any messages, but not providing this file would log an error message in Camouflage console.
+- Camouflage uses `connection.mock` to send you a custom message when you first connect to the server. This is optional, not providing this file would simply log a warning message in the console.
+- Camouflage uses `message.mock` to respond to all incoming messages. This too can be optional if you don't want the server to return any messages, but not providing this file would log an error message in the console.
 - The mock file, as you'd expect, supports handlebars! So you can generate random numbers, put conditional blocks etc.
 - The format of mock file would be as follows:
 
@@ -27,7 +27,7 @@ Camouflage supports mocking for websockets via native WebSockets API. Note that 
 
 The JSON can have one or more of these three keys: `broadcast`, `emit` or `self`
 
-- boardcast: Camouflage will broadcast these messages, i.e. The value {{now}} evaluates to in above example, will be sent to all the connected clients, including the client emitting the message.
+- broadcast: Camouflage will broadcast these messages, i.e. The value which {{now}} evaluates to, in the above example, will be sent to all the connected clients, including the client emitting the message.
 - emit: Camouflage will emit these messages, i.e. The value {{randomValue type='UUID'}} evaluates to in above example, will be sent to all the connected clients, except the client emitting the message.
 - self: Camouflage will only send these messages to the client who made the request, i.e. The value {{randomValue}} evaluates to in above example, will be sent only to the client who made the request.
 - Finally, you can also add a delay as shown in the example above.
@@ -52,4 +52,4 @@ Client Object:
 
 !!! note
 
-    The client object is broadcasted, meaning all the connected clients will recieve the clients object any time a client joins or leaves the server.
+    The client object is broadcasted, meaning all the connected clients will receive the clients object any time a client joins or leaves the server.

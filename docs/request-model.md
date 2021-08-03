@@ -1,6 +1,6 @@
 # Request model
 
-Request object made available by camouflage is simply an instance of express request object for a given incoming request. Following are the properties/objects available on the request object which can be used in request matching or to extract information out of the request.
+Request object made available by Camouflage is simply an instance of express request object for a given incoming request. Following are the properties/objects available on the request object which can be used in request matching or to extract information out of the request.
 
 - request.baseUrl
 - request.body

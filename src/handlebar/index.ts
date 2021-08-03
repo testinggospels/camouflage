@@ -9,6 +9,7 @@ import { FileHelper } from "./FileHelper";
 import { CodeHelper } from "./CodeHelper";
 import { InjectHelper } from "./InjectHelper";
 import { ProxyHelper } from "./ProxyHelper";
+import { FaultHelper } from "./FaultHelper";
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()
@@ -22,6 +23,7 @@ const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   new RequestHelper().register();
   new NumBetweenHelper().register();
   new FileHelper().register();
+  new FaultHelper().register();
   if (enableInjection) {
     logger.warn("Code Injection is enabled.")
     new CodeHelper().register();
