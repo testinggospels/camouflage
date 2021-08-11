@@ -69,7 +69,34 @@ export class RequestHelper {
             }
           }
         default:
-          return null;
+          if (typeof context.hash.using === "undefined" || typeof context.hash.selector == "undefined") {
+            logger.debug("ERROR: No selector or using values specified");
+            return "Please specify using and selector fields.";
+          } else {
+            switch (context.hash.using) {
+              case "regex": {
+                let regex = new RegExp(context.hash.selector);
+                let body = JSON.stringify(context.data.root.request, null, 2);
+                if (regex.test(body)) {
+                  return regex.exec(body)[1];
+                } else {
+                  logger.debug(`ERROR: No match found for specified regex ${context.hash.selector}`);
+                  return "No match found.";
+                }
+              }
+              case "jsonpath": {
+                try {
+                  return jsonpath.query(context.data.root.request, context.hash.selector);
+                } catch (err) {
+                  logger.debug(`ERROR: No match found for specified jsonpath ${context.hash.selector}`);
+                  logger.error(`ERROR: ${err}`);
+                  return "some error occuered";
+                }
+              }
+              default:
+                return null;
+            }
+          }
       }
     });
   };

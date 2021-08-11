@@ -27,7 +27,7 @@ If your package name is in the format **com.foo.bar.package**, format your folde
       - Create another folder in ./grpc/mocks/todoPackage directory with the service name. e.g. `./grpc/mocks/todoPackage/TodoService`
       - Finally create a .mock file in the directory ./grpc/mocks/todoPackage/TodoService with the method name. e.g `./grpc/mocks/todoPackage/TodoService/createTodo.mock`
       - Place your expected response in the mock file and you are done.
-      - You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols (eg. `capture` and `code`) and might not work as expected. You can always load your own handlebars to Camouflage (Check External Helpers section).
+      - You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols and might not work as expected. For example, you can not use `code` helper for gRPC. To extract some value from the gRPC request body, you can still use `capture` helper like you would extract information from http request body, but you don't need to specify `from='body'` key/value. You can always load your own handlebars to Camouflage (Check External Helpers section).
 
 ```json
 {
