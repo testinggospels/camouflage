@@ -9,7 +9,11 @@
     "api",
     "webservice",
     "rest",
-    "camouflage"
+    "camouflage",
+    "grpc",
+    "websockets",
+    "stub",
+    "virtualizatoion"
   ],
   "main": "dist/index.js",
   "scripts": {
@@ -71,6 +75,7 @@
     "foodoc": "0.0.9",
     "jsdoc": "^3.6.7",
     "mocha": "^8.4.0",
+    "nodemon": "^2.0.12",
     "semantic-release": "^17.4.3",
     "typescript": "^4.2.4"
   }

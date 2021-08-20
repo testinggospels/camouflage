@@ -27,7 +27,7 @@ If your package name is in the format **com.foo.bar.package**, format your folde
       - Create another folder in ./grpc/mocks/todoPackage directory with the service name. e.g. `./grpc/mocks/todoPackage/TodoService`
       - Finally create a .mock file in the directory ./grpc/mocks/todoPackage/TodoService with the method name. e.g `./grpc/mocks/todoPackage/TodoService/createTodo.mock`
       - Place your expected response in the mock file and you are done.
-      - You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols (eg. `capture` and `code`) and might not work as expected. You can always load your own handlebars to Camouflage (Check External Helpers section).
+      - You can use the handlebars as usual in your response, though some of handlebars were built specifically for http based protocols and might not work as expected. For example, you can not use `code` helper for gRPC. To extract some value from the gRPC request body, you can still use `capture` helper like you would extract information from http request body, but you don't need to specify `from='body'` key/value. You can always load your own handlebars to Camouflage (Check External Helpers section).
 
 ```json
 {
@@ -121,4 +121,22 @@ module.exports.plconfig = {
 }
 ```
 
-Full list of the available options can be found in [@grpc/proto-loader](https://www.npmjs.com/package/@grpc/proto-loader){target=\_blank} README.
+Available options are as follows:
+
+| Field name | Valid values | Description
+|------------|--------------|------------
+| `keepCase` | `true` or `false` | Preserve field names. The default is to change them to camel case.
+| `longs` | `String` or `Number` | The type to use to represent `long` values. Defaults to a `Long` object type.
+| `enums` | `String` | The type to use to represent `enum` values. Defaults to the numeric value.
+| `bytes` | `Array` or `String` | The type to use to represent `bytes` values. Defaults to `Buffer`.
+| `defaults` | `true` or `false` | Set default values on output objects. Defaults to `false`.
+| `arrays` | `true` or `false` | Set empty arrays for missing array values even if `defaults` is `false` Defaults to `false`.
+| `objects` | `true` or `false` | Set empty objects for missing object values even if `defaults` is `false` Defaults to `false`.
+| `oneofs` | `true` or `false` | Set virtual oneof properties to the present field's name. Defaults to `false`.
+| `json` | `true` or `false` | Represent `Infinity` and `NaN` as strings in `float` fields, and automatically decode `google.protobuf.Any` values. Defaults to `false`
+| `includeDirs` | An array of strings | A list of search paths for imported `.proto` files.
+| `includeProtos` | An array of strings | A list of proto files to be loaded. If specified, Camouflage will only load the specified proto files and ignore other protofiles in `config.protocols.grpc.protos_dir`.
+
+!!!note
+
+    Camouflage extends the configurations provided by Protoloader Options([@grpc/proto-loader](https://www.npmjs.com/package/@grpc/proto-loader){target=\_blank}).
