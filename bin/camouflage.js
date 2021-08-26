@@ -72,7 +72,7 @@ if (help) {
       `  - http://localhost:5000/`
     ].join("\n")
   );
-  process.exit(1);
+  process.exit(0);
 }
 /**
  * If user runs command camouflage init and if the current working directory is empty,
@@ -90,7 +90,7 @@ if (init) {
   } else {
     console.error("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
   }
-  process.exit(1);
+  process.exit(0);
 }
 /**
  * If config file is not passed while starting the app, this block will log an error message and exit.
@@ -158,7 +158,7 @@ if (restore) {
   } else {
     logger.error("No existing backup found.");
   }
-  process.exit(1);
+  process.exit(0);
 }
 /**
  * Defined only for logging purposes, does not hold any significance from application logic perspective.
