@@ -41,6 +41,7 @@ nav:
   - tests.md
   - back-up-and-restore.md
   - openAPI-conversion.md
+  - using-with-docker.md
   - contributing.md
 extra:
   logo: "camouflage.svg"
