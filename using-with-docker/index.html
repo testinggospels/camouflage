@@ -16,7 +16,7 @@
     
     
       
-        <title>Request model - Camouflage</title>
+        <title>Camouflage with Docker - Camouflage</title>
       
     
     
@@ -65,7 +65,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#request-model" class="md-skip">
+        <a href="#camouflage-with-docker" class="md-skip">
           Skip to content
         </a>
       
@@ -94,7 +94,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Request model
+              Camouflage with Docker
             
           </span>
         </div>
@@ -337,20 +337,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../request-model/" class="md-nav__link">
         Request model
       </a>
-      
     </li>
   
 
@@ -511,11 +502,63 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../using-with-docker/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Camouflage with Docker
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Camouflage with Docker
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#port-mapping" class="md-nav__link">
+    Port Mapping
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mounting-volumes" class="md-nav__link">
+    Mounting Volumes
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#docker-compose" class="md-nav__link">
+    Docker Compose
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -547,26 +590,46 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/request-model.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/using-with-docker.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="request-model">Request model</h1>
-<p>Request object made available by Camouflage is simply an instance of express request object for a given incoming request. Following are the properties/objects available on the request object which can be used in request matching or to extract information out of the request.</p>
+                <h1 id="camouflage-with-docker">Camouflage with Docker</h1>
+<p>Camouflage can be used with the docker image available at <a href="https://hub.docker.com/repository/docker/shubhendumadhukar/camouflage" target="_blank">Docker Hub</a>.</p>
+<p>Camouflage can be run with docker using the command, <code>docker container run -d --name camouflage -p 8080:8080 shubhendumadhukar/camouflage:${TAG}</code>, where <code>${TAG}</code> used in docker image refers to the version of camouflage-server npm package.</p>
+<h2 id="port-mapping">Port Mapping</h2>
+<p>You can map additional ports to access other protocols and endpoints, e.g. default ports are</p>
 <ul>
-<li>request.baseUrl</li>
-<li>request.body</li>
-<li>request.cookies</li>
-<li>request.method</li>
-<li>request.originalUrl</li>
-<li>request.path</li>
-<li>request.protocol</li>
-<li>request.query</li>
-<li>request.headers</li>
-<li>request.body</li>
+<li>8080 - For HTTP</li>
+<li>8443 - For HTTPS</li>
+<li>8081 - For HTTP2</li>
+<li>8082 - For Websockets</li>
+<li>4312 - For gRPC</li>
+<li>5555 - Exposes a /metrics endpoint for prometheus monitoring</li>
 </ul>
-<p>Refer to <a href="http://expressjs.com/en/4x/api.html#req">Express Documentation</a> for more information on each of these properties.</p>
+<p>Each of these ports can be mapped to a host port of your choice</p>
+<h2 id="mounting-volumes">Mounting Volumes</h2>
+<p>Since Camouflage provides you a UI, you can create folders, upload a mock file, delete folders in order to change the mocks behavior at runtime without having to rebuild the docker image or copy additional files to the running containers.</p>
+<p>You can also achieve the same effect by mounting volumes while starting Camouflage.</p>
+<ul>
+<li>Create an empty directory in your host machine.</li>
+<li>Run <code>camouflage init</code> in the directory to generate a starter skeleton of a Camouflage project.</li>
+<li>Carry out necessary modifications, like deleting example files, modifying config, adding certs, etc.</li>
+<li>Start Camouflage using command: <ul>
+<li><code>docker run -d -p 8080:8080 -p 5555:5555 -v $(pwd):/app --name camouflage shubhendumadhukar/camouflage</code> if you are on mac or linux</li>
+<li><code>docker run -d -p 8080:8080 -p 5555:5555 -v %cd%:/app --name camouflage shubhendumadhukar/camouflage</code> if you are on Windows</li>
+</ul>
+</li>
+</ul>
+<p>To make any changes to mocks you can modify files on your host. Or you can use Camouflage UI to make necessary changes, and these changes will be persisted on your host.</p>
+<h2 id="docker-compose">Docker Compose</h2>
+<p>The fastest way to get started using Docker would be to use the <code>docker-compose.yml</code> file available in Camouflage Github repo. Copy the files <code>docker-compose.yml</code> and <code>prometheus.yml</code> to the root of your Camouflage project. Run the command <code>docker-compose up -d</code> to start following entities:</p>
+<ul>
+<li>Camouflage</li>
+<li>Prometheus</li>
+<li>Grafana (We don't have a default Grafana Dashboard yet, but it will be available soon)</li>
+</ul>
                 
               
               
@@ -585,7 +648,7 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
-        <a href="../proxying/" class="md-footer__link md-footer__link--prev" rel="prev">
+        <a href="../openAPI-conversion/" class="md-footer__link md-footer__link--prev" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -594,19 +657,19 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Proxying
+              OpenAPI Conversion
             </div>
           </div>
         </a>
       
       
-        <a href="../response-delays/" class="md-footer__link md-footer__link--next" rel="next">
+        <a href="../contributing/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Response delays
+              Contributing
             </div>
           </div>
           <div class="md-footer__button md-icon">
