@@ -12,11 +12,7 @@ services:
     image: shubhendumadhukar/camouflage:latest
     container_name: camouflage
     volumes:
-      - ./certs:/app/certs
-      - ./mocks:/app/mocks
-      - ./grpc:/app/grpc
-      - ./ws_mocks:/app/ws_mocks
-      - ./config.yml:/app/config.yml
+      - ./:/app
     restart: unless-stopped
     expose:
       - 8080 # HTTP Port
