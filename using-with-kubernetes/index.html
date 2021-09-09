@@ -16,7 +16,7 @@
     
     
       
-        <title>External Helpers - Camouflage</title>
+        <title>Camouflage with Kubernetes - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#external-helpers" class="md-skip">
+        <a href="#camouflage-with-kubernetes" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              External Helpers
+              Camouflage with Kubernetes
             
           </span>
         </div>
@@ -317,21 +317,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../external-helper/" class="md-nav__link">
         External Helpers
       </a>
-      
     </li>
   
 
@@ -537,11 +527,72 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../using-with-kubernetes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Camouflage with Kubernetes
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Camouflage with Kubernetes
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-is-included" class="md-nav__link">
+    What is included?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it works?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#port-mapping" class="md-nav__link">
+    Port Mapping
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-camouflage-on-k8s" class="md-nav__link">
+    Using Camouflage on K8s
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -573,48 +624,45 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/external-helper.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/using-with-kubernetes.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="external-helpers">External Helpers</h1>
-<p>Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file containing the definition of your custom helper. Example:</p>
-<pre><code>ext_helpers: &quot;./custom_handlebar.json&quot;
-</code></pre>
-<p>The JSON in the file should be an array of JSON Objects containing two keys: <code>name</code> and <code>logic</code>. Example:</p>
-<pre><code class="language-json">[
-  {
-    &quot;name&quot;: &quot;is&quot;,
-    &quot;logic&quot;:&quot;(()=&gt;{ logger.info(JSON.stringify((context.hash))); if(context.hash.value1===context.hash.value2) {return context.fn(this);} else {return context.inverse(this);} })()&quot;
-  }
-]
-</code></pre>
-<p>This loads a custom helper, <code>is</code>, which can be used in your mock files to compare to values. Use it as shown in example:</p>
-<pre><code>HTTP/1.1 200 OK
-
-{{#is value1=request.query.name value2='Shubhendu'}}
-   Response if true
-{{else}}
-   Response if false
-{{/is}}
-</code></pre>
-<ul>
-<li><code>name</code>, can be anything of your choosing.</li>
-<li><code>logic</code>, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to <code>request</code> and <code>logger</code> objects. The logic should return a value in accordance with your expectations from the function.</li>
-</ul>
-<div class="admonition caution">
-<p class="admonition-title">Caution</p>
-<p>If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on. Before starting Camouflage, run  the following command:</p>
-<ul>
-<li><code>npm root -g</code></li>
-</ul>
-<p>Pass the output of this command to the next command.</p>
-<ul>
-<li>On Linux/macOS: <code>export NODE_PATH="output_from_previous_command"</code></li>
-<li>On Windows: <code>set NODE_PATH="output_from_previous_command"</code></li>
-</ul>
+                <h1 id="camouflage-with-kubernetes">Camouflage with Kubernetes</h1>
+<p>Camouflage can be also be used with the Kubernetes using the *.yaml files available at <a href="https://github.com/testinggospels/camouflage/tree/main/kubernetes" target="_blank">GitHub</a>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Provided *.yaml files are in no way optimally tuned to be used in production scenarios, and are expected to change in future to have a more robust structure. We welcome all suggestions for improvements. They can however be used in development environments to quickly deploy and scale Camouflage. </p>
 </div>
+<h2 id="what-is-included">What is included?</h2>
+<p>Kubernetes deployments include 3 yaml files:</p>
+<ul>
+<li><strong>camouflage-depl.yaml</strong> - Defines Camouflage pod, along with an init pod to setup Camouflage. <em>Change the desired number of replicas and allocated CPU/Memory here</em></li>
+<li><strong>camouflage-pvc.yaml</strong> - Allows Camouflage to persist mocks/protofiles data even if a pod is killed, also helps share same data accross pods. <em>Change the assigned storage volume and storage class here</em></li>
+<li><strong>camouflage-service.yaml</strong> - Defines a loadbalancer service to access UI and mocks. <em>Change port mappings here.</em></li>
+</ul>
+<h2 id="how-it-works">How it works?</h2>
+<ul>
+<li>To deploy and scale, download all three files and store locally or on your dedicated server.</li>
+<li>Navigate to the directory containing the three files and run the command: <code>kubectl apply -f .</code>.</li>
+<li>This starts n number of pods as specified in replica, alongwith init pods.</li>
+<li>This sets up Loadbalancer Service.</li>
+<li>Finally this sets up a PVC, which is to be populated by the init pods. If the mounted volume is empty, init pods will run <code>camouflage init</code>, so that you don't have to. Any changes/deletion/creation of mocks will be persisted, further init pods created during scaling/deleting/restarting will not change the existing data.</li>
+</ul>
+<h2 id="port-mapping">Port Mapping</h2>
+<p>You can map ports in <code>camouflage-svc.yaml</code> to access available protocols and endpoints. Default ports/mappings are:</p>
+<ul>
+<li>8080 - For HTTP</li>
+<li>8443 - For HTTPS</li>
+<li>8081 - For HTTP2</li>
+<li>8082 - For Websockets</li>
+<li>4312 - For gRPC</li>
+<li>5555 - Exposes a /metrics endpoint for prometheus monitoring</li>
+</ul>
+<p>Each of these ports can be mapped to a host port of your choice</p>
+<h2 id="using-camouflage-on-k8s">Using Camouflage on K8s</h2>
+<p>All mocks and endpoints can be access via the loadbalancer service. As well as any changes to mocks, can be made using Camouflage UI available at the root path accessed by using http port. <code>http://${host}:${httpPort}/</code>.</p>
                 
               
               
@@ -634,7 +682,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../default-response/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Default Response" rel="prev">
+        <a href="../using-with-docker/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Camouflage with Docker" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -643,20 +691,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Default Response
+              Camouflage with Docker
             </div>
           </div>
         </a>
       
       
         
-        <a href="../proxying/" class="md-footer__link md-footer__link--next" aria-label="Next: Proxying" rel="next">
+        <a href="../contributing/" class="md-footer__link md-footer__link--next" aria-label="Next: Contributing" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Proxying
+              Contributing
             </div>
           </div>
           <div class="md-footer__button md-icon">
