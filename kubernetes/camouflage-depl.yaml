@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camouflage-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camouflage
+  template:
+    metadata:
+      name: camouflage-pod
+      labels:
+        app: camouflage
+    spec:
+      containers:
+        - name: camouflage
+          image: shubhendumadhukar/camouflage:latest
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 100m
+            limits:
+              memory: 200Mi
+              cpu: 100m
+          volumeMounts:
+            - name: camouflage-storage
+              mountPath: /app
+      initContainers:
+        - name: init-camouflage-pvc
+          image: shubhendumadhukar/camouflage:latest
+          command: ["sh", "-c", '[ `ls -1A . | wc -l` -eq 0 ] && camouflage init || echo "Current dir has files (or hidden files) in it."']
+          volumeMounts:
+            - name: camouflage-storage
+              mountPath: /app
+      volumes:
+        - name: camouflage-storage
+          persistentVolumeClaim:
+            claimName: camouflage-pvc
