@@ -38,3 +38,7 @@ The fastest way to get started using Docker would be to use the `docker-compose.
 - Camouflage
 - Prometheus
 - Grafana (We don't have a default Grafana Dashboard yet, but it will be available soon)
+
+!!! note
+
+    Change Grafana Password (`Password@123`) on first login

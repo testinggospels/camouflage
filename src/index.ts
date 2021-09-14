@@ -2,6 +2,7 @@
 import express from "express";
 import cluster from "cluster";
 import path from "path";
+import os from "os";
 import * as expressWinston from "express-winston";
 import registerHandlebars from "./handlebar";
 import Protocols from "./protocols";
@@ -154,7 +155,7 @@ const start = (
   grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
   wsPort = inputWsPort ? inputWsPort : wsPort;
   port = inputPort;
-  swStats.getPromClient().register.setDefaultLabels({ workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
+  swStats.getPromClient().register.setDefaultLabels({ instance: os.hostname(), workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
   // Define route for /ui to host a single page UI to manage the mocks
   app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: ui_root });

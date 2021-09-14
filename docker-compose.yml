@@ -14,13 +14,6 @@ services:
     volumes:
       - ./:/app
     restart: unless-stopped
-    expose:
-      - 8080 # HTTP Port
-      - 8443 # HTTPs Port
-      - 8081 # HTTP/2 Port
-      - 4312 # GRPC Port
-      - 8082 # WS Port
-      - 5555 # Monitoring Port
     ports:
       - "8080:8080"
       - "8443:8443"
@@ -40,8 +33,6 @@ services:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
       - prometheus_data:/prometheus
     restart: unless-stopped
-    expose:
-      - 9090
     ports:
       - "9090:9090"
     networks:
@@ -55,8 +46,6 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     restart: unless-stopped
-    expose:
-      - 3000
     ports:
       - "3000:3000"
     networks:
