@@ -651,12 +651,13 @@
 </ul>
 <p>To make any changes to mocks you can modify files on your host. Or you can use Camouflage UI to make necessary changes, and these changes will be persisted on your host.</p>
 <h2 id="docker-compose">Docker Compose</h2>
-<p>The fastest way to get started using Docker would be to use the <code>docker-compose.yml</code> file available in Camouflage Github repo. Copy the files <code>docker-compose.yml</code> and <code>prometheus.yml</code> to the root of your Camouflage project. Run the command <code>docker-compose up -d</code> to start following entities:</p>
+<p>The fastest way to get started using Docker would be to use the <code>docker-compose.yml</code> file available in Camouflage Github repo. Download the files <code>docker-compose.yml</code>, <code>camouflage_dashboard.json</code> and <code>prometheus.yml</code> to your local environment. Run the command <code>docker-compose up -d</code> to start following entities:</p>
 <ul>
 <li>Camouflage</li>
 <li>Prometheus</li>
-<li>Grafana (We don't have a default Grafana Dashboard yet, but it will be available soon)</li>
+<li>Grafana</li>
 </ul>
+<p>Once all containers are up, simply import <code>camouflage_dashboard.json</code> as a Grafana dashboard. </p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Change Grafana Password (<code>Password@123</code>) on first login</p>
