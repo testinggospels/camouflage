@@ -1,4 +1,4 @@
-version: "2.1"
+version: "3.9"
 networks:
   camouflage:
     driver: bridge
@@ -6,13 +6,14 @@ networks:
 volumes:
   prometheus_data: {}
   grafana_data: {}
+  camouflage_data: {}
 
 services:
   camouflage:
     image: shubhendumadhukar/camouflage:latest
     container_name: camouflage
     volumes:
-      - ./:/app
+      - camouflage_data:/app
     restart: unless-stopped
     ports:
       - "8080:8080"
