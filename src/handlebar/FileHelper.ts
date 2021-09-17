@@ -17,9 +17,7 @@ export class FileHelper {
       if (typeof context.hash.path === "undefined") {
         logger.error("File path not specified.");
       } else {
-        if (fs.existsSync(path.resolve(context.hash.path))) {
           return `camouflage_file_helper=${path.resolve(context.hash.path)}`;
-        }
       }
     });
   };
