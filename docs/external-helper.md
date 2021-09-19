@@ -17,6 +17,9 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 ]
 ```
 
+- `name`, can be anything of your choosing.
+- `logic`, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to `request` and `logger` objects. The logic should return a value in accordance with your expectations from the function.
+
 This loads a custom helper, `is`, which can be used in your mock files to compare to values. Use it as shown in example:
 
 ```
@@ -29,12 +32,9 @@ HTTP/1.1 200 OK
 {{/is}}
 ```
 
-- `name`, can be anything of your choosing.
-- `logic`, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to `request` and `logger` objects. The logic should return a value in accordance with your expectations from the function.
-
 !!!caution
     
-    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on. Before starting Camouflage, run  the following command:
+    If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on, using `npm i -g package_name`. Before starting Camouflage, run  the following command:
     
     - `npm root -g`
     

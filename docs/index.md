@@ -33,5 +33,6 @@ Camouflage simply borrows the idea from the original and though it does use some
 7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets.
 8. Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.
 9. Camouflage provides support for monitoring.
+10. Docker compose and Kubernetes configurations are included in the project, to help you get started within seconds.
 
 Head on over to the Getting Started page and set up your first Camouflage project.

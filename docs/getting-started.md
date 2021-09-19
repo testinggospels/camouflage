@@ -39,13 +39,13 @@ protocols:
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
 backup:
-  enable: true
+  enable: false
   cron: "0 * * * *" # Hourly Backup
 cache:
   enable: false
   ttl_seconds: 300
 injection:
-  enable: true
+  enable: false
 ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
@@ -82,7 +82,7 @@ There might be times when latest changes have not gone to release yet, such chan
 1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
 2. Checkout `develop` branch: `git checkout develop`
 3. Install dependencies: `npm install`
-4. Build the project: `npm build`
+4. Build the project: `npm run build`
 5. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
 6. However if you'd like to install Camouflage globally, execute: `npm pack`
 7. Install by running command: `npm install -g camouflage-server-0.0.0-development.tgz` or `npm install -g camouflage-server-0.0.0-development.zip`
