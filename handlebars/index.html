@@ -370,6 +370,13 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#is" class="md-nav__link">
+    is
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#proxy" class="md-nav__link">
     proxy
   </a>
@@ -758,7 +765,7 @@
 <li><strong>{{capture from='query' key='firstName'}}</strong> - Pretty self-explanatory, but if your endpoint looks like /hello-world?firstName=John&amp;lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as</li>
 </ol>
 <pre><code>{
-    &quot;message&quot;: &quot;{{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}&quot;
+    &quot;message&quot;: &quot;Hello {{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}&quot;
 }
 </code></pre>
 <ol>
@@ -769,8 +776,9 @@
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
 <ol>
-<li><strong>{{num_between lower=500 upper=600}}</strong>: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower &gt; upper would set delay to 0, i.e. won't have any effect. Check <strong>Response Delays</strong> page for a detailed example</li>
+<li><strong>{{num_between lower=500 upper=600}}</strong>: Generate a number between two values.</li>
 </ol>
+<p>Tip: you can add this value in your response header with a key <code>Response-Delay</code>, to simulate a latency in your API. Not providing lower/upper value or providing values where lower &gt; upper would set delay to 0, i.e. won't have any effect. Check <strong>Response Delays</strong> page for a detailed example</p>
 <h2 id="file">file</h2>
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
@@ -845,10 +853,45 @@ Content-Type: application/json
 </code></pre>
 <h2 id="csv">csv</h2>
 <p>Type: Custom Helper</p>
-<p>Usage: CSV Helper allows you to provide a data source as an input along with two combinations of policies
-- With a key and value: In this case the helper will return a response specific to a given key and value
-- Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row</p>
+<p>Usage: CSV Helper allows you to provide a data source as an input along with two combinations of policies</p>
+<ul>
+<li>With a key and value: In this case the helper will return a response specific to a given key and value</li>
+<li>Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row</li>
+</ul>
 <p>For more details on how to use csv helper, refer to CSV Data Source page.</p>
+<h2 id="is">is</h2>
+<p>Type: Custom Helper</p>
+<p>Credits: <a href="https://github.com/danharper/Handlebars-Helpers" target="_blank">danharper/Handlebars-Helpers</a></p>
+<p>Usage: <code>is</code> helper can be considered as an extension of <code>if</code> which allows you to evaluate conditions that are lacking in inbuilt helper.</p>
+<p><code>is</code> can be used in following three ways:</p>
+<ul>
+<li>With one argument: <code>is</code> acts exactly like <code>if</code></li>
+</ul>
+<pre><code>{{#is x}} ... {{else}} ... {{/is}}
+</code></pre>
+<ul>
+<li>With two arguments: <code>is</code> compares the two are equal (a non-strict, <code>==</code> comparison, so <code>5 == '5'</code> is true)</li>
+</ul>
+<pre><code>{{#is x y}} ... {{else}} ... {{/is}}
+</code></pre>
+<ul>
+<li>With three arguments: the second argument becomes the comparator.</li>
+</ul>
+<pre><code>{{#is x &quot;not&quot; y}} ... {{else}} ... {{/is}}
+{{#is 5 &quot;&gt;=&quot; 2}} ... {{else}} ... {{/is}}
+</code></pre>
+<p>Accepted operators are:</p>
+<ul>
+<li><code>==</code> (same as not providing a comparator)</li>
+<li><code>!=</code></li>
+<li><code>not</code> (alias for <code>!=</code>)</li>
+<li><code>===</code></li>
+<li><code>!==</code></li>
+<li><code>&gt;</code></li>
+<li><code>&gt;=</code></li>
+<li><code>&lt;</code></li>
+<li><code>&lt;=</code></li>
+</ul>
 <h2 id="proxy">proxy</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Proxy Helper allows you to redirect your calls to an actual downstream selectively. You might want to redirect all calls to actual downstream or some calls based on some condition, i.e. if a specific header exists, or a query param is provided. Example mock file content:</p>

@@ -660,7 +660,7 @@ Content-Type: application/json
 </code></pre>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p><code>if</code> and <code>unless</code> helpers are provided by handlebarjs, which don't have comparison capabilities. These helpers only check if the provided value is truthy or falsy. i.e. you can not do something like this: <code>{{#if something = something}}</code>. For comparisons, you'd need to write your own helper and load it as an <a href="/external-helper.html">external helpers</a> for Camouflage. More context can be found in this <a href="https://github.com/testinggospels/camouflage/discussions/64" target="_blank">discussion</a></p>
+<p><code>if</code> and <code>unless</code> helpers are provided by handlebarjs, which don't have comparison capabilities. These helpers only check if the provided value is truthy or falsy. i.e. you can not do something like this: <code>{{#if something = something}}</code>. For comparisons, you'd need to use <code>is</code> helper. See Handlebars page for example.</p>
 </div>
 <p>Rest of the code is self explanatory, where if the condition is true, i.e. incoming request has a query parameter with key <code>name</code>, the <code>greeting</code> field in our response object would be <code>Hello John</code>, else the greeting would be <code>Hello World</code>.</p>
 <p>Thus if the end user makes a GET request as <code>/hello-world?name=John</code>, he'd get a greeting <code>Hello John</code>. However, if the user calls <code>/hello-world</code> without any <code>name</code>, he'd get a greeting as <code>Hello World</code></p>

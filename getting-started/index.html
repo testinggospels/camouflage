@@ -667,13 +667,13 @@ protocols:
     mocks_dir: &quot;./grpc/mocks&quot;
     protos_dir: &quot;./grpc/protos&quot;
 backup:
-  enable: true
+  enable: false
   cron: &quot;0 * * * *&quot; # Hourly Backup
 cache:
   enable: false
   ttl_seconds: 300
 injection:
-  enable: true
+  enable: false
 ext_helpers: &quot;./custom_handlebar.json&quot; # Remove if not needed
 origins:
   - http://localhost:3000/
@@ -703,7 +703,7 @@ Content-Type: application/json
 <li>Clone the repository: <code>git clone https://github.com/testinggospels/camouflage.git</code></li>
 <li>Checkout <code>develop</code> branch: <code>git checkout develop</code></li>
 <li>Install dependencies: <code>npm install</code></li>
-<li>Build the project: <code>npm build</code></li>
+<li>Build the project: <code>npm run build</code></li>
 <li>At this point you can run Camouflage using: <code>node bin/camouflage.js --config ./config.yml</code></li>
 <li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
 <li>Install by running command: <code>npm install -g camouflage-server-0.0.0-development.tgz</code> or <code>npm install -g camouflage-server-0.0.0-development.zip</code></li>

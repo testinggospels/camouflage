@@ -590,6 +590,10 @@
   }
 ]
 </code></pre>
+<ul>
+<li><code>name</code>, can be anything of your choosing.</li>
+<li><code>logic</code>, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to <code>request</code> and <code>logger</code> objects. The logic should return a value in accordance with your expectations from the function.</li>
+</ul>
 <p>This loads a custom helper, <code>is</code>, which can be used in your mock files to compare to values. Use it as shown in example:</p>
 <pre><code>HTTP/1.1 200 OK
 
@@ -599,13 +603,9 @@
    Response if false
 {{/is}}
 </code></pre>
-<ul>
-<li><code>name</code>, can be anything of your choosing.</li>
-<li><code>logic</code>, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to <code>request</code> and <code>logger</code> objects. The logic should return a value in accordance with your expectations from the function.</li>
-</ul>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
-<p>If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on. Before starting Camouflage, run  the following command:</p>
+<p>If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on, using <code>npm i -g package_name</code>. Before starting Camouflage, run  the following command:</p>
 <ul>
 <li><code>npm root -g</code></li>
 </ul>

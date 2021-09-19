@@ -596,6 +596,13 @@
 <li>If none of the files are found as shown above, Camouflage will make one final attempt to find <code>${MOCK_DIR}/__/GET.mock</code>. This is your global level default response.</li>
 <li>In case a global level default response too, is not found, Camouflage will fallback to it's inbuilt default response.</li>
 </ul>
+<p>To summarize, for a GET call to <code>/hello-world/greet/me</code>, Camouflage would search for corresponding mocks in following order:</p>
+<ul>
+<li><code>${MOCK_DIR}/hello-world/greet/me/GET.mock</code> - Exact Match</li>
+<li><code>${MOCK_DIR}/hello-world/greet/__/GET.mock</code> - API Level Default Response</li>
+<li><code>${MOCK_DIR}/hello-world/__/GET.mock</code> - API Level Default Response</li>
+<li><code>${MOCK_DIR}/__/GET.mock</code> - Global Default Response</li>
+</ul>
                 
               
               
