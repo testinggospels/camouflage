@@ -158,6 +158,7 @@ export class HttpParser {
         this.res.statusCode = response.status;
         if (responseBody.includes("camouflage_file_helper")) {
           const fileResponse = responseBody.split(";")[1];
+          if(!fs.existsSync(fileResponse)) this.res.status(404)
           setTimeout(() => {
             this.res.sendFile(fileResponse);
           }, DELAY);

@@ -55,7 +55,7 @@ Usage:
 
 ```
 {
-    "message": "{{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}"
+    "message": "Hello {{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}"
 }
 ```
 
@@ -68,7 +68,9 @@ Type: Custom Helper
 
 Usage:
 
-1. **{{num_between lower=500 upper=600}}**: Generate a number between two values. Example: you can add this value in your response header with a key Response-Delay, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
+1. **{{num_between lower=500 upper=600}}**: Generate a number between two values.
+
+Tip: you can add this value in your response header with a key `Response-Delay`, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
 ## file
 
@@ -158,10 +160,47 @@ Content-Type: application/json
 Type: Custom Helper
 
 Usage: CSV Helper allows you to provide a data source as an input along with two combinations of policies
+
 - With a key and value: In this case the helper will return a response specific to a given key and value
 - Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row
 
 For more details on how to use csv helper, refer to CSV Data Source page.
+
+## is
+
+Type: Custom Helper
+
+Credits: [danharper/Handlebars-Helpers](https://github.com/danharper/Handlebars-Helpers){target=\_blank}
+
+Usage: `is` helper can be considered as an extension of `if` which allows you to evaluate conditions that are lacking in inbuilt helper.
+
+`is` can be used in following three ways:
+
+- With one argument: `is` acts exactly like `if`
+```
+{{#is x}} ... {{else}} ... {{/is}}
+```
+- With two arguments: `is` compares the two are equal (a non-strict, `==` comparison, so `5 == '5'` is true)
+```
+{{#is x y}} ... {{else}} ... {{/is}}
+```
+- With three arguments: the second argument becomes the comparator.
+```
+{{#is x "not" y}} ... {{else}} ... {{/is}}
+{{#is 5 ">=" 2}} ... {{else}} ... {{/is}}
+```
+
+Accepted operators are:
+
+- `==` (same as not providing a comparator)
+- `!=`
+- `not` (alias for `!=`)
+- `===`
+- `!==`
+- `>`
+- `>=`
+- `<`
+- `<=`
 
 ## proxy
 

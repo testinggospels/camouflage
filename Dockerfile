@@ -1,4 +1,4 @@
-FROM node:14.16-slim
+FROM node:alpine
 WORKDIR /app
 RUN npm install -g camouflage-server
 RUN camouflage init
