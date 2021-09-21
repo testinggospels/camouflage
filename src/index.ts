@@ -17,6 +17,7 @@ import * as protoLoader from "@grpc/proto-loader";
 import apicache from "apicache";
 // @ts-ignore
 import * as filemanager from "@opuscapita/filemanager-server";
+import redis from 'redis';
 const filemanagerMiddleware = filemanager.middleware;
 // @ts-ignore
 import swStats from "swagger-stats";
@@ -62,7 +63,6 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(ui_root));
 const compression = require("compression");
 app.use(compression());
-let cache = apicache.middleware;
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
@@ -121,8 +121,11 @@ const start = (
   backupCron?: string,
   configFilePath?: string,
   extHelpers?: string,
-  cacheTtl?: number
+  cacheTtl?: number,
+  cacheOptions?: any
 ) => {
+  // Set log level to the configured level from config.yaml
+  setLogLevel(loglevel);
   const config = {
     fsRoot: path.resolve(mocksDir),
     readOnly: false,
@@ -137,12 +140,21 @@ const start = (
     }));
   }
   if (enableCache) {
-    logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
-    app.use(cache(`${cacheTtl} seconds`));
+    try {
+      logger.debug(`Cache Options: ${JSON.stringify(cacheOptions, null, 2)}`);
+      if (cacheOptions.redis_options) {
+        let redisOptions: redis.ClientOpts = cacheOptions.redis_options;
+        delete cacheOptions.redis_options;
+        cacheOptions.redisClient = redis.createClient(redisOptions)
+      }
+      let cache = apicache.options(cacheOptions).middleware;
+      app.use(cache(`${cacheTtl} seconds`));
+      logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
+    } catch (error) {
+      logger.info(`Cache couldn't be configured. ${error.message}`)
+    }
   }
   app.use(filemanagerMiddleware(config));
-  // Set log level to the configured level from config.yaml
-  setLogLevel(loglevel);
   logger.info(`[${process.pid}] Worker started`);
   // Replace the default values for defined variables with actual values provided as input from config
   mocksDir = inputMocksDir;

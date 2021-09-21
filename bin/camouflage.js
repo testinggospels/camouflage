@@ -189,6 +189,7 @@ let inputsKeys = [
   "configFile",
   "ext_helpers",
   "cache.ttl_seconds",
+  "cache.cache_options"
 ];
 /**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
@@ -226,6 +227,7 @@ let inputs = [
   config.ext_helpers || null,
   config.cache.ttl_seconds || 0
 ];
+config.cache.cache_options ? inputs.push(config.cache.cache_options) : inputs.push({})
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
  * than available number of cores, log an error and exit. Default value 1.

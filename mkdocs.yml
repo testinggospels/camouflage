@@ -41,6 +41,7 @@ nav:
   - tests.md
   - back-up-and-restore.md
   - openAPI-conversion.md
+  - configuring-cache.md
   - using-with-docker.md
   - using-with-kubernetes.md
   - contributing.md
