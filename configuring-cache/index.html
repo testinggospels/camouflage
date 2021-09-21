@@ -16,7 +16,7 @@
     
     
       
-        <title>Getting Started - Camouflage</title>
+        <title>Configuring Cache - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#getting-started" class="md-skip">
+        <a href="#configuring-cache" class="md-skip">
           Skip to content
         </a>
       
@@ -96,7 +96,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Getting Started
+              Configuring Cache
             
           </span>
         </div>
@@ -242,71 +242,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Getting Started
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
         Getting Started
       </a>
-      
-        
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#configuration-options-sample-config-yml-file" class="md-nav__link">
-    Configuration Options / Sample Config yml File
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#create-your-first-mock" class="md-nav__link">
-    Create your first mock
-  </a>
-  
-    <nav class="md-nav" aria-label="Create your first mock">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#building-from-source" class="md-nav__link">
-    Building from source
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -572,11 +512,58 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../configuring-cache/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Configuring Cache
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Configuring Cache
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#in-memory-cache" class="md-nav__link">
+    In Memory Cache
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#redis-cache" class="md-nav__link">
+    Redis Cache
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -638,91 +625,75 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/getting-started.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/configuring-cache.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="getting-started">Getting Started</h1>
-<ol>
-<li>Camouflage is an NPM package, therefore to install Camouflage, you'd need to install NodeJS (&gt;v14) first, if you haven't already done so.</li>
-<li>Install Camouflage: <code>npm install -g camouflage-server</code></li>
-<li>Run <code>camouflage --version</code> to validate the installation was successful.</li>
-<li>Create an empty directory anywhere in your machine and navigate to it in your terminal.</li>
-<li>Execute command <code>camouflage init</code>. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.</li>
-<li>Start the Camouflage server by initializing it with a config.yml file: <code>camouflage --config config.yml</code></li>
-</ol>
-<h2 id="configuration-options-sample-config-yml-file">Configuration Options / Sample Config yml File</h2>
-<pre><code class="language-yaml">loglevel: info
-cpus: 1
-monitoring:
-  port: 5555
-ssl:
-  cert: &quot;./certs/server.cert&quot;
-  key: &quot;./certs/server.key&quot;
-protocols:
-  http:
-    enable: true
-    mocks_dir: &quot;./mocks&quot;
-    port: 8080
-  https:
-    enable: false
-    port: 8443
-  http2:
-    enable: false
-    port: 8081
-  ws:
-    enable: false
-    mocks_dir: &quot;./ws_mocks&quot;
-    port: 8082
-  grpc:
-    enable: false
-    host: localhost
-    port: 4312
-    mocks_dir: &quot;./grpc/mocks&quot;
-    protos_dir: &quot;./grpc/protos&quot;
-backup:
-  enable: false
-  cron: &quot;0 * * * *&quot; # Hourly Backup
-cache:
+                <h1 id="configuring-cache">Configuring Cache</h1>
+<h2 id="in-memory-cache">In Memory Cache</h2>
+<p>Camouflage uses <a href="https://www.npmjs.com/package/apicache" target="_blank">apicache</a> for caching. By default, apicache uses memory for caching, however it also provides a number of configurable options. To specify any of these optional configurations, modify <code>config.yml</code> in following way.</p>
+<pre><code class="language-yaml">cache:
   enable: false
   ttl_seconds: 300
-injection:
-  enable: false
-ext_helpers: &quot;./custom_handlebar.json&quot; # Remove if not needed
-origins:
-  - http://localhost:3000/
-  - http://localhost:3001/
-  - http://localhost:5000/
+  cache_options: # Optional
+    debug: false
+    defaultDuration: &quot;1 hour&quot;
+    enabled: true
+    headerBlacklist: []
+    statusCodes:
+      exclude: []
+      include: []
+    trackPerformance: false
+    headers: {}
+    respectCacheControl: false
 </code></pre>
-<h2 id="create-your-first-mock">Create your first mock</h2>
-<p>Camouflage follows the same convention as mockserver to create mocks. For example,</p>
-<ol>
-<li>You start by creating a directory <code>${MOCKS_DIR}/hello-world</code></li>
-<li>Create a file GET.mock under <code>${MOCKS_DIR}/hello-world</code></li>
-<li>Paste following content:</li>
-</ol>
-<pre><code>HTTP/1.1 200 OK
-X-Custom-Header: Custom-Value
-Content-Type: application/json
-
-{
-    &quot;greeting&quot;: &quot;Hey! It works!&quot;
+<p><code>camouflage init</code>, generates two options for cache configuration i.e. <code>enable</code> and <code>ttl_seconds</code>. These are parameters, Camouflage uses to configure a basic in memory cache. These options are not related or provided by <code>apicache</code>.</p>
+<p>However, you can additionally specify one or more options as shown above under <code>cache_options</code>, to control the behavior of Camouflage's cache mechanism.</p>
+<p>List of options made available by <code>apicache</code> are as follows:</p>
+<pre><code class="language-javascript">{
+  debug:            false|true,     // if true, enables console output
+  defaultDuration:  '1 hour',       // should be either a number (in ms) or a string, defaults to 1 hour
+  enabled:          true|false,     // if false, turns off caching globally (useful on dev)
+  headerBlacklist:  [],             // list of headers that should never be cached
+  statusCodes: {
+    exclude:        [],             // list status codes to specifically exclude (e.g. [404, 403] cache all responses unless they had a 404 or 403 status)
+    include:        [],             // list status codes to require (e.g. [200] caches ONLY responses with a success/200 code)
+  },
+  trackPerformance: false,          // enable/disable performance tracking... WARNING: super cool feature, but may cause memory overhead issues
+  headers: {
+    // 'cache-control':  'no-cache' // example of header overwrite
+  },
+  respectCacheControl: false|true   // If true, 'Cache-Control: no-cache' in the request header will bypass the cache.
 }
 </code></pre>
-<p>Navigate to <a href="http://localhost:8080/hello-world" target="_blank">http://localhost:8080/hello-world</a></p>
-<h3 id="building-from-source">Building from source</h3>
-<p>Camouflage is still in its early development and has a long way to go before it reaches v1.0.0. Which means there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, the good news is that we are constantly evolving.</p>
-<p>There might be times when latest changes have not gone to release yet, such changes exist in the <code>develop</code> branch, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.</p>
-<ol>
-<li>Clone the repository: <code>git clone https://github.com/testinggospels/camouflage.git</code></li>
-<li>Checkout <code>develop</code> branch: <code>git checkout develop</code></li>
-<li>Install dependencies: <code>npm install</code></li>
-<li>Build the project: <code>npm run build</code></li>
-<li>At this point you can run Camouflage using: <code>node bin/camouflage.js --config ./config.yml</code></li>
-<li>However if you'd like to install Camouflage globally, execute: <code>npm pack</code></li>
-<li>Install by running command: <code>npm install -g camouflage-server-0.0.0-development.tgz</code> or <code>npm install -g camouflage-server-0.0.0-development.zip</code></li>
-</ol>
+<h2 id="redis-cache">Redis Cache</h2>
+<p>Cache can be implemented using redis, by providing an additional <code>redis_options</code> under <code>cache_options</code></p>
+<pre><code class="language-yaml">cache:
+  enable: false
+  ttl_seconds: 300
+  cache_options: # Optional
+    debug: false
+    defaultDuration: &quot;1 hour&quot;
+    enabled: true
+    headerBlacklist: []
+    statusCodes:
+      exclude: []
+      include: []
+    trackPerformance: false
+    headers: {}
+    respectCacheControl: false
+    redis_options: # Optional
+      host: 127.0.0.1
+      port: 6379
+</code></pre>
+<p>For a complete list of available redis options, refer to <a href="https://www.npmjs.com/package/redis" target="_blank">redis documentation</a></p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Some of the options are not directly trasferred from the underlying packages. For example, <code>apicache</code> provides two more options, other than the ones mentioned above, i.e. <code>redisClient</code> and <code>appendKey</code>. Camouflage does not support <code>appendKey</code>, whereas <code>redisClient</code> is automatically configured when you provide <code>redis_options</code> as shown above.</p>
+<p>Similarily, <code>redis</code> package provides a <code>retry_strategy</code> option, which is not supported by Camouflage.</p>
+<p>This might change in future releases.</p>
+</div>
                 
               
               
@@ -742,7 +713,7 @@ Content-Type: application/json
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href=".." class="md-footer__link md-footer__link--prev" aria-label="Previous: Home" rel="prev">
+        <a href="../openAPI-conversion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: OpenAPI Conversion" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -751,20 +722,20 @@ Content-Type: application/json
               <span class="md-footer__direction">
                 Previous
               </span>
-              Home
+              OpenAPI Conversion
             </div>
           </div>
         </a>
       
       
         
-        <a href="../folder-structure/" class="md-footer__link md-footer__link--next" aria-label="Next: Folder Structure" rel="next">
+        <a href="../using-with-docker/" class="md-footer__link md-footer__link--next" aria-label="Next: Camouflage with Docker" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Folder Structure
+              Camouflage with Docker
             </div>
           </div>
           <div class="md-footer__button md-icon">
