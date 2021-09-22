@@ -71,13 +71,13 @@ protocols:
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
 backup:
-  enable: true
+  enable: false
   cron: "0 * * * *" # Hourly Backup
 cache:
   enable: false
   ttl_seconds: 300
 injection:
-  enable: true
+  enable: false
 ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
