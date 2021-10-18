@@ -130,7 +130,7 @@ Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-worl
 
 All and any relevant contributions to the project are welcome. Easiest way to contribute to Camouflage is to 🌟 the project. You can also help find typos and grammatical mistakes in the documentation to earn a quick 🟩 for your Github profile.
 
-If you'd like to get into technical nitty gritty, I have tried my best to provide relevant comments throughout the code base with a [JSDocs](https://shubhendumadhukar.github.io/camouflage-jsdocs/) available too. Sicne we are still in beta, there are frequent changes in the codebase, which might at times lead to outdated JSDocs, in which case, feel free to reach out via [discussions](https://github.com/testinggospels/camouflage/discussions) or join us on [discord](https://discord.gg/hTqXuG7dsV).
+If you'd like to get into technical nitty gritty, I have tried my best to provide relevant comments throughout the code base with a [JSDocs](https://shubhendumadhukar.github.io/camouflage-jsdocs/) available too. Since we are still in beta, there are frequent changes in the codebase, which might at times lead to outdated JSDocs, in which case, feel free to reach out via [discussions](https://github.com/testinggospels/camouflage/discussions) or join us on [discord](https://discord.gg/hTqXuG7dsV).
 
 Raise an [issue](https://github.com/testinggospels/camouflage/issues/new?assignees=shubhendumadhukar&labels=bug&template=bug_report.md&title=) if you think something is not working as expected, or if you'd like to request a [new feature](https://github.com/testinggospels/camouflage/issues/new?assignees=shubhendumadhukar&labels=enhancement&template=feature_request.md&title=)
 
