@@ -22,25 +22,25 @@ let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise 
  */
 export const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   logger.info("Handlebar helpers registration started");
-  new CsvHelper().register();
-  new NowHelper().register();
-  new RandomValueHelper().register();
-  new RequestHelper().register();
-  new NumBetweenHelper().register();
-  new FileHelper().register();
-  new FaultHelper().register();
-  new IsHelper().register();
+  new CsvHelper(Handlebars).register();
+  new NowHelper(Handlebars).register();
+  new RandomValueHelper(Handlebars).register();
+  new RequestHelper(Handlebars).register();
+  new NumBetweenHelper(Handlebars).register();
+  new FileHelper(Handlebars).register();
+  new FaultHelper(Handlebars).register();
+  new IsHelper(Handlebars).register();
   if (enableInjection) {
     logger.warn("Code Injection is enabled.")
-    new CodeHelper().register();
-    new InjectHelper().register();
+    new CodeHelper(Handlebars).register();
+    new InjectHelper(Handlebars).register();
     if (extHelpers !== null) {
-      registerCustomHandlebars(extHelpers);
+      registerCustomHandlebars(Handlebars, extHelpers);
     }
   } else {
     logger.warn("Code Injection is disabled. Handlebars such as code and inject and functionalities such as external helpers, will not work. ")
   }
-  new ProxyHelper().register();
+  new ProxyHelper(Handlebars).register();
   logger.info("Handlebar helpers registration completed");
 };
 

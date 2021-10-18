@@ -1,4 +1,3 @@
-import Handlebars from "handlebars";
 import fs from "fs";
 import logger from "../logger";
 import express from "express";
@@ -11,7 +10,7 @@ const existingHandlebars = ["now", "randomValue", "capture", "num_between", "fil
  * - Create request and logger objects under the scope of each custom handlebar
  * @param {string} extHelpers location of the external handlebars json file
  */
-const registerCustomHandlebars = (extHelpers: string) => {
+const registerCustomHandlebars = (Handlebars: any, extHelpers: string) => {
   if (fs.existsSync(path.resolve(extHelpers))) {
     logger.info(`Loading custom handlebar helpers from ${extHelpers}`);
     const customHandleBarDefinition = fs.readFileSync(path.resolve(extHelpers)).toString();
@@ -21,7 +20,7 @@ const registerCustomHandlebars = (extHelpers: string) => {
         logger.error(`Cannot override custom helper ${customHandlebar.name}`);
       } else {
         logger.info(`Registering custom handlebars: ${customHandlebar.name}`);
-        Handlebars.registerHelper(customHandlebar.name, (context) => {
+        Handlebars.registerHelper(customHandlebar.name, (context: any) => {
           /* eslint-disable no-unused-vars */
           const request: express.Request = context.data.root.request;
           const logger = context.data.root.logger;

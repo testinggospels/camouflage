@@ -1,4 +1,3 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 import fs from "fs";
 import path from "path";
@@ -6,6 +5,10 @@ import path from "path";
  * Defines and registers custom handlebar helper - file
  */
 export class FileHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers file helper
    * - If file path is not included in the defined handlebar, log an error.
@@ -13,11 +16,11 @@ export class FileHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("file", (context) => {
+    this.Handlebars.registerHelper("file", (context: any) => {
       if (typeof context.hash.path === "undefined") {
         logger.error("File path not specified.");
       } else {
-          return `camouflage_file_helper=${path.resolve(context.hash.path)}`;
+        return `camouflage_file_helper=${path.resolve(context.hash.path)}`;
       }
     });
   };

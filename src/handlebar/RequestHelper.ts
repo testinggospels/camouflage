@@ -1,4 +1,3 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 import express from "express";
 // @ts-ignore
@@ -8,6 +7,10 @@ import jsonpath from "jsonpath";
  * Defines and registers custom handlebar helper - csv
  */
 export class RequestHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers capture helper
    * - Get the request object passed in from the context by calling template({request: req})
@@ -18,7 +21,7 @@ export class RequestHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("capture", (context) => {
+    this.Handlebars.registerHelper("capture", (context: any) => {
       const request: express.Request = context.data.root.request;
       const from: string = context.hash.from;
       switch (from) {

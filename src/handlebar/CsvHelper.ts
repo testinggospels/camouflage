@@ -1,4 +1,3 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 import path from "path";
 import fs from "fs";
@@ -8,6 +7,10 @@ const csv = require("convert-csv-to-json");
  * Defines and registers custom handlebar helper - csv
  */
 export class CsvHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers csv helper
    * - Define request and logger in the scope of the code helper context, allowing user to use request, logger in their mock files
@@ -18,7 +21,7 @@ export class CsvHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("csv", (context) => {
+    this.Handlebars.registerHelper("csv", (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       /* eslint-disable no-unused-vars */

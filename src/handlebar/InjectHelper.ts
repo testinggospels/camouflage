@@ -1,10 +1,13 @@
 import express from "express";
-import Handlebars from "handlebars";
 import logger from "../logger";
 /**
  * Defines and registers custom handlebar helper - inject
  */
 export class InjectHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers inject helper
    * - Define request and logger in the scope of the code helper context
@@ -12,7 +15,7 @@ export class InjectHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("inject", (context) => {
+    this.Handlebars.registerHelper("inject", (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;
