@@ -2,13 +2,15 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import Handlebars from "handlebars";
+// import Handlebars from "handlebars";
+import { getHandlebars } from '../handlebar'
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
 // @ts-ignore
 import * as httpProxy from "http-proxy";
 const proxy = httpProxy.createProxyServer({});
 let DELAY: number = 0;
+let Handlebars = getHandlebars()
 /**
  * Create a parser class which defines methods to parse
  * 1. Request URL to get a matching directory
@@ -108,7 +110,7 @@ export class HttpParser {
    *   - Send the generated Response, from a timeout set to send the response after a DELAY value
    * @param {string} mockFile location of of the closest mached mockfile for incoming request
    */
-  private prepareResponse = (mockFile: string) => {
+  private prepareResponse = async (mockFile: string) => {
     let PARSE_BODY = false;
     let responseBody = "";
     let response = {
@@ -119,14 +121,14 @@ export class HttpParser {
       },
     };
     const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
-    let fileResponse = template({ request: this.req, logger: logger });
+    let fileResponse = await template({ request: this.req, logger: logger });
     if (fileResponse.includes("====")) {
       const fileContentArray = removeBlanks(fileResponse.split("===="));
       fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
     }
     const newLine = getNewLine(fileResponse);
     const fileContent = fileResponse.trim().split(newLine);
-    fileContent.forEach((line, index) => {
+    fileContent.forEach((line: string, index: number) => {
       if (line === "") {
         PARSE_BODY = true;
       }
@@ -158,7 +160,7 @@ export class HttpParser {
         this.res.statusCode = response.status;
         if (responseBody.includes("camouflage_file_helper")) {
           const fileResponse = responseBody.split(";")[1];
-          if(!fs.existsSync(fileResponse)) this.res.status(404)
+          if (!fs.existsSync(fileResponse)) this.res.status(404)
           setTimeout(() => {
             this.res.sendFile(fileResponse);
           }, DELAY);
@@ -215,17 +217,17 @@ export class HttpParser {
                 }
                 break;
               default:
-                setTimeout(() => {
-                  logger.debug(`Generated Response ${template({ request: this.req, logger: logger })}`);
-                  this.res.send(template({ request: this.req, logger: logger }));
+                setTimeout(async () => {
+                  logger.debug(`Generated Response ${await template({ request: this.req, logger: logger })}`);
+                  this.res.send(await template({ request: this.req, logger: logger }));
                 }, DELAY);
                 break;
             }
           } catch (error) {
             logger.warn(error.message);
-            setTimeout(() => {
-              logger.debug(`Generated Response ${template({ request: this.req, logger: logger })}`);
-              this.res.send(template({ request: this.req, logger: logger }));
+            setTimeout(async () => {
+              logger.debug(`Generated Response ${await template({ request: this.req, logger: logger })}`);
+              this.res.send(await template({ request: this.req, logger: logger }));
             }, DELAY);
           }
         }
