@@ -11,12 +11,16 @@ import { InjectHelper } from "./InjectHelper";
 import { ProxyHelper } from "./ProxyHelper";
 import { FaultHelper } from "./FaultHelper";
 import { IsHelper } from "./IsHelper";
+// @ts-ignore
+import promisedHandlebars from 'promised-handlebars';
+import * as Q from 'q';
+let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()
  * @param {string} extHelpers location of the external handlebars json file
  */
-const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
+export const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   logger.info("Handlebar helpers registration started");
   new CsvHelper().register();
   new NowHelper().register();
@@ -39,4 +43,7 @@ const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   new ProxyHelper().register();
   logger.info("Handlebar helpers registration completed");
 };
-export default registerHandlebars;
+
+export const getHandlebars = () => {
+  return Handlebars;
+}

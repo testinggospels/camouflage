@@ -4,7 +4,7 @@ import cluster from "cluster";
 import path from "path";
 import os from "os";
 import * as expressWinston from "express-winston";
-import registerHandlebars from "./handlebar";
+import { registerHandlebars } from "./handlebar";
 import Protocols from "./protocols";
 import GlobalController from "./routes/GlobalController";
 import CamouflageController from "./routes/CamouflageController";
