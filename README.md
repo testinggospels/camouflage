@@ -16,19 +16,38 @@
     </p>
 </p>
 
+# Support
+[![Chat on Discord](https://img.shields.io/badge/chat-Discord-7289DA?logo=discord)](https://discord.gg/hTqXuG7dsV)
+
 # What is Camouflage?
 
-Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver). As the original description says, the mocking/service virtualization works on a file based structure where you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.
+Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver). Camouflage works on a file based endpoint configuration system, which means it allows you to create a mock endpoint by simply creating a set of directories and a mock file, using which necessary responses are generated when you call the endpoint.
 
-# Features
+# Available Features
 
-- Mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. (graphql mocking support development ongoing)
-- Dynamic/realistic responses without having to write any code.
-- Conditional responses based on request parameters.
-- Delay Simulation.
-- Inbuilt monitoring.
-- Inbuilt backup and restore mechanism.
-- Quick start with `camouflage init` and `camouflage restore` modules.
+🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥
+
+⚡ Dynamic/realistic responses without having to write any code. ⚡
+
+🧩 Flexibility to partially or fully code your responses. 🧩
+
+🎯 Conditional responses based on request parameters. 🎯
+
+🌟 Inbuilt Caching - In memory and redis. 🌟
+
+🧮 Ability to fetch and condition the response using external data. Currently supported data sources are CSV and postgres. 🧮
+
+⏳ Delay Simulation. ⏳
+
+🔍 Inbuilt monitoring. 🔍
+
+🦺 Inbuilt backup and restore mechanism. 🦺
+
+⏩ Quick start with `camouflage init` and `camouflage restore` modules. ⏩
+
+🎊 Deployable on standalone VMs, Dockers and Kubernetes. 🎊
+
+📁 Comes with a file explorer UI that allows modification of mock files hosted remotely. 📁
 
 # Getting Started
 
@@ -87,7 +106,7 @@ origins:
 
 ## Create your first mock
 
-Camouflage follows the same convention as mockserver to create mocks. For example,
+Camouflage uses a file based system to configure the endpoints. For example, to create a mock to the endpoint /`hello-world`:
 
 1. You start by creating a directory `${MOCKS_DIR}/hello-world`
 2. Create a file GET.mock under `${MOCKS_DIR}/hello-world`
@@ -105,11 +124,23 @@ Content-Type: application/json
 
 Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-world)
 
-### Building from source
+`${MOCK_DIR}` is defined in `config.yaml` as `protocols.http.mocks_dir`. Refer to [docs](https://testinggospels.github.io/camouflage/) for more details.
 
-Camouflage is still in its early development and has a long way to go before it reaches v1.0.0. Which means there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, the good news is that we are constantly evolving.
+## Contributing
 
-There might be times when latest changes have not gone to release yet, such changes exist in the `develop` branch, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.
+All and any relevant contributions to the project are welcome. Easiest way to contribute to Camouflage is to 🌟 the project. You can also help find typos and grammatical mistakes in the documentation to earn a quick 🟩 for your Github profile.
+
+If you'd like to get into technical nitty gritty, I have tried my best to provide relevant comments throughout the code base with a [JSDocs](https://shubhendumadhukar.github.io/camouflage-jsdocs/) available too. Sicne we are still in beta, there are frequent changes in the codebase, which might at times lead to outdated JSDocs, in which case, feel free to reach out via [discussions](https://github.com/testinggospels/camouflage/discussions) or join us on [discord](https://discord.gg/hTqXuG7dsV).
+
+Raise an [issue](https://github.com/testinggospels/camouflage/issues/new?assignees=shubhendumadhukar&labels=bug&template=bug_report.md&title=) if you think something is not working as expected, or if you'd like to request a [new feature](https://github.com/testinggospels/camouflage/issues/new?assignees=shubhendumadhukar&labels=enhancement&template=feature_request.md&title=)
+
+Read the detailed [contributing guide](https://github.com/testinggospels/camouflage/blob/main/CONTRIBUTING.md)
+
+## Building from source
+
+Camouflage is quickly approaching it's first release i.e. v1.0.0, however while it is still in beta, there might be some bugs, missed use cases, incorrect implementations of some functionalities. This is to be expected. But, the good news is that we are constantly evolving.
+
+There might be times when latest changes have not gone to release yet. You can find such changes in the `develop` branch of the repository, which is the most updated version of Camouflage. If you'd like to get your hands on the upcoming release of Camouflage at any point, you can build it from the source. However, since this source might contain changes that are not tested yet and are not ready for use, you might want to proceed with caution.
 
 1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
 2. Checkout `develop` branch: `git checkout develop`
@@ -119,11 +150,8 @@ There might be times when latest changes have not gone to release yet, such chan
 6. However if you'd like to install Camouflage globally, execute: `npm pack`
 7. Install by running command: `npm install -g camouflage-server-0.0.0-development.tgz` or `npm install -g camouflage-server-0.0.0-development.zip`
 
-### Contributing
 
-Read the [contributing guide](https://github.com/testinggospels/camouflage/blob/main/CONTRIBUTING.md)
-
-### License
+## License
 ```
 MIT License
 
