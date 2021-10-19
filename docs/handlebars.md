@@ -223,6 +223,18 @@ x-additional-headers: somevalue
 
 For more details on how to use the proxy helper, refer to the Proxy page.
 
+!!! caution
+    Some of the Camouflage helpers allow (sometimes require) you to write your Javascript code in order to use them. However it's not a great idea to allow such code injections due to security concerns it creates. Camouflage disabled injection by default however you can enable it in config.yml. Following helpers will not work if injection is disabled.
+    
+    - code;
+    - inject;
+    - pg;
+    - csv; and
+    - Any external custom handlebars you might define yourself.
+
+    Enable injection if you understand the potential risks.
+
+
 ## Inbuilt Helpers
 
 !!! note
