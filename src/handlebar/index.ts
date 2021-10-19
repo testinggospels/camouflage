@@ -14,6 +14,7 @@ import { IsHelper } from "./IsHelper";
 // @ts-ignore
 import promisedHandlebars from 'promised-handlebars';
 import * as Q from 'q';
+import { PgHelper } from "./PgHelper";
 let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
@@ -22,7 +23,6 @@ let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise 
  */
 export const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   logger.info("Handlebar helpers registration started");
-  new CsvHelper(Handlebars).register();
   new NowHelper(Handlebars).register();
   new RandomValueHelper(Handlebars).register();
   new RequestHelper(Handlebars).register();
@@ -34,6 +34,8 @@ export const registerHandlebars = (extHelpers: string, enableInjection: boolean)
     logger.warn("Code Injection is enabled.")
     new CodeHelper(Handlebars).register();
     new InjectHelper(Handlebars).register();
+    new PgHelper(Handlebars).register();
+    new CsvHelper(Handlebars).register();
     if (extHelpers !== null) {
       registerCustomHandlebars(Handlebars, extHelpers);
     }

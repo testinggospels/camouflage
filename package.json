@@ -57,6 +57,7 @@
     "jsonpath": "^1.1.1",
     "moment": "^2.29.1",
     "node-cron": "^3.0.0",
+    "pg": "^8.7.1",
     "prom-client": "^13.0.0",
     "promised-handlebars": "^2.0.1",
     "q": "^1.5.1",
