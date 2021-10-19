@@ -116,6 +116,14 @@ if (fs.existsSync(path.join(project_root, "plconfig.js"))) {
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
 const origins = config.origins ? config.origins : [];
+if (config.ext_data_source && config.ext_data_source.pg) {
+  const { host, port, user, password, database } = config.ext_data_source.pg
+  process.env.PGHOST = host;
+  process.env.PGUSER = user;
+  process.env.PGDATABASE = database;
+  process.env.PGPASSWORD = password;
+  process.env.PGPORT = port;
+}
 /**
  * Define logger with specified configured log level
  */

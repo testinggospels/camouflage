@@ -1,13 +1,7 @@
 import express from "express";
 import logger from "../logger";
 const { Pool } = require('pg')
-const pool = new Pool({
-    user: 'root',
-    host: 'localhost',
-    database: 'postgres',
-    password: 'password',
-    port: 5432,
-})
+const pool = new Pool()
 
 /**
  * Defines and registers custom handlebar helper - pg
