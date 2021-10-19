@@ -2,7 +2,8 @@ import path from "path";
 import fs from "fs";
 import os from "os";
 import logger from "../logger";
-import Handlebars from "handlebars";
+import { getHandlebars } from '../handlebar'
+let Handlebars = getHandlebars()
 /**
  * Parser class for GRPC Protocol mocks to define handlers for:
  * - Unary calls
@@ -29,14 +30,14 @@ export default class GrpcParser {
    * @param {any} call call object recieved with every unary call
    * @param {any} callback callback to be executed once server is ready to return response
    */
-  camouflageMock = (call: any, callback: any) => {
+  camouflageMock = async (call: any, callback: any) => {
     try {
       let handlerPath = call.call.handler.path;
       let mockFile = handlerPath.replace(/\./g, "/");
       let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
       if (fs.existsSync(mockFilePath)) {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-        const fileContent = template({ request: call.request });
+        const fileContent = await template({ request: call.request });
         logger.debug(`Mock file path: ${mockFilePath}`);
         logger.debug(`Response: ${fileContent}`);
         const response = JSON.parse(fileContent);
@@ -66,14 +67,14 @@ export default class GrpcParser {
    * @param {any} call call object recieved with every unary call
    * @param {any} callback callback to be executed once server is ready to return response
    */
-  camouflageMockServerStream = (call: any) => {
+  camouflageMockServerStream = async (call: any) => {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(/\./g, "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
     if (fs.existsSync(mockFilePath)) {
       try {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-        const fileContent = template({ request: call.request });
+        const fileContent = await template({ request: call.request });
         logger.debug(`Mock file path: ${mockFilePath}`);
         let streamArr = fileContent.split("====");
         let delay: number = 0;
@@ -122,14 +123,14 @@ export default class GrpcParser {
     call.on("data", () => {
       // TODO: Not sure if it's needed
     });
-    call.on("end", () => {
+    call.on("end", async () => {
       try {
         let handlerPath = call.call.handler.path;
         let mockFile = handlerPath.replace(/\./g, "/");
         let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
         if (fs.existsSync(mockFilePath)) {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = template({ request: call.request });
+          const fileContent = await template({ request: call.request });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);
@@ -164,11 +165,11 @@ export default class GrpcParser {
     let handlerPath = call.call.handler.path;
     let mockFile = handlerPath.replace(/\./g, "/");
     let mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
-    call.on("data", () => {
+    call.on("data", async () => {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = template({ request: call.request });
+          const fileContent = await template({ request: call.request });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);
@@ -187,11 +188,11 @@ export default class GrpcParser {
         call.end();
       }
     });
-    call.on("end", () => {
+    call.on("end", async () => {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = template({ request: call.request });
+          const fileContent = await template({ request: call.request });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);

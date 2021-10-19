@@ -2,7 +2,6 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import os from "os";
-// import Handlebars from "handlebars";
 import { getHandlebars } from '../handlebar'
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
