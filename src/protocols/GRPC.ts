@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 // @ts-ignore
 import jp from 'jsonpath';
-let availableFiles: string[] = [];
+const availableFiles: string[] = [];
 
 export default class GrpcSetup {
     private grpcMocksDir: string;
@@ -45,11 +45,11 @@ export default class GrpcSetup {
         logger.debug(`Ignoring protofiles: ${protoIgnore}`);
         this.grpcMocksDir = grpcMocksDir;
         const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
-        let grpcObjects: grpc.GrpcObject[] = [];
-        let packages: any = [];
+        const grpcObjects: grpc.GrpcObject[] = [];
+        const packages: any = [];
         availableProtoFiles.forEach((availableProtoFile) => {
-            let packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), plconfig);
-            let definition = grpc.loadPackageDefinition(packageDef);
+            const packageDef = protoLoader.loadSync(path.resolve(availableProtoFile), plconfig);
+            const definition = grpc.loadPackageDefinition(packageDef);
             grpcObjects.push(definition);
         });
         grpcObjects.forEach((grpcObject: grpc.GrpcObject) => {
@@ -65,7 +65,7 @@ export default class GrpcSetup {
         });
         const services: any[] = jp.query(packages, "$..service");
         services.forEach((service) => {
-            let methods = Object.keys(service);
+            const methods = Object.keys(service);
             methods.forEach((method) => {
                 if (!service[method]["responseStream"] && !service[method]["requestStream"]) {
                     if (server.register(service[method]["path"], grpcParser.camouflageMock, service[method]["responseSerialize"], service[method]["requestDeserialize"], 'unary')) {
@@ -99,21 +99,21 @@ export default class GrpcSetup {
         });
     };
 }
-let fromDir = function (startPath: string, filter: string, protoIgnore: string[]) {
+const fromDir = function (startPath: string, filter: string, protoIgnore: string[]) {
     if (!fs.existsSync(startPath)) {
         console.log("no dir ", startPath);
         return;
     }
 
-    var files = fs.readdirSync(startPath);
-    for (var i = 0; i < files.length; i++) {
-        var filename = path.join(startPath, files[i]);
-        var stat = fs.lstatSync(filename);
+    const files = fs.readdirSync(startPath);
+    for (let i = 0; i < files.length; i++) {
+        const filename = path.join(startPath, files[i]);
+        const stat = fs.lstatSync(filename);
         if (stat.isDirectory()) {
             fromDir(filename, filter, protoIgnore);
         }
         else if (filename.indexOf(filter) >= 0 && !protoIgnore.includes(path.resolve(filename))) {
-            let protoFile = path.resolve(filename)
+            const protoFile = path.resolve(filename)
             logger.debug(`Found protofile: ${protoFile}`)
             availableFiles.push(protoFile)
         }

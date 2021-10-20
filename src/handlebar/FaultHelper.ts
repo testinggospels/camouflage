@@ -17,7 +17,7 @@ export class FaultHelper {
      */
     register = () => {
         this.Handlebars.registerHelper("fault", (context: any) => {
-            let response = `{"CamouflageResponseType": "fault", "FaultType": "${context.hash.type}"}`;
+            const response = `{"CamouflageResponseType": "fault", "FaultType": "${context.hash.type}"}`;
             return response;
         });
     };

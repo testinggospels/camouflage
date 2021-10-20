@@ -21,9 +21,9 @@ export class NowHelper {
     this.Handlebars.registerHelper("now", (context: any) => {
       const format = typeof context.hash.format === "undefined" ? "YYYY-MM-DD hh:mm:ss" : context.hash.format;
       let offsetUnit: moment.unitOfTime.DurationConstructor = "s";
-      let offsetAmount: number = 0;
+      let offsetAmount = 0;
       if (typeof context.hash.offset !== "undefined") {
-        let offset = context.hash.offset.split(" ");
+        const offset = context.hash.offset.split(" ");
         offsetAmount = <number>offset[0];
         offsetUnit = <moment.unitOfTime.DurationConstructor>offset[1];
       }

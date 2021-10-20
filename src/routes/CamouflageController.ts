@@ -39,18 +39,18 @@ export default class MockController {
         result = result.replace(this.mocksDir, "");
         result = result.replace(".mock", "");
         result = result.replace("__", "*");
-        let api = result.split("/");
-        let method = api.pop();
+        const api = result.split("/");
+        const method = api.pop();
         return { method: method, basePath: api.join("/") };
       });
       grpcResults = grpcResults.map((grpcResult: any) => {
         grpcResult = grpcResult.replace(this.grpcMocksDir, "");
         grpcResult = grpcResult.replace(".mock", "");
-        let [packageName, serviceName, methodName] = removeBlanks(grpcResult.split("/"));
+        const [packageName, serviceName, methodName] = removeBlanks(grpcResult.split("/"));
         console.log(removeBlanks(grpcResult.split("/")));
         return { packageName: packageName, serviceName: serviceName, methodName: methodName };
       });
-      let response = {
+      const response = {
         httpMocks: results,
         grpcMocks: grpcResults,
         metricsEndpoint: "/metrics",
@@ -61,7 +61,7 @@ export default class MockController {
      * Deletes a mock with it's path and http method - deprecated
      */
     this.app.delete("/mocks", (req: express.Request, res: express.Response) => {
-      let mock = path.join(this.mocksDir, req.body.basePath.replace("*", "__"), req.body.method + ".mock");
+      const mock = path.join(this.mocksDir, req.body.basePath.replace("*", "__"), req.body.method + ".mock");
       let status = "Mock Deleted Successfully";
       try {
         fs.unlinkSync(path.resolve(mock));
@@ -104,11 +104,11 @@ export default class MockController {
  * @returns array of files in a given directory
  */
 var walk = function (dir: string): string[] {
-  var results: string[] = [];
-  var list = fs.readdirSync(dir);
+  let results: string[] = [];
+  const list = fs.readdirSync(dir);
   list.forEach(function (file: string) {
     file = dir + "/" + file;
-    var stat = fs.statSync(file);
+    const stat = fs.statSync(file);
     if (stat && stat.isDirectory()) {
       /* Recurse into a subdirectory */
       results = results.concat(walk(file));

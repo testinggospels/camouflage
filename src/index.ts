@@ -26,7 +26,7 @@ import cors from 'cors';
 /**
  * Gets the location of documentation folder
  */
-let ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
+const ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -143,11 +143,11 @@ const start = (
     try {
       logger.debug(`Cache Options: ${JSON.stringify(cacheOptions, null, 2)}`);
       if (cacheOptions.redis_options) {
-        let redisOptions: redis.ClientOpts = cacheOptions.redis_options;
+        const redisOptions: redis.ClientOpts = cacheOptions.redis_options;
         delete cacheOptions.redis_options;
         cacheOptions.redisClient = redis.createClient(redisOptions)
       }
-      let cache = apicache.options(cacheOptions).middleware;
+      const cache = apicache.options(cacheOptions).middleware;
       app.use(cache(`${cacheTtl} seconds`));
       logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
     } catch (error) {

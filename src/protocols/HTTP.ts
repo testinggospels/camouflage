@@ -39,9 +39,9 @@ export default class HttpSetup {
    * @returns {void}
    */
     initHttps = (key: string, cert: string) => {
-        let privateKey = fs.readFileSync(key, "utf8");
-        let certificate = fs.readFileSync(cert, "utf8");
-        let credentials = { key: privateKey, cert: certificate };
+        const privateKey = fs.readFileSync(key, "utf8");
+        const certificate = fs.readFileSync(cert, "utf8");
+        const credentials = { key: privateKey, cert: certificate };
         https.createServer(credentials, this.app).listen(this.httpsPort, () => {
             logger.info(`Worker sharing HTTPs server at https://localhost:${this.httpsPort} ⛳`);
         });

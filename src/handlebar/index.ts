@@ -15,7 +15,7 @@ import { IsHelper } from "./IsHelper";
 import promisedHandlebars from 'promised-handlebars';
 import * as Q from 'q';
 import { PgHelper } from "./PgHelper";
-let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise })
+const Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()

@@ -3,7 +3,7 @@ import fs from "fs";
 import { IncomingMessage } from "http";
 import logger from "../logger";
 import WebSocket from "ws";
-let Handlebars = getHandlebars()
+const Handlebars = getHandlebars()
 /**
  * Parser class for Websocket Protocol mocks
  */
@@ -77,7 +77,7 @@ export default class WebsocketParser {
    * @param {string} mockFile mockfile, i.e. connection.mock
    */
   sendConnect = (ws: WebSocket, request: IncomingMessage, clients: string[], clientId: string, status: string, mockFile?: string): void => {
-    let clientsInfo = {
+    const clientsInfo = {
       clients: clients,
       client: clientId,
       status: status,
