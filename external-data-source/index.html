@@ -12,15 +12,15 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.8">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
     
     
       
-        <title>CSV Data Source - Camouflage</title>
+        <title>External Data Source - Camouflage</title>
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.92558b1b.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#csv-data-source" class="md-skip">
+        <a href="#external-data-source" class="md-skip">
           Skip to content
         </a>
       
@@ -76,7 +76,9 @@
       
     </div>
     
-      <header class="md-header" data-md-component="header">
+      
+
+<header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
     <a href=".." title="Camouflage" class="md-header__button md-logo" aria-label="Camouflage" data-md-component="logo">
       
@@ -96,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              CSV Data Source
+              External Data Source
             
           </span>
         </div>
@@ -176,11 +178,14 @@
       </div>
     
   </nav>
+  
 </header>
     
     <div class="md-container" data-md-component="container">
       
       
+        
+          
         
       
       <main class="md-main" data-md-component="main">
@@ -388,9 +393,59 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          External Data Source
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        CSV Data Source
+        External Data Source
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#pg" class="md-nav__link">
+    pg
+  </a>
+  
+    <nav class="md-nav" aria-label="pg">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#explanation" class="md-nav__link">
+    Explanation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#csv" class="md-nav__link">
+    csv
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -588,17 +643,55 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/csv-data-source.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/external-data-source.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="csv-data-source">CSV Data Source</h1>
-<p>Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. To use <code>csv</code> helper, you would need a data source, which is a csv file. A sample file can be found in the github repo.</p>
+                <h1 id="external-data-source">External Data Source</h1>
+<p>Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. Camouflage provides two helpers, <code>pg</code> and <code>csv</code>, which can be used to connect to a postgres db and csv data file respectively.</p>
 <div class="admonition caution">
-<p class="admonition-title">Caution<p>Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e.;</p>
-</p>
+<p class="admonition-title">Caution</p>
+<p>Both <code>pg</code> and <code>csv</code> helpers, rely on code injection for response generation. To use these helpers, the property <code>injection</code> needs to be set to <code>true</code> in config.yml. Injection can lead to security related issues and should be used judiciously.</p>
 </div>
+<h2 id="pg">pg</h2>
+<p><code>pg</code> helper requires a postgres connection. To establish this connection between Camouflage and a postgres database, add following parameters in the config.yml file</p>
+<pre><code class="language-yaml">ext_data_source:
+  pg:
+    host: localhost
+    port: 5432
+    user: root
+    password: password
+    database: postgres
+</code></pre>
+<p>Update the connection parameters with your database details.</p>
+<p>In your mock files, use <code>pg</code> helper to run queries and fetch corresponding data. A sample mock file would look similar to the following content:</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#pg query='SELECT * FROM emp WHERE id = \'1\''}}
+(()=&gt; {
+    let response = []
+    result.rows.forEach(row =&gt; {
+        const adult = row.age &gt; 18 ? 'adult' : 'minor'
+        response.push({
+            user: row.name,
+            adult: adult
+        })
+    })
+    return JSON.stringify(response)
+})();
+{{/pg}}
+</code></pre>
+<h3 id="explanation">Explanation</h3>
+<ol>
+<li><code>pg</code> helper, similar to <code>code</code> or <code>csv</code> helper, is written as an IIFE (Immediately Invoked Function Expression). As shown above, IIFE is written as <code>(()=&gt; { ... })();</code></li>
+<li>The helper requires a mandatory parameter, <code>query</code> as a string.</li>
+<li>The <code>pg</code> block gets access to a <code>result</code> object which can be used to condition the response. More details on how to use the <code>result</code> object can be found on <a href="https://node-postgres.com/api/result" target="_blank">node-postgres</a> API documentation</li>
+<li>IIFE should return the generated response in a string format.</li>
+</ol>
+<h2 id="csv">csv</h2>
+<p>To use <code>csv</code> helper, you would need a data source, which is a csv file. A sample file can be found in the github repo.        </p>
 <p>Usage:</p>
 <p>CSV helper can be invoked in following manner, with three parameters, i.e.</p>
 <ul>
@@ -628,7 +721,14 @@ Content-Type: application/json
 <p>In that case you'd remove <code>key</code> and <code>value</code> from the snippet shown above, and simply put <code>random=true</code> instead.</p>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
+<ol>
+<li>
+<p>Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. <code>;</code></p>
+</li>
+<li>
 <p>Keep in mind that if you use random=true, you don't get the <code>result</code> object as an array, you would get one single object. So in the example above, <code>result[0].City</code> will not work, you'd need to update it to simply <code>result.City</code></p>
+</li>
+</ol>
 </div>
                 
               
@@ -685,10 +785,12 @@ Content-Type: application/json
     <div class="md-footer-meta__inner md-grid">
       <div class="md-footer-copyright">
         
-        Made with
-        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
-          Material for MkDocs
-        </a>
+        
+          Made with
+          <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+            Material for MkDocs
+          </a>
+        
         
       </div>
       
@@ -700,10 +802,10 @@ Content-Type: application/json
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.94ec81fe.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.48dfec6c.min.js"></script>
+      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
       
     
   </body>
