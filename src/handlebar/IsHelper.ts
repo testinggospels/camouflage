@@ -1,16 +1,19 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 /**
  * Defines and registers custom handlebar helper - is
  */
 export class IsHelper {
+    private Handlebars: any;
+    constructor(Handlebars: any) {
+        this.Handlebars = Handlebars
+    }
     /**
      * Registers is helper
      * - Extends builtin if helper functionalities
      * @returns {void}
      */
     register = () => {
-        Handlebars.registerHelper("is", (...args) => {
+        this.Handlebars.registerHelper("is", (...args: any[]) => {
             let left: any;
             let right: any;
             let operator: any;

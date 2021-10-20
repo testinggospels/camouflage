@@ -1,10 +1,13 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 import moment from "moment";
 /**
  * Defines and registers custom handlebar helper - now
  */
 export class NowHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers now helper
    * - If now helper is called without a format, set a default format as YYYY-MM-DD hh:mm:ss else use the format provided
@@ -15,7 +18,7 @@ export class NowHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("now", (context) => {
+    this.Handlebars.registerHelper("now", (context: any) => {
       const format = typeof context.hash.format === "undefined" ? "YYYY-MM-DD hh:mm:ss" : context.hash.format;
       let offsetUnit: moment.unitOfTime.DurationConstructor = "s";
       let offsetAmount: number = 0;

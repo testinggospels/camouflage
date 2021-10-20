@@ -1,9 +1,12 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 /**
  * Defines and registers custom handlebar helper - num_between
  */
 export class NumBetweenHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers num_between helper
    * - If lower or upper value is not passed, return 0
@@ -11,7 +14,7 @@ export class NumBetweenHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("num_between", (context) => {
+    this.Handlebars.registerHelper("num_between", (context: any) => {
       if (typeof context.hash.lower === "undefined" || typeof context.hash.upper === "undefined") {
         logger.error("lower or upper value not specified.");
         return 0;

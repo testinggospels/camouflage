@@ -1,4 +1,3 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 // @ts-ignore
 import { v4 as uuidv4 } from "uuid";
@@ -6,6 +5,10 @@ import { v4 as uuidv4 } from "uuid";
  * Defines and registers custom handlebar helper - randomValue
  */
 export class RandomValueHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers csv helper
    * - Define request and logger in the scope of the code helper context, allowing user to use request, logger in their mock files
@@ -24,7 +27,7 @@ export class RandomValueHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("randomValue", (context) => {
+    this.Handlebars.registerHelper("randomValue", (context: any) => {
       let length = typeof context.hash.length === "undefined" ? 16 : context.hash.length;
       let type = typeof context.hash.type === "undefined" ? "ALPHANUMERIC" : context.hash.type;
       if (context.hash.uppercase && type.includes("ALPHA")) {

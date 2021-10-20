@@ -116,6 +116,14 @@ if (fs.existsSync(path.join(project_root, "plconfig.js"))) {
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
 const origins = config.origins ? config.origins : [];
+if (config.ext_data_source && config.ext_data_source.pg) {
+  const { host, port, user, password, database } = config.ext_data_source.pg
+  process.env.PGHOST = host;
+  process.env.PGUSER = user;
+  process.env.PGDATABASE = database;
+  process.env.PGPASSWORD = password;
+  process.env.PGPORT = port;
+}
 /**
  * Define logger with specified configured log level
  */
@@ -189,6 +197,7 @@ let inputsKeys = [
   "configFile",
   "ext_helpers",
   "cache.ttl_seconds",
+  "cache.cache_options"
 ];
 /**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
@@ -226,6 +235,7 @@ let inputs = [
   config.ext_helpers || null,
   config.cache.ttl_seconds || 0
 ];
+config.cache.cache_options ? inputs.push(config.cache.cache_options) : inputs.push({})
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
  * than available number of cores, log an error and exit. Default value 1.

@@ -1,9 +1,12 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 /**
  * Defines and registers custom handlebar helper - proxy
  */
 export class ProxyHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers proxy helper
    * - If file path is not included in the defined handlebar, log an error.
@@ -11,7 +14,7 @@ export class ProxyHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("proxy", (context) => {
+    this.Handlebars.registerHelper("proxy", (context: any) => {
       const proxyResponse: ProxyResponse = {
         CamouflageResponseType: "proxy",
         data: <ProxyOptions>JSON.parse(context.fn(this)),

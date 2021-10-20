@@ -1,10 +1,13 @@
-import Handlebars from "handlebars";
 import logger from "../logger";
 import express from "express";
 /**
  * Defines and registers custom handlebar helper - code
  */
 export class CodeHelper {
+  private Handlebars: any;
+  constructor(Handlebars: any) {
+    this.Handlebars = Handlebars
+  }
   /**
    * Registers code helper
    * - Define request and logger in the scope of the code helper context, allowing user to use request, logger in their mock files
@@ -13,7 +16,7 @@ export class CodeHelper {
    * @returns {void}
    */
   register = () => {
-    Handlebars.registerHelper("code", (context) => {
+    this.Handlebars.registerHelper("code", (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;

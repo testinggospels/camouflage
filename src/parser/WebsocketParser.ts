@@ -1,8 +1,9 @@
-import Handlebars from "handlebars";
+import { getHandlebars } from '../handlebar'
 import fs from "fs";
 import { IncomingMessage } from "http";
 import logger from "../logger";
 import WebSocket from "ws";
+let Handlebars = getHandlebars()
 /**
  * Parser class for Websocket Protocol mocks
  */
@@ -27,12 +28,12 @@ export default class WebsocketParser {
    * @param {IncomingMessage} request incoming request
    * @param {any} incomingMessage incoming data
    */
-  send = (mockFile: string, ws: WebSocket, request: IncomingMessage, incomingMessage?: any): void => {
+  send = async (mockFile: string, ws: WebSocket, request: IncomingMessage, incomingMessage?: any): Promise<void> => {
     const template = Handlebars.compile(fs.readFileSync(mockFile).toString());
     let message: WebSocketMessage;
     let delay: number;
     try {
-      message = JSON.parse(template({ request: request, message: incomingMessage }));
+      message = JSON.parse(await template({ request: request, message: incomingMessage }));
       delay = message.delay || 0;
       logger.debug(`Delay set to ${delay}`);
 
