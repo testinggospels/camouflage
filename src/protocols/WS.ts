@@ -15,7 +15,6 @@ export default class WsSetup {
    * @param {string} wsMockDir
    */
     initws = (wsPort: number, wsMockDir: string) => {
-        const WebSocket = require("ws");
         const wss = new WebSocket.Server({ port: wsPort });
         logger.info(`Worker sharing WS server at ws://localhost:${wsPort} ⛳`);
         const websocketParser = new WebsocketParser(wss);

@@ -61,7 +61,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
 app.use(express.static(ui_root));
-const compression = require("compression");
+// @ts-ignore
+import compression from 'compression';
 app.use(compression());
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
