@@ -103,7 +103,7 @@ export default class MockController {
  * @param dir mocksDir
  * @returns array of files in a given directory
  */
-var walk = function (dir: string): string[] {
+const walk = function (dir: string): string[] {
   let results: string[] = [];
   const list = fs.readdirSync(dir);
   list.forEach(function (file: string) {
