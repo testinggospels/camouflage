@@ -2,7 +2,8 @@ import logger from "../logger";
 import path from "path";
 import fs from "fs";
 import express from "express";
-const csv = require("convert-csv-to-json");
+// @ts-ignore
+import * as csv from 'convert-csv-to-json';
 /**
  * Defines and registers custom handlebar helper - csv
  */
