@@ -1,9 +1,7 @@
-import logger from "../logger";
-import express from "express";
 /**
  * Defines and registers custom handlebar helper - code
  */
-export class FaultHelper {
+ export class FaultHelper {
     private Handlebars: any;
     constructor(Handlebars: any) {
         this.Handlebars = Handlebars

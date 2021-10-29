@@ -5,7 +5,6 @@ import os from "os";
 import { getHandlebars } from '../handlebar'
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
-// @ts-ignore
 import * as httpProxy from "http-proxy";
 const proxy = httpProxy.createProxyServer({});
 let DELAY = 0;
@@ -75,11 +74,7 @@ export class HttpParser {
         //If no mockFile is found, return default response
         logger.debug(`No custom global override for default response. Sending default Camouflage response.`);
         this.res.statusCode = response.status;
-        const headerKeys = Object.keys(response.headers);
-        headerKeys.forEach((headerKey) => {
-          // @ts-ignore
-          res.setHeader(headerKey, response.headers[headerKey]);
-        });
+        this.res.set(response.headers)
         this.res.send(response.body);
       }
     }
@@ -174,9 +169,7 @@ export class HttpParser {
               case "code":
                 this.res.statusCode = codeResponse["status"] || this.res.statusCode;
                 if (codeResponse["headers"]) {
-                  Object.keys(codeResponse["headers"]).forEach((header) => {
-                    this.res.setHeader(header, codeResponse["headers"][header]);
-                  });
+                  this.res.set(codeResponse["headers"])
                 }
                 setTimeout(() => {
                   logger.debug(`Generated Response ${codeResponse["body"]}`);

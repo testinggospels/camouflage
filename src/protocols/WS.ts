@@ -1,7 +1,6 @@
 import WebsocketParser from "../parser/WebsocketParser";
 import logger from "../logger";
 import { IncomingMessage } from "http";
-// @ts-ignore
 import { v4 as uuidv4 } from "uuid";
 const clients: string[] = [];
 import WebSocket from "ws";

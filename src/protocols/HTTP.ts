@@ -3,7 +3,6 @@ import http from "http";
 import logger from "../logger";
 import fs from "fs";
 import https from "https";
-// @ts-ignore
 import spdy from "spdy";
 
 export default class HttpSetup {

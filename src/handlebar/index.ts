@@ -11,7 +11,6 @@ import { InjectHelper } from "./InjectHelper";
 import { ProxyHelper } from "./ProxyHelper";
 import { FaultHelper } from "./FaultHelper";
 import { IsHelper } from "./IsHelper";
-// @ts-ignore
 import promisedHandlebars from 'promised-handlebars';
 import * as Q from 'q';
 import { PgHelper } from "./PgHelper";

@@ -1,6 +1,5 @@
 import logger from "../logger";
 import express from "express";
-// @ts-ignore
 import jsonpath from "jsonpath";
 
 /**

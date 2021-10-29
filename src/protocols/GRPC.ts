@@ -4,7 +4,6 @@ import * as grpc from "@grpc/grpc-js";
 import * as protoLoader from "@grpc/proto-loader";
 import fs from "fs";
 import path from "path";
-// @ts-ignore
 import jp from 'jsonpath';
 const availableFiles: string[] = [];
 

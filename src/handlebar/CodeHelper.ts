@@ -1,4 +1,3 @@
-import logger from "../logger";
 import express from "express";
 /**
  * Defines and registers custom handlebar helper - code

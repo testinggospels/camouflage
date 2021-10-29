@@ -1,5 +1,4 @@
 import logger from "../logger";
-import fs from "fs";
 import path from "path";
 /**
  * Defines and registers custom handlebar helper - file

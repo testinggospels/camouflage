@@ -1,5 +1,4 @@
 import express from "express";
-import logger from "../logger";
 /**
  * Defines and registers custom handlebar helper - inject
  */
