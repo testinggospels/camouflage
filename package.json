@@ -18,7 +18,7 @@
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint \"src/**/*.ts\"",
+    "lint": "eslint \"src/**/*.ts\" --quiet",
     "prestart": "npm run build",
     "start": "node bin/camouflage.js --config ./config.yml",
     "docs": "jsdoc -c jsdoc.json -t ./node_modules/foodoc/template",
