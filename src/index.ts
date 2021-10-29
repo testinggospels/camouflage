@@ -13,18 +13,14 @@ import logger from "./logger";
 import { setLogLevel } from "./logger";
 import child_process from "child_process";
 import * as protoLoader from "@grpc/proto-loader";
-// @ts-ignore
 import apicache from "apicache";
-// @ts-ignore
 import * as filemanager from "@opuscapita/filemanager-server";
 import redis from 'redis';
 const filemanagerMiddleware = filemanager.middleware;
-// @ts-ignore
 import swStats from "swagger-stats";
-// @ts-ignore
 import cors from 'cors';
 /**
- * Gets the location of documentation folder
+ * Gets the location of documentation folder installed as part of npm i -g camouflage-server
  */
 const ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
 
@@ -56,22 +52,24 @@ app.use(
     uriPath: "/monitoring",
   })
 );
-// Configure express to understand json request body
+// Configure express to understand json/url encoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Configure public directory as a source for static resources for file-explorer (eg. js, css, image)
+// Configure ui_root, documentation directory as a source to be served at localhost:${http_port}
 app.use(express.static(ui_root));
-// @ts-ignore
 import compression from 'compression';
+// Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
 app.get("/stats", function (req, res) {
   res.setHeader("Content-Type", "application/json");
   res.send(swStats.getCoreStats());
 });
 /**
- * Initializes required variables and starts a 1 master X workers configuration
+ * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
  * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
+ * @param {string} inputWsMocksDir Websockets Mocks directory from config file, overrides default wsMocksDir
  * @param {number} inputPort Input http port, overrides default 8080 port
+ * @param {boolean} enableHttp true if http is to be enabled
  * @param {boolean} enableHttps true if https is to be enabled
  * @param {boolean} enableHttp2 true if http2 is to be enabled
  * @param {boolean} enableGrpc true if grpc is to be enabled
@@ -79,10 +77,13 @@ app.get("/stats", function (req, res) {
  * @param {boolean} enableCache true if cache is to be enabled
  * @param {boolean} enableInjection true if code injection is to be enabled
  * @param {string[]} origins array of allowed origins
+ * @param {string[]} protoIgnore array of files to be ignored during loading proto files
+ * @param {string} plconfig configuration for protoloader
  * @param {string} key location of server.key file if https is enabled
  * @param {string} cert location of server.cert file if https is enabled
  * @param {number} inputHttpsPort Input https port, overrides httpsPort
  * @param {number} inputHttp2Port Input http2 port, overrides httpsPort
+ * @param {number} inputWsPort Input ws port, overrides wsPort
  * @param {string} inputGrpcHost Input gRPC host, overrides grpcHost
  * @param {number} inputGrpcPort Input gRPC port, overrides grpcPort
  * @param {string} inputGrpcMocksDir Input gRPC mocks directory location, overrides grpcMocksDir
@@ -93,6 +94,7 @@ app.get("/stats", function (req, res) {
  * @param {string} configFilePath location of config file
  * @param {string} extHelpers location of the external handlebars json file
  * @param {number} cacheTtl cache age in seconds
+ * @param {any} cacheoptions options to configure cache
  */
 const start = (
   inputMocksDir: string,
@@ -140,9 +142,11 @@ const start = (
       origin: origins
     }));
   }
+  // Configure cache if enabled.
   if (enableCache) {
     try {
       logger.debug(`Cache Options: ${JSON.stringify(cacheOptions, null, 2)}`);
+      // If cacheOptions has a redis details, use redis as cache store, else by default in memory cache is used.
       if (cacheOptions.redis_options) {
         const redisOptions: redis.ClientOpts = cacheOptions.redis_options;
         delete cacheOptions.redis_options;
@@ -157,7 +161,7 @@ const start = (
   }
   app.use(filemanagerMiddleware(config));
   logger.info(`[${process.pid}] Worker started`);
-  // Replace the default values for defined variables with actual values provided as input from config
+  // Override the default values for defined variables with actual values provided as input from config
   mocksDir = inputMocksDir;
   grpcMocksDir = inputGrpcMocksDir;
   wsMocksDir = inputWsMocksDir;
@@ -168,8 +172,9 @@ const start = (
   grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
   wsPort = inputWsPort ? inputWsPort : wsPort;
   port = inputPort;
+  // Set custom labels for prometheus
   swStats.getPromClient().register.setDefaultLabels({ instance: os.hostname(), workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
-  // Define route for /ui to host a single page UI to manage the mocks
+  // Define route for / to host documentation
   app.get("/", (req: express.Request, res: express.Response) => {
     res.sendFile("index.html", { root: ui_root });
   });
@@ -178,8 +183,8 @@ const start = (
   // Register Controllers
   new CamouflageController(app, mocksDir, grpcMocksDir);
   new GlobalController(app, mocksDir);
-  // Start the http server on the specified port
   const protocols = new Protocols(app, port, httpsPort);
+  // Start the http server on the specified port
   if (enableHttp) {
     protocols.initHttp();
   }
