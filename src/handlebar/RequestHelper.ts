@@ -1,6 +1,5 @@
 import logger from "../logger";
 import express from "express";
-// @ts-ignore
 import jsonpath from "jsonpath";
 
 /**
@@ -34,7 +33,7 @@ export class RequestHelper {
             logger.debug("ERROR: No regex specified");
             return "Please specify a regex with path";
           } else {
-            let regex = new RegExp(context.hash.regex);
+            const regex = new RegExp(context.hash.regex);
             if (regex.test(request.path)) {
               return regex.exec(request.path)[1];
             } else {
@@ -49,8 +48,8 @@ export class RequestHelper {
           } else {
             switch (context.hash.using) {
               case "regex": {
-                let regex = new RegExp(context.hash.selector);
-                let body = JSON.stringify(request.body, null, 2);
+                const regex = new RegExp(context.hash.selector);
+                const body = JSON.stringify(request.body, null, 2);
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {
@@ -78,8 +77,8 @@ export class RequestHelper {
           } else {
             switch (context.hash.using) {
               case "regex": {
-                let regex = new RegExp(context.hash.selector);
-                let body = JSON.stringify(context.data.root.request, null, 2);
+                const regex = new RegExp(context.hash.selector);
+                const body = JSON.stringify(context.data.root.request, null, 2);
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {

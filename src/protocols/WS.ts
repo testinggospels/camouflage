@@ -1,7 +1,6 @@
 import WebsocketParser from "../parser/WebsocketParser";
 import logger from "../logger";
 import { IncomingMessage } from "http";
-// @ts-ignore
 import { v4 as uuidv4 } from "uuid";
 const clients: string[] = [];
 import WebSocket from "ws";
@@ -15,7 +14,6 @@ export default class WsSetup {
    * @param {string} wsMockDir
    */
     initws = (wsPort: number, wsMockDir: string) => {
-        const WebSocket = require("ws");
         const wss = new WebSocket.Server({ port: wsPort });
         logger.info(`Worker sharing WS server at ws://localhost:${wsPort} ⛳`);
         const websocketParser = new WebsocketParser(wss);

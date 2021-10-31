@@ -1,9 +1,7 @@
-import logger from "../logger";
-import express from "express";
 /**
  * Defines and registers custom handlebar helper - code
  */
-export class FaultHelper {
+ export class FaultHelper {
     private Handlebars: any;
     constructor(Handlebars: any) {
         this.Handlebars = Handlebars
@@ -17,7 +15,7 @@ export class FaultHelper {
      */
     register = () => {
         this.Handlebars.registerHelper("fault", (context: any) => {
-            let response = `{"CamouflageResponseType": "fault", "FaultType": "${context.hash.type}"}`;
+            const response = `{"CamouflageResponseType": "fault", "FaultType": "${context.hash.type}"}`;
             return response;
         });
     };

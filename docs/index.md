@@ -1,38 +1,49 @@
-# Home
-
 <p align="center">
-    <img src="camouflage.png" alt="camouflage.png" width="300"/>
+    <img src="https://testinggospels.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
     <h3 align="center">Camouflage</h3>
     <p align="center">HTTP/gRPC Mocking tool</p>
     <p align="center">
       <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
       <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/license/testinggospels/camouflage.svg">
+      <img src="https://img.shields.io/github/release/testinggospels/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+      <img src="https://github.com/testinggospels/camouflage/actions/workflows/release.yaml/badge.svg">
+      <img src="https://img.shields.io/github/repo-size/testinggospels/camouflage">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
       <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
     </p>
 </p>
 
+## Support
+[![Chat on Discord](https://img.shields.io/badge/chat-Discord-7289DA?logo=discord)](https://discord.gg/hTqXuG7dsV)
+
 ## What is Camouflage?
 
-Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver){target=\_blank}. As the original description says, the mocking/service virtualization works on a file based structure where _you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not._
+Camouflage is a service virtualization tool inspired by [namshi/mockserver](https://github.com/namshi/mockserver). Camouflage works on a file based endpoint configuration system, which means it allows you to create a mock endpoint by simply creating a set of directories and a mock file, using which necessary responses are generated when you call the endpoint.
 
-## Why did we create Camouflage if a similar tool already exists?
+## Available Features
 
-Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.
+🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥
 
-1. The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.
-2. Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)
-3. Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.
-4. Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.
-5. You can also extract information from request queries, path, body or headers and use them in your response.
-6. You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.
-7. Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets.
-8. Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.
-9. Camouflage provides support for monitoring.
-10. Docker compose and Kubernetes configurations are included in the project, to help you get started within seconds.
+⚡ Dynamic/realistic responses without having to write any code. ⚡
 
-Head on over to the Getting Started page and set up your first Camouflage project.
+🧩 Flexibility to partially or fully code your responses. 🧩
+
+🎯 Conditional responses based on request parameters. 🎯
+
+🌟 Inbuilt Caching - In memory and redis. 🌟
+
+🧮 Ability to fetch and condition the response using external data. Currently supported data sources are CSV and postgres. 🧮
+
+⏳ Delay Simulation. ⏳
+
+🔍 Inbuilt monitoring. 🔍
+
+🦺 Inbuilt backup and restore mechanism. 🦺
+
+⏩ Quick start with `camouflage init` and `camouflage restore` modules. ⏩
+
+🎊 Deployable on standalone VMs, Dockers and Kubernetes. 🎊
+
+📁 Comes with a file explorer UI that allows modification of mock files hosted remotely. 📁

@@ -1,5 +1,4 @@
 import logger from "../logger";
-// @ts-ignore
 import { v4 as uuidv4 } from "uuid";
 /**
  * Defines and registers custom handlebar helper - randomValue
@@ -28,7 +27,7 @@ export class RandomValueHelper {
    */
   register = () => {
     this.Handlebars.registerHelper("randomValue", (context: any) => {
-      let length = typeof context.hash.length === "undefined" ? 16 : context.hash.length;
+      const length = typeof context.hash.length === "undefined" ? 16 : context.hash.length;
       let type = typeof context.hash.type === "undefined" ? "ALPHANUMERIC" : context.hash.type;
       if (context.hash.uppercase && type.includes("ALPHA")) {
         type = type + "_UPPER";
@@ -48,11 +47,11 @@ export class RandomValueHelper {
    * @returns {string} A random sequence of characters of specified length
    */
   private randomString = (length: number, chars: string): string => {
-    var result = "";
+    let result = "";
     if (typeof chars === "undefined") {
       this.randomFixedInteger(length);
     } else {
-      for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+      for (let i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     }
     return result;
   };
@@ -74,7 +73,7 @@ export class RandomValueHelper {
     /**
      * Create a numbers array of [0...9]
      */
-    let numbers = [...Array(10)].map((x, i) => i);
+    const numbers = [...Array(10)].map((x, i) => i);
     switch (type) {
       case "ALPHANUMERIC":
         /**

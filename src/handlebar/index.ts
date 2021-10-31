@@ -11,11 +11,11 @@ import { InjectHelper } from "./InjectHelper";
 import { ProxyHelper } from "./ProxyHelper";
 import { FaultHelper } from "./FaultHelper";
 import { IsHelper } from "./IsHelper";
-// @ts-ignore
 import promisedHandlebars from 'promised-handlebars';
 import * as Q from 'q';
 import { PgHelper } from "./PgHelper";
-let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise })
+import Handlebars from 'handlebars';
+const HandlebarsPromised = promisedHandlebars(Handlebars, { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
  * - If external helper is null, do not call registerCustomHandlebars()
@@ -23,29 +23,29 @@ let Handlebars = promisedHandlebars(require('handlebars'), { Promise: Q.Promise 
  */
 export const registerHandlebars = (extHelpers: string, enableInjection: boolean) => {
   logger.info("Handlebar helpers registration started");
-  new NowHelper(Handlebars).register();
-  new RandomValueHelper(Handlebars).register();
-  new RequestHelper(Handlebars).register();
-  new NumBetweenHelper(Handlebars).register();
-  new FileHelper(Handlebars).register();
-  new FaultHelper(Handlebars).register();
-  new IsHelper(Handlebars).register();
+  new NowHelper(HandlebarsPromised).register();
+  new RandomValueHelper(HandlebarsPromised).register();
+  new RequestHelper(HandlebarsPromised).register();
+  new NumBetweenHelper(HandlebarsPromised).register();
+  new FileHelper(HandlebarsPromised).register();
+  new FaultHelper(HandlebarsPromised).register();
+  new IsHelper(HandlebarsPromised).register();
   if (enableInjection) {
     logger.warn("Code Injection is enabled.")
-    new CodeHelper(Handlebars).register();
-    new InjectHelper(Handlebars).register();
-    new PgHelper(Handlebars).register();
-    new CsvHelper(Handlebars).register();
+    new CodeHelper(HandlebarsPromised).register();
+    new InjectHelper(HandlebarsPromised).register();
+    new PgHelper(HandlebarsPromised).register();
+    new CsvHelper(HandlebarsPromised).register();
     if (extHelpers !== null) {
-      registerCustomHandlebars(Handlebars, extHelpers);
+      registerCustomHandlebars(HandlebarsPromised, extHelpers);
     }
   } else {
     logger.warn("Code Injection is disabled. Helpers such as code, inject, pg, csv and functionalities such as external helpers, will not work.")
   }
-  new ProxyHelper(Handlebars).register();
+  new ProxyHelper(HandlebarsPromised).register();
   logger.info("Handlebar helpers registration completed");
 };
 
 export const getHandlebars = () => {
-  return Handlebars;
+  return HandlebarsPromised;
 }

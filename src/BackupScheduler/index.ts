@@ -1,8 +1,6 @@
-// @ts-ignore
 import * as scheduler from "node-cron";
 import path from "path";
 import os from "os";
-// @ts-ignore
 import * as fse from "fs-extra";
 import logger from "../logger";
 /**

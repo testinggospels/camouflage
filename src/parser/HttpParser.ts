@@ -5,11 +5,10 @@ import os from "os";
 import { getHandlebars } from '../handlebar'
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
-// @ts-ignore
 import * as httpProxy from "http-proxy";
 const proxy = httpProxy.createProxyServer({});
-let DELAY: number = 0;
-let Handlebars = getHandlebars()
+let DELAY = 0;
+const Handlebars = getHandlebars()
 /**
  * Create a parser class which defines methods to parse
  * 1. Request URL to get a matching directory
@@ -56,7 +55,7 @@ export class HttpParser {
    */
   getResponse = (mockFile: string) => {
     // Default response
-    let response = {
+    const response = {
       status: 404,
       body: '{"error": "Not Found"}',
       headers: {
@@ -75,11 +74,7 @@ export class HttpParser {
         //If no mockFile is found, return default response
         logger.debug(`No custom global override for default response. Sending default Camouflage response.`);
         this.res.statusCode = response.status;
-        let headerKeys = Object.keys(response.headers);
-        headerKeys.forEach((headerKey) => {
-          // @ts-ignore
-          res.setHeader(headerKey, response.headers[headerKey]);
-        });
+        this.res.set(response.headers)
         this.res.send(response.body);
       }
     }
@@ -112,7 +107,7 @@ export class HttpParser {
   private prepareResponse = async (mockFile: string) => {
     let PARSE_BODY = false;
     let responseBody = "";
-    let response = {
+    const response = {
       status: 404,
       body: '{"error": "Not Found"}',
       headers: {
@@ -141,8 +136,8 @@ export class HttpParser {
         logger.debug("Response Status set to " + response.status);
       } else {
         if (line !== "" && !PARSE_BODY) {
-          let headerKey = line.split(":")[0];
-          let headerValue = line.split(":").slice(1).join(":");
+          const headerKey = line.split(":")[0];
+          const headerValue = line.split(":").slice(1).join(":");
           if (headerKey === "Response-Delay") {
             DELAY = <number>(<unknown>headerValue);
             logger.debug(`Delay Set ${headerValue}`);
@@ -174,9 +169,7 @@ export class HttpParser {
               case "code":
                 this.res.statusCode = codeResponse["status"] || this.res.statusCode;
                 if (codeResponse["headers"]) {
-                  Object.keys(codeResponse["headers"]).forEach((header) => {
-                    this.res.setHeader(header, codeResponse["headers"][header]);
-                  });
+                  this.res.set(codeResponse["headers"])
                 }
                 setTimeout(() => {
                   logger.debug(`Generated Response ${codeResponse["body"]}`);
@@ -244,11 +237,11 @@ const removeBlanks = (array: Array<any>) => {
   });
 };
 const getWildcardPath = (dir: string, mockDir: string) => {
-  let steps = removeBlanks(dir.split("/"));
+  const steps = removeBlanks(dir.split("/"));
   let testPath;
   let newPath = path.resolve(mockDir);
   while (steps.length) {
-    let next = steps.shift();
+    const next = steps.shift();
     testPath = path.join(newPath, next);
     if (fs.existsSync(testPath)) {
       newPath = testPath;
@@ -267,9 +260,9 @@ const getWildcardPath = (dir: string, mockDir: string) => {
   return newPath;
 };
 const getNewLine = (source: string) => {
-  var cr = source.split("\r").length;
-  var lf = source.split("\n").length;
-  var crlf = source.split("\r\n").length;
+  const cr = source.split("\r").length;
+  const lf = source.split("\n").length;
+  const crlf = source.split("\r\n").length;
 
   if (cr + lf === 0) {
     logger.warn(`No valid new line found in the mock file. Using OS default: ${os.EOL}`);
