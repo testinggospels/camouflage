@@ -42,7 +42,7 @@
   "preferGlobal": true,
   "dependencies": {
     "@grpc/grpc-js": "^1.2.12",
-    "@grpc/proto-loader": "^0.6.1",
+    "@grpc/proto-loader": "^0.6.5",
     "@opuscapita/filemanager-server": "^1.1.7",
     "apicache": "^1.6.2",
     "compression": "^1.7.4",
