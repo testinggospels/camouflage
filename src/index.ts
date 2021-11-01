@@ -52,10 +52,6 @@ app.use(express.urlencoded({ extended: true }));
 import compression from 'compression';
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
-app.get("/stats", function (req, res) {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swStats.getCoreStats());
-});
 /**
  * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
  * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
@@ -162,7 +158,7 @@ const start = (
   // Register Handlebars
   registerHandlebars(extHelpers, enableInjection);
   // Register Controllers
-  new CamouflageController(app, mocksDir, grpcMocksDir);
+  new CamouflageController(app);
   new GlobalController(app, mocksDir);
   const protocols = new Protocols(app, port, httpsPort);
   // Start the http server on the specified port
