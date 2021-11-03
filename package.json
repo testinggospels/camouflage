@@ -46,7 +46,7 @@
     "@opuscapita/filemanager-server": "^1.1.7",
     "apicache": "^1.6.2",
     "compression": "^1.7.4",
-    "convert-csv-to-json": "^1.3.0",
+    "convert-csv-to-json": "^1.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
