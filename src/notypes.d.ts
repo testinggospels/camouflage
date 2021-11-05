@@ -12,3 +12,4 @@ declare module 'uuid';
 declare module 'jsonpath';
 declare module 'http-proxy';
 declare module 'spdy';
+declare module 'compression';
