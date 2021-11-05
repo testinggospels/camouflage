@@ -12,7 +12,7 @@
       
       
       <link rel="icon" href="assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -20,7 +20,7 @@
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="assets/stylesheets/palette.3f5d1f46.min.css">
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#home" class="md-skip">
+        <a href="#support" class="md-skip">
           Skip to content
         </a>
       
@@ -240,8 +240,6 @@
       <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
       
       
-        
-      
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
           Home
@@ -253,11 +251,11 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
-  
-    
   
   
     <label class="md-nav__title" for="__toc">
@@ -267,6 +265,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#support" class="md-nav__link">
+    Support
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#what-is-camouflage" class="md-nav__link">
     What is Camouflage?
   </a>
@@ -274,8 +279,8 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#why-did-we-create-camouflage-if-a-similar-tool-already-exists" class="md-nav__link">
-    Why did we create Camouflage if a similar tool already exists?
+  <a href="#available-features" class="md-nav__link">
+    Available Features
   </a>
   
 </li>
@@ -635,40 +640,42 @@
                   </a>
                 
                 
-                <h1 id="home">Home</h1>
-<p align="center">
-    <img src="camouflage.png" alt="camouflage.png" width="300"/>
+                  <h1>Home</h1>
+                
+                <p align="center">
+    <img src="https://testinggospels.github.io/camouflage/camouflage.png" alt="camouflage.png" width="300"/>
     <h3 align="center">Camouflage</h3>
     <p align="center">HTTP/gRPC Mocking tool</p>
     <p align="center">
       <img src="https://nodei.co/npm/camouflage-server.png?downloads=true"><br/>
       <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg">
-      <img src="https://img.shields.io/github/license/fauxauldrich/camouflage.svg">
-      <img src="https://img.shields.io/github/release/fauxauldrich/camouflage.svg">
+      <img src="https://img.shields.io/github/license/testinggospels/camouflage.svg">
+      <img src="https://img.shields.io/github/release/testinggospels/camouflage.svg">
       <img src="https://img.shields.io/npm/dm/camouflage-server"><br/>
-      <img src="https://img.shields.io/github/repo-size/fauxauldrich/camouflage">
-      <img src="https://img.shields.io/bundlephobia/min/camouflage-server">
+      <img src="https://github.com/testinggospels/camouflage/actions/workflows/release.yaml/badge.svg">
+      <img src="https://img.shields.io/github/repo-size/testinggospels/camouflage">
+      <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
       <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
     </p>
 </p>
 
+<h2 id="support">Support</h2>
+<p><a href="https://discord.gg/hTqXuG7dsV"><img alt="Chat on Discord" src="https://img.shields.io/badge/chat-Discord-7289DA?logo=discord" /></a></p>
 <h2 id="what-is-camouflage">What is Camouflage?</h2>
-<p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver" target="_blank">namshi/mockserver</a>. As the original description says, the mocking/service virtualization works on a file based structure where <em>you simply organize your mocked HTTP responses in a bunch of mock files and it will serve them like they were coming from a real API; in this way you can write your frontends without caring too much whether your backend is really ready or not.</em></p>
-<h2 id="why-did-we-create-camouflage-if-a-similar-tool-already-exists">Why did we create Camouflage if a similar tool already exists?</h2>
-<p>Camouflage simply borrows the idea from the original and though it does use some of the same logic and functions, majority of the code has been written from scratch implementing a plethora of amazing new features.</p>
-<ol>
-<li>The underlying codebase has been re-written using typescript providing a structured, strongly typed, modular codebase.</li>
-<li>Some features from the original tool might be missing, or have been implemented differently. (import and eval have not been ported to Camouflage)</li>
-<li>Camouflage introduces handlebars, which allows you to generate dynamic (more real) responses.</li>
-<li>Using handlebars, you can generate random numbers, strings, alphanumeric strings, UUIDs and random dates.</li>
-<li>You can also extract information from request queries, path, body or headers and use them in your response.</li>
-<li>You can use handlebars to carry out request matching for you. For example, return one response if a query param exists, return another if it doesn't.</li>
-<li>Camouflage supports multiple protocols, i.e. HTTP, HTTPs, HTTP2, gRPC and Websockets.</li>
-<li>Camouflage provides inbuilt support for creating backups and restoring from backups in case something goes wrong.</li>
-<li>Camouflage provides support for monitoring.</li>
-<li>Docker compose and Kubernetes configurations are included in the project, to help you get started within seconds.</li>
-</ol>
-<p>Head on over to the Getting Started page and set up your first Camouflage project.</p>
+<p>Camouflage is a service virtualization tool inspired by <a href="https://github.com/namshi/mockserver">namshi/mockserver</a>. Camouflage works on a file based endpoint configuration system, which means it allows you to create a mock endpoint by simply creating a set of directories and a mock file, using which necessary responses are generated when you call the endpoint.</p>
+<h2 id="available-features">Available Features</h2>
+<p>🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥</p>
+<p>⚡ Dynamic/realistic responses without having to write any code. ⚡</p>
+<p>🧩 Flexibility to partially or fully code your responses. 🧩</p>
+<p>🎯 Conditional responses based on request parameters. 🎯</p>
+<p>🌟 Inbuilt Caching - In memory and redis. 🌟</p>
+<p>🧮 Ability to fetch and condition the response using external data. Currently supported data sources are CSV and postgres. 🧮</p>
+<p>⏳ Delay Simulation. ⏳</p>
+<p>🔍 Inbuilt monitoring. 🔍</p>
+<p>🦺 Inbuilt backup and restore mechanism. 🦺</p>
+<p>⏩ Quick start with <code>camouflage init</code> and <code>camouflage restore</code> modules. ⏩</p>
+<p>🎊 Deployable on standalone VMs, Dockers and Kubernetes. 🎊</p>
+<p>📁 Comes with a file explorer UI that allows modification of mock files hosted remotely. 📁</p>
                 
               
               
@@ -726,10 +733,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": ".", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>

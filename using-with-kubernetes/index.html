@@ -12,7 +12,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.4">
+      <meta name="generator" content="mkdocs-1.2.3, mkdocs-material-7.3.6">
     
     
       
@@ -20,7 +20,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.db9e7362.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.a57b2b03.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
@@ -568,6 +568,8 @@
       </a>
       
         
+
+
 <nav class="md-nav md-nav--secondary" aria-label="Table of contents">
   
   
@@ -656,22 +658,24 @@
 <p>Provided *.yaml files are in no way optimally tuned to be used in production scenarios, and are expected to change in future to have a more robust structure. We welcome all suggestions for improvements. They can however be used in development environments to quickly deploy and scale Camouflage. </p>
 </div>
 <h2 id="what-is-included">What is included?</h2>
-<p>Kubernetes deployments include 3 yaml files:</p>
+<p>Kubernetes deployments include 5 yaml files:</p>
 <ul>
 <li><strong>camouflage-depl.yaml</strong> - Defines Camouflage pod, along with an init pod to setup Camouflage. <em>Change the desired number of replicas and allocated CPU/Memory here</em></li>
+<li><strong>camouflage-ui-depl.yaml</strong> - Defines Camouflage UI pod. No further configuration needed.</li>
 <li><strong>camouflage-pvc.yaml</strong> - Allows Camouflage to persist mocks/protofiles data even if a pod is killed, also helps share same data accross pods. <em>Change the assigned storage volume and storage class here</em></li>
-<li><strong>camouflage-service.yaml</strong> - Defines a loadbalancer service to access UI and mocks. <em>Change port mappings here.</em></li>
+<li><strong>camouflage-service.yaml</strong> - Defines a loadbalancer service to access mocks. <em>Change port mappings here.</em></li>
+<li><strong>camouflage-ui-service.yaml</strong> - Defines a loadbalancer service to access UI. <em>Change port mappings here.</em></li>
 </ul>
 <h2 id="how-it-works">How it works?</h2>
 <ul>
-<li>To deploy and scale, download all three files and store locally or on your dedicated server.</li>
-<li>Navigate to the directory containing the three files and run the command: <code>kubectl apply -f .</code>.</li>
+<li>To deploy and scale, download all five files and store locally or on your dedicated server.</li>
+<li>Navigate to the directory containing the five files and run the command: <code>kubectl apply -f .</code></li>
 <li>This starts n number of pods as specified in replica, alongwith init pods.</li>
 <li>This sets up Loadbalancer Service.</li>
 <li>Finally this sets up a PVC, which is to be populated by the init pods. If the mounted volume is empty, init pods will run <code>camouflage init</code>, so that you don't have to. Any changes/deletion/creation of mocks will be persisted, further init pods created during scaling/deleting/restarting will not change the existing data.</li>
 </ul>
 <h2 id="port-mapping">Port Mapping</h2>
-<p>You can map ports in <code>camouflage-svc.yaml</code> to access available protocols and endpoints. Default ports/mappings are:</p>
+<p>You can map ports in <code>camouflage-service.yaml</code> to access available protocols and endpoints. Default ports/mappings are:</p>
 <ul>
 <li>8080 - For HTTP</li>
 <li>8443 - For HTTPS</li>
@@ -680,9 +684,10 @@
 <li>4312 - For gRPC</li>
 <li>5555 - Exposes a /metrics endpoint for prometheus monitoring</li>
 </ul>
+<p>Default UI port is 3001, which can be changed in <code>camouflage-ui-service.yaml</code></p>
 <p>Each of these ports can be mapped to a host port of your choice</p>
 <h2 id="using-camouflage-on-k8s">Using Camouflage on K8s</h2>
-<p>All mocks and endpoints can be access via the loadbalancer service. As well as any changes to mocks, can be made using Camouflage UI available at the root path accessed by using http port. <code>http://${host}:${httpPort}/</code>.</p>
+<p>All mocks and endpoints can be access via the loadbalancer service. As well as any changes to mocks, can be made using Camouflage UI available via the additional UI loadbalancer service.</p>
                 
               
               
@@ -755,10 +760,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.8397ff9e.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.fcfe8b6d.min.js", "version": null}</script>
     
     
-      <script src="../assets/javascripts/bundle.1e84347e.min.js"></script>
+      <script src="../assets/javascripts/bundle.b1047164.min.js"></script>
       
     
   </body>
