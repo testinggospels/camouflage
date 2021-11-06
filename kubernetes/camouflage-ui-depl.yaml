@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: camouflage-ui-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: camouflage-ui
+  template:
+    metadata:
+      name: camouflage-ui-pod
+      labels:
+        app: camouflage-ui
+    spec:
+      containers:
+        - name: camouflage-ui
+          image: shubhendumadhukar/camouflage-filemanager:latest
+          env:
+            - name: FS_ROOT
+              value: "/opt/virtual_services"
+            - name: PORT
+              value: "3001"
+            - name: WRITE_PROTECTED
+              value: "false"
+          resources:
+            requests:
+              memory: 200Mi
+              cpu: 100m
+            limits:
+              memory: 200Mi
+              cpu: 100m
+          volumeMounts:
+            - name: camouflage-storage
+              mountPath: /opt/virtual_services
+      volumes:
+        - name: camouflage-storage
+          persistentVolumeClaim:
+            claimName: camouflage-pvc
