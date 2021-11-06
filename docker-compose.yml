@@ -9,6 +9,20 @@ volumes:
   camouflage_data: {}
 
 services:
+  camouflage_ui:
+    image: shubhendumadhukar/camouflage-filemanager:latest
+    container_name: camouflage_ui
+    volumes:
+      - camouflage_data:/opt/virtual_services
+    environment:
+      FS_ROOT: /opt/virtual_services
+      WRITE_PROTECTED: "false"
+      PORT: 3001
+    ports:
+      - "3001:3001"
+    labels:
+      org.label-schema.group: "camouflage"
+
   camouflage:
     image: shubhendumadhukar/camouflage:latest
     container_name: camouflage
