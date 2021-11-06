@@ -36,6 +36,7 @@ To make any changes to mocks you can modify files on your host. Or you can use C
 The fastest way to get started using Docker would be to use the `docker-compose.yml` file available in Camouflage Github repo. Download the files `docker-compose.yml`, `camouflage_dashboard.json` and `prometheus.yml` to your local environment. Run the command `docker-compose up -d` to start following entities:
 
 - Camouflage
+- Camouflage UI
 - Prometheus
 - Grafana
 

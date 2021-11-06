@@ -14,15 +14,9 @@ import { setLogLevel } from "./logger";
 import child_process from "child_process";
 import * as protoLoader from "@grpc/proto-loader";
 import apicache from "apicache";
-import * as filemanager from "@opuscapita/filemanager-server";
 import redis from 'redis';
-const filemanagerMiddleware = filemanager.middleware;
 import swStats from "swagger-stats";
 import cors from 'cors';
-/**
- * Gets the location of documentation folder installed as part of npm i -g camouflage-server
- */
-const ui_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server", "public");
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -55,15 +49,9 @@ app.use(
 // Configure express to understand json/url encoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// Configure ui_root, documentation directory as a source to be served at localhost:${http_port}
-app.use(express.static(ui_root));
 import compression from 'compression';
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
-app.get("/stats", function (req, res) {
-  res.setHeader("Content-Type", "application/json");
-  res.send(swStats.getCoreStats());
-});
 /**
  * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
  * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
@@ -129,12 +117,6 @@ const start = (
 ) => {
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
-  const config = {
-    fsRoot: path.resolve(mocksDir),
-    readOnly: false,
-    rootName: "Camouflage",
-    logger: logger,
-  };
   // Configure cors
   if (origins.length !== 0) {
     logger.info(`CORS enabled for ${origins.join(", ")}`)
@@ -159,7 +141,6 @@ const start = (
       logger.info(`Cache couldn't be configured. ${error.message}`)
     }
   }
-  app.use(filemanagerMiddleware(config));
   logger.info(`[${process.pid}] Worker started`);
   // Override the default values for defined variables with actual values provided as input from config
   mocksDir = inputMocksDir;
@@ -174,14 +155,10 @@ const start = (
   port = inputPort;
   // Set custom labels for prometheus
   swStats.getPromClient().register.setDefaultLabels({ instance: os.hostname(), workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
-  // Define route for / to host documentation
-  app.get("/", (req: express.Request, res: express.Response) => {
-    res.sendFile("index.html", { root: ui_root });
-  });
   // Register Handlebars
   registerHandlebars(extHelpers, enableInjection);
   // Register Controllers
-  new CamouflageController(app, mocksDir, grpcMocksDir);
+  new CamouflageController(app);
   new GlobalController(app, mocksDir);
   const protocols = new Protocols(app, port, httpsPort);
   // Start the http server on the specified port
