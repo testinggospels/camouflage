@@ -17,7 +17,7 @@ export class ProxyHelper {
     this.Handlebars.registerHelper("proxy", (context: any) => {
       const proxyResponse: ProxyResponse = {
         CamouflageResponseType: "proxy",
-        data: <ProxyOptions>JSON.parse(context.fn(this)),
+        options: JSON.parse(context.fn(this)),
       };
       return JSON.stringify(proxyResponse);
     });
@@ -26,9 +26,5 @@ export class ProxyHelper {
 
 export interface ProxyResponse {
   CamouflageResponseType: string;
-  data: ProxyOptions;
-}
-
-interface ProxyOptions {
-  target: string;
+  options: Record<string, any>;
 }
