@@ -78,7 +78,10 @@ export class RequestHelper {
             switch (context.hash.using) {
               case "regex": {
                 const regex = new RegExp(context.hash.selector);
-                const body = JSON.stringify(context.data.root.request, null, 2);
+                let body = context.data.root.request
+                if (body.constructor === ({}).constructor) {
+                  body = JSON.stringify(context.data.root.request, null, 2);
+                }
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {
@@ -88,7 +91,11 @@ export class RequestHelper {
               }
               case "jsonpath": {
                 try {
-                  return jsonpath.query(context.data.root.request, context.hash.selector);
+                  let body = context.data.root.request
+                  if (body.constructor === ("").constructor) {
+                    body = JSON.parse(body)
+                  }
+                  return jsonpath.query(body, context.hash.selector);
                 } catch (err) {
                   logger.debug(`ERROR: No match found for specified jsonpath ${context.hash.selector}`);
                   logger.error(`ERROR: ${err}`);
