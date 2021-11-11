@@ -35,30 +35,30 @@ export default class WebsocketParser {
     try {
       message = JSON.parse(await template({ request: incomingMessage }));
       delay = message.delay || 0;
-      logger.debug(`Delay set to ${delay}`);
+      if (delay !== 0) logger.debug(`Delay set to ${delay}`);
 
       if (message.broadcast) {
         this.wss.clients.forEach(function each(client: WebSocket) {
           if (client.readyState === WebSocket.OPEN) {
             setTimeout(() => {
-              client.send(message.broadcast);
-              logger.debug(`Responded with ${message.broadcast}`);
+              client.send(JSON.stringify(message.broadcast));
+              logger.debug(`Responded with ${JSON.stringify(message.broadcast)}`);
             }, delay);
           }
         });
       }
       if (message.self) {
         setTimeout(() => {
-          ws.send(message.self);
-          logger.debug(`Responded with ${message.self}`);
+          ws.send(JSON.stringify(message.self));
+          logger.debug(`Responded with ${JSON.stringify(message.self)}`);
         }, delay);
       }
       if (message.emit) {
         this.wss.clients.forEach((client: WebSocket) => {
           if (client !== ws && client.readyState === WebSocket.OPEN) {
             setTimeout(() => {
-              client.send(message.emit);
-              logger.debug(`Responded with ${message.emit}`);
+              client.send(JSON.stringify(message.emit));
+              logger.debug(`Responded with ${JSON.stringify(message.emit)}`);
             }, delay);
           }
         });
