@@ -36,6 +36,7 @@ nav:
   - performance-mode.md
   - mocking-gRPC.md
   - mocking-websockets.md
+  - capture-helper.md
   - camouflage-ui.md
   - available-monitoring.md
   - tests.md
