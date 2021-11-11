@@ -180,8 +180,7 @@ export class HttpParser {
                 /* eslint-disable no-case-declarations */
                 const proxyResponse: ProxyResponse = JSON.parse(responseBody);
                 /* eslint-disable no-case-declarations */
-                const target = proxyResponse.data.target;
-                proxy.web(this.req, this.res, { target: target });
+                proxy.web(this.req, this.res, proxyResponse.options);
                 break;
               case "fault":
                 const faultType = codeResponse["FaultType"];
