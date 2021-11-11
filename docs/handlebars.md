@@ -205,6 +205,7 @@ Accepted operators are:
 - `>=`
 - `<`
 - `<=`
+- `in` (to check if a value exists in an array. ex: `{{#is 'John' in (capture from='body' using='jsonpath' selector='$.names')}}`)
 
 ## proxy
 
