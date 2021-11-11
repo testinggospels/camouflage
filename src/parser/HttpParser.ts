@@ -177,7 +177,9 @@ export class HttpParser {
                 });
                 break;
               case "proxy":
+                /* eslint-disable no-case-declarations */
                 const proxyResponse: ProxyResponse = JSON.parse(responseBody);
+                /* eslint-disable no-case-declarations */
                 proxy.web(this.req, this.res, proxyResponse.options);
                 break;
               case "fault":

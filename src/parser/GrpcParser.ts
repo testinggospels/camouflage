@@ -64,8 +64,7 @@ export default class GrpcParser {
    * - On last index of streamArray, execute call.end()
    * - Remove delay key if present before sending the response
    * - If mock file is not found, log error and send the same error to client
-   * @param {any} call call object recieved with every unary call
-   * @param {any} callback callback to be executed once server is ready to return response
+   * @param {any} call call object recieved with every call to server stream
    */
   camouflageMockServerStream = async (call: any) => {
     const handlerPath = call.call.handler.path;
@@ -116,12 +115,13 @@ export default class GrpcParser {
    * - Once client calls end, respond with the compiled contents of the mockfile and delay
    * - Remove delay key if present before sending the response
    * - If mock file is not found, log error and send the same error to client
-   * @param {any} call call object recieved with every unary call
+   * @param {any} call call object recieved with every stream call from client
    * @param {any} callback callback to be executed once server is ready to return response
    */
   camouflageMockClientStream = (call: any, callback: any) => {
-    call.on("data", () => {
-      // TODO: Not sure if it's needed
+    let requests: any[] = []
+    call.on("data", (data: any) => {
+      requests.push(data)
     });
     call.on("end", async () => {
       try {
@@ -130,7 +130,8 @@ export default class GrpcParser {
         const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
         if (fs.existsSync(mockFilePath)) {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = await template({ request: call.request });
+          console.log(requests)
+          const fileContent = await template({ request: requests });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);
@@ -158,18 +159,20 @@ export default class GrpcParser {
    * - Once client calls end, respond with filecontent.end
    * - Remove delay key if present before sending the response
    * - If mock file is not found, log error and send the same error to client
-   * @param {any} call call object recieved with every unary call
-   * @param {any} callback callback to be executed once server is ready to return response
+   * @param {any} call call object recieved with every stream call from client to a serverside streaming call
    */
   camouflageMockBidiStream = (call: any) => {
     const handlerPath = call.call.handler.path;
     const mockFile = handlerPath.replace(/\./g, "/");
     const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
-    call.on("data", async () => {
+    let requests: any[] = []
+    call.on("data", async (data: any) => {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = await template({ request: call.request });
+          console.log(data)
+          requests.push(data)
+          const fileContent = await template({ request: data });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);
@@ -192,7 +195,8 @@ export default class GrpcParser {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          const fileContent = await template({ request: call.request });
+          console.log(requests)
+          const fileContent = await template({ request: requests });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
           const response = JSON.parse(fileContent);
