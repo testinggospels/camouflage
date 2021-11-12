@@ -119,7 +119,7 @@ export default class GrpcParser {
    * @param {any} callback callback to be executed once server is ready to return response
    */
   camouflageMockClientStream = (call: any, callback: any) => {
-    let requests: any[] = []
+    const requests: any[] = []
     call.on("data", (data: any) => {
       requests.push(data)
     });
@@ -164,7 +164,7 @@ export default class GrpcParser {
     const handlerPath = call.call.handler.path;
     const mockFile = handlerPath.replace(/\./g, "/");
     const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
-    let requests: any[] = []
+    const requests: any[] = []
     call.on("data", async (data: any) => {
       if (fs.existsSync(mockFilePath)) {
         try {
