@@ -62,6 +62,10 @@ Usage:
 2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path, you'd need to specify a regex to capture a value.
 3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from the request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
 
+!!!note
+
+    `capture` helper can be used for all the supported protocols, i.e. http/https/http2, grpc and websockets. However, it's behavior, and the data it can access, varies across protocols. Read more on Capture Helper page.
+
 ## num_between
 
 Type: Custom Helper
@@ -164,7 +168,7 @@ Usage: CSV Helper allows you to provide a data source as an input along with two
 - With a key and value: In this case the helper will return a response specific to a given key and value
 - Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row
 
-For more details on how to use csv helper, refer to CSV Data Source page.
+For more details on how to use csv helper, refer to External Data Source page.
 
 ## is
 
@@ -201,6 +205,7 @@ Accepted operators are:
 - `>=`
 - `<`
 - `<=`
+- `in` (to check if a value exists in an array. ex: `{{#is 'John' in (capture from='body' using='jsonpath' selector='$.names')}}`)
 
 ## proxy
 

@@ -119,7 +119,7 @@ export default class GrpcParser {
    * @param {any} callback callback to be executed once server is ready to return response
    */
   camouflageMockClientStream = (call: any, callback: any) => {
-    let requests: any[] = []
+    const requests: any[] = []
     call.on("data", (data: any) => {
       requests.push(data)
     });
@@ -130,7 +130,6 @@ export default class GrpcParser {
         const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
         if (fs.existsSync(mockFilePath)) {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          console.log(requests)
           const fileContent = await template({ request: requests });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);
@@ -165,12 +164,11 @@ export default class GrpcParser {
     const handlerPath = call.call.handler.path;
     const mockFile = handlerPath.replace(/\./g, "/");
     const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
-    let requests: any[] = []
+    const requests: any[] = []
     call.on("data", async (data: any) => {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          console.log(data)
           requests.push(data)
           const fileContent = await template({ request: data });
           logger.debug(`Mock file path: ${mockFilePath}`);
@@ -195,7 +193,6 @@ export default class GrpcParser {
       if (fs.existsSync(mockFilePath)) {
         try {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-          console.log(requests)
           const fileContent = await template({ request: requests });
           logger.debug(`Mock file path: ${mockFilePath}`);
           logger.debug(`Response: ${fileContent}`);

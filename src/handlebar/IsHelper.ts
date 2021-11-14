@@ -69,6 +69,17 @@ export class IsHelper {
                 return left === right;
             case "!==":
                 return left !== right;
+            case "in":
+                if (right.constructor !== ([]).constructor) {
+                    logger.error("right hand side value not an array")
+                    return false
+                } else {
+                    if (right.indexOf(left) > -1) {
+                        return true
+                    } else {
+                        return false;
+                    }
+                }
             default:
                 break;
         }

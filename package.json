@@ -42,7 +42,7 @@
   "preferGlobal": true,
   "dependencies": {
     "@grpc/grpc-js": "^1.4.1",
-    "@grpc/proto-loader": "^0.6.5",
+    "@grpc/proto-loader": "^0.6.6",
     "apicache": "^1.6.2",
     "compression": "^1.7.4",
     "convert-csv-to-json": "^1.3.1",
@@ -63,7 +63,7 @@
     "q": "^1.5.1",
     "redis": "^3.1.2",
     "spdy": "^4.0.2",
-    "swagger-stats": "^0.99.1",
+    "swagger-stats": "^0.99.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
     "ws": "^7.5.5",
