@@ -563,6 +563,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../capture-helper/" class="md-nav__link">
+        Capture Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -794,6 +809,10 @@
 <li><strong>{{capture from='path' regex='\/users\/get\/(.*)?'}}</strong> - For path, you'd need to specify a regex to capture a value.</li>
 <li><strong>{{capture from='body' using='jsonpath' selector='$.lastName'}}</strong> - To capture values from the request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.</li>
 </ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><code>capture</code> helper can be used for all the supported protocols, i.e. http/https/http2, grpc and websockets. However, it's behavior, and the data it can access, varies across protocols. Read more on Capture Helper page.</p>
+</div>
 <h2 id="num_between">num_between</h2>
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
@@ -880,7 +899,7 @@ Content-Type: application/json
 <li>With a key and value: In this case the helper will return a response specific to a given key and value</li>
 <li>Random: In this case, helper will pick one row from the provided csv and formulate the response for the provided row</li>
 </ul>
-<p>For more details on how to use csv helper, refer to CSV Data Source page.</p>
+<p>For more details on how to use csv helper, refer to External Data Source page.</p>
 <h2 id="is">is</h2>
 <p>Type: Custom Helper</p>
 <p>Credits: <a href="https://github.com/danharper/Handlebars-Helpers" target="_blank">danharper/Handlebars-Helpers</a></p>
@@ -913,6 +932,7 @@ Content-Type: application/json
 <li><code>&gt;=</code></li>
 <li><code>&lt;</code></li>
 <li><code>&lt;=</code></li>
+<li><code>in</code> (to check if a value exists in an array. ex: <code>{{#is 'John' in (capture from='body' using='jsonpath' selector='$.names')}}</code>)</li>
 </ul>
 <h2 id="proxy">proxy</h2>
 <p>Type: Custom Helper</p>

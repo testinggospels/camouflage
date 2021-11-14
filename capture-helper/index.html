@@ -16,7 +16,7 @@
     
     
       
-        <title>Camouflage UI - Camouflage</title>
+        <title>Capture Helper - Camouflage</title>
       
     
     
@@ -67,7 +67,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#camouflage-ui" class="md-skip">
+        <a href="#capture-helper" class="md-skip">
           Skip to content
         </a>
       
@@ -98,7 +98,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Camouflage UI
+              Capture Helper
             
           </span>
         </div>
@@ -442,21 +442,6 @@
 
   
   
-  
-    <li class="md-nav__item">
-      <a href="../capture-helper/" class="md-nav__link">
-        Capture Helper
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
     
   
   
@@ -468,10 +453,57 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Capture Helper
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
-        Camouflage UI
+        Capture Helper
       </a>
       
+        
+
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#using-with-httpshttp2" class="md-nav__link">
+    Using with HTTP(s)/HTTP2
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../camouflage-ui/" class="md-nav__link">
+        Camouflage UI
+      </a>
     </li>
   
 
@@ -608,34 +640,32 @@
             <article class="md-content__inner md-typeset">
               
                 
-                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/camouflage-ui.md" title="Edit this page" class="md-content__button md-icon">
+                  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/capture-helper.md" title="Edit this page" class="md-content__button md-icon">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
                   </a>
                 
                 
-                <h1 id="camouflage-ui">Camouflage UI</h1>
-<p>Camouflage also provides a file explorer UI allowing you to work with your mocks. Camouflage uses a standalone UI that can be downloaded as an npm package from <a href="http://npmjs.com/package/camouflage-filemanager" target="_blank">camouflage-filemanager</a>. It currently allows following actions:</p>
-<ul>
-<li>Create mock files/folders' structure</li>
-<li>View and edit mock files</li>
-<li>Delete mock files/folders</li>
-<li>Download files</li>
-<li>Cut or Copy files/folders</li>
-</ul>
-<p>New features will soon be added to the UI, such as:</p>
-<ul>
-<li>Uploading files</li>
-<li>Uploading folders as zip/tgz</li>
-<li>Renaming files/folders</li>
-<li>Integrated terminal</li>
-</ul>
-<p>Screenshots:
-<img alt="CamouflageUI-1" src="../CamouflageUI-1.png" />
-<img alt="CamouflageUI-2" src="../CamouflageUI-2.png" />
-<img alt="CamouflageUI-3" src="../CamouflageUI-3.png" />
-<img alt="CamouflageUI-4" src="../CamouflageUI-4.png" />
-<img alt="CamouflageUI-5" src="../CamouflageUI-5.png" />
-<img alt="CamouflageUI-6" src="../CamouflageUI-6.png" /></p>
+                <h1 id="capture-helper">Capture Helper</h1>
+<p><sup>This section aims to explain what data can be extracted and used to generate a response using handlebars. It can be used as reference for any available helpers, even though examples primarily focus on <code>capture</code> helper.</sup></p>
+<p>Most helpers were originally built for http(s)/http2 protocols. However, as of v0.7.2 release, they can be used with all available protocols, i.e. grpc and websockets, with some obvious exceptions such as <code>file</code> and <code>code</code> helpers. (<code>code</code> helper will eventually be supported for all protocols)</p>
+<h2 id="using-with-httpshttp2">Using with HTTP(s)/HTTP2</h2>
+<ol>
+<li>As shown in example on Handlebars page, you can use <code>capture</code> to extract information from specific parts of the incoming requests by specifying a <code>from</code> argument. Accepted values are <code>query</code>, <code>headers</code>, <code>path</code> and <code>body</code>.</li>
+<li>Using <code>query</code> and <code>headers</code> you can specify the argument <code>key</code>, to capture it's corresponding value.</li>
+<li>Using <code>path</code> you can specify the argument <code>regex</code>, to define a regular expression which captures your desired value.</li>
+<li>Using <code>body</code> would require you to specify two arguments, i.e. <code>using</code> and <code>selector</code>, where <code>using</code> can have values <code>jsonpath</code> or <code>regex</code>, while selector would be the respective jsonpath or regular expression.</li>
+</ol>
+<p>Please refer to the examples on the Handlebars page.</p>
+<h1 id="using-with-websockets">Using with Websockets</h1>
+<p>The available/required keywords, while using <code>capture</code> helper with websockets are, <code>using</code> and <code>selector</code>. You have access to the request payload, upon which you can execute a regex or jsonpath extractor to fetch desired values.</p>
+<p>Example <code>{{capture using='jsonpath' selector='$.lastName'}}</code></p>
+<h1 id="using-with-grpc">Using with gRPC</h1>
+<p>Similar to websockets, while using <code>capture</code> helper with gRPC, available/required arguments are <code>using</code> and <code>selector</code>.</p>
+<ol>
+<li>For unary calls and server side streams, helpers have access to request payload as is.</li>
+<li>For client side streaming calls, payloads from each stream are stored in an array, which is then made available to helpers.</li>
+<li>For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream</li>
+</ol>
                 
               
               
@@ -655,7 +685,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
         
-        <a href="../capture-helper/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Capture Helper" rel="prev">
+        <a href="../mocking-websockets/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mocking Websockets" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
           </div>
@@ -664,20 +694,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Capture Helper
+              Mocking Websockets
             </div>
           </div>
         </a>
       
       
         
-        <a href="../available-monitoring/" class="md-footer__link md-footer__link--next" aria-label="Next: Monitoring" rel="next">
+        <a href="../camouflage-ui/" class="md-footer__link md-footer__link--next" aria-label="Next: Camouflage UI" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Monitoring
+              Camouflage UI
             </div>
           </div>
           <div class="md-footer__button md-icon">
