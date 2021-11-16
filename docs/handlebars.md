@@ -72,7 +72,8 @@ Type: Custom Helper
 
 Usage:
 
-1. **{{num_between lower=500 upper=600}}**: Generate a number between two values.
+1. **{{num_between lower=500 upper=600}}**: Generate a random number between two values.
+2. **{{num_between lower=500 upper=600 lognormal=true}}**: Generate random numbers on a bell curve centered between two values.
 
 Tip: you can add this value in your response header with a key `Response-Delay`, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
 
