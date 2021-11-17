@@ -3,6 +3,7 @@ import HttpSetup from "./HTTP";
 import WsSetup from "./WS";
 import * as protoLoader from "@grpc/proto-loader";
 import GrpcSetup from "./GRPC";
+import ThriftSetup, { ThriftConfig } from "./Thrift";
 /**
  * Defines all protocols:
  * Currently active:
@@ -18,6 +19,7 @@ export default class Protocols {
   private httpSetup: HttpSetup;
   private wsSetup: WsSetup;
   private grpcSetup: GrpcSetup;
+  private thriftSetup: ThriftSetup;
   /**
    *
    * @param {express.Application} app Express application to form the listener for http and https server
@@ -28,6 +30,7 @@ export default class Protocols {
     this.httpSetup = new HttpSetup(app, port, httpsPort);
     this.wsSetup = new WsSetup();
     this.grpcSetup = new GrpcSetup();
+    this.thriftSetup = new ThriftSetup();
   }
   initHttp = (): void => {
     this.httpSetup.initHttp()
@@ -43,5 +46,8 @@ export default class Protocols {
   }
   initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[], plconfig: protoLoader.Options) => {
     this.grpcSetup.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore, plconfig);
+  }
+  initThrift = (thriftMocksDir: string, thriftServices: ThriftConfig[]) => {
+    this.thriftSetup.initThrift(thriftMocksDir, thriftServices);
   }
 }

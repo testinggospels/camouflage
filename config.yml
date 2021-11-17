@@ -26,6 +26,16 @@ protocols:
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+  thrift:
+    enable: false
+    mocks_dir: "./thrift/mocks"
+    services:
+      - port: 9999
+        service: "/opt/gen-nodejs/Calculator"
+        handlers:
+          - add
+          - substract
+          - ping
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup
