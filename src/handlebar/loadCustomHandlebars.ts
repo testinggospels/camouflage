@@ -2,7 +2,21 @@ import fs from "fs";
 import logger from "../logger";
 import express from "express";
 import path from "path";
-const existingHandlebars = ["now", "randomValue", "capture", "num_between", "file", "code", "inject"];
+const existingHandlebars = [
+  "array",
+  "code",
+  "csv",
+  "fault",
+  "file",
+  "inject",
+  "is",
+  "now",
+  "num_between",
+  "pg",
+  "proxy",
+  "randomValue",
+  "capture",
+];
 /**
  * - If file exists read file and parse it to a JSONObject of type CustomHandleBar
  * - For each custom handlebar, check if the name equals any of the inbuilt handlebars

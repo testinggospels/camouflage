@@ -24,7 +24,7 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 ## Available Features
 
-🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥
+🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC, websockets and thrift. 🔥
 
 ⚡ Dynamic/realistic responses without having to write any code. ⚡
 

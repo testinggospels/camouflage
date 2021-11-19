@@ -13,13 +13,13 @@ Most helpers were originally built for http(s)/http2 protocols. However, as of v
 
 Please refer to the examples on the Handlebars page.
 
-# Using with Websockets
+## Using with Websockets and Thrift
 
-The available/required keywords, while using `capture` helper with websockets are, `using` and `selector`. You have access to the request payload, upon which you can execute a regex or jsonpath extractor to fetch desired values.
+The available/required keywords, while using `capture` helper with websockets or thrift protocols are, `using` and `selector`. You have access to the request/message payload, upon which you can execute a regex or jsonpath extractor to fetch desired values.
 
 Example `{{capture using='jsonpath' selector='$.lastName'}}`
 
-# Using with gRPC
+## Using with gRPC
 
 Similar to websockets, while using `capture` helper with gRPC, available/required arguments are `using` and `selector`.
 

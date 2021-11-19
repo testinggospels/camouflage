@@ -20,6 +20,7 @@ export class IsHelper {
             let context: any;
             switch (args.length) {
                 case 2:
+                    // Handles cases where helper is called as {{#is true}}{{/is}}
                     left = args[0];
                     context = args[1];
                     if (left) {
@@ -28,6 +29,7 @@ export class IsHelper {
                         return context.inverse(this);
                     }
                 case 3:
+                    // Handles cases where helper is called as {{#is 'x' 'y'}}{{/is}}
                     left = args[0];
                     right = args[1];
                     context = args[2];
@@ -37,6 +39,7 @@ export class IsHelper {
                         return context.inverse(this);
                     }
                 case 4:
+                    // Handles cases where helper is called as {{#is 'x' 'not' 'y'}}{{/is}}
                     left = args[0]
                     operator = args[1]
                     right = args[2]
@@ -65,6 +68,8 @@ export class IsHelper {
                 return left >= right;
             case "<=":
                 return left <= right;
+            case "==":
+                return left == right;
             case "===":
                 return left === right;
             case "!==":
