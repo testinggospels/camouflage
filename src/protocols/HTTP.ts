@@ -9,7 +9,6 @@ export default class HttpSetup {
     private app: express.Application;
     private port: number;
     private httpsPort: number;
-    private grpcMocksDir: string;
     /**
      *
      * @param {express.Application} app Express application to form the listener for http and https server

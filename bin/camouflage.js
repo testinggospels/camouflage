@@ -214,6 +214,7 @@ let inputs = [
   config.protocols.http2.enable,
   config.protocols.grpc.enable,
   config.protocols.ws.enable,
+  config.protocols.thrift.enable,
   config.cache.enable,
   config.injection.enable,
   origins,
@@ -233,9 +234,11 @@ let inputs = [
   config.backup.cron || "0 * * * *",
   configFile,
   config.ext_helpers || null,
-  config.cache.ttl_seconds || 0
+  config.cache.ttl_seconds || 0,
+  config.cache.cache_options || {},
+  config.protocols.thrift.mocks_dir || "",
+  config.protocols.thrift.services || "",
 ];
-config.cache.cache_options ? inputs.push(config.cache.cache_options) : inputs.push({})
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
  * than available number of cores, log an error and exit. Default value 1.

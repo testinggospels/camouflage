@@ -1,7 +1,6 @@
 // Import dependencies
 import express from "express";
 import cluster from "cluster";
-import path from "path";
 import os from "os";
 import * as expressWinston from "express-winston";
 import { registerHandlebars } from "./handlebar";
@@ -11,12 +10,13 @@ import CamouflageController from "./routes/CamouflageController";
 import BackupScheduler from "./BackupScheduler";
 import logger from "./logger";
 import { setLogLevel } from "./logger";
-import child_process from "child_process";
 import * as protoLoader from "@grpc/proto-loader";
 import apicache from "apicache";
 import redis from 'redis';
 import swStats from "swagger-stats";
 import cors from 'cors';
+import compression from 'compression';
+import { ThriftConfig } from "./protocols/Thrift";
 
 // Initialize variables with default values
 let mocksDir = "";
@@ -49,7 +49,6 @@ app.use(
 // Configure express to understand json/url encoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-import compression from 'compression';
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
 /**
@@ -93,6 +92,7 @@ const start = (
   enableHttp2: boolean,
   enableGrpc: boolean,
   enableWs: boolean,
+  enableThrift: boolean,
   enableCache: boolean,
   enableInjection: boolean,
   origins: string[],
@@ -113,7 +113,9 @@ const start = (
   configFilePath?: string,
   extHelpers?: string,
   cacheTtl?: number,
-  cacheOptions?: any
+  cacheOptions?: any,
+  thriftMocksDir?: string,
+  thriftServices?: ThriftConfig[]
 ) => {
   // Set log level to the configured level from config.yaml
   setLogLevel(loglevel);
@@ -180,6 +182,10 @@ const start = (
   // If websocket protocol is enabled, start ws server with additional inputs
   if (enableWs) {
     protocols.initws(wsPort, wsMocksDir);
+  }
+  // If thrift protocol is enabled, start thrift server with additional inputs
+  if (enableThrift) {
+    protocols.initThrift(thriftMocksDir, thriftServices);
   }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (backupEnable) {

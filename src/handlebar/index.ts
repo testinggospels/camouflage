@@ -11,9 +11,10 @@ import { InjectHelper } from "./InjectHelper";
 import { ProxyHelper } from "./ProxyHelper";
 import { FaultHelper } from "./FaultHelper";
 import { IsHelper } from "./IsHelper";
+import { PgHelper } from "./PgHelper";
+import { ArrayHelper } from "./ArrayHelper";
 import promisedHandlebars from 'promised-handlebars';
 import * as Q from 'q';
-import { PgHelper } from "./PgHelper";
 import Handlebars from 'handlebars';
 const HandlebarsPromised = promisedHandlebars(Handlebars, { Promise: Q.Promise })
 /**
@@ -30,6 +31,7 @@ export const registerHandlebars = (extHelpers: string, enableInjection: boolean)
   new FileHelper(HandlebarsPromised).register();
   new FaultHelper(HandlebarsPromised).register();
   new IsHelper(HandlebarsPromised).register();
+  new ArrayHelper(HandlebarsPromised).register();
   if (enableInjection) {
     logger.warn("Code Injection is enabled.")
     new CodeHelper(HandlebarsPromised).register();
