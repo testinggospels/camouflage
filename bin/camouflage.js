@@ -96,6 +96,26 @@ if (help) {
   }
   process.exit(0);
 }
+
+/**
+ * If user runs command camouflage restore, this block will look for a .camouflage_backup directory
+ * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
+ * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
+ */
+ if (restore) {
+  if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
+    console.log("Restoring from previous backup.");
+    try {
+      fse.copySync(path.resolve(os.homedir(), ".camouflage_backup"), process.cwd());
+    } catch (err) {
+      console.log("Failed to restore. ", err.message)
+    }
+    console.log("Restore complete.");
+  } else {
+    console.error("No existing backup found.");
+  }
+  process.exit(0);
+}
 /**
  * If config file is not passed while starting the app, this block will log an error message and exit.
  */
@@ -146,32 +166,6 @@ const logger = winston.createLogger({
     }),
   ],
 });
-/**
- * If user runs command camouflage restore, this block will look for a .camouflage_backup directory
- * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
- * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
- */
-if (restore) {
-  if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
-    logger.info("Restoring from previous backup.");
-    const httpMocks = path.join(os.homedir(), ".camouflage_backup", "mocks");
-    const grpcMocks = path.join(os.homedir(), ".camouflage_backup", "grpc", "mocks");
-    const grpcProtos = path.join(os.homedir(), ".camouflage_backup", "grpc", "protos");
-    const wsMocks = path.join(os.homedir(), ".camouflage_backup", "ws_mocks");
-    const key = path.join(os.homedir(), ".camouflage_backup", "certs", "server.key");
-    const cert = path.join(os.homedir(), ".camouflage_backup", "certs", "server.cert");
-    if (fs.existsSync(httpMocks)) fse.copySync(httpMocks, path.resolve(config.protocols.http.mocks_dir));
-    if (fs.existsSync(grpcMocks)) fse.copySync(grpcMocks, path.resolve(config.protocols.grpc.mocks_dir));
-    if (fs.existsSync(grpcProtos)) fse.copySync(grpcProtos, path.resolve(config.protocols.grpc.protos_dir));
-    if (fs.existsSync(wsMocks)) fse.copySync(wsMocks, path.resolve(config.protocols.ws.mocks_dir));
-    if (fs.existsSync(key)) fse.copySync(key, path.resolve(config.ssl.key));
-    if (fs.existsSync(cert)) fse.copySync(cert, path.resolve(config.ssl.cert));
-    logger.info("Restore complete.");
-  } else {
-    logger.error("No existing backup found.");
-  }
-  process.exit(0);
-}
 /**
  * Defined only for logging purposes, does not hold any significance from application logic perspective.
  */
