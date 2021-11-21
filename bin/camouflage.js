@@ -80,12 +80,16 @@ if (help) {
  * And it will create an empty directory for certs, where users would place their generated server.cert and server.key files.
  * If the directory is not empty, application will exit with an error message.
  */
-if (init) {
+ if (init) {
   if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
     fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
     fse.copySync(path.join(site_root, "ws_mocks"), path.join(process.cwd(), "ws_mocks"));
+    fse.copySync(path.join(site_root, "thrift"), path.join(process.cwd(), "thrift"));
     fse.copySync(path.join(site_root, "config.yml"), path.join(process.cwd(), "config.yml"));
+    fse.copySync(path.join(site_root, "custom_handlebar.json"), path.join(process.cwd(), "custom_handlebar.json"));
+    fse.copySync(path.join(site_root, "plconfig.js"), path.join(process.cwd(), "plconfig.js"));
+    fse.copySync(path.join(site_root, ".protoignore"), path.join(process.cwd(), ".protoignore"));
     fse.mkdirSync(path.join(process.cwd(), "certs"));
   } else {
     console.error("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
