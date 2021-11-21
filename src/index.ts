@@ -118,8 +118,8 @@ const start = (
   }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (config.backup.enable) {
-    const backupScheduler: BackupScheduler = new BackupScheduler(config.backup.cron, config.protocols.http.mocks_dir, config.protocols.grpc.mocks_dir, config.protocols.grpc.protos_dir, config.protocols.ws.mocks_dir, config.ssl.key, config.ssl.cert, configFilePath);
-    backupScheduler.schedule(config.protocols.https.enable, config.protocols.http2.enable, config.protocols.grpc.enable, config.protocols.ws.enable);
+    const backupScheduler: BackupScheduler = new BackupScheduler(configFilePath);
+    backupScheduler.schedule();
   }
 };
 /**

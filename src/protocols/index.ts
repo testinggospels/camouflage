@@ -3,9 +3,7 @@ import HttpSetup from "./HTTP";
 import WsSetup from "./WS";
 import * as protoLoader from "@grpc/proto-loader";
 import GrpcSetup from "./GRPC";
-import ThriftSetup, { ThriftConfig } from "./Thrift";
-import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
-import { getLoaderInstance } from "../ConfigLoader";
+import ThriftSetup from "./Thrift";
 /**
  * Defines all protocols:
  * Currently active:
@@ -22,15 +20,11 @@ export default class Protocols {
   private wsSetup: WsSetup;
   private grpcSetup: GrpcSetup;
   private thriftSetup: ThriftSetup;
-  private config: CamouflageConfig;
   /**
    *
    * @param {express.Application} app Express application to form the listener for http and https server
-   * @param {number} port HTTP server port
-   * @param {number} httpsPort HTTPs server port - currently initialized in constructor optionally but in future it'll be initialized if https is enabled
    */
   constructor(app: express.Application) {
-    this.config = getLoaderInstance().getConfig()
     this.httpSetup = new HttpSetup(app);
     this.wsSetup = new WsSetup();
     this.grpcSetup = new GrpcSetup();

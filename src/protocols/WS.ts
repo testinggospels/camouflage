@@ -14,11 +14,6 @@ export default class WsSetup {
     constructor() {
         this.config = getLoaderInstance().getConfig()
     }
-    /**
-   * Initializes a WebSocketserver
-   * @param {number} wsPort
-   * @param {string} wsMockDir
-   */
     initws = () => {
         const wss = new WebSocket.Server({ port: this.config.protocols.ws.port });
         logger.info(`Worker sharing WS server at ws://localhost:${this.config.protocols.ws.port} ⛳`);
