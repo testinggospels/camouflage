@@ -16,19 +16,9 @@ import redis from 'redis';
 import swStats from "swagger-stats";
 import cors from 'cors';
 import compression from 'compression';
-import { ThriftConfig } from "./protocols/Thrift";
+import ConfigLoader, { getLoaderInstance, setLoaderInstance } from "./ConfigLoader";
+import { CamouflageConfig } from "./ConfigLoader/LoaderInterface";
 
-// Initialize variables with default values
-let mocksDir = "";
-let grpcMocksDir = "";
-let wsMocksDir = "";
-let grpcProtosDir = "";
-let grpcHost = "localhost";
-let port = 8080;
-let httpsPort = 8443;
-let http2Port = 8081;
-let grpcPort = 4312;
-let wsPort = 8082;
 const app = express();
 // Configure logging for express requests
 app.use(
@@ -53,144 +43,83 @@ app.use(express.urlencoded({ extended: true }));
 app.use(compression());
 /**
  * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
- * @param {string} inputMocksDir Mocks directory from config file, overrides default mocksDir
- * @param {string} inputWsMocksDir Websockets Mocks directory from config file, overrides default wsMocksDir
- * @param {number} inputPort Input http port, overrides default 8080 port
- * @param {boolean} enableHttp true if http is to be enabled
- * @param {boolean} enableHttps true if https is to be enabled
- * @param {boolean} enableHttp2 true if http2 is to be enabled
- * @param {boolean} enableGrpc true if grpc is to be enabled
- * @param {boolean} enableWs true if websockets is to be enabled
- * @param {boolean} enableCache true if cache is to be enabled
- * @param {boolean} enableInjection true if code injection is to be enabled
- * @param {string[]} origins array of allowed origins
  * @param {string[]} protoIgnore array of files to be ignored during loading proto files
  * @param {string} plconfig configuration for protoloader
- * @param {string} key location of server.key file if https is enabled
- * @param {string} cert location of server.cert file if https is enabled
- * @param {number} inputHttpsPort Input https port, overrides httpsPort
- * @param {number} inputHttp2Port Input http2 port, overrides httpsPort
- * @param {number} inputWsPort Input ws port, overrides wsPort
- * @param {string} inputGrpcHost Input gRPC host, overrides grpcHost
- * @param {number} inputGrpcPort Input gRPC port, overrides grpcPort
- * @param {string} inputGrpcMocksDir Input gRPC mocks directory location, overrides grpcMocksDir
- * @param {string} inputGrpcProtosDir Input gRPC protos directory location, overrides grpcProtos
- * @param {string} loglevel Desired loglevel
- * @param {string} backupEnable true if backup is enabled
- * @param {string} backupCron cron schedule for backup
  * @param {string} configFilePath location of config file
- * @param {string} extHelpers location of the external handlebars json file
- * @param {number} cacheTtl cache age in seconds
- * @param {any} cacheoptions options to configure cache
  */
 const start = (
-  inputMocksDir: string,
-  inputWsMocksDir: string,
-  inputPort: number,
-  enableHttp: boolean,
-  enableHttps: boolean,
-  enableHttp2: boolean,
-  enableGrpc: boolean,
-  enableWs: boolean,
-  enableThrift: boolean,
-  enableCache: boolean,
-  enableInjection: boolean,
-  origins: string[],
   protoIgnore: string[],
   plconfig: protoLoader.Options,
-  key?: string,
-  cert?: string,
-  inputHttpsPort?: number,
-  inputHttp2Port?: number,
-  inputWsPort?: number,
-  inputGrpcHost?: string,
-  inputGrpcPort?: number,
-  inputGrpcMocksDir?: string,
-  inputGrpcProtosDir?: string,
-  loglevel?: string,
-  backupEnable?: boolean,
-  backupCron?: string,
-  configFilePath?: string,
-  extHelpers?: string,
-  cacheTtl?: number,
-  cacheOptions?: any,
-  thriftMocksDir?: string,
-  thriftServices?: ThriftConfig[]
+  configFilePath: string,
 ) => {
+  const configLoader: ConfigLoader = new ConfigLoader(configFilePath);
+  configLoader.validateAndLoad()
+  setLoaderInstance(configLoader)
+  const config: CamouflageConfig = getLoaderInstance().getConfig()
   // Set log level to the configured level from config.yaml
-  setLogLevel(loglevel);
+  setLogLevel(config.loglevel);
+  logger.debug(JSON.stringify(config, null, 2))
   // Configure cors
-  if (origins.length !== 0) {
-    logger.info(`CORS enabled for ${origins.join(", ")}`)
+  if (config.origins.length !== 0) {
+    logger.info(`CORS enabled for ${config.origins.join(", ")}`)
     app.use(cors({
-      origin: origins
+      origin: config.origins
     }));
   }
   // Configure cache if enabled.
-  if (enableCache) {
+  if (config.cache.enable) {
     try {
-      logger.debug(`Cache Options: ${JSON.stringify(cacheOptions, null, 2)}`);
+      logger.debug(`Cache Options: ${JSON.stringify(config.cache, null, 2)}`);
       // If cacheOptions has a redis details, use redis as cache store, else by default in memory cache is used.
-      if (cacheOptions.redis_options) {
-        const redisOptions: redis.ClientOpts = cacheOptions.redis_options;
-        delete cacheOptions.redis_options;
-        cacheOptions.redisClient = redis.createClient(redisOptions)
+      if (config.cache.cache_options.redis_options) {
+        const redisOptions: redis.ClientOpts = config.cache.cache_options.redis_options;
+        delete config.cache.cache_options.redis_options;
+        config.cache.cache_options.redisClient = redis.createClient(redisOptions)
       }
-      const cache = apicache.options(cacheOptions).middleware;
-      app.use(cache(`${cacheTtl} seconds`));
-      logger.info(`Cache enabled with TTL ${cacheTtl} seconds`)
+      const cache = apicache.options(config.cache.cache_options).middleware;
+      app.use(cache(`${config.cache.ttl_seconds} seconds`));
+      logger.info(`Cache enabled with TTL ${config.cache.ttl_seconds} seconds`)
     } catch (error) {
       logger.info(`Cache couldn't be configured. ${error.message}`)
     }
   }
   logger.info(`[${process.pid}] Worker started`);
-  // Override the default values for defined variables with actual values provided as input from config
-  mocksDir = inputMocksDir;
-  grpcMocksDir = inputGrpcMocksDir;
-  wsMocksDir = inputWsMocksDir;
-  grpcProtosDir = inputGrpcProtosDir;
-  httpsPort = inputHttpsPort ? inputHttpsPort : httpsPort;
-  http2Port = inputHttp2Port ? inputHttp2Port : http2Port;
-  grpcHost = inputGrpcHost ? inputGrpcHost : grpcHost;
-  grpcPort = inputGrpcPort ? inputGrpcPort : grpcPort;
-  wsPort = inputWsPort ? inputWsPort : wsPort;
-  port = inputPort;
   // Set custom labels for prometheus
   swStats.getPromClient().register.setDefaultLabels({ instance: os.hostname(), workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
   // Register Handlebars
-  registerHandlebars(extHelpers, enableInjection);
+  registerHandlebars();
   // Register Controllers
   new CamouflageController(app);
-  new GlobalController(app, mocksDir);
-  const protocols = new Protocols(app, port, httpsPort);
+  new GlobalController(app);
+  const protocols = new Protocols(app);
   // Start the http server on the specified port
-  if (enableHttp) {
+  if (config.protocols.http.enable) {
     protocols.initHttp();
   }
   // If https protocol is enabled, start https server with additional inputs
-  if (enableHttps) {
-    protocols.initHttps(key, cert);
+  if (config.protocols.https.enable) {
+    protocols.initHttps();
   }
   // If https protocol is enabled, start https server with additional inputs
-  if (enableHttp2) {
-    protocols.initHttp2(http2Port, key, cert);
+  if (config.protocols.http2.enable) {
+    protocols.initHttp2();
   }
   // If grpc protocol is enabled, start grpc server with additional inputs
-  if (enableGrpc) {
-    protocols.initGrpc(grpcProtosDir, grpcMocksDir, grpcHost, grpcPort, protoIgnore, plconfig);
+  if (config.protocols.grpc.enable) {
+    protocols.initGrpc(protoIgnore, plconfig);
   }
   // If websocket protocol is enabled, start ws server with additional inputs
-  if (enableWs) {
-    protocols.initws(wsPort, wsMocksDir);
+  if (config.protocols.ws.enable) {
+    protocols.initws();
   }
   // If thrift protocol is enabled, start thrift server with additional inputs
-  if (enableThrift) {
-    protocols.initThrift(thriftMocksDir, thriftServices);
+  if (config.protocols.thrift.enable) {
+    protocols.initThrift();
   }
   // If backup is enabled, schedule a cron job to copy file to backup directory
-  if (backupEnable) {
-    const backupScheduler: BackupScheduler = new BackupScheduler(backupCron, mocksDir, grpcMocksDir, grpcProtosDir, wsMocksDir, key, cert, configFilePath);
-    backupScheduler.schedule(enableHttps, enableHttp2, enableGrpc, enableWs);
+  if (config.backup.enable) {
+    const backupScheduler: BackupScheduler = new BackupScheduler(config.backup.cron, config.protocols.http.mocks_dir, config.protocols.grpc.mocks_dir, config.protocols.grpc.protos_dir, config.protocols.ws.mocks_dir, config.ssl.key, config.ssl.cert, configFilePath);
+    backupScheduler.schedule(config.protocols.https.enable, config.protocols.http2.enable, config.protocols.grpc.enable, config.protocols.ws.enable);
   }
 };
 /**

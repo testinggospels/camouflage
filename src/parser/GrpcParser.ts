@@ -3,6 +3,8 @@ import fs from "fs";
 import os from "os";
 import logger from "../logger";
 import { getHandlebars } from '../handlebar'
+import { getLoaderInstance } from "../ConfigLoader";
+import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 const Handlebars = getHandlebars()
 /**
  * Parser class for GRPC Protocol mocks to define handlers for:
@@ -12,13 +14,9 @@ const Handlebars = getHandlebars()
  * - Bidirectional streaming calls
  */
 export default class GrpcParser {
-  private grpcMocksDir: string;
-  /**
-   *
-   * @param {string} grpcMocksDir location of mocks dir for grpc mocks
-   */
-  constructor(grpcMocksDir: string) {
-    this.grpcMocksDir = grpcMocksDir;
+  private config: CamouflageConfig;
+  constructor() {
+    this.config = getLoaderInstance().getConfig()
   }
   /**
    * - Get the path of the determined handler from the call
@@ -34,7 +32,7 @@ export default class GrpcParser {
     try {
       const handlerPath = call.call.handler.path;
       const mockFile = handlerPath.replace(/\./g, "/");
-      const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+      const mockFilePath = path.join(this.config.protocols.grpc.mocks_dir, mockFile + ".mock");
       if (fs.existsSync(mockFilePath)) {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
         const fileContent = await template({ request: call.request });
@@ -69,7 +67,7 @@ export default class GrpcParser {
   camouflageMockServerStream = async (call: any) => {
     const handlerPath = call.call.handler.path;
     const mockFile = handlerPath.replace(/\./g, "/");
-    const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+    const mockFilePath = path.join(this.config.protocols.grpc.mocks_dir, mockFile + ".mock");
     if (fs.existsSync(mockFilePath)) {
       try {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
@@ -121,13 +119,14 @@ export default class GrpcParser {
   camouflageMockClientStream = (call: any, callback: any) => {
     const requests: any[] = []
     call.on("data", (data: any) => {
+      logger.debug(`Recieved Client Stream: ${JSON.stringify(data, null, 2)}`)
       requests.push(data)
     });
     call.on("end", async () => {
       try {
         const handlerPath = call.call.handler.path;
         const mockFile = handlerPath.replace(/\./g, "/");
-        const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+        const mockFilePath = path.join(this.config.protocols.grpc.mocks_dir, mockFile + ".mock");
         if (fs.existsSync(mockFilePath)) {
           const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
           const fileContent = await template({ request: requests });
@@ -163,7 +162,7 @@ export default class GrpcParser {
   camouflageMockBidiStream = (call: any) => {
     const handlerPath = call.call.handler.path;
     const mockFile = handlerPath.replace(/\./g, "/");
-    const mockFilePath = path.join(this.grpcMocksDir, mockFile + ".mock");
+    const mockFilePath = path.join(this.config.protocols.grpc.mocks_dir, mockFile + ".mock");
     const requests: any[] = []
     call.on("data", async (data: any) => {
       if (fs.existsSync(mockFilePath)) {

@@ -2,18 +2,24 @@ import thrift from 'thrift';
 import fs from 'fs';
 import path from 'path';
 import logger from "../logger";
+import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
+import { getLoaderInstance } from "../ConfigLoader";
 import { getHandlebars } from '../handlebar'
 const Handlebars = getHandlebars()
 
 export default class ThriftSetup {
-    initThrift = (thriftMocksDir: string, thriftServices: ThriftConfig[]) => {
+    private config: CamouflageConfig;
+    constructor() {
+        this.config = getLoaderInstance().getConfig()
+    }
+    initThrift = () => {
         const handlers: Record<string, Function> = {}
-        thriftServices.forEach((service: ThriftConfig) => {
+        this.config.protocols.thrift.services.forEach((service: ThriftConfig) => {
             service.handlers.forEach((handler: string) => {
                 handlers[handler] = async (request: any, response: any) => {
                     let DELAY = 0;
                     logger.debug(`Thrift Request for ${handler} handler: ${JSON.stringify(request)}`)
-                    const mockFilePath = path.resolve(thriftMocksDir, `${handler}.mock`)
+                    const mockFilePath = path.resolve(this.config.protocols.thrift.mocks_dir, `${handler}.mock`)
                     logger.debug(`Mock file path: ${mockFilePath}`);
                     const template = Handlebars.compile(fs.readFileSync(mockFilePath).toString());
                     const fileContent = await template({ request })
@@ -28,9 +34,13 @@ export default class ThriftSetup {
                     }, DELAY)
                 }
             });
-            thrift.createServer(require(service.service), handlers).listen(service.port, () => {
-                logger.info(`Worker sharing Thrift server for ${service.service} on ${service.port} ⛳`)
-            })
+            try {
+                thrift.createServer(require(service.service), handlers).listen(service.port, () => {
+                    logger.info(`Worker sharing Thrift server for ${service.service} on ${service.port} ⛳`)
+                });
+            } catch (err) {
+                logger.error(`Failed to start thrift server for ${service.service}. ${err.message}`)
+            }
         });
     }
 }
