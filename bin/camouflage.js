@@ -80,7 +80,7 @@ if (help) {
  * And it will create an empty directory for certs, where users would place their generated server.cert and server.key files.
  * If the directory is not empty, application will exit with an error message.
  */
- if (init) {
+if (init) {
   if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
     fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
@@ -102,7 +102,7 @@ if (help) {
  * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
  * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
  */
- if (restore) {
+if (restore) {
   if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
     console.log("Restoring from previous backup.");
     try {
@@ -139,7 +139,6 @@ if (fs.existsSync(path.join(project_root, "plconfig.js"))) {
  * If a valid config file is found, load the data using yaml loader
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
-const origins = config.origins ? config.origins : [];
 if (config.ext_data_source && config.ext_data_source.pg) {
   const { host, port, user, password, database } = config.ext_data_source.pg
   process.env.PGHOST = host;
@@ -167,75 +166,15 @@ const logger = winston.createLogger({
   ],
 });
 /**
- * Defined only for logging purposes, does not hold any significance from application logic perspective.
- */
-let inputsKeys = [
-  "mocks_dir",
-  "ws.mocks_dir",
-  "http.port",
-  "http.enable",
-  "https.enable",
-  "http2.enable",
-  "grpc.enable",
-  "ws.enable",
-  "cache.enable",
-  "injection.enable",
-  "origins",
-  "ssl.key",
-  "ssl.cert",
-  "https.port",
-  "http2.port",
-  "grpc.host",
-  "grpc.port",
-  "grpc.mocks_dir",
-  "grpc.protos_dir",
-  "loglevel",
-  "backup.enable",
-  "backup.cron",
-  "configFile",
-  "ext_helpers",
-  "cache.ttl_seconds",
-  "cache.cache_options"
-];
-/**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
  * The reason we are storing the parameters in an is to have a error check in case of undefined values,
  * before we actually pass the values to start() function. If all values are passed correctly,
  * start() function can be called by simply spreading the array ...inputs
  */
 let inputs = [
-  config.protocols.http.mocks_dir,
-  config.protocols.ws.mocks_dir,
-  config.protocols.http.port,
-  config.protocols.http.enable,
-  config.protocols.https.enable,
-  config.protocols.http2.enable,
-  config.protocols.grpc.enable,
-  config.protocols.ws.enable,
-  config.protocols.thrift.enable,
-  config.cache.enable,
-  config.injection.enable,
-  origins,
   protoIgnore,
   plconfig,
-  config.ssl.key || path.join(site_root, "certs", "server.key"),
-  config.ssl.cert || path.join(site_root, "certs", "server.cert"),
-  config.protocols.https.port || 8443,
-  config.protocols.http2.port || 8081,
-  config.protocols.ws.port || 8082,
-  config.protocols.grpc.host || "localhost",
-  config.protocols.grpc.port || 4312,
-  config.protocols.grpc.mocks_dir || path.join(site_root, "grpc", "mocks"),
-  config.protocols.grpc.protos_dir || path.join(site_root, "grpc", "protos"),
-  config.loglevel || "info",
-  config.backup.enable,
-  config.backup.cron || "0 * * * *",
   configFile,
-  config.ext_helpers || null,
-  config.cache.ttl_seconds || 0,
-  config.cache.cache_options || {},
-  config.protocols.thrift.mocks_dir || "",
-  config.protocols.thrift.services || "",
 ];
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
@@ -253,7 +192,6 @@ if (numCPUs > osCPUs) {
  * If the instance is master, debug log configuration parameters.
  */
 if (cluster.isMaster) {
-  logger.debug(`Camouflage configuration:\n========\n${inputsKeys.join(" | ")}\n========\n${inputs.join(" | ")}\n========\n`);
   logger.info(`[${process.pid}] Master Started`);
   // If current node is a master node, use it to start X number of workers, where X comes from config
   for (let i = 0; i < numCPUs; i++) {
