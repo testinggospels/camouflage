@@ -41,7 +41,7 @@
   "license": "MIT",
   "preferGlobal": true,
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.1",
+    "@grpc/grpc-js": "^1.4.3",
     "@grpc/proto-loader": "^0.6.6",
     "apicache": "^1.6.3",
     "compression": "^1.7.4",
