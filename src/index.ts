@@ -116,10 +116,6 @@ const start = (
   if (config.protocols.thrift.enable) {
     protocols.initThrift();
   }
-  // If thrift protocol is enabled, start thrift server with additional inputs
-  if (enableThrift) {
-    protocols.initThrift(thriftMocksDir, thriftServices);
-  }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (config.backup.enable) {
     const backupScheduler: BackupScheduler = new BackupScheduler(configFilePath);

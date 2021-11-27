@@ -48,7 +48,4 @@ export default class Protocols {
   initThrift = () => {
     this.thriftSetup.initThrift();
   }
-  initThrift = (thriftMocksDir: string, thriftServices: ThriftConfig[]) => {
-    this.thriftSetup.initThrift(thriftMocksDir, thriftServices);
-  }
 }
