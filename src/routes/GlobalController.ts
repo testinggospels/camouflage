@@ -1,4 +1,6 @@
 import express from "express";
+import { getLoaderInstance } from "../ConfigLoader";
+import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 import { HttpParser } from "../parser/HttpParser";
 /**
  * Defines and registers global contoller which will handle any request not handled by admin/management endpoints
@@ -6,9 +8,10 @@ import { HttpParser } from "../parser/HttpParser";
 export default class GlobalController {
   private app: express.Application;
   private mocksDir: string;
-  constructor(app: express.Application, mocksDir: string) {
+  constructor(app: express.Application) {
+    const config: CamouflageConfig = getLoaderInstance().getConfig()
     this.app = app;
-    this.mocksDir = mocksDir;
+    this.mocksDir = config.protocols.http.mocks_dir;
     this.register();
   }
   /**
