@@ -18,6 +18,8 @@ import { getLoaderInstance } from '../ConfigLoader'
 import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 import * as Q from 'q';
 import Handlebars from 'handlebars';
+import { AssignHelper } from "./AssignHelper";
+import { ConcatHelper } from "./ConcatHelper";
 const HandlebarsPromised = promisedHandlebars(Handlebars, { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
@@ -35,6 +37,8 @@ export const registerHandlebars = () => {
   new FaultHelper(HandlebarsPromised).register();
   new IsHelper(HandlebarsPromised).register();
   new ArrayHelper(HandlebarsPromised).register();
+  new AssignHelper(HandlebarsPromised).register();
+  new ConcatHelper(HandlebarsPromised).register();
   if (config.injection.enable) {
     logger.warn("Code Injection is enabled.")
     new CodeHelper(HandlebarsPromised).register();
