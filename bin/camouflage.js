@@ -85,10 +85,34 @@ if (init) {
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
     fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
     fse.copySync(path.join(site_root, "ws_mocks"), path.join(process.cwd(), "ws_mocks"));
+    fse.copySync(path.join(site_root, "thrift"), path.join(process.cwd(), "thrift"));
     fse.copySync(path.join(site_root, "config.yml"), path.join(process.cwd(), "config.yml"));
+    fse.copySync(path.join(site_root, "custom_handlebar.json"), path.join(process.cwd(), "custom_handlebar.json"));
+    fse.copySync(path.join(site_root, "plconfig.js"), path.join(process.cwd(), "plconfig.js"));
+    fse.copySync(path.join(site_root, ".protoignore"), path.join(process.cwd(), ".protoignore"));
     fse.mkdirSync(path.join(process.cwd(), "certs"));
   } else {
     console.error("Current directory is not empty. Camouflage cannot initialize a project in a non empty directory.");
+  }
+  process.exit(0);
+}
+
+/**
+ * If user runs command camouflage restore, this block will look for a .camouflage_backup directory
+ * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
+ * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
+ */
+if (restore) {
+  if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
+    console.log("Restoring from previous backup.");
+    try {
+      fse.copySync(path.resolve(os.homedir(), ".camouflage_backup"), process.cwd());
+    } catch (err) {
+      console.log("Failed to restore. ", err.message)
+    }
+    console.log("Restore complete.");
+  } else {
+    console.error("No existing backup found.");
   }
   process.exit(0);
 }
@@ -115,7 +139,6 @@ if (fs.existsSync(path.join(project_root, "plconfig.js"))) {
  * If a valid config file is found, load the data using yaml loader
  */
 config = yaml.load(fs.readFileSync(configFile, "utf-8"));
-const origins = config.origins ? config.origins : [];
 if (config.ext_data_source && config.ext_data_source.pg) {
   const { host, port, user, password, database } = config.ext_data_source.pg
   process.env.PGHOST = host;
@@ -143,99 +166,16 @@ const logger = winston.createLogger({
   ],
 });
 /**
- * If user runs command camouflage restore, this block will look for a .camouflage_backup directory
- * in users' home directory. If not found, it will log an error and exit, else it'll copy the contents
- * of the backup directory to the mocks/grpc mocks/certs directories, as defined in config.yml file
- */
-if (restore) {
-  if (fs.existsSync(path.resolve(os.homedir(), ".camouflage_backup"))) {
-    logger.info("Restoring from previous backup.");
-    const httpMocks = path.join(os.homedir(), ".camouflage_backup", "mocks");
-    const grpcMocks = path.join(os.homedir(), ".camouflage_backup", "grpc", "mocks");
-    const grpcProtos = path.join(os.homedir(), ".camouflage_backup", "grpc", "protos");
-    const wsMocks = path.join(os.homedir(), ".camouflage_backup", "ws_mocks");
-    const key = path.join(os.homedir(), ".camouflage_backup", "certs", "server.key");
-    const cert = path.join(os.homedir(), ".camouflage_backup", "certs", "server.cert");
-    if (fs.existsSync(httpMocks)) fse.copySync(httpMocks, path.resolve(config.protocols.http.mocks_dir));
-    if (fs.existsSync(grpcMocks)) fse.copySync(grpcMocks, path.resolve(config.protocols.grpc.mocks_dir));
-    if (fs.existsSync(grpcProtos)) fse.copySync(grpcProtos, path.resolve(config.protocols.grpc.protos_dir));
-    if (fs.existsSync(wsMocks)) fse.copySync(wsMocks, path.resolve(config.protocols.ws.mocks_dir));
-    if (fs.existsSync(key)) fse.copySync(key, path.resolve(config.ssl.key));
-    if (fs.existsSync(cert)) fse.copySync(cert, path.resolve(config.ssl.cert));
-    logger.info("Restore complete.");
-  } else {
-    logger.error("No existing backup found.");
-  }
-  process.exit(0);
-}
-/**
- * Defined only for logging purposes, does not hold any significance from application logic perspective.
- */
-let inputsKeys = [
-  "mocks_dir",
-  "ws.mocks_dir",
-  "http.port",
-  "http.enable",
-  "https.enable",
-  "http2.enable",
-  "grpc.enable",
-  "ws.enable",
-  "cache.enable",
-  "injection.enable",
-  "origins",
-  "ssl.key",
-  "ssl.cert",
-  "https.port",
-  "http2.port",
-  "grpc.host",
-  "grpc.port",
-  "grpc.mocks_dir",
-  "grpc.protos_dir",
-  "loglevel",
-  "backup.enable",
-  "backup.cron",
-  "configFile",
-  "ext_helpers",
-  "cache.ttl_seconds",
-  "cache.cache_options"
-];
-/**
  * Create a configuration array in the order of parameters as defined by start() function in main app.
  * The reason we are storing the parameters in an is to have a error check in case of undefined values,
  * before we actually pass the values to start() function. If all values are passed correctly,
  * start() function can be called by simply spreading the array ...inputs
  */
 let inputs = [
-  config.protocols.http.mocks_dir,
-  config.protocols.ws.mocks_dir,
-  config.protocols.http.port,
-  config.protocols.http.enable,
-  config.protocols.https.enable,
-  config.protocols.http2.enable,
-  config.protocols.grpc.enable,
-  config.protocols.ws.enable,
-  config.cache.enable,
-  config.injection.enable,
-  origins,
   protoIgnore,
   plconfig,
-  config.ssl.key || path.join(site_root, "certs", "server.key"),
-  config.ssl.cert || path.join(site_root, "certs", "server.cert"),
-  config.protocols.https.port || 8443,
-  config.protocols.http2.port || 8081,
-  config.protocols.ws.port || 8082,
-  config.protocols.grpc.host || "localhost",
-  config.protocols.grpc.port || 4312,
-  config.protocols.grpc.mocks_dir || path.join(site_root, "grpc", "mocks"),
-  config.protocols.grpc.protos_dir || path.join(site_root, "grpc", "protos"),
-  config.loglevel || "info",
-  config.backup.enable,
-  config.backup.cron || "0 * * * *",
   configFile,
-  config.ext_helpers || null,
-  config.cache.ttl_seconds || 0
 ];
-config.cache.cache_options ? inputs.push(config.cache.cache_options) : inputs.push({})
 /**
  * Number of cpus to be defined to spin up workers accordingly. If number of CPUs specified is greater
  * than available number of cores, log an error and exit. Default value 1.
@@ -252,7 +192,6 @@ if (numCPUs > osCPUs) {
  * If the instance is master, debug log configuration parameters.
  */
 if (cluster.isMaster) {
-  logger.debug(`Camouflage configuration:\n========\n${inputsKeys.join(" | ")}\n========\n${inputs.join(" | ")}\n========\n`);
   logger.info(`[${process.pid}] Master Started`);
   // If current node is a master node, use it to start X number of workers, where X comes from config
   for (let i = 0; i < numCPUs; i++) {

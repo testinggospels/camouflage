@@ -5,10 +5,15 @@ import * as protoLoader from "@grpc/proto-loader";
 import fs from "fs";
 import path from "path";
 import jp from 'jsonpath';
+import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
+import { getLoaderInstance } from "../ConfigLoader";
 const availableFiles: string[] = [];
 
 export default class GrpcSetup {
-    private grpcMocksDir: string;
+    private config: CamouflageConfig;
+    constructor() {
+        this.config = getLoaderInstance().getConfig()
+    }
     /**
    * Initializes a gRPC server at specified host and port
    * - Set location of gRPC mocks to be used by metod camouflageMock
@@ -21,14 +26,10 @@ export default class GrpcSetup {
    * - For each method in the service definition, attach a generic handler, finally add service to running server
    * - Handlers will vary based on the type of request, i.e. unary, bidi streams or one sided streams
    * - Finally add all services to the server
-   * @param {string} grpcProtosDir location of proto files
-   * @param {string} grpcMocksDir location of mock files for grpc
-   * @param {string} grpcHost grpc host
-   * @param {number} grpcPort grpc port
    * @param {string[]} protoIgnore array of protofiles to be ingored (used for the protofiles which are imported and have services)
    * @param {PLConfig} plconfig configuration for protoLoader
    */
-    initGrpc = (grpcProtosDir: string, grpcMocksDir: string, grpcHost: string, grpcPort: number, protoIgnore: string[], plconfig: PLConfig) => {
+    initGrpc = (protoIgnore: string[], plconfig: PLConfig) => {
         let availableProtoFiles: string[];
         if (plconfig.includeProtos) {
             availableProtoFiles = plconfig.includeProtos.map((protos: string) => {
@@ -38,12 +39,11 @@ export default class GrpcSetup {
             });
             delete plconfig.includeProtos;
         } else {
-            availableProtoFiles = fromDir(grpcProtosDir, ".proto", protoIgnore);
+            availableProtoFiles = fromDir(this.config.protocols.grpc.protos_dir, ".proto", protoIgnore);
         }
         logger.debug(`Using proto-loader config as: ${JSON.stringify(plconfig)}`);
         logger.debug(`Ignoring protofiles: ${protoIgnore}`);
-        this.grpcMocksDir = grpcMocksDir;
-        const grpcParser: GrpcParser = new GrpcParser(this.grpcMocksDir);
+        const grpcParser: GrpcParser = new GrpcParser();
         const grpcObjects: grpc.GrpcObject[] = [];
         const packages: any = [];
         availableProtoFiles.forEach((availableProtoFile) => {
@@ -57,9 +57,9 @@ export default class GrpcSetup {
             });
         });
         const server = new grpc.Server();
-        server.bindAsync(`${grpcHost}:${grpcPort}`, grpc.ServerCredentials.createInsecure(), (err) => {
+        server.bindAsync(`${this.config.protocols.grpc.host}:${this.config.protocols.grpc.port}`, grpc.ServerCredentials.createInsecure(), (err) => {
             if (err) logger.error(err.message);
-            logger.info(`Worker sharing gRPC server at ${grpcHost}:${grpcPort} ⛳`);
+            logger.info(`Worker sharing gRPC server at ${this.config.protocols.grpc.host}:${this.config.protocols.grpc.port} ⛳`);
             server.start();
         });
         const services: any[] = jp.query(packages, "$..service");
