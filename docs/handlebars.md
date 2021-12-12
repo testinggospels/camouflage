@@ -72,9 +72,18 @@ Type: Custom Helper
 
 Usage:
 
-1. **{{num_between lower=500 upper=600}}**: Generate a number between two values.
+1. **{{num_between lower=500 upper=600}}**: Generate a random number between two values.
+2. **{{num_between lower=500 upper=600 lognormal=true}}**: Generate random numbers on a bell curve centered between two values.
 
 Tip: you can add this value in your response header with a key `Response-Delay`, to simulate a latency in your API. Not providing lower/upper value or providing values where lower > upper would set delay to 0, i.e. won't have any effect. Check **Response Delays** page for a detailed example
+
+## array
+
+Type: Custom Helper
+
+Usage:
+
+1. **{{array source='Apple,Banana,Mango,Kiwi' delimiter=','}}**: Generate an array from a source using given delimiter.
 
 ## file
 
@@ -224,9 +233,47 @@ x-additional-headers: somevalue
 {{/proxy}}
 ```
 
-
-
 For more details on how to use the proxy helper, refer to the Proxy page.
+
+## concat
+
+Type: Custom Helper
+
+Usage: Concatenates multiple strings together, (static or dynamic), to form a single string.
+
+Example: `{{concat 'Camouflage ' 'is ' 'easy!!'}}` results in `Camouflage is easy`.
+
+## assign
+
+Type: Custom Helper
+
+Usage: Assign helper can be used to assign a value to a variable, by specifying a name value pair. This can be useful specially when using `capture` helper using regex and jsonpath selectors. Since running a regex or jsonpath operation is an expensive task, `assign` helper can be used to capture a value once, store it in a variable and use throughout the mock file. Aesthetically, it also improves readability of the mock file which otherwise would contain long illegible regular expressions repeated throughout the mock file.
+
+Example: Using a complex combination of helpers, i.e. `assign`, `concat`, `pg` and `capture`, to create a mock that would fetch a response from postgres table for a given id passed as a query parameter.
+
+```
+{{assign name='query' value=(concat "SELECT * FROM emp WHERE id = '" (capture from="query" key="id") "'") }}
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#pg query=query}}
+(()=> {
+    let response = []
+    result.rows.forEach(row => {
+        const adult = row.age > 18 ? 'adult' : 'minor'
+        response.push({
+            user: row.name,
+            adult: adult
+        })
+    })
+    return JSON.stringify(response)
+})();
+{{/pg}}
+```
+
+1. `assign` can be simply used as `{{assign name='variable_name' value='variable_value'}}` to assign a value to a variable.
+2. `concat` joins multiple strings together as passed. i.e. `{{concat 'Camouflage ' 'is ' 'easy!!'}}` would result in `Camouflage is easy`.
+3. In the example above, we capture the value of id from the query parameter `id` in request. We concatenate it with other static strings to form a query `SELECT * FROM emp WHERE id = '1'`. We assign the resulting string to a variable `query`. We pass the variable to `pg` helper as a query to be executed for results against the request, `http://localhost:8080/pg?id=1`.
 
 !!! caution
     Some of the Camouflage helpers allow (sometimes require) you to write your Javascript code in order to use them. However it's not a great idea to allow such code injections due to security concerns it creates. Camouflage disabled injection by default however you can enable it in config.yml. Following helpers will not work if injection is disabled.

@@ -108,3 +108,4 @@ certs
 __pycache__
 site
 jsdocs
+gen*/

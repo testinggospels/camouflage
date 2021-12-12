@@ -27,10 +27,10 @@ export class PgHelper {
             const query = context.hash.query;
             /* eslint-disable no-unused-vars */
             const request: express.Request = context.data.root.request;
-            logger.debug("[POSTGRES] Recieved query:", query)
+            logger.debug(`[POSTGRES] Recieved query: ${query}`)
             try {
                 const result = await pool.query(query)
-                logger.debug("[POSTGRES] Query response:", result.rows)
+                logger.debug(`[POSTGRES] Query response: ${JSON.stringify(result.rows)}`)
                 const fn = await context.fn(this)
                 const output = eval(fn);
                 return output;
