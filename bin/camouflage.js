@@ -17,8 +17,8 @@ const init = argv._[0] === "init" ? "init" : null;
 const restore = argv._[0] === "restore" ? "restore" : null;
 const osCPUs = require("os").cpus().length;
 const camouflage = require("../dist/index");
-const site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
 const fse = require("fs-extra");
+let site_root = path.join(child_process.execSync("npm root -g").toString().trim(), "camouflage-server");
 let protoIgnore = [];
 let plconfig = {};
 /**
@@ -82,6 +82,9 @@ if (help) {
  */
 if (init) {
   if (fs.readdirSync(path.resolve(process.cwd())).length === 0) {
+    if (!fs.existsSync(site_root)) {
+      site_root = path.join(require('os').homedir(), ".config", "yarn", "global", "node_modules", "camouflage-server")
+    }
     fse.copySync(path.join(site_root, "mocks"), path.join(process.cwd(), "mocks"));
     fse.copySync(path.join(site_root, "grpc"), path.join(process.cwd(), "grpc"));
     fse.copySync(path.join(site_root, "ws_mocks"), path.join(process.cwd(), "ws_mocks"));
