@@ -19,7 +19,8 @@ interface MonitoringConfig {
 
 interface SSLConfig {
     cert: string;
-    key: string
+    key: string;
+    root_cert?: string;
 }
 
 interface Protocols {
@@ -37,6 +38,7 @@ interface ProtocolConfig {
     mocks_dir?: string;
     host?: string;
     protos_dir?: string;
+    grpc_tls?: boolean;
 }
 
 interface ThriftProtocolConfig {

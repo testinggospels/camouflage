@@ -13,6 +13,9 @@ If your package name is in the format **com.foo.bar.package**, format your folde
 ```
 ./grpc/mocks/com/foo/bar/package/service_name/method_name.mock
 ```
+## Enabling TLS for gRPC
+
+gRPC service mock runs without TLS by default. TLS can be enabled by setting the `grpc_tls` configuration value to `true`. The server cert and key files will then be read from `cert` and `key` values in `ssl` configuration. You may also add `root_cert` path configuration value to `ssl` configuration to enable client authentication. If no `root_cert` value is defined client authentication is disabled.
 
 ## Creating a gRPC Mock - Unary Or Client Side Streaming
 
