@@ -57,7 +57,7 @@ export default class GrpcSetup {
             });
         });
         const server = new grpc.Server();
-        server.bindAsync(`${this.config.protocols.grpc.host}:${this.config.protocols.grpc.port}`, grpc.ServerCredentials.createInsecure(), (err) => {
+        server.bindAsync(`${this.config.protocols.grpc.host}:${this.config.protocols.grpc.port}`, serverCredentials(this.config.protocols.grpc.grpc_tls, this.config.ssl.cert, this.config.ssl.key, this.config.ssl.root_cert), (err) => {
             if (err) logger.error(err.message);
             logger.info(`Worker sharing gRPC server at ${this.config.protocols.grpc.host}:${this.config.protocols.grpc.port} ⛳`);
             server.start();
@@ -118,6 +118,24 @@ const fromDir = function (startPath: string, filter: string, protoIgnore: string
         }
     }
     return availableFiles;
+}
+
+const serverCredentials = function(enableTls: boolean, certPath: string, keyPath: string, rootCert?: string): grpc.ServerCredentials {
+    if(!enableTls) {
+        logger.debug(`Using insecure gRPC server credentials.`);
+        return grpc.ServerCredentials.createInsecure()
+    }
+    var keyCertPairs = [{
+        private_key: fs.readFileSync(keyPath),
+        cert_chain: fs.readFileSync(certPath)
+    }]
+    if(fs.existsSync(rootCert)) {
+        logger.debug(`Using SSL gRPC server credentials with client authentication.`);
+        return grpc.ServerCredentials.createSsl(fs.readFileSync(rootCert), keyCertPairs, true)
+    } else {
+        logger.debug(`Using SSL gRPC server credentials without client authentication.`);
+        return grpc.ServerCredentials.createSsl(null, keyCertPairs, false);
+    }
 }
 
 interface PLConfig extends protoLoader.Options {
