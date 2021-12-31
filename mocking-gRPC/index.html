@@ -443,6 +443,13 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
+  <a href="#enabling-tls-for-grpc" class="md-nav__link">
+    Enabling TLS for gRPC
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#creating-a-grpc-mock-unary-or-client-side-streaming" class="md-nav__link">
     Creating a gRPC Mock - Unary Or Client Side Streaming
   </a>
@@ -675,6 +682,8 @@
 <p>If your package name is in the format <strong>com.foo.bar.package</strong>, format your folder structure and mock file in following manner:</p>
 <pre><code>./grpc/mocks/com/foo/bar/package/service_name/method_name.mock
 </code></pre>
+<h2 id="enabling-tls-for-grpc">Enabling TLS for gRPC</h2>
+<p>gRPC service mock runs without TLS by default. TLS can be enabled by setting the <code>grpc_tls</code> configuration value to <code>true</code>. The server cert and key files will then be read from <code>cert</code> and <code>key</code> values in <code>ssl</code> configuration. You may also add <code>root_cert</code> path configuration value to <code>ssl</code> configuration to enable client authentication. If no <code>root_cert</code> value is defined client authentication is disabled.</p>
 <h2 id="creating-a-grpc-mock-unary-or-client-side-streaming">Creating a gRPC Mock - Unary Or Client Side Streaming</h2>
 <ul>
 <li>To create a new grpc mock, you would need the .proto file for your gRPC service. ex. <code>todo.proto</code></li>
