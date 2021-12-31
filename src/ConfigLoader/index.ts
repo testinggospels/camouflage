@@ -19,7 +19,7 @@ export default class ConfigLoader {
         this.config.loglevel = this.config.loglevel ? this.config.loglevel : 'info';
         this.config.cpus = this.config.cpus ? this.config.cpus : 1;
         this.config.monitoring = this.config.monitoring ? this.config.monitoring : { port: 5555 };
-        this.config.ssl = this.config.ssl ? this.config.ssl : { cert: null, key: null };
+        this.config.ssl = this.config.ssl ? this.config.ssl : { cert: null, key: null, root_cert: null };
         this.config.protocols.http = this.config.protocols.http ? this.config.protocols.http : {
             enable: true,
             mocks_dir: "./mocks",
@@ -40,7 +40,8 @@ export default class ConfigLoader {
             host: "localhost",
             port: 4312,
             mocks_dir: "./grpc/mocks",
-            protos_dir: "./grpc/protos"
+            protos_dir: "./grpc/protos",
+            grpc_tls: false,
         };
         this.config.protocols.thrift = this.config.protocols.thrift ? this.config.protocols.thrift : {
             enable: false,

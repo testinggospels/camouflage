@@ -68,6 +68,7 @@ monitoring:
 ssl:
   cert: "./certs/server.cert"
   key: "./certs/server.key"
+  root_cert: "./certs/root.cert"
 protocols:
   http:
     enable: true
@@ -89,6 +90,7 @@ protocols:
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+    grpc_tls: false
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup
