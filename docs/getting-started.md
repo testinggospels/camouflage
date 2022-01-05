@@ -17,6 +17,7 @@ monitoring:
 ssl:
   cert: "./certs/server.cert"
   key: "./certs/server.key"
+  root_cert: "./certs/root.cert"
 protocols:
   http:
     enable: true
@@ -38,6 +39,17 @@ protocols:
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+    grpc_tls: false
+  thrift:
+    enable: false
+    mocks_dir: "./thrift/mocks"
+    services:
+      - port: 9999
+        service: "/opt/gen-nodejs/Calculator"
+        handlers:
+          - add
+          - substract
+          - ping
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup
@@ -46,11 +58,11 @@ cache:
   ttl_seconds: 300
 injection:
   enable: false
-ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
   - http://localhost:3001/
   - http://localhost:5000/
+# ext_helpers: "./custom_handlebar.json"
 ```
 
 ## Create your first mock
