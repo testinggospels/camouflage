@@ -42,7 +42,7 @@
   "preferGlobal": true,
   "dependencies": {
     "@grpc/grpc-js": "^1.4.4",
-    "@grpc/proto-loader": "^0.6.6",
+    "@grpc/proto-loader": "^0.6.8",
     "@types/js-yaml": "^4.0.5",
     "apicache": "^1.6.3",
     "compression": "^1.7.4",
