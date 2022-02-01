@@ -55,7 +55,7 @@
     "http-proxy": "^1.18.1",
     "js-yaml": "^4.1.0",
     "jsonpath": "^1.1.1",
-    "logform": "^2.3.0",
+    "logform": "^2.3.2",
     "moment": "^2.29.1",
     "node-cron": "^3.0.0",
     "pg": "^8.7.1",
