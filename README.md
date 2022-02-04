@@ -88,7 +88,7 @@ protocols:
     port: 8082
   grpc:
     enable: false
-    host: localhost
+    host: 0.0.0.0
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
