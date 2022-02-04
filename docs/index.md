@@ -16,6 +16,7 @@
 </p>
 
 ## Support
+
 [![Chat on Discord](https://img.shields.io/badge/chat-Discord-7289DA?logo=discord)](https://discord.gg/hTqXuG7dsV)
 
 ## What is Camouflage?
@@ -24,7 +25,7 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 ## Available Features
 
-🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥
+🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC, Thrift and websockets. 🔥
 
 ⚡ Dynamic/realistic responses without having to write any code. ⚡
 
