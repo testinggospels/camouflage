@@ -51,3 +51,10 @@ origins:
   - http://localhost:3001/
   - http://localhost:5000/
 # ext_helpers: "./custom_handlebar.json"
+# ext_data_source:
+#   pg:
+#     host: localhost
+#     port: 5432
+#     user: root
+#     password: password
+#     database: postgres

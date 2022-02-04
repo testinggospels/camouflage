@@ -4,8 +4,9 @@
 2.  Install Camouflage: `npm install -g camouflage-server`
 3.  Run `camouflage --version` to validate the installation was successful.
 4.  Create an empty directory anywhere in your machine and navigate to it in your terminal.
-5.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
-6.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
+5.  For `npm` and `yarn`, execute command `camouflage init`, or use `npx degit camouflagejs/init myproject` irrespective of your pacakge manager, to initialize a Camouflage project.
+6.  This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
+7.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
 
 ## Configuration Options / Sample Config yml File
 

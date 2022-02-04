@@ -2,14 +2,14 @@ import logger from "../logger";
 import path from "path";
 import fs from "fs";
 import express from "express";
-import * as csv from 'convert-csv-to-json';
+import * as csv from "convert-csv-to-json";
 /**
  * Defines and registers custom handlebar helper - csv
  */
 export class CsvHelper {
   private Handlebars: any;
   constructor(Handlebars: any) {
-    this.Handlebars = Handlebars
+    this.Handlebars = Handlebars;
   }
   /**
    * Registers csv helper
@@ -29,6 +29,7 @@ export class CsvHelper {
       const key = context.hash.key;
       const value = context.hash.value;
       const random = context.hash.random;
+      const all = context.hash.all;
       if (typeof src === "undefined") {
         logger.error("'src' is a required parameter and has not been set.");
         return "'src' is a required parameter and has not been set.";
@@ -39,11 +40,15 @@ export class CsvHelper {
           /* eslint-disable no-unused-vars */
           let result = {};
           /* eslint-disable no-unused-vars */
-          if (random) {
+          if (all) {
+            result = jsonArr;
+          } else if (random) {
             result = jsonArr[Math.floor(Math.random() * jsonArr.length)];
           } else {
             if (typeof key === "undefined" || typeof value === "undefined") {
-              logger.error("If random is false, 'key' & 'value' are required parameters");
+              logger.error(
+                "If random is false, 'key' & 'value' are required parameters"
+              );
               return "If random is false, 'key' & 'value' are required parameters";
             }
             result = jsonArr.filter((jsonObj: any) => {
