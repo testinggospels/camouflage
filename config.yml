@@ -23,7 +23,7 @@ protocols:
     port: 8082
   grpc:
     enable: false
-    host: localhost
+    host: 0.0.0.0
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
@@ -46,8 +46,8 @@ cache:
   ttl_seconds: 300
 injection:
   enable: false
-ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
   - http://localhost:3001/
   - http://localhost:5000/
+# ext_helpers: "./custom_handlebar.json"
