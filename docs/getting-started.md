@@ -4,8 +4,9 @@
 2.  Install Camouflage: `npm install -g camouflage-server`
 3.  Run `camouflage --version` to validate the installation was successful.
 4.  Create an empty directory anywhere in your machine and navigate to it in your terminal.
-5.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
-6.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
+5.  For `npm` and `yarn`, execute command `camouflage init`, or use `npx degit camouflagejs/init myproject` irrespective of your pacakge manager, to initialize a Camouflage project.
+6.  This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
+7.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
 
 ## Configuration Options / Sample Config yml File
 
@@ -17,6 +18,7 @@ monitoring:
 ssl:
   cert: "./certs/server.cert"
   key: "./certs/server.key"
+  root_cert: "./certs/root.cert"
 protocols:
   http:
     enable: true
@@ -38,6 +40,17 @@ protocols:
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
+    grpc_tls: false
+  thrift:
+    enable: false
+    mocks_dir: "./thrift/mocks"
+    services:
+      - port: 9999
+        service: "/opt/gen-nodejs/Calculator"
+        handlers:
+          - add
+          - substract
+          - ping
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup
@@ -46,11 +59,11 @@ cache:
   ttl_seconds: 300
 injection:
   enable: false
-ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
   - http://localhost:3001/
   - http://localhost:5000/
+# ext_helpers: "./custom_handlebar.json"
 ```
 
 ## Create your first mock

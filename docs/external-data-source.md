@@ -3,7 +3,7 @@
 Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. Camouflage provides two helpers, `pg` and `csv`, which can be used to connect to a postgres db and csv data file respectively.
 
 !!! caution
-    Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
+Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
 
 ## pg
 
@@ -43,6 +43,7 @@ Content-Type: application/json
 ```
 
 ### Explanation
+
 1. `pg` helper, similar to `code` or `csv` helper, is written as an IIFE (Immediately Invoked Function Expression). As shown above, IIFE is written as `(()=> { ... })();`
 2. The helper requires a mandatory parameter, `query` as a string.
 3. The `pg` block gets access to a `result` object which can be used to condition the response. More details on how to use the `result` object can be found on [node-postgres](https://node-postgres.com/api/result){target=\_blank} API documentation
@@ -50,7 +51,7 @@ Content-Type: application/json
 
 ## csv
 
-To use `csv` helper, you would need a data source, which is a csv file. A sample file can be found in the github repo.        
+To use `csv` helper, you would need a data source, which is a csv file. A sample file can be found in the github repo.
 
 Usage:
 
@@ -86,7 +87,8 @@ Camouflage provides you another alternative, in case you don't want to search fo
 
 In that case you'd remove `key` and `value` from the snippet shown above, and simply put `random=true` instead.
 
-!!!caution
-    1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
+To get entire data pass `all=true`.
+
+!!!caution 1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
 
     2. Keep in mind that if you use random=true, you don't get the `result` object as an array, you would get one single object. So in the example above, `result[0].City` will not work, you'd need to update it to simply `result.City`

@@ -17,6 +17,7 @@
 </p>
 
 # Support
+
 [![Chat on Discord](https://img.shields.io/badge/chat-Discord-7289DA?logo=discord)](https://discord.gg/hTqXuG7dsV)
 
 # What is Camouflage?
@@ -25,7 +26,7 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 # Available Features
 
-🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC and websockets. 🔥
+🔥 File based mocking support for HTTP, HTTPS, HTTP2, gRPC, Thrift and websockets. 🔥
 
 ⚡ Dynamic/realistic responses without having to write any code. ⚡
 
@@ -55,8 +56,9 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 2.  Install Camouflage: `npm install -g camouflage-server`
 3.  Run `camouflage --version` to validate the installation was successful.
 4.  Create an empty directory anywhere in your machine and navigate to it in your terminal.
-5.  Execute command `camouflage init`. This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
-6.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
+5.  For `npm` and `yarn`, execute command `camouflage init`, or use `npx degit camouflagejs/init myproject` irrespective of your pacakge manager, to initialize a Camouflage project.
+6.  This creates a basic skeleton of the folders you'd need in order to get started. You can modify these folders as per your requirements.
+7.  Start the Camouflage server by initializing it with a config.yml file: `camouflage --config config.yml`
 
 ## Configuration Options / Sample Config yml File
 
@@ -86,11 +88,21 @@ protocols:
     port: 8082
   grpc:
     enable: false
-    host: localhost
+    host: 0.0.0.0
     port: 4312
     mocks_dir: "./grpc/mocks"
     protos_dir: "./grpc/protos"
     grpc_tls: false
+  thrift:
+    enable: false
+    mocks_dir: "./thrift/mocks"
+    services:
+      - port: 9999
+        service: "/opt/gen-nodejs/Calculator"
+        handlers:
+          - add
+          - substract
+          - ping
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup
@@ -99,11 +111,11 @@ cache:
   ttl_seconds: 300
 injection:
   enable: false
-ext_helpers: "./custom_handlebar.json" # Remove if not needed
 origins:
   - http://localhost:3000/
   - http://localhost:3001/
   - http://localhost:5000/
+# ext_helpers: "./custom_handlebar.json"
 ```
 
 ## Create your first mock
@@ -152,8 +164,8 @@ There might be times when latest changes have not gone to release yet. You can f
 6. However if you'd like to install Camouflage globally, execute: `npm pack`
 7. Install by running command: `npm install -g camouflage-server-0.0.0-development.tgz` or `npm install -g camouflage-server-0.0.0-development.zip`
 
-
 ## License
+
 ```
 MIT License
 
