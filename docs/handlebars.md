@@ -275,6 +275,9 @@ Content-Type: application/json
 2. `concat` joins multiple strings together as passed. i.e. `{{concat 'Camouflage ' 'is ' 'easy!!'}}` would result in `Camouflage is easy`.
 3. In the example above, we capture the value of id from the query parameter `id` in request. We concatenate it with other static strings to form a query `SELECT * FROM emp WHERE id = '1'`. We assign the resulting string to a variable `query`. We pass the variable to `pg` helper as a query to be executed for results against the request, `http://localhost:8080/pg?id=1`.
 
+!!! note
+    Variables created using `assign` helpers can be accessed using `context.data.root.VARIABLE_NAME` inside the helpers that support code injection (as listed below)
+
 !!! caution
     Some of the Camouflage helpers allow (sometimes require) you to write your Javascript code in order to use them. However it's not a great idea to allow such code injections due to security concerns it creates. Camouflage disabled injection by default however you can enable it in config.yml. Following helpers will not work if injection is disabled.
     
