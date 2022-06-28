@@ -221,7 +221,7 @@ if (cluster.isMaster) {
       }
     });
   });
-  if (monitoringPort < 0) {
+  if (monitoringPort > 0) {
     /**
        * Define a metrics server to be used to gather and publish aggregated prometheus metrics.
        * Per worker metrics are also avaulable via a UI, but only useful if running with single worker instance.
