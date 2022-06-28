@@ -221,25 +221,29 @@ if (cluster.isMaster) {
       }
     });
   });
-  /**
-   * Define a metrics server to be used to gather and publish aggregated prometheus metrics.
-   * Per worker metrics are also avaulable via a UI, but only useful if running with single worker instance.
-   */
-  metricsServer.get("/metrics", async (req, res) => {
-    try {
-      const metrics = await aggregatorRegistry.clusterMetrics();
-      res.set("Content-Type", aggregatorRegistry.contentType);
-      res.send(metrics);
-    } catch (ex) {
-      res.statusCode = 500;
-      res.send(ex.message);
-    }
-  });
-  /**
-   * Start metricsServer on specified port
-   */
-  metricsServer.listen(monitoringPort);
-  logger.info(`Cluster metrics server listening to ${monitoringPort}, metrics exposed on http://localhost:${monitoringPort}/metrics`);
+  if (monitoringPort < 0) {
+    /**
+       * Define a metrics server to be used to gather and publish aggregated prometheus metrics.
+       * Per worker metrics are also avaulable via a UI, but only useful if running with single worker instance.
+       */
+    metricsServer.get("/metrics", async (req, res) => {
+      try {
+        const metrics = await aggregatorRegistry.clusterMetrics();
+        res.set("Content-Type", aggregatorRegistry.contentType);
+        res.send(metrics);
+      } catch (ex) {
+        res.statusCode = 500;
+        res.send(ex.message);
+      }
+    });
+    /**
+     * Start metricsServer on specified port
+     */
+    metricsServer.listen(monitoringPort);
+    logger.info(`Cluster metrics server listening to ${monitoringPort}, metrics exposed on http://localhost:${monitoringPort}/metrics . Set a negative value for config.monitoring.port to enable monitoring `);
+  } else {
+    logger.info(`Metrics server is disabled. Set a positive value for config.monitoring.port to enable monitoring.`);
+  }
 } else {
   /**
    * If all checks pass and process has not exited yet, and the cluster instance type is of worker,
