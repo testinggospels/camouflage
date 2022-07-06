@@ -10,8 +10,6 @@ Request object made available by Camouflage is simply an instance of express req
 - request.path
 - request.protocol
 - request.query
-- request.headers
 - request.body
 
 Refer to [Express Documentation](http://expressjs.com/en/4x/api.html#req) for more information on each of these properties.
-
