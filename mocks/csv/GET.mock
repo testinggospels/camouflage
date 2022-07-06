@@ -4,13 +4,18 @@ Content-Type: application/json
 
 {{#csv src="./test.csv" key="City" value="Worcester"}}
 (()=> {
-    return `
-    {
-        "City": "${result[0].City}",
-        "State": "${result[0].State}",
-        "LatD": ${result[0].LatD},
-        "LonD": ${result[0].LonD}
-    }`
+    return {
+        status: 201,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: `{
+            "City": "${result[0].City}",
+            "State": "${result[0].State}",
+            "LatD": ${result[0].LatD},
+            "LonD": ${result[0].LonD}
+        }`
+    };
 })();
 {{/csv}}
 ====
@@ -20,12 +25,17 @@ Content-Type: application/json
 
 {{#csv src="./test.csv" random=true}}
 (()=> {
-    return `
-    {
-        "City": "${result.City}",
-        "State": "${result.State}",
-        "LatD": ${result.LatD},
-        "LonD": ${result.LonD}
-    }`
+    return {
+        status: 201,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: `{
+            "City": "${result.City}",
+            "State": "${result.State}",
+            "LatD": ${result.LatD},
+            "LonD": ${result.LonD}
+        }`
+    };
 })();
 {{/csv}}
