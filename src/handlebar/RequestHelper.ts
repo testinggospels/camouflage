@@ -8,7 +8,7 @@ import jsonpath from "jsonpath";
 export class RequestHelper {
   private Handlebars: any;
   constructor(Handlebars: any) {
-    this.Handlebars = Handlebars
+    this.Handlebars = Handlebars;
   }
   /**
    * Registers capture helper
@@ -27,7 +27,7 @@ export class RequestHelper {
         case "query":
           return request.query[context.hash.key];
         case "headers":
-          return request.headers[context.hash.key];
+          return request.get(context.hash.key);
         case "path":
           if (typeof context.hash.regex === "undefined") {
             logger.debug("ERROR: No regex specified");
@@ -37,12 +37,17 @@ export class RequestHelper {
             if (regex.test(request.path)) {
               return regex.exec(request.path)[1];
             } else {
-              logger.debug(`ERROR: No match found for specified regex ${context.hash.regex}`);
+              logger.debug(
+                `ERROR: No match found for specified regex ${context.hash.regex}`
+              );
               return "No match found.";
             }
           }
         case "body":
-          if (typeof context.hash.using === "undefined" || typeof context.hash.selector == "undefined") {
+          if (
+            typeof context.hash.using === "undefined" ||
+            typeof context.hash.selector == "undefined"
+          ) {
             logger.debug("ERROR: No selector or using values specified");
             return "Please specify using and selector fields.";
           } else {
@@ -53,7 +58,9 @@ export class RequestHelper {
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {
-                  logger.debug(`ERROR: No match found for specified regex ${context.hash.selector}`);
+                  logger.debug(
+                    `ERROR: No match found for specified regex ${context.hash.selector}`
+                  );
                   return "No match found.";
                 }
               }
@@ -61,7 +68,9 @@ export class RequestHelper {
                 try {
                   return jsonpath.query(request.body, context.hash.selector);
                 } catch (err) {
-                  logger.debug(`ERROR: No match found for specified jsonpath ${context.hash.selector}`);
+                  logger.debug(
+                    `ERROR: No match found for specified jsonpath ${context.hash.selector}`
+                  );
                   logger.error(`ERROR: ${err}`);
                   return "some error occuered";
                 }
@@ -71,33 +80,40 @@ export class RequestHelper {
             }
           }
         default:
-          if (typeof context.hash.using === "undefined" || typeof context.hash.selector == "undefined") {
+          if (
+            typeof context.hash.using === "undefined" ||
+            typeof context.hash.selector == "undefined"
+          ) {
             logger.debug("ERROR: No selector or using values specified");
             return "Please specify using and selector fields.";
           } else {
             switch (context.hash.using) {
               case "regex": {
                 const regex = new RegExp(context.hash.selector);
-                let body = context.data.root.request
-                if (body.constructor === ({}).constructor) {
+                let body = context.data.root.request;
+                if (body.constructor === {}.constructor) {
                   body = JSON.stringify(context.data.root.request, null, 2);
                 }
                 if (regex.test(body)) {
                   return regex.exec(body)[1];
                 } else {
-                  logger.debug(`ERROR: No match found for specified regex ${context.hash.selector}`);
+                  logger.debug(
+                    `ERROR: No match found for specified regex ${context.hash.selector}`
+                  );
                   return "No match found.";
                 }
               }
               case "jsonpath": {
                 try {
-                  let body = context.data.root.request
-                  if (body.constructor === ("").constructor) {
-                    body = JSON.parse(body)
+                  let body = context.data.root.request;
+                  if (body.constructor === "".constructor) {
+                    body = JSON.parse(body);
                   }
                   return jsonpath.query(body, context.hash.selector);
                 } catch (err) {
-                  logger.debug(`ERROR: No match found for specified jsonpath ${context.hash.selector}`);
+                  logger.debug(
+                    `ERROR: No match found for specified jsonpath ${context.hash.selector}`
+                  );
                   logger.error(`ERROR: ${err}`);
                   return "some error occuered";
                 }
