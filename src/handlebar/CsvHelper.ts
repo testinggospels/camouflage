@@ -55,8 +55,9 @@ export class CsvHelper {
               return jsonObj[key] === value;
             });
           }
-          const output = eval(context.fn(this)).trim();
-          return output;
+          const code = eval(context.fn(this));
+          code["CamouflageResponseType"] = "code";
+          return JSON.stringify(code);
         } else {
           logger.error("CSV file not found");
           return "CSV file not found";

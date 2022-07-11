@@ -58,3 +58,79 @@ Rest of the code is self explanatory, where if the condition is true, i.e. incom
 
 Thus if the end user makes a GET request as `/hello-world?name=John`, he'd get a greeting `Hello John`. However, if the user calls `/hello-world` without any `name`, he'd get a greeting as `Hello World`
 
+### Request Matching using headers
+
+To perform request matching using headers the, mocks need to follow a slightly different approach. Using `capture` helper, we need to capture a specific header value which then can be passed to other helpers like `is` or `if`.
+
+```
+{{#if (capture from='headers' key='Authorization') }}
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "response": "response if auth header is present."
+}
+{{else}}
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+    "response": "response if no auth header present."
+}
+{{/if}}
+```
+
+If you want to validate a given header against a specific value, the mock file would be as shown below:
+
+```
+{{#is (capture from='headers' key='Authorization') 'Basic c2h1YmhlbmR1Om1hZGh1a2Fy' }}
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{
+    "response": "response if auth header is present."
+}
+{{else}}
+HTTP/1.1 401 Unauthorized
+Content-Type: application/json
+
+{
+    "response": "response if no auth header present."
+}
+{{/is}}
+```
+
+The same validation, albeit messy, can be carried out using `code` helper, as shown below. This needs `config.injection.enable` to be set to `true`
+**Code**
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#code}}
+(()=>{
+    const authHeader = request.get('Authorization');
+    if(authHeader){
+        return {
+            status: 200,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: `{
+                "response": "response if auth header is present."
+            }`
+        };
+    }else{
+        return {
+            status: 401,
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: `{
+                "response": "response if no auth header present."
+            }`
+        };
+    }
+})();
+{{/code}}
+```

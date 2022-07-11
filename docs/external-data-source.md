@@ -37,7 +37,13 @@ Content-Type: application/json
             adult: adult
         })
     })
-    return JSON.stringify(response)
+    return {
+        status: 201,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(response)
+    };
 })();
 {{/pg}}
 ```
@@ -47,7 +53,7 @@ Content-Type: application/json
 1. `pg` helper, similar to `code` or `csv` helper, is written as an IIFE (Immediately Invoked Function Expression). As shown above, IIFE is written as `(()=> { ... })();`
 2. The helper requires a mandatory parameter, `query` as a string.
 3. The `pg` block gets access to a `result` object which can be used to condition the response. More details on how to use the `result` object can be found on [node-postgres](https://node-postgres.com/api/result){target=\_blank} API documentation
-4. IIFE should return the generated response in a string format.
+4. IIFE should return the generated response as a json object which contains body as a string. Optionally the response object can contain a status code and headers.
 
 ## csv
 
@@ -63,7 +69,7 @@ CSV helper can be invoked in following manner, with three parameters, i.e.
 
 Camouflage then gives you access to a `result` array, which you can use inside an IIFE. It's your responsibility to decide how you want to use the `result` array. For example, in the snippet shown below, we are simply using the 1st element of the array i.e. `result[0]`. But you could also write a for loop to iterate over the array and generate your response body.
 
-Please note that the value you return MUST be a string.
+Please note that the value you return MUST be a json object which contains a body in a string format (required), you can optionally provide status and headers as well.
 
 ```
 HTTP/1.1 200 OK
@@ -72,13 +78,18 @@ Content-Type: application/json
 
 {{#csv src="./test.csv" key="City" value="Worcester"}}
 (()=> {
-    return `
-    {
-        "City": "${result[0].City}",
-        "State": "${result[0].State}",
-        "LatD": ${result[0].LatD},
-        "LonD": ${result[0].LonD}
-    }`
+    return {
+        status: 201,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: `{
+            "City": "${result[0].City}",
+            "State": "${result[0].State}",
+            "LatD": ${result[0].LatD},
+            "LonD": ${result[0].LonD}
+        }`
+    };
 })();
 {{/csv}}
 ```
