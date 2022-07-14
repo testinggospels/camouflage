@@ -112,9 +112,9 @@ cache:
 injection:
   enable: false
 origins:
-  - http://localhost:3000/
-  - http://localhost:3001/
-  - http://localhost:5000/
+  - http://localhost:3000
+  - http://localhost:3001
+  - http://localhost:5000
 # ext_helpers: "./custom_handlebar.json"
 ```
 
@@ -159,7 +159,7 @@ There might be times when latest changes have not gone to release yet. You can f
 1. Clone the repository: `git clone https://github.com/testinggospels/camouflage.git`
 2. Checkout `develop` branch: `git checkout develop`
 3. Install dependencies: `npm install`
-4. Build the project: `npm build`
+4. Build the project: `npm run build`
 5. At this point you can run Camouflage using: `node bin/camouflage.js --config ./config.yml`
 6. However if you'd like to install Camouflage globally, execute: `npm pack`
 7. Install by running command: `npm install -g camouflage-server-0.0.0-development.tgz` or `npm install -g camouflage-server-0.0.0-development.zip`
