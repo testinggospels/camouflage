@@ -67,7 +67,7 @@ if (help) {
       `  enable: false`,
       `ext_helpers: "./custom_handlebar.json" # Remove if not needed`,
       `origins:`,
-      `  - http://localhost:3000`,
+      `  - rootPathPrefix: /api/v1 # adds a prefix to each call http://localhost:8080/api/v1/<mocks_dir>`,
       `  - http://localhost:3001`,
       `  - http://localhost:5000`
     ].join("\n")

@@ -11,6 +11,7 @@ export interface CamouflageConfig {
     injection: InjectionConfig;
     ext_helpers?: string;
     origins?: string[];
+    rootPathPrefix?: string;
 }
 
 interface MonitoringConfig {

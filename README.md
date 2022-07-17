@@ -115,6 +115,7 @@ origins:
   - http://localhost:3000
   - http://localhost:3001
   - http://localhost:5000
+rootPathPrefix: /api/v1 # adds a prefix to each call http://localhost:8080/api/v1/<mocks_dir>  
 # ext_helpers: "./custom_handlebar.json"
 ```
 

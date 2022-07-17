@@ -18,16 +18,18 @@ export class HttpParser {
   private req: express.Request;
   private mockDir: string;
   private res: express.Response;
+  private rootPathPrefix: string;
   /**
    *
    * @param {express.Request} req Express Request object for current instance of incoming request
    * @param {express.Response} res Express response to be sent to client
    * @param {string} mockDir location of http mocks
    */
-  constructor(req: express.Request, res: express.Response, mockDir: string) {
+  constructor(req: express.Request, res: express.Response, mockDir: string, rootPathPrefix: string) {
     this.req = req;
     this.mockDir = mockDir;
     this.res = res;
+    this.rootPathPrefix = rootPathPrefix;
   }
   /**
    * Finds a closest match dir for an incoming request
@@ -43,6 +45,9 @@ export class HttpParser {
       headers: this.req.headers,
       body: this.req.body,
     };
+    if (this.rootPathPrefix && reqDetails.path.startsWith(this.rootPathPrefix)){
+      reqDetails.path = reqDetails.path.substring(this.rootPathPrefix.length);  
+    }
     const matchedDir = getWildcardPath(reqDetails.path, this.mockDir);
     return matchedDir;
   };

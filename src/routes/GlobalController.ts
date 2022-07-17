@@ -8,10 +8,12 @@ import { HttpParser } from "../parser/HttpParser";
 export default class GlobalController {
   private app: express.Application;
   private mocksDir: string;
+  private rootPathPrefix: string;
   constructor(app: express.Application) {
     const config: CamouflageConfig = getLoaderInstance().getConfig()
     this.app = app;
     this.mocksDir = config.protocols.http.mocks_dir;
+    this.rootPathPrefix = config.rootPathPrefix;
     this.register();
   }
   /**
@@ -57,7 +59,7 @@ export default class GlobalController {
     });
   };
   private handler = (req: express.Request, res: express.Response, verb: string) => {
-    const parser = new HttpParser(req, res, this.mocksDir);
+    const parser = new HttpParser(req, res, this.mocksDir, this.rootPathPrefix);
     const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
     parser.getResponse(mockFile);
   };
