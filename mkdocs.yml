@@ -33,6 +33,7 @@ nav:
   - request-model.md
   - response-delays.md
   - external-data-source.md
+  - external-middleware.md
   - performance-mode.md
   - mocking-gRPC.md
   - mocking-websockets.md
