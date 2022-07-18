@@ -2,6 +2,8 @@
 import express from "express";
 import cluster from "cluster";
 import os from "os";
+import path from "path";
+import fs from "fs";
 import * as expressWinston from "express-winston";
 import { registerHandlebars } from "./handlebar";
 import Protocols from "./protocols";
@@ -12,11 +14,14 @@ import logger from "./logger";
 import { setLogLevel } from "./logger";
 import * as protoLoader from "@grpc/proto-loader";
 import apicache from "apicache";
-import redis from 'redis';
+import redis from "redis";
 import swStats from "swagger-stats";
-import cors from 'cors';
-import compression from 'compression';
-import ConfigLoader, { getLoaderInstance, setLoaderInstance } from "./ConfigLoader";
+import cors from "cors";
+import compression from "compression";
+import ConfigLoader, {
+  getLoaderInstance,
+  setLoaderInstance,
+} from "./ConfigLoader";
 import { CamouflageConfig } from "./ConfigLoader/LoaderInterface";
 
 const app = express();
@@ -50,21 +55,23 @@ app.use(compression());
 const start = (
   protoIgnore: string[],
   plconfig: protoLoader.Options,
-  configFilePath: string,
+  configFilePath: string
 ) => {
   const configLoader: ConfigLoader = new ConfigLoader(configFilePath);
-  configLoader.validateAndLoad()
-  setLoaderInstance(configLoader)
-  const config: CamouflageConfig = getLoaderInstance().getConfig()
+  configLoader.validateAndLoad();
+  setLoaderInstance(configLoader);
+  const config: CamouflageConfig = getLoaderInstance().getConfig();
   // Set log level to the configured level from config.yaml
   setLogLevel(config.loglevel);
-  logger.debug(JSON.stringify(config, null, 2))
+  logger.debug(JSON.stringify(config, null, 2));
   // Configure cors
   if (config.origins.length !== 0) {
-    logger.info(`CORS enabled for ${config.origins.join(", ")}`)
-    app.use(cors({
-      origin: config.origins
-    }));
+    logger.info(`CORS enabled for ${config.origins.join(", ")}`);
+    app.use(
+      cors({
+        origin: config.origins,
+      })
+    );
   }
   // Configure cache if enabled.
   if (config.cache.enable) {
@@ -72,25 +79,31 @@ const start = (
       logger.debug(`Cache Options: ${JSON.stringify(config.cache, null, 2)}`);
       // If cacheOptions has a redis details, use redis as cache store, else by default in memory cache is used.
       if (config.cache.cache_options.redis_options) {
-        const redisOptions: redis.ClientOpts = config.cache.cache_options.redis_options;
+        const redisOptions: redis.ClientOpts =
+          config.cache.cache_options.redis_options;
         delete config.cache.cache_options.redis_options;
-        config.cache.cache_options.redisClient = redis.createClient(redisOptions)
+        config.cache.cache_options.redisClient =
+          redis.createClient(redisOptions);
       }
       const cache = apicache.options(config.cache.cache_options).middleware;
       app.use(cache(`${config.cache.ttl_seconds} seconds`));
-      logger.info(`Cache enabled with TTL ${config.cache.ttl_seconds} seconds`)
+      logger.info(`Cache enabled with TTL ${config.cache.ttl_seconds} seconds`);
     } catch (error) {
-      logger.info(`Cache couldn't be configured. ${error.message}`)
+      logger.info(`Cache couldn't be configured. ${error.message}`);
     }
   }
   logger.info(`[${process.pid}] Worker started`);
   // Set custom labels for prometheus
-  swStats.getPromClient().register.setDefaultLabels({ instance: os.hostname(), workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0 });
+  swStats.getPromClient().register.setDefaultLabels({
+    instance: os.hostname(),
+    workerId: typeof cluster.worker !== "undefined" ? cluster.worker.id : 0,
+  });
   // Register Handlebars
   registerHandlebars();
   // Register Controllers
   new CamouflageController(app);
-  new GlobalController(app);
+  const globalController: GlobalController = new GlobalController();
+  const allRoutes: express.Router = globalController.register();
   const protocols = new Protocols(app);
   // Start the http server on the specified port
   if (config.protocols.http.enable) {
@@ -118,8 +131,26 @@ const start = (
   }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (config.backup.enable) {
-    const backupScheduler: BackupScheduler = new BackupScheduler(configFilePath);
+    const backupScheduler: BackupScheduler = new BackupScheduler(
+      configFilePath
+    );
     backupScheduler.schedule();
+  }
+  let middlewareConfigFile: string = path.join(
+    path.dirname(path.resolve(configFilePath)),
+    "middleware.js"
+  );
+  if (fs.existsSync(middlewareConfigFile) && config.injection.enable) {
+    logger.warn(
+      `Found an external middleware config. Note that if you are using middleware injection, it is required to include this.app.use(prefix, this.allRoutes); in your middleware. prefix can be either root i.e. "/" or any other desired prefix string for your routes.`
+    );
+    const middlewareConfig: string = fs
+      .readFileSync(middlewareConfigFile)
+      .toString();
+    new Function(middlewareConfig).call({ app, logger, allRoutes });
+  } else {
+    logger.info("No middleware injection.");
+    app.use("/", allRoutes);
   }
 };
 /**
