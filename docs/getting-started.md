@@ -60,9 +60,9 @@ cache:
 injection:
   enable: false
 origins:
-  - http://localhost:3000/
-  - http://localhost:3001/
-  - http://localhost:5000/
+  - http://localhost:3000
+  - http://localhost:3001
+  - http://localhost:5000
 # ext_helpers: "./custom_handlebar.json"
 ```
 

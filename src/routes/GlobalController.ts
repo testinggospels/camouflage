@@ -1,4 +1,4 @@
-import express from "express";
+import { Router, Request, Response } from "express";
 import { getLoaderInstance } from "../ConfigLoader";
 import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 import { HttpParser } from "../parser/HttpParser";
@@ -6,13 +6,10 @@ import { HttpParser } from "../parser/HttpParser";
  * Defines and registers global contoller which will handle any request not handled by admin/management endpoints
  */
 export default class GlobalController {
-  private app: express.Application;
   private mocksDir: string;
-  constructor(app: express.Application) {
-    const config: CamouflageConfig = getLoaderInstance().getConfig()
-    this.app = app;
+  constructor() {
+    const config: CamouflageConfig = getLoaderInstance().getConfig();
     this.mocksDir = config.protocols.http.mocks_dir;
-    this.register();
   }
   /**
    * Define a generic route for all requests
@@ -27,36 +24,41 @@ export default class GlobalController {
    *   - Send the response to client.
    * @returns {void}
    */
-  private register = (): void => {
-    this.app.get("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "GET");
+  register = (): Router => {
+    let router: Router = Router();
+    router.all("*", (req: Request, res: Response) => {
+      this.handler(req, res, req.method.toUpperCase());
     });
-    this.app.post("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "POST");
-    });
-    this.app.put("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "PUT");
-    });
-    this.app.delete("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "DELETE");
-    });
-    this.app.head("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "HEAD");
-    });
-    this.app.connect("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "CONNECT");
-    });
-    this.app.options("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "OPTIONS");
-    });
-    this.app.trace("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "TRACE");
-    });
-    this.app.patch("*", (req: express.Request, res: express.Response) => {
-      this.handler(req, res, "PATCH");
-    });
+    // router.get("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "GET");
+    // });
+    // router.post("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "POST");
+    // });
+    // router.put("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "PUT");
+    // });
+    // router.delete("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "DELETE");
+    // });
+    // router.head("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "HEAD");
+    // });
+    // router.connect("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "CONNECT");
+    // });
+    // router.options("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "OPTIONS");
+    // });
+    // router.trace("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "TRACE");
+    // });
+    // router.patch("*", (req: Request, res: Response) => {
+    //   this.handler(req, res, "PATCH");
+    // });
+    return router;
   };
-  private handler = (req: express.Request, res: express.Response, verb: string) => {
+  private handler = (req: Request, res: Response, verb: string) => {
     const parser = new HttpParser(req, res, this.mocksDir);
     const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
     parser.getResponse(mockFile);
