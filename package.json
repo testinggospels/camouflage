@@ -57,7 +57,7 @@
     "logform": "^2.4.2",
     "moment": "^2.29.4",
     "node-cron": "^3.0.2",
-    "pg": "^8.7.1",
+    "pg": "^8.8.0",
     "prom-client": "^13.2.0",
     "promised-handlebars": "^2.0.1",
     "q": "^1.5.1",
