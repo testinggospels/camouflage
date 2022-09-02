@@ -79,6 +79,8 @@ export class RequestHelper {
                 return null;
             }
           }
+        case "metadata":
+          return context.data.root.metadata.get(context.hash.key);
         default:
           if (
             typeof context.hash.using === "undefined" ||
