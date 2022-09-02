@@ -44,6 +44,7 @@ app.use(
 // Configure express to understand json/url encoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.text({ type: () => { return true } }));
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
 /**
