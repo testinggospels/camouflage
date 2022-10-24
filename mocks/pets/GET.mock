@@ -1,0 +1,9 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  { "id": 1, "name": "Rabbit" },
+  { "id": 2, "name": "Dog" },
+  { "id": 3, "name": "Cat" },
+  { "id": 4, "name": "Bird" }
+]

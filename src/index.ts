@@ -18,11 +18,13 @@ import redis from "redis";
 import swStats from "swagger-stats";
 import cors from "cors";
 import compression from "compression";
+import { queryParser } from "express-query-parser";
 import ConfigLoader, {
   getLoaderInstance,
   setLoaderInstance,
 } from "./ConfigLoader";
 import { CamouflageConfig } from "./ConfigLoader/LoaderInterface";
+import { Validation } from "./validation";
 
 const app = express();
 // Configure logging for express requests
@@ -44,9 +46,24 @@ app.use(
 // Configure express to understand json/url encoded request body
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.text({ type: () => { return true } }));
+app.use(
+  express.text({
+    type: () => {
+      return true;
+    },
+  })
+);
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
 app.use(compression());
+// parse query paramters to do stricter type checking
+app.use(
+  queryParser({
+    parseNull: true,
+    parseUndefined: true,
+    parseBoolean: true,
+    parseNumber: true,
+  })
+);
 /**
  * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
  * @param {string[]} protoIgnore array of files to be ignored during loading proto files
@@ -62,6 +79,7 @@ const start = (
   configLoader.validateAndLoad();
   setLoaderInstance(configLoader);
   const config: CamouflageConfig = getLoaderInstance().getConfig();
+  const validation = Validation.create(config.validation);
   // Set log level to the configured level from config.yaml
   setLogLevel(config.loglevel);
   logger.debug(JSON.stringify(config, null, 2));

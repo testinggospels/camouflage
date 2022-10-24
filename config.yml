@@ -50,6 +50,11 @@ origins:
   - http://localhost:3000
   - http://localhost:3001
   - http://localhost:5000
+validation:
+  enable: true
+  schemas:
+    - type: OpenApi
+      url: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json
 # ext_helpers: "./custom_handlebar.json"
 # ext_data_source:
 #   pg:
