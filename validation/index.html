@@ -15,7 +15,7 @@
     
     
       
-        <title>Contributing - Camouflage</title>
+        <title>Validation - Camouflage</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#contributing" class="md-skip">
+        <a href="#openapi-schema-validation" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Contributing
+              Validation
             
           </span>
         </div>
@@ -561,11 +561,88 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../validation/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Validation
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Validation
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#openapi-schema-validation" class="md-nav__link">
+    OpenApi schema validation
+  </a>
+  
+    <nav class="md-nav" aria-label="OpenApi schema validation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-options" class="md-nav__link">
+    Configuration Options
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#example" class="md-nav__link">
+    Example
+  </a>
+  
+    <nav class="md-nav" aria-label="Example">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#request-validation" class="md-nav__link">
+    Request validation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#response-validation" class="md-nav__link">
+    Response validation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -621,129 +698,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Contributing
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../contributing/" class="md-nav__link">
         Contributing
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#folder-structure" class="md-nav__link">
-    Folder Structure
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#bincamouflagejs" class="md-nav__link">
-    bin/camouflage.js
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcindexts" class="md-nav__link">
-    src/index.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcbackupschedulerindexts" class="md-nav__link">
-    src/BackupScheduler/index.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srchandlebarhandlebardefinitionts" class="md-nav__link">
-    src/handlebar/handleBarDefinition.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srchandlebarindexts" class="md-nav__link">
-    src/handlebar/index.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcloggerindexts" class="md-nav__link">
-    src/logger/index.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcparsergrpcparserts" class="md-nav__link">
-    src/parser/GrpcParser.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcparserhttpparserts" class="md-nav__link">
-    src/parser/HttpParser.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcprotocolsindexts" class="md-nav__link">
-    src/protocols/index.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcroutescamouflagecontrollerts" class="md-nav__link">
-    src/routes/CamouflageController.ts
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#srcroutesglobalcontrollerts" class="md-nav__link">
-    src/routes/GlobalController.ts
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -762,99 +721,162 @@
                 
                   
 
-  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/contributing.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/validation.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-<h1 id="contributing">Contributing</h1>
-<h3 id="folder-structure">Folder Structure</h3>
-<pre><code>.
-└── bin
-│   └── camouflage.js
-└── src
-│   ├── BackupScheduler
-│   │   └── index.ts
-│   ├── handlebar
-│   │   ├── handleBarDefinition.ts
-│   │   └── index.ts
-│   ├── logger
-│   │   └── index.ts
-│   ├── parser
-│   │   ├── GrpcParser.ts
-│   │   └── HttpParser.ts
-│   ├── protocols
-│   │   └── index.ts
-│   ├── routes
-│   │   ├── CamouflageController.ts
-│   │   └── GlobalController.ts
-│   └── index.ts
-└── ...
+  <h1>Validation</h1>
+
+<p>When testing software using a mock server it's important that your mocks are correct/valid to avoid false assumptions.</p>
+<p>Contract testing is a grest methodology for ensuring that two separate systems are compatible and can communicate with one other.​</p>
+<p>What sets this form of testing apart from other approaches that aim to achieve the same thing, is that each system can be tested independently from the other and that the contract is generated by the code itself, meaning the contract is always kept up to date with reality.​</p>
+<p><img alt="Mock validation using Contract Testing" src="../MockValidation.png" /></p>
+<h2 id="openapi-schema-validation">OpenApi schema validation</h2>
+<p>Camouflage server support OpenApi schema's for request and response validation. When enabled the configured schema's are loaded in memory and each request and response simply need to adhere to the rules in schema.</p>
+<h3 id="configuration-options">Configuration Options</h3>
+<p>By default, validation is disabled. To specify any of these optional configurations, modify config.yml in following way.</p>
+<pre><code class="language-yaml">validation:
+  enable: true
+  schemas:
+    - type: OpenApi
+      url: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json
 </code></pre>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Following section only tries to explain the tasks carried out by each module. Actual code level documentation is provided inline with each file for easier access. We also have a JSDocs available at <a href="https://shubhendumadhukar.github.io/camouflage-jsdocs/" target="_blank">here</a></p>
-</div>
-<h3 id="bincamouflagejs"><a href="https://github.com/fauxauldrich/camouflage/blob/main/bin/camouflage.js" target="_blank">bin/camouflage.js</a></h3>
-<p>This is the starting point of the application, which carries out following tasks:</p>
-<ul>
-<li>Takes in input from terminal/command line and config file.</li>
-<li>Defines actions for management modules such as <code>camouflage init</code>, <code>camouflage restore</code> and <code>camouflage -h</code>.</li>
-<li>Creates a cluster of master and worker processes.</li>
-<li>Decides if the passed arguments are valid and passes them on to the main app, else terminates the appliation with necessary error messages.</li>
-</ul>
-<h3 id="srcindexts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/index.ts" target="_blank">src/index.ts</a></h3>
-<p>Once application passes the first stage of checks, it will reach this file, which begins the actual mock server's tasks, namely:</p>
-<ul>
-<li>Define middlewares which are, express body parser, swagger stats, winston logger for express.</li>
-<li>Define static resource for two UIs. First, the documentation site hosted at root (/) location and second, file explorer UI hosted at /ui location.</li>
-<li>Override default values of required parameters.</li>
-<li>Register handlebars, management controllers and global generic controllers.</li>
-<li>Export start function to be used by bin/camouflage.js and express app object to be used by functional tests.</li>
-</ul>
-<h3 id="srcbackupschedulerindexts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/BackupScheduler/index.ts" target="_blank">src/BackupScheduler/index.ts</a></h3>
-<p>This module simply creates a cron job which in turn copies mocks directories, certs directory and config file to the users' home directory as a backup procedure. The backup directory then can be used to restore the files to current working directory or a new project altogether. User can disable the backup feature if required via config file and can also control how often backups should be created by specifying a cron schedule</p>
-<h3 id="srchandlebarhandlebardefinitionts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/handlebar/handleBarDefinition.ts" target="_blank">src/handlebar/handleBarDefinition.ts</a></h3>
-<p>This modules define the behavior of custom handlebars made available by Camouflage, such as random value helper, now helper, request helper and num between helpers to help users to prepare a response that mimics the real world response.</p>
-<h3 id="srchandlebarindexts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/handlebar/index.ts" target="_blank">src/handlebar/index.ts</a></h3>
-<p>A master module for handlebar, simply to register all the helpers in one place. Alternative would be to register helpers in index.ts which is not ideal.</p>
-<h3 id="srcloggerindexts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/logger/index.ts" target="_blank">src/logger/index.ts</a></h3>
-<p>Module to define a logger according to the log level defined by config file, to be used throughout the application.</p>
-<h3 id="srcparsergrpcparserts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/parser/GrpcParser.ts" target="_blank">src/parser/GrpcParser.ts</a></h3>
-<p>GrpcParser is responsible for definition of generic functions which will respond to all calls from a gRPC client be it unary, bidi or one sided streams. These functions carry out following tasks:</p>
-<ul>
-<li>Determine the location appropriate mock files based on the handler specified by the incoming requests.</li>
-<li>Parse the contents of the mock files</li>
-<li>Replace templates with their values</li>
-<li>Add delays</li>
-<li>Create chunks in case of streams</li>
-<li>And finally send back the response.</li>
-</ul>
-<h3 id="srcparserhttpparserts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/parser/HttpParser.ts" target="_blank">src/parser/HttpParser.ts</a></h3>
-<p>HttpParser is responsible for definition of generic function to be used by GlobalController module. These functions carry out following tasks:</p>
-<ul>
-<li>Determine the location appropriate mock files based on the request URL path and method.</li>
-<li>Parse the contents of the mock files</li>
-<li>Replace templates with their values</li>
-<li>Add delays</li>
-<li>Add headers</li>
-<li>Add status codes</li>
-<li>Add response body</li>
-<li>And finally send back the response.</li>
-</ul>
-<h3 id="srcprotocolsindexts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/protocols/index.ts" target="_blank">src/protocols/index.ts</a></h3>
-<p>This module creates servers with their listeners for http, https, http2 and gRPC protocols as specified by enabled properties for each protocols in config file.</p>
-<h3 id="srcroutescamouflagecontrollerts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/routes/CamouflageController.ts" target="_blank">src/routes/CamouflageController.ts</a></h3>
-<p>Camouflage controller is responsible for definition of endpoints useful for management modules. Available endpoints are:</p>
-<ul>
-<li>GET /mocks - Lists the available http and grpc mocks. Will be deprecated as the file explorer UI takes care of this internally, rendering this endpoint useless.</li>
-<li>DELETE /mocks - Deletes a mock with the specified path and method. Will be deprecated as the file explorer UI takes care of this internally, rendering this endpoint useless.</li>
-<li>GET /restart - Kills all the running workers which then automatically get replaced by their replacements since Camouflage follows 'restart unless explicitly stopped' policy for it's worker management. No UI component for this but will be developed soon.</li>
-<li>GET /ping - Shows the health and runtime of running worker</li>
-</ul>
-<h3 id="srcroutesglobalcontrollerts"><a href="https://github.com/fauxauldrich/camouflage/blob/main/src/routes/GlobalController.ts" target="_blank">src/routes/GlobalController.ts</a></h3>
-<p>Global controller registers generic routes defined by (*) which will respond to all HTTP calls from a client unless explicitly handled by other modules from Camouflage. Uses getMatchedDir and getResponse function to locate appropriate mock file for an incoming HTTP/HTTPs/HTTP2 request and respond with the contents of the mockfile.</p>
+<h3 id="example">Example</h3>
+<p>Now when you have a mock for the supported endpoint <code>/pets</code> requesting it would result in a proper response.</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  { &quot;id&quot;: 1, &quot;name&quot;: &quot;Rabbit&quot; },
+  { &quot;id&quot;: 2, &quot;name&quot;: &quot;Dog&quot; },
+  { &quot;id&quot;: 3, &quot;name&quot;: &quot;Cat&quot; },
+  { &quot;id&quot;: 4, &quot;name&quot;: &quot;Bird&quot; }
+]
+</code></pre>
+<h4 id="request-validation">Request validation</h4>
+<p>Given this schema for <code>/pets</code> we see that the only support parameter is the integer <code>limit</code></p>
+<pre><code class="language-json">{
+  &quot;openapi&quot;: &quot;3.0.0&quot;,
+  &quot;paths&quot;: {
+    &quot;/pets&quot;: {
+      &quot;get&quot;: {
+        &quot;summary&quot;: &quot;List all pets&quot;,
+        &quot;operationId&quot;: &quot;listPets&quot;,
+        &quot;parameters&quot;: [
+          {
+            &quot;name&quot;: &quot;limit&quot;,
+            &quot;in&quot;: &quot;query&quot;,
+            &quot;description&quot;: &quot;How many items to return at one time (max 100)&quot;,
+            &quot;required&quot;: false,
+            &quot;schema&quot;: {
+              &quot;type&quot;: &quot;integer&quot;,
+              &quot;format&quot;: &quot;int32&quot;
+            }
+          }
+        ]
+        ...
+    }
+  }
+}
+</code></pre>
+<p>Called with an unsupported paraemeter like <code>/pets?unsupported=1</code> will result in the following 400 error.</p>
+<pre><code class="language-json">[
+  {
+    &quot;path&quot;: &quot;page&quot;,
+    &quot;errorCode&quot;: &quot;type.openapi.requestValidation&quot;,
+    &quot;message&quot;: &quot;unknown query parameter 'unsupported'&quot;,
+    &quot;location&quot;: &quot;query&quot;
+  }
+]
+</code></pre>
+<p>Called with a wrong type like <code>/pets?limit=abc</code> will also result in the following 400 error.</p>
+<pre><code class="language-json">[
+  {
+    &quot;path&quot;: &quot;limit&quot;,
+    &quot;errorCode&quot;: &quot;type.openapi.requestValidation&quot;,
+    &quot;message&quot;: &quot;must be integer&quot;,
+    &quot;location&quot;: &quot;query&quot;
+  }
+]
+</code></pre>
+<h4 id="response-validation">Response validation</h4>
+<p>Given this schema for <code>/pets</code> we see that a pet has two required properties <code>id</code> and <code>name</code>.</p>
+<pre><code class="language-json">{
+  &quot;openapi&quot;: &quot;3.0.0&quot;,
+  &quot;paths&quot;: {
+    &quot;/pets&quot;: {
+      &quot;get&quot;: {
+        &quot;summary&quot;: &quot;List all pets&quot;,
+        &quot;operationId&quot;: &quot;listPets&quot;,
+        ...
+        &quot;responses&quot;: {
+          &quot;200&quot;: {
+            &quot;description&quot;: &quot;A paged array of pets&quot;,
+            &quot;content&quot;: {
+              &quot;application/json&quot;: {
+                &quot;schema&quot;: {
+                  &quot;$ref&quot;: &quot;#/components/schemas/Pets&quot;
+                }
+              }
+            }
+          },
+        ...
+    }
+  }
+&quot;components&quot;: {
+    &quot;schemas&quot;: {
+      &quot;Pet&quot;: {
+        &quot;type&quot;: &quot;object&quot;,
+        &quot;required&quot;: [
+          &quot;id&quot;,
+          &quot;name&quot;
+        ],
+        &quot;properties&quot;: {
+          &quot;id&quot;: {
+            &quot;type&quot;: &quot;integer&quot;,
+            &quot;format&quot;: &quot;int64&quot;
+          },
+          &quot;name&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          },
+          &quot;tag&quot;: {
+            &quot;type&quot;: &quot;string&quot;
+          }
+        }
+      },
+      &quot;Pets&quot;: {
+        &quot;type&quot;: &quot;array&quot;,
+        &quot;items&quot;: {
+          &quot;$ref&quot;: &quot;#/components/schemas/Pet&quot;
+        }
+      },
+    ...
+    }
+  }
+}
+</code></pre>
+<p>In case previously your backend api did only had a required property <code>id</code> your assumptions in the tests are false.</p>
+<pre><code>HTTP/1.1 200 OK
+Content-Type: application/json
+
+[
+  { &quot;id&quot;: 1, &quot;name&quot;: &quot;Rabbit&quot; },
+  { &quot;id&quot;: 2, &quot;name&quot;: &quot;Dog&quot; },
+  { &quot;id&quot;: 3, &quot;name&quot;: &quot;Cat&quot; },
+  { &quot;id&quot;: 4 }
+]
+</code></pre>
+<p>Responses with the following mock will be blocked with a 409 response helping you to avoid mistakes.</p>
+<pre><code class="language-json">[
+  {
+    &quot;path&quot;: &quot;3&quot;,
+    &quot;errorCode&quot;: &quot;required.openapi.responseValidation&quot;,
+    &quot;message&quot;: &quot;must have required property 'name'&quot;
+  }
+]
+</code></pre>
 
 
 
@@ -875,7 +897,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../using-with-kubernetes/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Camouflage with Kubernetes" rel="prev">
+        <a href="../openAPI-conversion/" class="md-footer__link md-footer__link--prev" aria-label="Previous: OpenAPI Conversion" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -884,11 +906,26 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Camouflage with Kubernetes
+              OpenAPI Conversion
             </div>
           </div>
         </a>
       
+      
+        
+        <a href="../configuring-cache/" class="md-footer__link md-footer__link--next" aria-label="Next: Configuring Cache" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Configuring Cache
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
       
     </nav>
   
