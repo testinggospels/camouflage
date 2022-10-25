@@ -48,3 +48,5 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 🎊 Deployable on standalone VMs, Dockers and Kubernetes. 🎊
 
 📁 Comes with a file explorer UI that allows modification of mock files hosted remotely. 📁
+
+✅ Validation of requests and responses using your OpenApi schema's. ✅

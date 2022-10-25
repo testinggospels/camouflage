@@ -50,6 +50,8 @@ Camouflage is a service virtualization tool inspired by [namshi/mockserver](http
 
 📁 Comes with a file explorer UI that allows modification of mock files hosted remotely. 📁
 
+✅ Validation of requests and responses using your OpenApi schema's. ✅
+
 # Getting Started
 
 1.  Camouflage is an NPM package, therefore to install Camouflage, you'd need to install NodeJS (>v14) first, if you haven't already done so.
@@ -111,6 +113,11 @@ cache:
   ttl_seconds: 300
 injection:
   enable: false
+validation:
+  enable: true
+  schemas:
+    - type: OpenApi
+      url: https://raw.githubusercontent.com/OAI/OpenAPI-Specification/main/examples/v3.0/petstore.json
 origins:
   - http://localhost:3000
   - http://localhost:3001

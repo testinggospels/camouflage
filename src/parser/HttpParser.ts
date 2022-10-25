@@ -2,18 +2,24 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import os from "os";
-import { getHandlebars } from '../handlebar'
+import { getHandlebars } from "../handlebar";
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
 import * as httpProxy from "http-proxy";
 const proxy = httpProxy.createProxyServer({});
 let DELAY = 0;
-const Handlebars = getHandlebars()
+const Handlebars = getHandlebars();
 /**
  * Create a parser class which defines methods to parse
  * 1. Request URL to get a matching directory
  * 2. From matched directory get .mock file content and generate a response
  */
+
+export interface HttpParserResponse {
+  status: number;
+  body: string;
+  headers: { [key: string]: string };
+}
 export class HttpParser {
   private req: express.Request;
   private mockDir: string;
@@ -53,9 +59,9 @@ export class HttpParser {
    * @param {string} mockFile location of of the closest mached mockfile for incoming request
    * @returns {string} matchedDir for a given incoming request
    */
-  getResponse = (mockFile: string) => {
+  getResponse = async (mockFile: string): Promise<HttpParserResponse> => {
     // Default response
-    const response = {
+    let response: HttpParserResponse = {
       status: 404,
       body: '{"error": "Not Found"}',
       headers: {
@@ -64,20 +70,26 @@ export class HttpParser {
     };
     // Check if mock file exists
     if (fs.existsSync(mockFile)) {
-      this.prepareResponse(mockFile);
+      response = await this.prepareResponse(mockFile);
     } else {
       logger.error(`No suitable mock file found: ${mockFile}`);
       if (fs.existsSync(path.join(this.mockDir, "__", "GET.mock"))) {
-        logger.debug(`Found a custom global override for default response. Sending custom default response.`);
-        this.prepareResponse(path.join(this.mockDir, "__", "GET.mock"));
+        logger.debug(
+          `Found a custom global override for default response. Sending custom default response.`
+        );
+        response = await this.prepareResponse(
+          path.join(this.mockDir, "__", "GET.mock")
+        );
       } else {
         //If no mockFile is found, return default response
-        logger.debug(`No custom global override for default response. Sending default Camouflage response.`);
-        this.res.statusCode = response.status;
-        this.res.set(response.headers)
-        this.res.send(response.body);
+        logger.debug(
+          `No custom global override for default response. Sending default Camouflage response.`
+        );
       }
     }
+
+    response.status = parseFloat((<unknown>response.status) as string);
+    return response;
   };
   /**
    * - Since response file contains headers and body both, a PARSE_BODY flag is required to tell the logic if it's currently parsing headers or body
@@ -104,10 +116,12 @@ export class HttpParser {
    *   - Send the generated Response, from a timeout set to send the response after a DELAY value
    * @param {string} mockFile location of of the closest mached mockfile for incoming request
    */
-  private prepareResponse = async (mockFile: string) => {
+  private prepareResponse = async (
+    mockFile: string
+  ): Promise<HttpParserResponse> => {
     let PARSE_BODY = false;
     let responseBody = "";
-    const response = {
+    const response: HttpParserResponse = {
       status: 404,
       body: '{"error": "Not Found"}',
       headers: {
@@ -118,7 +132,8 @@ export class HttpParser {
     let fileResponse = await template({ request: this.req, logger: logger });
     if (fileResponse.includes("====")) {
       const fileContentArray = removeBlanks(fileResponse.split("===="));
-      fileResponse = fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
+      fileResponse =
+        fileContentArray[Math.floor(Math.random() * fileContentArray.length)];
     }
     const newLine = getNewLine(fileResponse);
     const fileContent = fileResponse.trim().split(newLine);
@@ -143,6 +158,7 @@ export class HttpParser {
             logger.debug(`Delay Set ${headerValue}`);
           } else {
             this.res.setHeader(headerKey, headerValue);
+            response.headers[headerKey] = headerValue;
             logger.debug(`Headers Set ${headerKey}: ${headerValue}`);
           }
         }
@@ -151,10 +167,9 @@ export class HttpParser {
         responseBody = responseBody + line;
       }
       if (index == fileContent.length - 1) {
-        this.res.statusCode = response.status;
         if (responseBody.includes("camouflage_file_helper")) {
           const fileResponse = responseBody.split(";")[1];
-          if (!fs.existsSync(fileResponse)) this.res.status(404)
+          if (!fs.existsSync(fileResponse)) this.res.status(404);
           setTimeout(() => {
             this.res.sendFile(fileResponse);
           }, DELAY);
@@ -164,16 +179,21 @@ export class HttpParser {
           responseBody = responseBody.replace(/}}}/, "}} }");
           const template = Handlebars.compile(responseBody);
           try {
-            const codeResponse = JSON.parse(responseBody.replace(/&quot;/g, "\""));
+            const codeResponse = JSON.parse(
+              responseBody.replace(/&quot;/g, '"')
+            );
             switch (codeResponse["CamouflageResponseType"]) {
               case "code":
-                this.res.statusCode = codeResponse["status"] || this.res.statusCode;
+                response.status = codeResponse["status"];
                 if (codeResponse["headers"]) {
-                  this.res.set(codeResponse["headers"])
+                  response.headers = {
+                    ...response.headers,
+                    ...codeResponse["headers"],
+                  };
                 }
                 setTimeout(() => {
                   logger.debug(`Generated Response ${codeResponse["body"]}`);
-                  this.res.send(codeResponse["body"]);
+                  response.body = codeResponse["body"];
                 });
                 break;
               case "proxy":
@@ -186,19 +206,19 @@ export class HttpParser {
                 const faultType = codeResponse["FaultType"];
                 switch (faultType) {
                   case "ERR_EMPTY_RESPONSE":
-                    this.res.socket.destroy()
+                    this.res.socket.destroy();
                     break;
                   case "ERR_INCOMPLETE_CHUNKED_ENCODING":
                     this.res.writeHead(200);
-                    this.res.write('123sdlyndb;aie10-)(&2*2++1dnb/vlaj');
+                    this.res.write("123sdlyndb;aie10-)(&2*2++1dnb/vlaj");
                     setTimeout(() => {
                       this.res.socket.destroy();
                     }, 100);
                     break;
                   case "ERR_CONTENT_LENGTH_MISMATCH":
-                    this.res.setHeader('Content-Length', 100);
+                    this.res.setHeader("Content-Length", 100);
                     this.res.writeHead(200);
-                    this.res.write('123sdlyndb;aie10-)(&2*2++1dnb/vlaj');
+                    this.res.write("123sdlyndb;aie10-)(&2*2++1dnb/vlaj");
                     setTimeout(() => {
                       this.res.socket.destroy();
                     }, 100);
@@ -209,24 +229,43 @@ export class HttpParser {
                 break;
               default:
                 setTimeout(async () => {
-                  logger.debug(`Generated Response ${await template({ request: this.req, logger: logger })}`);
-                  this.res.send(await template({ request: this.req, logger: logger }));
+                  logger.debug(
+                    `Generated Response ${await template({
+                      request: this.req,
+                      logger: logger,
+                    })}`
+                  );
+                  response.body = await template({
+                    request: this.req,
+                    logger: logger,
+                  });
                 }, DELAY);
                 break;
             }
           } catch (error) {
             logger.warn(error.message);
             setTimeout(async () => {
-              logger.debug(`Generated Response ${await template({ request: this.req, logger: logger })}`);
-              this.res.send(await template({ request: this.req, logger: logger }));
+              logger.debug(
+                `Generated Response ${await template({
+                  request: this.req,
+                  logger: logger,
+                })}`
+              );
+              response.body = await template({
+                request: this.req,
+                logger: logger,
+              });
+              console.log("yo");
             }, DELAY);
           }
+          response.body = responseBody;
         }
         PARSE_BODY = false;
         responseBody = "";
         DELAY = 0;
       }
     });
+    return response;
   };
 }
 
@@ -264,20 +303,22 @@ const getNewLine = (source: string) => {
   const crlf = source.split("\r\n").length;
 
   if (cr + lf === 0) {
-    logger.warn(`No valid new line found in the mock file. Using OS default: ${os.EOL}`);
+    logger.warn(
+      `No valid new line found in the mock file. Using OS default: ${os.EOL}`
+    );
     return os.EOL;
   }
 
   if (crlf === cr && crlf === lf) {
-    logger.debug("Using new line as \\r\\n")
+    logger.debug("Using new line as \\r\\n");
     return "\r\n";
   }
 
   if (cr > lf) {
-    logger.debug("Using new line as \\r")
+    logger.debug("Using new line as \\r");
     return "\r";
   } else {
-    logger.debug("Using new line as \\n")
+    logger.debug("Using new line as \\n");
     return "\n";
   }
-}
+};

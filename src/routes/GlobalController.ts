@@ -1,7 +1,9 @@
 import { Router, Request, Response } from "express";
+import { Validation } from "../validation";
 import { getLoaderInstance } from "../ConfigLoader";
 import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 import { HttpParser } from "../parser/HttpParser";
+import logger from "../logger";
 /**
  * Defines and registers global contoller which will handle any request not handled by admin/management endpoints
  */
@@ -58,9 +60,26 @@ export default class GlobalController {
     // });
     return router;
   };
-  private handler = (req: Request, res: Response, verb: string) => {
-    const parser = new HttpParser(req, res, this.mocksDir);
-    const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
-    parser.getResponse(mockFile);
+  private handler = async (req: Request, res: Response, verb: string) => {
+    const validator = Validation.getInstance();
+    const request = validator.validateRequest(req);
+    if (request.valid) {
+      const parser = new HttpParser(req, res, this.mocksDir);
+      const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
+      const response = await parser.getResponse(mockFile);
+      if (!res.headersSent) {
+        const responseValidation = validator.validateResponse(req, response);
+        if (responseValidation.valid) {
+          const { headers, status, body } = response;
+          res.set(headers).status(status).send(body);
+        } else {
+          res.status(409).json(JSON.parse(responseValidation.error.message));
+        }
+      } else {
+        logger.warn("Headers already sent.");
+      }
+    } else {
+      res.status(400).json(JSON.parse(request.error.message));
+    }
   };
 }
