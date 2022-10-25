@@ -155,7 +155,7 @@ const start = (
     );
     backupScheduler.schedule();
   }
-  let middlewareConfigFile: string = path.join(
+  const middlewareConfigFile: string = path.join(
     path.dirname(path.resolve(configFilePath)),
     "middleware.js"
   );

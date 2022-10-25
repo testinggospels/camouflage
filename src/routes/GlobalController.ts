@@ -27,37 +27,10 @@ export default class GlobalController {
    * @returns {void}
    */
   register = (): Router => {
-    let router: Router = Router();
+    const router: Router = Router();
     router.all("*", (req: Request, res: Response) => {
       this.handler(req, res, req.method.toUpperCase());
     });
-    // router.get("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "GET");
-    // });
-    // router.post("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "POST");
-    // });
-    // router.put("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "PUT");
-    // });
-    // router.delete("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "DELETE");
-    // });
-    // router.head("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "HEAD");
-    // });
-    // router.connect("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "CONNECT");
-    // });
-    // router.options("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "OPTIONS");
-    // });
-    // router.trace("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "TRACE");
-    // });
-    // router.patch("*", (req: Request, res: Response) => {
-    //   this.handler(req, res, "PATCH");
-    // });
     return router;
   };
   private handler = async (req: Request, res: Response, verb: string) => {

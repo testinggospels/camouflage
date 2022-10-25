@@ -4,7 +4,7 @@ import { HttpParserResponse } from "../parser/HttpParser";
 import { ValidationSchema } from "../ConfigLoader/LoaderInterface";
 
 export interface ValidationResult {
-  valid: Boolean;
+  valid: boolean;
   error?: Error;
 }
 
@@ -18,7 +18,7 @@ export abstract class ValidationAdapter {
 
   abstract load(): Promise<void>;
 
-  abstract supportsRequest(req: Request): Boolean;
+  abstract supportsRequest(req: Request): boolean;
 
   abstract verifyRequest(req: Request): ValidationResult;
 

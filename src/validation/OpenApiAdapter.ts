@@ -10,7 +10,9 @@ import { ValidationAdapter, ValidationResult } from "./ValidationAdapter";
 import type { HttpParserResponse } from "../parser/HttpParser";
 
 const expressifyPath = (path: string) => {
+  /* eslint-disable */
   const params = path.match(/(\{(?:\{.*\}|[^\{])*\})/g);
+  /* eslint-enable */
   if (params?.length > 0) {
     for (let x = 0; x < params.length; x++) {
       const param = params[x];
@@ -52,7 +54,7 @@ export default class OpenApiAdapter extends ValidationAdapter {
     }
   }
 
-  supportsRequest(req: Request): Boolean {
+  supportsRequest(req: Request): boolean {
     return this.findRoute(req) ? true : false;
   }
 
