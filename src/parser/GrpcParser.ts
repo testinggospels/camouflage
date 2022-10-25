@@ -35,8 +35,8 @@ export default class GrpcParser {
       const mockFilePath = path.join(this.config.protocols.grpc.mocks_dir, mockFile + ".mock");
       if (fs.existsSync(mockFilePath)) {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-        logger.debug(`Unary Request: ${JSON.stringify(call.request)}`)
-        const fileContent = await template({ request: call.request });
+        logger.debug(`Unary Request: ${JSON.stringify(call.request)}. Metadata: ${JSON.stringify(call.metadata)}`)
+        const fileContent = await template({ request: call.request, metadata: call.metadata });
         logger.debug(`Mock file path: ${mockFilePath}`);
         logger.debug(`Response: ${fileContent}`);
         const response = JSON.parse(fileContent);
@@ -72,8 +72,8 @@ export default class GrpcParser {
     if (fs.existsSync(mockFilePath)) {
       try {
         const template = Handlebars.compile(fs.readFileSync(mockFilePath, "utf-8").toString());
-        logger.debug(`Server Stream Request: ${JSON.stringify(call.request)}`)
-        const fileContent = await template({ request: call.request });
+        logger.debug(`Server Stream Request: ${JSON.stringify(call.request)}. Metadata ${JSON.stringify(call.metadata)}`)
+        const fileContent = await template({ request: call.request, metadata: call.metadata });
         logger.debug(`Mock file path: ${mockFilePath}`);
         const streamArr = fileContent.split("====");
         let delay = 0;

@@ -13,7 +13,9 @@ export default class ThriftSetup {
         this.config = getLoaderInstance().getConfig()
     }
     initThrift = () => {
+        /*eslint-disable */
         const handlers: Record<string, Function> = {}
+        /*eslint-enable */
         this.config.protocols.thrift.services.forEach((service: ThriftConfig) => {
             service.handlers.forEach((handler: string) => {
                 handlers[handler] = async (request: any, response: any) => {
@@ -35,9 +37,11 @@ export default class ThriftSetup {
                 }
             });
             try {
+                /*eslint-disable */
                 thrift.createServer(require(service.service), handlers).listen(service.port, () => {
                     logger.info(`Worker sharing Thrift server for ${service.service} on ${service.port} ⛳`)
                 });
+                /*eslint-enable */
             } catch (err) {
                 logger.error(`Failed to start thrift server for ${service.service}. ${err.message}`)
             }

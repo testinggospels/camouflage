@@ -120,16 +120,16 @@ const fromDir = function (startPath: string, filter: string, protoIgnore: string
     return availableFiles;
 }
 
-const serverCredentials = function(enableTls: boolean, certPath: string, keyPath: string, rootCert?: string): grpc.ServerCredentials {
-    if(!enableTls) {
+const serverCredentials = function (enableTls: boolean, certPath: string, keyPath: string, rootCert?: string): grpc.ServerCredentials {
+    if (!enableTls) {
         logger.debug(`Using insecure gRPC server credentials.`);
         return grpc.ServerCredentials.createInsecure()
     }
-    var keyCertPairs = [{
+    const keyCertPairs = [{
         private_key: fs.readFileSync(keyPath),
         cert_chain: fs.readFileSync(certPath)
     }]
-    if(fs.existsSync(rootCert)) {
+    if (fs.existsSync(rootCert)) {
         logger.debug(`Using SSL gRPC server credentials with client authentication.`);
         return grpc.ServerCredentials.createSsl(fs.readFileSync(rootCert), keyCertPairs, true)
     } else {
