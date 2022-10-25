@@ -158,6 +158,7 @@ export class HttpParser {
             logger.debug(`Delay Set ${headerValue}`);
           } else {
             this.res.setHeader(headerKey, headerValue);
+            response.headers[headerKey] = headerValue;
             logger.debug(`Headers Set ${headerKey}: ${headerValue}`);
           }
         }
@@ -166,7 +167,6 @@ export class HttpParser {
         responseBody = responseBody + line;
       }
       if (index == fileContent.length - 1) {
-        response.status = response.status;
         if (responseBody.includes("camouflage_file_helper")) {
           const fileResponse = responseBody.split(";")[1];
           if (!fs.existsSync(fileResponse)) this.res.status(404);
@@ -184,7 +184,7 @@ export class HttpParser {
             );
             switch (codeResponse["CamouflageResponseType"]) {
               case "code":
-                response.status = codeResponse["status"] || this.res.statusCode;
+                response.status = codeResponse["status"];
                 if (codeResponse["headers"]) {
                   response.headers = {
                     ...response.headers,
