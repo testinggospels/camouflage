@@ -123,20 +123,41 @@ export default class OpenApiAdapter extends ValidationAdapter {
     const currentRoute = this.findRoute(req);
 
     if (currentRoute && currentRoute[method]) {
-      // check response
-      const responseValidator = new OpenAPIResponseValidator(
-        currentRoute[method]
-      );
+      try {
+        // check response
+        const responseValidator = new OpenAPIResponseValidator(
+          currentRoute[method]
+        );
 
-      const result = responseValidator.validateResponse(
-        response.status,
-        JSON.parse(response.body)
-      );
+        const result = responseValidator.validateResponse(
+          response.status,
+          JSON.parse(response.body)
+        );
 
-      if (result?.errors.length > 0) {
-        const error = createHttpError(
-          409,
-          new Error(JSON.stringify(result.errors, null, 2))
+        if (result?.errors.length > 0) {
+          const error = createHttpError(
+            409,
+            new Error(JSON.stringify(result.errors, null, 2))
+          );
+          return {
+            valid: false,
+            error,
+          };
+        }
+      } catch (err) {
+        const error = new createHttpError[500](
+          JSON.stringify(
+            [
+              {
+                path: "schema",
+                errorCode: "type.openapi.error",
+                message: err.message,
+                location: "schema",
+              },
+            ],
+            null,
+            2
+          )
         );
         return {
           valid: false,
