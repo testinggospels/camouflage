@@ -12,7 +12,6 @@
       <img src="https://img.shields.io/github/repo-size/testinggospels/camouflage">
       <img src="https://img.shields.io/bundlephobia/min/camouflage-server"><br/><br/>
       <h3 align="center"><a href="https://testinggospels.github.io/camouflage/">Complete Documentation</a></h3>
-      <h3 align="center"><a href="http://camouflage-server.herokuapp.com/">Demo</a></h3>
     </p>
 </p>
 

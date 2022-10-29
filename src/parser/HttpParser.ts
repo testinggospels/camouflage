@@ -15,6 +15,10 @@ const Handlebars = getHandlebars();
  * 2. From matched directory get .mock file content and generate a response
  */
 
+const sleep = (ms: number): Promise<void> => {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+};
+
 export interface HttpParserResponse {
   status: number;
   body: string;
@@ -89,6 +93,7 @@ export class HttpParser {
     }
 
     response.status = parseFloat((<unknown>response.status) as string);
+    DELAY = 0;
     return response;
   };
   /**
@@ -137,7 +142,9 @@ export class HttpParser {
     }
     const newLine = getNewLine(fileResponse);
     const fileContent = fileResponse.trim().split(newLine);
-    fileContent.forEach((line: string, index: number) => {
+    for (let index = 0; index < fileContent.length; index++) {
+      const line = fileContent[index];
+
       if (line === "") {
         PARSE_BODY = true;
       }
@@ -170,9 +177,8 @@ export class HttpParser {
         if (responseBody.includes("camouflage_file_helper")) {
           const fileResponse = responseBody.split(";")[1];
           if (!fs.existsSync(fileResponse)) this.res.status(404);
-          setTimeout(() => {
-            this.res.sendFile(fileResponse);
-          }, DELAY);
+          await sleep(DELAY);
+          this.res.sendFile(fileResponse);
         } else {
           responseBody = responseBody.replace(/\s+/g, " ").trim();
           responseBody = responseBody.replace(/{{{/, "{ {{");
@@ -191,10 +197,10 @@ export class HttpParser {
                     ...codeResponse["headers"],
                   };
                 }
-                setTimeout(() => {
-                  logger.debug(`Generated Response ${codeResponse["body"]}`);
-                  response.body = codeResponse["body"];
-                });
+                await sleep(DELAY);
+                logger.debug(`Generated Response ${codeResponse["body"]}`);
+                response.body = codeResponse["body"];
+                return response;
                 break;
               case "proxy":
                 /* eslint-disable no-case-declarations */
@@ -228,43 +234,42 @@ export class HttpParser {
                 }
                 break;
               default:
-                setTimeout(async () => {
-                  logger.debug(
-                    `Generated Response ${await template({
-                      request: this.req,
-                      logger: logger,
-                    })}`
-                  );
-                  response.body = await template({
+                await sleep(DELAY);
+                logger.debug(
+                  `Generated Response ${await template({
                     request: this.req,
                     logger: logger,
-                  });
-                }, DELAY);
+                  })}`
+                );
+
+                response.body = await template({
+                  request: this.req,
+                  logger: logger,
+                });
+                return response;
                 break;
             }
           } catch (error) {
             logger.warn(error.message);
-            setTimeout(async () => {
-              logger.debug(
-                `Generated Response ${await template({
-                  request: this.req,
-                  logger: logger,
-                })}`
-              );
-              response.body = await template({
+            await sleep(DELAY);
+            logger.debug(
+              `Generated Response ${await template({
                 request: this.req,
                 logger: logger,
-              });
-              console.log("yo");
-            }, DELAY);
+              })}`
+            );
+            response.body = await template({
+              request: this.req,
+              logger: logger,
+            });
+            return response;
           }
           response.body = responseBody;
         }
         PARSE_BODY = false;
         responseBody = "";
-        DELAY = 0;
       }
-    });
+    }
     return response;
   };
 }
