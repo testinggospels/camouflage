@@ -93,6 +93,7 @@ export class HttpParser {
     }
 
     response.status = parseFloat((<unknown>response.status) as string);
+    DELAY = 0;
     return response;
   };
   /**
@@ -267,7 +268,6 @@ export class HttpParser {
         }
         PARSE_BODY = false;
         responseBody = "";
-        DELAY = 0;
       }
     }
     return response;
