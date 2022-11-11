@@ -289,6 +289,54 @@ Content-Type: application/json
 
     Enable injection if you understand the potential risks.
 
+## state
+
+Type: Custom Helper
+
+Usage: State helper gets the mocked state value using a key send within the cookie header.
+If no value is found it will use the default context within the block.
+
+For example:
+```json
+{
+    "has_pending_order": {{#state key='has-pending-order'}}false{{/state}},
+    "cart": {{#state key='cart'}}[
+        {"id": 999, "name": "default prod"}
+    ]{{/state}}
+}
+```
+
+To set a value just send cookie with a specific prefix.
+
+```js
+const prefix = "mocked-state";
+const key = "has-pending-order";
+setCookie(`${prefix}-has-pending-order`, 'true');
+setCookie(`${prefix}-cart`, '[{id: 1, name: "prod1"}, {id: 2, name: "prod2"}]');
+```
+
+!!! caution
+    the limit of cookie values in most browsers is 4KB 
+
+### Usage in Cypress 
+
+If you use Camouglage with [Cypress](https://www.cypress.io/) you could add the following custom command to make life easier.
+
+```js
+/**
+* Custom cypress command to set a mocked state
+*/
+Cypress.Commands.add('setState', (key: string, value: unknown) => {
+    cy.setCookie(`mocked-state-${key}`, typeof value === 'string' ? value : JSON.stringify(value));
+});
+```
+
+Then in your tests
+
+```js
+cy.setState('has_pending_order', true);
+cy.setState('cart', [{id: 1, name: "prod1"}, {id: 2, name: "prod2"}]);
+```
 
 ## Inbuilt Helpers
 
