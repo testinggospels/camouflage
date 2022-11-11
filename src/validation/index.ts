@@ -4,11 +4,13 @@ import {
   ValidationConfig,
   ValidationSchemaType,
   ValidationSchema,
+  CamouflageConfig,
 } from "../ConfigLoader/LoaderInterface";
 import { HttpParserResponse } from "../parser/HttpParser";
 import logger from "../logger";
 import OpenApiAdapter from "./OpenApiAdapter";
 import { ValidationResult, ValidationAdapter } from "./ValidationAdapter";
+import { getLoaderInstance } from "../ConfigLoader";
 
 export class Validation {
   private static instance: Validation;
@@ -21,6 +23,10 @@ export class Validation {
   }
 
   public static getInstance(): Validation {
+    if (!Validation.instance) {
+      const config: CamouflageConfig = getLoaderInstance().getConfig();
+      return Validation.create(config.validation);
+    }
     return Validation.instance;
   }
 
