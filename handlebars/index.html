@@ -11,7 +11,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.4.1, mkdocs-material-8.5.7">
+      <meta name="generator" content="mkdocs-1.4.2, mkdocs-material-8.5.10">
     
     
       
@@ -19,10 +19,10 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.20d9efc8.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.472b142f.min.css">
       
         
-        <link rel="stylesheet" href="../assets/stylesheets/palette.cbb835fc.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.08040f6c.min.css">
         
       
       
@@ -111,6 +111,7 @@
         
           
           
+          
           <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="" data-md-color-accent=""  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
           
             <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
@@ -118,6 +119,7 @@
             </label>
           
         
+          
           
           
           <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="red" data-md-color-accent=""  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
@@ -406,6 +408,26 @@
   <a href="#assign" class="md-nav__link">
     assign
   </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#state" class="md-nav__link">
+    state
+  </a>
+  
+    <nav class="md-nav" aria-label="state">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#usage-in-cypress" class="md-nav__link">
+    Usage in Cypress
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1068,6 +1090,41 @@ Content-Type: application/json
 </ul>
 <p>Enable injection if you understand the potential risks.</p>
 </div>
+<h2 id="state">state</h2>
+<p>Type: Custom Helper</p>
+<p>Usage: State helper gets the mocked state value using a key send within the cookie header.
+If no value is found it will use the default context within the block.</p>
+<p>For example:</p>
+<pre><code class="language-json">{
+    &quot;has_pending_order&quot;: {{#state key='has-pending-order'}}false{{/state}},
+    &quot;cart&quot;: {{#state key='cart'}}[
+        {&quot;id&quot;: 999, &quot;name&quot;: &quot;default prod&quot;}
+    ]{{/state}}
+}
+</code></pre>
+<p>To set a value just send cookie with a specific prefix.</p>
+<pre><code class="language-js">const prefix = &quot;mocked-state&quot;;
+const key = &quot;has-pending-order&quot;;
+setCookie(`${prefix}-has-pending-order`, 'true');
+setCookie(`${prefix}-cart`, '[{id: 1, name: &quot;prod1&quot;}, {id: 2, name: &quot;prod2&quot;}]');
+</code></pre>
+<div class="admonition caution">
+<p class="admonition-title">Caution</p>
+<p>the limit of cookie values in most browsers is 4KB </p>
+</div>
+<h3 id="usage-in-cypress">Usage in Cypress</h3>
+<p>If you use Camouglage with <a href="https://www.cypress.io/">Cypress</a> you could add the following custom command to make life easier.</p>
+<pre><code class="language-js">/**
+* Custom cypress command to set a mocked state
+*/
+Cypress.Commands.add('setState', (key: string, value: unknown) =&gt; {
+    cy.setCookie(`mocked-state-${key}`, typeof value === 'string' ? value : JSON.stringify(value));
+});
+</code></pre>
+<p>Then in your tests</p>
+<pre><code class="language-js">cy.setState('has_pending_order', true);
+cy.setState('cart', [{id: 1, name: &quot;prod1&quot;}, {id: 2, name: &quot;prod2&quot;}]);
+</code></pre>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1217,7 +1274,7 @@ Content-Type: application/json
     <script id="__config" type="application/json">{"base": "..", "features": ["toc.integrate"], "search": "../assets/javascripts/workers/search.16e2a7d4.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.8492ddcf.min.js"></script>
+      <script src="../assets/javascripts/bundle.d6c3db9e.min.js"></script>
       
     
   </body>
