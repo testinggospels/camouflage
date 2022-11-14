@@ -79,7 +79,6 @@ const start = (
   configLoader.validateAndLoad();
   setLoaderInstance(configLoader);
   const config: CamouflageConfig = getLoaderInstance().getConfig();
-  if (config.validation && config.validation.enable) Validation.create(config.validation);
   // Set log level to the configured level from config.yaml
   setLogLevel(config.loglevel);
   logger.debug(JSON.stringify(config, null, 2));
