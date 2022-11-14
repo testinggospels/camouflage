@@ -20,6 +20,7 @@ import * as Q from 'q';
 import Handlebars from 'handlebars';
 import { AssignHelper } from "./AssignHelper";
 import { ConcatHelper } from "./ConcatHelper";
+import { StateHelper } from "./StateHelper";
 const HandlebarsPromised = promisedHandlebars(Handlebars, { Promise: Q.Promise })
 /**
  * Creates a instance of HandleBarHelper and register each custom helper
@@ -52,6 +53,7 @@ export const registerHandlebars = () => {
     logger.warn("Code Injection is disabled. Helpers such as code, inject, pg, csv and functionalities such as external helpers, will not work.")
   }
   new ProxyHelper(HandlebarsPromised).register();
+  new StateHelper(HandlebarsPromised).register();
   logger.info("Handlebar helpers registration completed");
 };
 

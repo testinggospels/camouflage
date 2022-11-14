@@ -8,7 +8,8 @@ Response-Delay: {{num_between lower=500 upper=600}}
     "greeting": "Hello {{capture from='query' key='name'}}", 
     "phone": {{randomValue length=10 type='NUMERIC'}}, 
     "dateOfBirth": "{{now format='MM/DD/YYYY'}}",
-    "test": "{{randomValue}}" 
+    "test": "{{randomValue}}",
+    "registered": {{#state key='registered'}}false{{/state}}
 }
 {{else}}
 HTTP/1.1 200 OK
@@ -19,7 +20,8 @@ Content-Type: application/json
     "greeting": "Hello World", 
     "phone": {{randomValue length=10 type='NUMERIC'}}, 
     "dateOfBirth": "{{now format='MM/DD/YYYY'}}",
-    "test": "{{randomValue}}" 
+    "test": "{{randomValue}}",
+    "registered": {{#state key='registered'}}true{{/state}}
 }
 {{/if}}
 
