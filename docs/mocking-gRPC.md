@@ -120,7 +120,7 @@ Camouflage provides an experimental support to send error responses starting v0.
 }
 ```
 
-## Sending GRPC Error responses
+## Sending GRPC response metadata
 
 Camouflage provides an experimental support to send metadata/trailers with responses starting v0.11.0 onwards, for unary and client side streaming calls. To send metadata, append a json metadata object with relevant keys and values to your mock content.
 

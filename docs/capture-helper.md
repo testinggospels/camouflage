@@ -23,6 +23,10 @@ Example `{{capture using='jsonpath' selector='$.lastName'}}`
 
 Similar to websockets, while using `capture` helper with gRPC, available/required arguments are `using` and `selector`.
 
+Example `{{capture using='jsonpath' selector='$.lastName'}}`
+
 1. For unary calls and server side streams, helpers have access to request payload as is.
-2. For client side streaming calls, payloads from each stream are stored in an array, which is then made available to helpers.
-3. For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream
+2. For unary calls and server side streams, helpers have access to metadata as well, which can be captured by specifying `key` and `from`.
+Example: `{{capture from='metadata' key='metadata_key'}}`
+3. For client side streaming calls, payloads from each stream are stored in an array, which is then made available to helpers.
+4. For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream.
