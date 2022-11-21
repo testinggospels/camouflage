@@ -13,7 +13,6 @@ export abstract class ValidationAdapter {
 
   constructor(config: ValidationSchema) {
     this.config = config;
-    this.load();
   }
 
   abstract load(): Promise<void>;
