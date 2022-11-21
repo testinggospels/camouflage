@@ -6,6 +6,7 @@ import { getHandlebars } from '../handlebar'
 import { getLoaderInstance } from "../ConfigLoader";
 import { CamouflageConfig } from "../ConfigLoader/LoaderInterface";
 const Handlebars = getHandlebars()
+import * as grpc from "@grpc/grpc-js";
 /**
  * Parser class for GRPC Protocol mocks to define handlers for:
  * - Unary calls
@@ -42,16 +43,26 @@ export default class GrpcParser {
         const response = JSON.parse(fileContent);
         const delay: number = response.delay || 0;
         delete response.delay;
+        const error = response.error || null
+        delete response.error;
+        const metadata = response.metadata || null;
+        delete response.metadata;
+        const trailers = new grpc.Metadata();
+        if (metadata) {
+          for (const key in metadata) {
+            trailers.add(key, metadata[key])
+          }
+        }
         setTimeout(() => {
-          callback(null, response);
+          callback(error, response, trailers);
         }, delay);
       } else {
         logger.error(`No suitable mock file was found for ${mockFilePath}`);
-        callback(null, { error: `No suitable mock file was found for ${mockFilePath}` });
+        callback({ code: 5, message: `No suitable mock file was found for ${mockFilePath}` }, {});
       }
     } catch (error) {
       logger.error(error);
-      callback(null, { error: error });
+      callback({ code: 10, message: error }, {});
     }
   };
   /**
@@ -137,16 +148,26 @@ export default class GrpcParser {
           const response = JSON.parse(fileContent);
           const delay: number = response.delay || 0;
           delete response.delay;
+          const error = response.error || null;
+          delete response.error
+          const metadata = response.metadata || null;
+          delete response.metadata;
+          const trailers = new grpc.Metadata();
+          if (metadata) {
+            for (const key in metadata) {
+              trailers.add(key, metadata[key])
+            }
+          }
           setTimeout(() => {
-            callback(null, response);
+            callback(error, response, trailers);
           }, delay);
         } else {
           logger.error(`No suitable mock file was found for ${mockFilePath}`);
-          callback(null, { error: `No suitable mock file was found for ${mockFilePath}` });
+          callback({ code: 5, error: `No suitable mock file was found for ${mockFilePath}` }, {});
         }
       } catch (error) {
         logger.error(error);
-        callback(null, { error: error });
+        callback({ code: 10, message: error }, {});
       }
     });
   };
