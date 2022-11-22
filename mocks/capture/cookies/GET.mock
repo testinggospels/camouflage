@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#if (capture from='cookies' key='scenario') }}
+{
+    "scenario": "{{capture from='cookies' key='scenario'}}"
+}
+{{else}}
+{
+    "scenario": "no cookie found for scenario"
+}
+{{/if}}

@@ -32,10 +32,9 @@ export class StateHelper {
    */
   register = () => {
     this.Handlebars.registerHelper("state", (context: any) => {
-      const cookie = context.data.root.request.headers.cookie;
-      const key = context.hash.key;
-      const value = new RegExp(`mocked-state-${key}=([^;]+)`).exec(cookie);
-      return value ? value[1] : context.fn(this);
+      const cookies = context.data.root.request.cookies || {};
+      const key = `mocked-state-${context.hash.key}`;
+      return cookies[key] || context.fn(this);
     });
   };
 }

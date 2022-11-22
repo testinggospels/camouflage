@@ -1,4 +1,12 @@
 {
     "id": {{num_between lower=500 upper=600}},
-    "title": "something"
+    "title": "something",
+    "error": {
+        "code": 16,
+        "message": "User is unauthenticated."
+    },
+    "metadata": {
+        "key1": "value1",
+        "key2": "value2"
+    }
 }
