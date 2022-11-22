@@ -41,14 +41,17 @@ export class Validation {
     }
   }
 
-  private loadSchemas(schemas: ValidationSchema[]) {
+  private async loadSchemas(schemas: ValidationSchema[]) {
     for (let x = 0; x < schemas.length; x++) {
       const schema = schemas[x];
       // for now only OpenApi json schemas are supported
       // in the future more types can be added like xml-rpc
       switch (schema.type) {
         case ValidationSchemaType.OpenApi:
-          this.adapters.push(new OpenApiAdapter(schema));
+          // eslint-disable-next-line no-case-declarations
+          const adapter = new OpenApiAdapter(schema);
+          await adapter.load();
+          this.adapters.push(adapter);
           break;
         default:
           logger.warn(

@@ -107,6 +107,32 @@ You can also add delays in your grpc mock services, by adding a delay key with t
 
 You don't need to modify your proto file to accommodate the additional key, since Camouflage will delete the "delay" key from the response before sending it to the client.
 
+## Sending GRPC Error responses
+
+Camouflage provides an experimental support to send error responses starting v0.11.0 onwards, for unary and client side streaming calls. To send an error response, append a json error object with `code` and optional `message` to your mock content.
+
+```json
+{
+  "error": {
+    "code": 16,
+    "message": "User is unauthenticted."
+  }
+}
+```
+
+## Sending GRPC response metadata
+
+Camouflage provides an experimental support to send metadata/trailers with responses starting v0.11.0 onwards, for unary and client side streaming calls. To send metadata, append a json metadata object with relevant keys and values to your mock content.
+
+```json
+{
+  "metadata": {
+    "key1": "value1",
+    "key2": "value2"
+  }
+}
+```
+
 !!!caution
 
     Since the Camouflage gRPC server needs to register the new services, everytime you add a new protofile, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test. Note that restart is required only if you add a new protofile. If you have added a new mock file or updated an existing one, a restart is not required.

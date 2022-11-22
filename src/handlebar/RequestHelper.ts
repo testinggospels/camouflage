@@ -14,7 +14,7 @@ export class RequestHelper {
    * Registers capture helper
    * - Get the request object passed in from the context by calling template({request: req})
    * - Get the from value passed in while calling {{capture from=}}, accepted values query, headers, path, body
-   * - For query and headers, key is required, else if not found a null/undefined value will be automatically returned.
+   * - For query, cookies and headers, key is required, else if not found a null/undefined value will be automatically returned.
    * - For path additional input regex is mandatory, if not passed return error
    * - For body additional inputs using and selector are mandatory, if not passed return error
    * @returns {void}
@@ -28,6 +28,8 @@ export class RequestHelper {
           return request.query[context.hash.key];
         case "headers":
           return request.get(context.hash.key);
+        case "cookies":
+          return request.cookies[context.hash.key] || "";
         case "path":
           if (typeof context.hash.regex === "undefined") {
             logger.debug("ERROR: No regex specified");

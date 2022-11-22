@@ -19,12 +19,12 @@ import swStats from "swagger-stats";
 import cors from "cors";
 import compression from "compression";
 import { queryParser } from "express-query-parser";
+import cookieParser from "cookie-parser";
 import ConfigLoader, {
   getLoaderInstance,
   setLoaderInstance,
 } from "./ConfigLoader";
 import { CamouflageConfig } from "./ConfigLoader/LoaderInterface";
-import { Validation } from "./validation";
 
 const app = express();
 // Configure logging for express requests
@@ -64,6 +64,8 @@ app.use(
     parseNumber: true,
   })
 );
+// parse cookies
+app.use(cookieParser());
 /**
  * Initializes required variables and starts a 1 master X workers configuration - FUTURE IMPROVEMENT - Pass a single config object
  * @param {string[]} protoIgnore array of files to be ignored during loading proto files

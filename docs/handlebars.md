@@ -59,8 +59,9 @@ Usage:
 }
 ```
 
-2. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path, you'd need to specify a regex to capture a value.
-3. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from the request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
+2. **{{capture from='cookies' key='mycookie'}}** - For cookies, you'd need to specify a key to capture a value.
+3. **{{capture from='path' regex='\/users\/get\/(.*)?'}}** - For path, you'd need to specify a regex to capture a value.
+4. **{{capture from='body' using='jsonpath' selector='$.lastName'}}** - To capture values from the request body, your options are either using='regex' or using='jsonpath'. Selector will change accordingly.
 
 !!!note
 
