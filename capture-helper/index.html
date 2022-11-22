@@ -709,10 +709,13 @@
 <p>Example <code>{{capture using='jsonpath' selector='$.lastName'}}</code></p>
 <h1 id="using-with-grpc">Using with gRPC</h1>
 <p>Similar to websockets, while using <code>capture</code> helper with gRPC, available/required arguments are <code>using</code> and <code>selector</code>.</p>
+<p>Example <code>{{capture using='jsonpath' selector='$.lastName'}}</code></p>
 <ol>
 <li>For unary calls and server side streams, helpers have access to request payload as is.</li>
+<li>For unary calls and server side streams, helpers have access to metadata as well, which can be captured by specifying <code>key</code> and <code>from</code>.
+Example: <code>{{capture from='metadata' key='metadata_key'}}</code></li>
 <li>For client side streaming calls, payloads from each stream are stored in an array, which is then made available to helpers.</li>
-<li>For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream</li>
+<li>For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream.</li>
 </ol>
 
 

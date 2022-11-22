@@ -499,6 +499,20 @@
 </li>
       
         <li class="md-nav__item">
+  <a href="#sending-grpc-error-responses" class="md-nav__link">
+    Sending GRPC Error responses
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sending-grpc-response-metadata" class="md-nav__link">
+    Sending GRPC response metadata
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#overriding-proto-loaders-default-options" class="md-nav__link">
     Overriding proto-loader's default options
   </a>
@@ -817,6 +831,24 @@ For example, you have a protofile A. i.e. <code>./grpc/protos/protofileA.proto</
 }
 </code></pre>
 <p>You don't need to modify your proto file to accommodate the additional key, since Camouflage will delete the "delay" key from the response before sending it to the client.</p>
+<h2 id="sending-grpc-error-responses">Sending GRPC Error responses</h2>
+<p>Camouflage provides an experimental support to send error responses starting v0.12.0 onwards, for unary and client side streaming calls. To send an error response, append a json error object with <code>code</code> and optional <code>message</code> to your mock content.</p>
+<pre><code class="language-json">{
+  &quot;error&quot;: {
+    &quot;code&quot;: 16,
+    &quot;message&quot;: &quot;User is unauthenticted.&quot;
+  }
+}
+</code></pre>
+<h2 id="sending-grpc-response-metadata">Sending GRPC response metadata</h2>
+<p>Camouflage provides an experimental support to send metadata/trailers with responses starting v0.12.0 onwards, for unary and client side streaming calls. To send metadata, append a json metadata object with relevant keys and values to your mock content.</p>
+<pre><code class="language-json">{
+  &quot;metadata&quot;: {
+    &quot;key1&quot;: &quot;value1&quot;,
+    &quot;key2&quot;: &quot;value2&quot;
+  }
+}
+</code></pre>
 <div class="admonition caution">
 <p class="admonition-title">Caution</p>
 <p>Since the Camouflage gRPC server needs to register the new services, everytime you add a new protofile, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test. Note that restart is required only if you add a new protofile. If you have added a new mock file or updated an existing one, a restart is not required.</p>
