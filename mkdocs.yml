@@ -38,6 +38,7 @@ nav:
   - mocking-gRPC.md
   - mocking-websockets.md
   - mocking-thrift.md
+  - mocking-soap.md
   - capture-helper.md
   - camouflage-ui.md
   - available-monitoring.md

@@ -48,6 +48,12 @@ export default class ConfigLoader {
             mocks_dir: "./thrift/mocks",
             services: []
         };
+        this.config.protocols.soap = this.config.protocols.soap ? this.config.protocols.soap : {
+            enable: false,
+            port: 8100,
+            mocks_dir: "./soap_mocks",
+            services: [],
+        };
         this.config.backup = this.config.backup ? this.config.backup : { enable: false, cron: "0 * * * *" };
         this.config.cache = this.config.cache ? this.config.cache : { enable: false, ttl_seconds: 300 };
         this.config.injection = this.config.injection ? this.config.injection : { enable: false };
