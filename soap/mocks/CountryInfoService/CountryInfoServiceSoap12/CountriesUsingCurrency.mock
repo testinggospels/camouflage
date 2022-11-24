@@ -1,0 +1,12 @@
+{
+    "body": [
+        {
+            "sISOCode": "NL", 
+            "sName": "The Netherlands"
+        },
+        {
+            "sISOCode": "BE", 
+            "sName": "Belgium"
+        }
+    ]
+}

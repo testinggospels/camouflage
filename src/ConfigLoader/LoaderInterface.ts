@@ -1,4 +1,5 @@
 import { ThriftConfig } from "../protocols/Thrift";
+import { SoapConfig } from "../protocols/Soap";
 
 export interface CamouflageConfig {
   loglevel: "debug" | "info" | "warning" | "error";
@@ -31,6 +32,7 @@ interface Protocols {
   ws: ProtocolConfig;
   grpc: ProtocolConfig;
   thrift: ThriftProtocolConfig;
+  soap: SoapProtocolConfig;
 }
 
 interface ProtocolConfig {
@@ -46,6 +48,13 @@ interface ThriftProtocolConfig {
   enable: boolean;
   mocks_dir: string;
   services: ThriftConfig[];
+}
+
+interface SoapProtocolConfig {
+  enable: boolean;
+  port: number;
+  mocks_dir: string;
+  services: SoapConfig[];
 }
 
 interface BackupConfig {
