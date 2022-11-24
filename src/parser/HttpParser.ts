@@ -17,10 +17,6 @@ const Handlebars = getHandlebars();
  * 2. From matched directory get .mock file content and generate a response
  */
 
-const sleep = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
-
 export interface HttpParserResponse {
   status: number;
   body: string;
