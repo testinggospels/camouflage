@@ -38,6 +38,13 @@ protocols:
           - add
           - substract
           - ping
+  soap:
+    enable: false
+    mocks_dir: "./soap/mocks"
+    port: 8100
+    services:
+      - wsdl: ./soap/countryservice.wsdl
+        path: /countryinfo
 backup:
   enable: false
   cron: "0 * * * *" # Hourly Backup

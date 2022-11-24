@@ -1,0 +1,4 @@
+{
+    "delay": 1000,
+    "body": "{{randomValue type='ALPHABETIC' uppercase=true length=2}}"
+}

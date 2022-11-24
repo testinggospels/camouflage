@@ -149,6 +149,10 @@ const start = (
   if (config.protocols.thrift.enable) {
     protocols.initThrift();
   }
+  // If soap protocol is enabled, start soap server with additional inputs
+  if (config.protocols.soap.enable) {
+    protocols.initSoap();
+  }
   // If backup is enabled, schedule a cron job to copy file to backup directory
   if (config.backup.enable) {
     const backupScheduler: BackupScheduler = new BackupScheduler(
