@@ -1,6 +1,6 @@
 import path from "path";
 import { readFileSync, existsSync } from "fs";
-import express, {Request} from "express";
+import express, { Request } from "express";
 import { soap } from "express-soap";
 import { WSDL } from "soap";
 import http from "http";
@@ -40,9 +40,7 @@ export default class SoapSetup {
         await new Promise((resolve, reject) => {
           wsdl.onReady((err) => {
             if (err) return reject(err);
-            wsdl.describeServices().then((services: any) => {
-              resolve(services);
-            })
+            resolve((wsdl as any).describeServices());
           });
         })
       );
@@ -62,9 +60,7 @@ export default class SoapSetup {
               let DELAY = 0;
               const handler = `${serviceName}/${portName}/${methodName}`;
               logger.debug(
-                `Soap Request for ${handler} handler: ${JSON.stringify(
-                  args
-                )}`
+                `Soap Request for ${handler} handler: ${JSON.stringify(args)}`
               );
               const mockFilePath = path.resolve(
                 this.config.protocols.soap.mocks_dir,
@@ -76,8 +72,8 @@ export default class SoapSetup {
               );
 
               // add arguments to the request body
-              request.body = args
-              
+              request.body = args;
+
               const fileContent = await template({ request, logger });
               logger.debug(
                 `Soap Response for ${handler} handler: ${fileContent}`
