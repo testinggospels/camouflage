@@ -565,6 +565,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../mocking-soap/" class="md-nav__link">
+        Mocking SOAP
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../capture-helper/" class="md-nav__link">
         Capture Helper
       </a>
@@ -832,7 +847,7 @@ For example, you have a protofile A. i.e. <code>./grpc/protos/protofileA.proto</
 </code></pre>
 <p>You don't need to modify your proto file to accommodate the additional key, since Camouflage will delete the "delay" key from the response before sending it to the client.</p>
 <h2 id="sending-grpc-error-responses">Sending GRPC Error responses</h2>
-<p>Camouflage provides an experimental support to send error responses starting v0.12.0 onwards, for unary and client side streaming calls. To send an error response, append a json error object with <code>code</code> and optional <code>message</code> to your mock content.</p>
+<p>Camouflage provides an experimental support to send error responses starting v0.11.0 onwards, for unary and client side streaming calls. To send an error response, append a json error object with <code>code</code> and optional <code>message</code> to your mock content.</p>
 <pre><code class="language-json">{
   &quot;error&quot;: {
     &quot;code&quot;: 16,
@@ -841,7 +856,7 @@ For example, you have a protofile A. i.e. <code>./grpc/protos/protofileA.proto</
 }
 </code></pre>
 <h2 id="sending-grpc-response-metadata">Sending GRPC response metadata</h2>
-<p>Camouflage provides an experimental support to send metadata/trailers with responses starting v0.12.0 onwards, for unary and client side streaming calls. To send metadata, append a json metadata object with relevant keys and values to your mock content.</p>
+<p>Camouflage provides an experimental support to send metadata/trailers with responses starting v0.11.0 onwards, for unary and client side streaming calls. To send metadata, append a json metadata object with relevant keys and values to your mock content.</p>
 <pre><code class="language-json">{
   &quot;metadata&quot;: {
     &quot;key1&quot;: &quot;value1&quot;,

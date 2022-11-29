@@ -15,7 +15,7 @@
     
     
       
-        <title>Camouflage with Docker - Camouflage</title>
+        <title>Mocking SOAP - Camouflage</title>
       
     
     
@@ -68,7 +68,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#camouflage-with-docker" class="md-skip">
+        <a href="#mocking-soap" class="md-skip">
           Skip to content
         </a>
       
@@ -100,7 +100,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Camouflage with Docker
+              Mocking SOAP
             
           </span>
         </div>
@@ -473,11 +473,59 @@
 
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../mocking-soap/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Mocking SOAP
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Mocking SOAP
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#how-to-mock-soap" class="md-nav__link">
+    How to mock SOAP?
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#example-request" class="md-nav__link">
+    Example request
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -608,66 +656,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          Camouflage with Docker
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../using-with-docker/" class="md-nav__link">
         Camouflage with Docker
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#port-mapping" class="md-nav__link">
-    Port Mapping
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#mounting-volumes" class="md-nav__link">
-    Mounting Volumes
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docker-compose" class="md-nav__link">
-    Docker Compose
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -716,53 +709,104 @@
                 
                   
 
-  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/using-with-docker.md" title="Edit this page" class="md-content__button md-icon">
+  <a href="https://github.com/fauxauldrich/camouflage/edit/master/docs/mocking-soap.md" title="Edit this page" class="md-content__button md-icon">
     
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
   </a>
 
 
-<h1 id="camouflage-with-docker">Camouflage with Docker</h1>
-<p>Camouflage can be used with the docker image available at <a href="https://hub.docker.com/repository/docker/shubhendumadhukar/camouflage" target="_blank">Docker Hub</a>.</p>
-<p>Camouflage can be run with docker using the command, <code>docker container run -d --name camouflage -p 8080:8080 shubhendumadhukar/camouflage:${TAG}</code>, where <code>${TAG}</code> used in docker image refers to the version of camouflage-server npm package.</p>
-<h2 id="port-mapping">Port Mapping</h2>
-<p>You can map additional ports to access other protocols and endpoints, e.g. default ports are</p>
+<h1 id="mocking-soap">Mocking SOAP</h1>
+<p>Camouflage supports mocking for SOAP services.</p>
+<h3 id="how-to-mock-soap">How to mock SOAP?</h3>
 <ul>
-<li>8080 - For HTTP</li>
-<li>8443 - For HTTPS</li>
-<li>8081 - For HTTP2</li>
-<li>8082 - For Websockets</li>
-<li>4312 - For gRPC</li>
-<li>5555 - Exposes a /metrics endpoint for prometheus monitoring</li>
+<li>Start by enabling soap protocol in the config file, provide the location of your ${SOAP_MOCKS} directory and optionally update the port.</li>
+<li>Also configure the WSDL schema containing the services you wish to mock and the path you want it to be available on.</li>
 </ul>
-<p>Each of these ports can be mapped to a host port of your choice</p>
-<h2 id="mounting-volumes">Mounting Volumes</h2>
-<p>Since Camouflage provides you a UI, you can create folders, upload a mock file, delete folders in order to change the mocks behavior at runtime without having to rebuild the docker image or copy additional files to the running containers.</p>
-<p>You can also achieve the same effect by mounting volumes while starting Camouflage.</p>
+<pre><code class="language-yaml">protocols:
+  soap:
+    enable: true
+    mocks_dir: &quot;./soap/mocks&quot;
+    port: 8100
+    services:
+      - wsdl: ./soap/countryservice.wsdl
+        path: /countryinfo
+</code></pre>
 <ul>
-<li>Create an empty directory in your host machine.</li>
-<li>Run <code>camouflage init</code> in the directory to generate a starter skeleton of a Camouflage project.</li>
-<li>Carry out necessary modifications, like deleting example files, modifying config, adding certs, etc.</li>
-<li>Start Camouflage using command: <ul>
-<li><code>docker run -d -p 8080:8080 -p 5555:5555 -v $(pwd):/app --name camouflage shubhendumadhukar/camouflage</code> if you are on mac or linux</li>
-<li><code>docker run -d -p 8080:8080 -p 5555:5555 -v %cd%:/app --name camouflage shubhendumadhukar/camouflage</code> if you are on Windows</li>
+<li>The folder structure for ${SOAP_MOCKS} follows the stucture of the WSDL schema, where you create a series of folders under ${SOAP_MOCKS} e.g. ${SOAP_MOCKS}/CountryInfoService/CountryInfoServiceSoap12/CountriesUsingCurrency.mock. This will allow you to POST to your mocked SOAP server using the url <code>http://localhost:8100/countryinfo</code></li>
 </ul>
-</li>
-</ul>
-<p>To make any changes to mocks you can modify files on your host. Or you can use Camouflage UI to make necessary changes, and these changes will be persisted on your host.</p>
-<h2 id="docker-compose">Docker Compose</h2>
-<p>The fastest way to get started using Docker would be to use the <code>docker-compose.yml</code> file available in Camouflage Github repo. Download the files <code>docker-compose.yml</code>, <code>camouflage_dashboard.json</code> and <code>prometheus.yml</code> to your local environment. Run the command <code>docker-compose up -d</code> to start following entities:</p>
+<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
+    &lt;soap12:Body&gt;
+        &lt;CountriesUsingCurrency xmlns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
+            &lt;sISOCurrencyCode&gt;EU&lt;/sISOCurrencyCode&gt;
+        &lt;/CountriesUsingCurrency&gt;
+    &lt;/soap12:Body&gt;
+&lt;/soap12:Envelope&gt;
+</code></pre>
 <ul>
-<li>Camouflage</li>
-<li>Camouflage UI</li>
-<li>Prometheus</li>
-<li>Grafana</li>
+<li>Camouflage uses <code>CountriesUsingCurrency.mock</code> to respond to all incoming messages. The contents of this file is not XML, but rather a JSON format containting a body property, which converted to a SOAP response by the mock server.</li>
+<li>The mock file, as you'd expect, supports handlebars! So you can generate random numbers, put conditional blocks etc.</li>
+<li>The format of mock file would be as follows:</li>
 </ul>
-<p>Once all containers are up, simply import <code>camouflage_dashboard.json</code> as a Grafana dashboard. </p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Change Grafana Password (<code>Password@123</code>) on first login</p>
-</div>
+<pre><code class="language-json">{
+    &quot;body&quot;: [
+        {
+            &quot;sISOCode&quot;: &quot;NL&quot;, 
+            &quot;sName&quot;: &quot;The Netherlands&quot;
+        },
+        {
+            &quot;sISOCode&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=2}}&quot;, 
+            &quot;sName&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=10}}&quot;
+        },
+        {
+            &quot;sISOCode&quot;: &quot;BE&quot;, 
+            &quot;sName&quot;: &quot;Belgium&quot;
+        }
+    ]
+}
+</code></pre>
+<ul>
+<li>It's also possible to delay responses by adding a delay. For example 10 seconds:</li>
+</ul>
+<pre><code class="language-json">{
+    &quot;delay&quot;: 10000,
+    &quot;body&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=2}}&quot;
+}
+</code></pre>
+<h3 id="example-request">Example request</h3>
+<p><strong>Request</strong></p>
+<pre><code>curl -X POST \
+  'http://localhost:8100/countryinfo' \
+  --header 'Accept: */*' \
+  --header 'Content-Type: application/soap+xml; charset=utf-8' \
+  --data-raw '&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
+  &lt;soap12:Body&gt;
+    &lt;CountriesUsingCurrency xmlns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
+      &lt;sISOCurrencyCode&gt;EU&lt;/sISOCurrencyCode&gt;
+    &lt;/CountriesUsingCurrency&gt;
+  &lt;/soap12:Body&gt;
+&lt;/soap12:Envelope&gt;'
+</code></pre>
+<p><strong>Response</strong></p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
+    &lt;soap:Body&gt;
+        &lt;CountriesUsingCurrencyResponse&gt;
+            &lt;sISOCode&gt;NL&lt;/sISOCode&gt;
+            &lt;sName&gt;The Netherlands&lt;/sName&gt;
+        &lt;/CountriesUsingCurrencyResponse&gt;
+        &lt;CountriesUsingCurrencyResponse&gt;
+            &lt;sISOCode&gt;TK&lt;/sISOCode&gt;
+            &lt;sName&gt;TCULNUKYLD&lt;/sName&gt;
+        &lt;/CountriesUsingCurrencyResponse&gt;
+        &lt;CountriesUsingCurrencyResponse&gt;
+            &lt;sISOCode&gt;BE&lt;/sISOCode&gt;
+            &lt;sName&gt;Belgium&lt;/sName&gt;
+        &lt;/CountriesUsingCurrencyResponse&gt;
+    &lt;/soap:Body&gt;
+&lt;/soap:Envelope&gt;
+</code></pre>
 
 
 
@@ -783,7 +827,7 @@
     <nav class="md-footer__inner md-grid" aria-label="Footer" >
       
         
-        <a href="../configuring-cache/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Configuring Cache" rel="prev">
+        <a href="../mocking-thrift/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Mocking Thrift" rel="prev">
           <div class="md-footer__button md-icon">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
           </div>
@@ -792,20 +836,20 @@
               <span class="md-footer__direction">
                 Previous
               </span>
-              Configuring Cache
+              Mocking Thrift
             </div>
           </div>
         </a>
       
       
         
-        <a href="../using-with-kubernetes/" class="md-footer__link md-footer__link--next" aria-label="Next: Camouflage with Kubernetes" rel="next">
+        <a href="../capture-helper/" class="md-footer__link md-footer__link--next" aria-label="Next: Capture Helper" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Camouflage with Kubernetes
+              Capture Helper
             </div>
           </div>
           <div class="md-footer__button md-icon">
