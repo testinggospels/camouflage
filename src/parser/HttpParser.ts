@@ -6,6 +6,8 @@ import { getHandlebars } from "../handlebar";
 import logger from "../logger";
 import { ProxyResponse } from "../handlebar/ProxyHelper";
 import * as httpProxy from "http-proxy";
+import { sleep } from "../sleep";
+
 const proxy = httpProxy.createProxyServer({});
 let DELAY = 0;
 const Handlebars = getHandlebars();
@@ -14,10 +16,6 @@ const Handlebars = getHandlebars();
  * 1. Request URL to get a matching directory
  * 2. From matched directory get .mock file content and generate a response
  */
-
-const sleep = (ms: number): Promise<void> => {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-};
 
 export interface HttpParserResponse {
   status: number;
