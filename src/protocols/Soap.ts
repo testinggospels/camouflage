@@ -40,7 +40,9 @@ export default class SoapSetup {
         await new Promise((resolve, reject) => {
           wsdl.onReady((err) => {
             if (err) return reject(err);
-            resolve(wsdl.describeServices());
+            wsdl.describeServices().then((services: any) => {
+              resolve(services);
+            })
           });
         })
       );
