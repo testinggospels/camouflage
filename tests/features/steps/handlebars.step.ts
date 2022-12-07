@@ -18,4 +18,9 @@ Then(
 Then('the {string} property has a {string} value of format {string}', function (propName: string, propType: string, format: string) {
   assert.typeOf(this.response[propName], propType);
   assert.isTrue(moment(this.response[propName], format, true).isValid())
-})
+});
+
+Then('the {string} property has a {string} value of {string}', function (propName: string, propType: string, propValue: string) {
+  assert.typeOf(this.response[propName], propType);
+  assert.equal(this.response[propName], propValue);
+});

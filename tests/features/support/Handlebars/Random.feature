@@ -1,4 +1,4 @@
-Feature: Handlebars helpers
+Feature: {{random}} Handlebars helpers
     In order to have mocks with dynamic responses
     As a user
     I want handlebars support for generating random values

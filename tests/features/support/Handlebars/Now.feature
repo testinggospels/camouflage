@@ -1,4 +1,4 @@
-Feature: Handlebars helpers
+Feature: {{now}} Handlebars helpers
     In order to have mocks with dynamic responses
     As a user
     I want handlebars support for generating dates and timestamps
