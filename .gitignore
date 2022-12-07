@@ -109,3 +109,4 @@ __pycache__
 site
 jsdocs
 gen*/
+tests/.tmp

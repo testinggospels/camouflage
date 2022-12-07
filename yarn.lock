@@ -621,6 +621,46 @@
     "@types/express-serve-static-core" "*"
     "@types/serve-static" "*"
 
+"@types/fs-extra@^9.0.13":
+  version "9.0.13"
+  resolved "https://registry.npmjs.org/@types/fs-extra/-/fs-extra-9.0.13.tgz#7594fbae04fe7f1918ce8b3d213f74ff44ac1f45"
+  integrity sha512-nEnwB++1u5lVDM2UI4c1+5R+FYaKfaAzS4OococimjVm3nQw3TuzH5UNsocrcTBbhnerblyHj4A49qXbIiZdpA==
+  dependencies:
+    "@types/node" "*"
+
+"@types/hapi__catbox@*":
+  version "10.2.4"
+  resolved "https://registry.npmjs.org/@types/hapi__catbox/-/hapi__catbox-10.2.4.tgz#4d0531a6c2d0e45024f724020d536041ef8ffe30"
+  integrity sha512-A6ivRrXD5glmnJna1UAGw87QNZRp/vdFO9U4GS+WhOMWzHnw+oTGkMvg0g6y1930CbeheGOCm7A1qHsqH7AXqg==
+
+"@types/hapi__hapi@*":
+  version "20.0.13"
+  resolved "https://registry.npmjs.org/@types/hapi__hapi/-/hapi__hapi-20.0.13.tgz#ea8ce83c192f6e8106f6e76e40f795e7e36d0615"
+  integrity sha512-LP4IPfhIO5ZPVOrJo7H8c8Slc0WYTFAUNQX1U0LBPKyXioXhH5H2TawIgxKujIyOhbwoBbpvOsBf6o5+ToJIrQ==
+  dependencies:
+    "@hapi/boom" "^9.0.0"
+    "@hapi/iron" "^6.0.0"
+    "@hapi/podium" "^4.1.3"
+    "@types/hapi__catbox" "*"
+    "@types/hapi__mimos" "*"
+    "@types/hapi__shot" "*"
+    "@types/node" "*"
+    joi "^17.3.0"
+
+"@types/hapi__mimos@*":
+  version "4.1.4"
+  resolved "https://registry.npmjs.org/@types/hapi__mimos/-/hapi__mimos-4.1.4.tgz#4f8a1c58345fc468553708d3cb508724aa081bd9"
+  integrity sha512-i9hvJpFYTT/qzB5xKWvDYaSXrIiNqi4ephi+5Lo6+DoQdwqPXQgmVVOZR+s3MBiHoFqsCZCX9TmVWG3HczmTEQ==
+  dependencies:
+    "@types/mime-db" "*"
+
+"@types/hapi__shot@*":
+  version "4.1.2"
+  resolved "https://registry.npmjs.org/@types/hapi__shot/-/hapi__shot-4.1.2.tgz#d4011999a91e8101030fece1462fe99769455855"
+  integrity sha512-8wWgLVP1TeGqgzZtCdt+F+k15DWQvLG1Yv6ZzPfb3D5WIo5/S+GGKtJBVo2uNEcqabP5Ifc71QnJTDnTmw1axA==
+  dependencies:
+    "@types/node" "*"
+
 "@types/http-errors@^1.8.2":
   version "1.8.2"
   resolved "https://registry.npmjs.org/@types/http-errors/-/http-errors-1.8.2.tgz#7315b4c4c54f82d13fa61c228ec5c2ea5cc9e0e1"
@@ -751,6 +791,17 @@
     "@types/cookiejar" "*"
     "@types/node" "*"
 
+"@types/swagger-stats@^0.95.6":
+  version "0.95.6"
+  resolved "https://registry.npmjs.org/@types/swagger-stats/-/swagger-stats-0.95.6.tgz#a3fdbd5d2721febd2e6f23cfa8e4953dd9513275"
+  integrity sha512-Dwf0i9InuIU/h2vrb951miRnzf0/XrdKrDUyCzK1jJiRVUQ5zUT9gGHc49fM8YWh6A05ZvP5XtSA4/QXNyV7OQ==
+  dependencies:
+    "@types/express" "*"
+    "@types/hapi__hapi" "*"
+    "@types/node" "*"
+    fastify "^3.0.0"
+    prom-client ">=11.5.3"
+
 "@types/thrift@^0.10.11":
   version "0.10.11"
   resolved "https://registry.npmjs.org/@types/thrift/-/thrift-0.10.11.tgz#4d53e176b8c0d299f7cd4f67f78d7beb02ee7b6a"
@@ -759,6 +810,11 @@
     "@types/node" "*"
     "@types/node-int64" "*"
     "@types/q" "*"
+
+"@types/uuid@8.3.4":
+  version "8.3.4"
+  resolved "https://registry.npmjs.org/@types/uuid/-/uuid-8.3.4.tgz#bd86a43617df0594787d38b735f55c805becf1bc"
+  integrity sha512-c/I8ZRb51j+pYGAu5CrFMRxqZ2ke4y2grEBO5AUjgSkSk+qT2Ea+OdWElz/OiMf5MNpn2b17kuVBwZLQJXzihw==
 
 "@types/ws@^7.4.4":
   version "7.4.7"
