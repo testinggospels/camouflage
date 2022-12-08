@@ -24,8 +24,14 @@ Then('the {string} property has a {string} value of {string}', function (propNam
   assert.typeOf(this.response[propName], propType);
   assert.equal(this.response[propName], propValue);
 });
+
 Then('the {string} property has a {string} value between {int} and {int}', function (propName: string, propType: string, lower: number, upper: number) {
   assert.typeOf(this.response[propName], propType);
   assert.isAbove(this.response[propName], lower);
   assert.isBelow(this.response[propName], upper);
+})
+
+Then('the response is an array of length {int}', function (length: number) {
+  assert(Array.isArray(this.response), 'not an array')
+  assert.equal(this.response.length, length)
 })
