@@ -17,8 +17,9 @@ When("the http url {string} is called with method {string}", async function (url
   }
   if (this.requestHeaders) config = { ...config, headers: this.requestHeader }
   if (this.requestBody) config = { ...config, data: this.requestBody }
-  const { data } = await axios(config);
-  this.response = data;
+  const response = await axios(config);
+  this.response = response.data;
+  this.headers = response.headers;
 });
 
 Given('request headers', function (headers: string) {

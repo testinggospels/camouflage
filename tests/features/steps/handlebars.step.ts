@@ -35,3 +35,7 @@ Then('the response is an array of length {int}', function (length: number) {
   assert(Array.isArray(this.response), 'not an array')
   assert.equal(this.response.length, length)
 })
+
+Then('the {string} header has a value of {string}', function (headerKey: string, headerValue: string) {
+  assert.equal(this.headers[headerKey.toLowerCase()], headerValue)
+})

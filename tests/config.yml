@@ -52,7 +52,7 @@ cache:
   enable: false
   ttl_seconds: 300
 injection:
-  enable: false
+  enable: true
 origins:
   - http://localhost:3000
   - http://localhost:3001
