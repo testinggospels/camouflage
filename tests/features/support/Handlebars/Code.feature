@@ -3,7 +3,7 @@ Feature: {{code}} Handlebars helpers
     As a user
     I want handlebars support for writing custom code to generate response
 
-  Scenario: Code blocl
+  Scenario: Code block
     Given a http mock file for "GET" request to url "/handlebars/code"
       ```
       HTTP/1.1 200 OK
@@ -34,3 +34,17 @@ Feature: {{code}} Handlebars helpers
     Then the "greeting" property has a "string" value of "Hello John"
     Then the "phone" property has a "number" value between 1000000000 and 9999999999
     Then the "X-Requested-By" header has a value of "John"
+
+  Scenario: Inline code injection
+    Given a http mock file for "GET" request to url "/handlebars/injection"
+      ```
+      HTTP/1.1 200 OK
+      Content-Type: application/json
+      
+      {
+        "phone": {{#inject}}(()=>{ return Math.round(Math.random() * 10000000000); })();{{/inject}}
+      }
+      
+      ```
+    When the http url "/handlebars/injection" is called with method "GET"
+    Then the "phone" property has a "number" value of 10 characters
