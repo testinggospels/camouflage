@@ -13,12 +13,12 @@ Feature: {{array}} Handlebars helpers
         {{#each (array source='Apple,Banana,Mango,Kiwi' delimiter=',')}}
             {{#if @last}}
                 {
-                    "id": {{randomValue type='NUMERIC' length=10}},
+                    "id": {{num_between lower=500 upper=600}},
                     "fruit": "{{this}}"
                 }
             {{else}}
                 {
-                    "id": {{randomValue type='NUMERIC' length=10}},
+                    "id": {{num_between lower=500 upper=600}},
                     "fruit": "{{this}}"
                 },
             {{/if}}
