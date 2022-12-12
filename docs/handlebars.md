@@ -67,6 +67,10 @@ Usage:
 
     `capture` helper can be used for all the supported protocols, i.e. http/https/http2, grpc and websockets. However, it's behavior, and the data it can access, varies across protocols. Read more on Capture Helper page.
 
+!!!note
+
+    Using `jsonpath` returns an object for match rather than string. This may cause unexpected results while performing comparisons since `is` operator uses strict type checking by default consider explicitly defining an operator `==` or use regex.
+
 ## num_between
 
 Type: Custom Helper
@@ -209,7 +213,8 @@ Accepted operators are:
 - `==` (same as not providing a comparator)
 - `!=`
 - `not` (alias for `!=`)
-- `===`
+- `===` (same as using no operators i.e. `{{#is x y}}`)
+- `==` (compare values without strict type checking, useful while using jsonpath helper since jsonpath helper returns an object)
 - `!==`
 - `>`
 - `>=`
