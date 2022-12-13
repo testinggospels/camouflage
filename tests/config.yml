@@ -1,4 +1,4 @@
-loglevel: info
+loglevel: debug
 cpus: 1
 monitoring:
   port: 5555
