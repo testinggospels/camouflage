@@ -3,7 +3,8 @@
 Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. Camouflage provides two helpers, `pg` and `csv`, which can be used to connect to a postgres db and csv data file respectively.
 
 !!! caution
-Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
+
+    Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
 
 ## pg
 
