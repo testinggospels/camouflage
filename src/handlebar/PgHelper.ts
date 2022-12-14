@@ -1,5 +1,5 @@
 import express from "express";
-import logger from "../logger";
+import log from "../logger";
 import { Pool } from 'pg';
 const pool = new Pool()
 
@@ -21,22 +21,24 @@ export class PgHelper {
     register = () => {
         this.Handlebars.registerHelper("pg", async (context: any) => {
             if (typeof context.hash.query === "undefined") {
-                logger.error("No query defined")
+                log.error("No query defined")
                 return JSON.stringify({ error: "Please Define a query" });
             }
             const query = context.hash.query;
             /* eslint-disable no-unused-vars */
             const request: express.Request = context.data.root.request;
-            logger.debug(`[POSTGRES] Recieved query: ${query}`)
+            const logger = log;
+            /* eslint-disable no-unused-vars */
+            log.debug(`[POSTGRES] Recieved query: ${query}`)
             try {
                 const result = await pool.query(query)
-                logger.debug(`[POSTGRES] Query response: ${JSON.stringify(result.rows)}`)
+                log.debug(`[POSTGRES] Query response: ${JSON.stringify(result.rows)}`)
                 const fn = await context.fn(this)
                 const code = eval(fn);
                 code["CamouflageResponseType"] = "code";
                 return JSON.stringify(code);
             } catch (err) {
-                logger.error("Query could not be executed", err);
+                log.error("Query could not be executed", err);
                 return JSON.stringify({
                     error: "Query could not be executed",
                     message: err.message
