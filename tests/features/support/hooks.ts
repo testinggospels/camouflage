@@ -1,8 +1,12 @@
-import { BeforeAll } from "@cucumber/cucumber";
-import ConfigLoader, { setLoaderInstance } from "../../../src/ConfigLoader";
+import { AfterAll, BeforeAll } from "@cucumber/cucumber";
+import { remove } from "fs-extra";
+import ConfigLoader, { setLoaderInstance, getLoaderInstance } from "../../../src/ConfigLoader";
 
-BeforeAll(function() {
+BeforeAll(function () {
     const configLoader: ConfigLoader = new ConfigLoader("./tests/config.yml");
     configLoader.validateAndLoad();
     setLoaderInstance(configLoader);
+})
+AfterAll(function () {
+    remove(getLoaderInstance().getConfig().protocols.http.mocks_dir);
 })
