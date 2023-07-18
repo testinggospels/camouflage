@@ -101,7 +101,7 @@ In that case you'd remove `key` and `value` from the snippet shown above, and si
 
 To get entire data pass `all=true`.
 
-!!! caution 
+!!!caution
 
     1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
 
