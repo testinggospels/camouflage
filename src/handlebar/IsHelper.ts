@@ -65,6 +65,8 @@ export class IsHelper {
                 return left >= right;
             case "<=":
                 return left <= right;
+            case "==":
+                return left == right;
             case "===":
                 return left === right;
             case "!==":
