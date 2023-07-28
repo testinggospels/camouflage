@@ -169,7 +169,7 @@ export class HttpParser {
         }
       }
       if (PARSE_BODY) {
-        responseBody = responseBody + line;
+        responseBody = responseBody + "\n" + line;
       }
       if (index == fileContent.length - 1) {
         if (responseBody.includes("camouflage_file_helper")) {
