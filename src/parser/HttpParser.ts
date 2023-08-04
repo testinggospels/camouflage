@@ -181,9 +181,9 @@ export class HttpParser {
           responseBody = responseBody.replace(/\s+/g, " ").trim();
           responseBody = responseBody.replace(/{{{/, "{ {{");
           responseBody = responseBody.replace(/}}}/, "}} }");
+          responseBody = responseBody.split("<br/>").join("\n").trim()
           const template = Handlebars.compile(responseBody);
           try {
-            responseBody = responseBody.split("<br/>").join("\n").trim()
             const codeResponse = JSON.parse(
               responseBody.replace(/&quot;/g, '"')
             );
@@ -240,12 +240,10 @@ export class HttpParser {
                     logger: logger,
                   })}`
                 );
-
                 response.body = await template({
                   request: this.req,
                   logger: logger,
                 });
-                response.body = response.body.split("<br />").join("\n").trim()
                 return response;
                 break;
             }
@@ -262,7 +260,6 @@ export class HttpParser {
               request: this.req,
               logger: logger,
             });
-            response.body = response.body.split("<br/>").join("\n").trim()
             return response;
           }
           response.body = responseBody;
