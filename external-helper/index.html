@@ -524,6 +524,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -686,29 +701,29 @@
 
 <h1 id="external-helpers">External Helpers</h1>
 <p>Camouflage allows users to be able to inject custom helpers while starting the Camouflage server. To inject you'd need to update config.yml with an additional key and provide a JSON file containing the definition of your custom helper. Example:</p>
-<pre><code>ext_helpers: &quot;./custom_handlebar.json&quot;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>ext_helpers: &quot;./custom_handlebar.json&quot;
+</code></pre></div>
 <p>The JSON in the file should be an array of JSON Objects containing two keys: <code>name</code> and <code>logic</code>. Example:</p>
-<pre><code class="language-json">[
-  {
-    &quot;name&quot;: &quot;is&quot;,
-    &quot;logic&quot;:&quot;(()=&gt;{ logger.info(JSON.stringify((context.hash))); if(context.hash.value1===context.hash.value2) {return context.fn(this);} else {return context.inverse(this);} })()&quot;
-  }
-]
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">[</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="p">{</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;is&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">    </span><span class="nt">&quot;logic&quot;</span><span class="p">:</span><span class="s2">&quot;(()=&gt;{ logger.info(JSON.stringify((context.hash))); if(context.hash.value1===context.hash.value2) {return context.fn(this);} else {return context.inverse(this);} })()&quot;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">]</span>
+</code></pre></div>
 <ul>
 <li><code>name</code>, can be anything of your choosing.</li>
 <li><code>logic</code>, has to be an IIFE (Immediately Invoked Function Expression), inside an arrow function. The function has access to <code>request</code> and <code>logger</code> objects. The logic should return a value in accordance with your expectations from the function.</li>
 </ul>
 <p>This loads a custom helper, <code>is</code>, which can be used in your mock files to compare to values. Use it as shown in example:</p>
-<pre><code>HTTP/1.1 200 OK
-
-{{#is value1=request.query.name value2='Shubhendu'}}
-   Response if true
-{{else}}
-   Response if false
-{{/is}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="p">{{</span><span class="err">#</span><span class="nx">is</span><span class="w"> </span><span class="nx">value1</span><span class="o">=</span><span class="nx">request</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">name</span><span class="w"> </span><span class="nx">value2</span><span class="o">=</span><span class="s1">&#39;Shubhendu&#39;</span><span class="p">}}</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">   </span><span class="nx">Response</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kc">true</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">{{</span><span class="k">else</span><span class="p">}}</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">   </span><span class="nx">Response</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="kc">false</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="p">{{</span><span class="err">/is}}</span>
+</code></pre></div>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on, using <code>npm i -g package_name</code>. Before starting Camouflage, run  the following command:</p>

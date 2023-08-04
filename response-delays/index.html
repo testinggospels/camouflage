@@ -551,6 +551,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -716,21 +731,21 @@
 <h2 id="response-delay">Response Delay</h2>
 <p>Response delays are handled in a similar manner as it was done in mockserver, i.e. you add a Response-Delay header in raw response placed in your .mock file.</p>
 <p>For example, if you'd like to simulate a delay of 2 seconds for /hello-world endpoint, contents of your .mock file would be as follows:</p>
-<pre><code>HTTP/1.1 200 OK
-X-Requested-By: Shubhendu Madhukar
-Content-Type: application/json
-Response-Delay: 2000
-
-{
-    &quot;greeting&quot;: &quot;Hello World&quot;,
-    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
-    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
-    &quot;test&quot;: &quot;{{randomValue}}&quot;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">X</span><span class="o">-</span><span class="nx">Requested</span><span class="o">-</span><span class="nx">By</span><span class="o">:</span><span class="w"> </span><span class="nx">Shubhendu</span><span class="w"> </span><span class="nx">Madhukar</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nx">Response</span><span class="o">-</span><span class="nx">Delay</span><span class="o">:</span><span class="w"> </span><span class="mf">2000</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="p">{</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">    </span><span class="s2">&quot;greeting&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">    </span><span class="s2">&quot;phone&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{{</span><span class="nx">randomValue</span><span class="w"> </span><span class="nx">length</span><span class="o">=</span><span class="mf">10</span><span class="w"> </span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;NUMERIC&#39;</span><span class="p">}},</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w">    </span><span class="s2">&quot;dateOfBirth&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{now format=&#39;MM/DD/YYYY&#39;}}&quot;</span><span class="p">,</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="s2">&quot;test&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue}}&quot;</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="p">}</span>
+</code></pre></div>
 <p>Additionally you can also simulate a dynamic delay using the <strong>{{num_between}}</strong> handlebar as follows</p>
-<pre><code>Response-Delay: {{num_between lower=500 upper=600}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>Response-Delay: {{num_between lower=500 upper=600}}
+</code></pre></div>
 <p>This would add a random delay of a value between 500 to 600 milliseconds</p>
 
 

@@ -11,17 +11,17 @@
       
       
       
-        <link rel="prev" href="../mocking-soap/">
+        <link rel="prev" href="../capture-helper/">
       
       
-        <link rel="next" href="../code-helper/">
+        <link rel="next" href="../camouflage-ui/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Capture Helper - Camouflage</title>
+        <title>Code Helper - Camouflage</title>
       
     
     
@@ -73,7 +73,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#capture-helper" class="md-skip">
+        <a href="#code-helper" class="md-skip">
           Skip to content
         </a>
       
@@ -107,7 +107,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Capture Helper
+              Code Helper
             
           </span>
         </div>
@@ -497,6 +497,21 @@
 
   
   
+  
+    <li class="md-nav__item">
+      <a href="../capture-helper/" class="md-nav__link">
+        Capture Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
     
   
   
@@ -509,12 +524,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Capture Helper
+          Code Helper
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Capture Helper
+        Code Helper
       </a>
       
         
@@ -533,8 +548,8 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#using-with-httpshttp2" class="md-nav__link">
-    Using with HTTP(s)/HTTP2
+  <a href="#tips-for-better-usage" class="md-nav__link">
+    Tips for better usage
   </a>
   
 </li>
@@ -543,21 +558,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../code-helper/" class="md-nav__link">
-        Code Helper
-      </a>
     </li>
   
 
@@ -730,30 +730,61 @@
   
 
 
-<h1 id="capture-helper">Capture Helper</h1>
-<p><sup>This section aims to explain what data can be extracted and used to generate a response using handlebars. It can be used as reference for any available helpers, even though examples primarily focus on <code>capture</code> helper.</sup></p>
-<p>Most helpers were originally built for http(s)/http2 protocols. However, as of v0.7.2 release, they can be used with all available protocols, i.e. grpc and websockets, with some obvious exceptions such as <code>file</code> and <code>code</code> helpers. (<code>code</code> helper will eventually be supported for all protocols)</p>
-<h2 id="using-with-httpshttp2">Using with HTTP(s)/HTTP2</h2>
-<ol>
-<li>As shown in example on Handlebars page, you can use <code>capture</code> to extract information from specific parts of the incoming requests by specifying a <code>from</code> argument. Accepted values are <code>query</code>, <code>headers</code>, <code>path</code> and <code>body</code>.</li>
-<li>Using <code>query</code> and <code>headers</code> you can specify the argument <code>key</code>, to capture it's corresponding value.</li>
-<li>Using <code>path</code> you can specify the argument <code>regex</code>, to define a regular expression which captures your desired value.</li>
-<li>Using <code>body</code> would require you to specify two arguments, i.e. <code>using</code> and <code>selector</code>, where <code>using</code> can have values <code>jsonpath</code> or <code>regex</code>, while selector would be the respective jsonpath or regular expression.</li>
-</ol>
-<p>Please refer to the examples on the Handlebars page.</p>
-<h1 id="using-with-websockets">Using with Websockets</h1>
-<p>The available/required keywords, while using <code>capture</code> helper with websockets are, <code>using</code> and <code>selector</code>. You have access to the request payload, upon which you can execute a regex or jsonpath extractor to fetch desired values.</p>
-<p>Example <code>{{capture using='jsonpath' selector='$.lastName'}}</code></p>
-<h1 id="using-with-grpc">Using with gRPC</h1>
-<p>Similar to websockets, while using <code>capture</code> helper with gRPC, available/required arguments are <code>using</code> and <code>selector</code>.</p>
-<p>Example <code>{{capture using='jsonpath' selector='$.lastName'}}</code></p>
-<ol>
-<li>For unary calls and server side streams, helpers have access to request payload as is.</li>
-<li>For unary calls and server side streams, helpers have access to metadata as well, which can be captured by specifying <code>key</code> and <code>from</code>.
-Example: <code>{{capture from='metadata' key='metadata_key'}}</code></li>
-<li>For client side streaming calls, payloads from each stream are stored in an array, which is then made available to helpers.</li>
-<li>For bidi side streams, helpers can access the request payload as is during each streaming/ping-pong interaction i.e. while sending the "data" stream. Additionally, each payload is also stored in an array which is then made available to helpers while sending the "end" stream.</li>
-</ol>
+<h1 id="code-helper">Code Helper</h1>
+<h2 id="tips-for-better-usage">Tips for better usage</h2>
+<p>Writing long custom code for your mocks could be a painful task without IDE features like syntax highlighting, auto formatting, code completion etc. While Camouflage does not have a extensions for your IDEs, you can easily write your code in javascript files and import them in mock files, instead of writing everything in your mock files.</p>
+<p>Here's an example by <a href="https://github.com/jsapes">jsapes</a></p>
+<p>Ususally you would write your mocks like this:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="p">{{</span><span class="err">#</span><span class="nx">code</span><span class="p">}}</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="p">(()=&gt;{</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w"> </span><span class="cm">/**</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="cm"> * Long javascript code to create myBody</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="cm"> */</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">myBody</span><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a><span class="w">  </span><span class="p">};</span>
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">})();</span>
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a><span class="p">{{</span><span class="err">/code}}</span>
+</code></pre></div>
+<p>Instead you can break this down into two files.</p>
+<ul>
+<li>
+<p>GET.mock
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">{{</span><span class="err">#</span><span class="nx">code</span><span class="p">}}</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="p">(()=&gt;{</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="kd">const</span><span class="w"> </span><span class="nx">path</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="s2">&quot;path&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1">// Store all your custom code in a separate folder.</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="kd">const</span><span class="w"> </span><span class="nx">myPath</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="nx">process</span><span class="p">.</span><span class="nx">cwd</span><span class="p">(),</span><span class="w"> </span><span class="s2">&quot;mycustomcodes&quot;</span><span class="p">,</span><span class="w"> </span><span class="s2">&quot;getResponseBody.js&quot;</span><span class="p">)</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="kd">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">getResponseBody</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">require</span><span class="p">(</span><span class="nx">myPath</span><span class="p">)</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="k">return</span><span class="w"> </span><span class="nx">getResponseBody</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span><span class="w"> </span><span class="nx">logger</span><span class="p">)</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">})();</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">{{</span><span class="err">/code}}</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>getResponseBody.js</p>
+</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">getResponseBody</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="nx">request</span><span class="p">,</span><span class="w"> </span><span class="nx">logger</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="cm">/**</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="cm"> * Long javascript code to create myBody</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="cm">    */</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">    </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">...</span><span class="nx">myBody</span><span class="w"> </span><span class="p">},</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="p">};</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="p">};</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nx">getResponseBody</span><span class="w"> </span><span class="p">};</span>
+</code></pre></div>
+<p>Reference: <a href="https://github.com/testinggospels/camouflage/discussions/22#discussioncomment-3769698">discussioncomment-3769698</a></p>
 
 
 

@@ -514,6 +514,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -697,14 +712,14 @@
 <p>Disable monitoring by setting a negative value to <code>config.monitoring.port</code> in config.yaml.</p>
 </div>
 <p>Sample Prometheus yml</p>
-<pre><code class="language-yaml">global:
-  scrape_interval: 15s
-  evaluation_interval: 15s
-scrape_configs:
-  - job_name: &quot;camouflage&quot;
-    static_configs:
-      - targets: [&quot;localhost:5555&quot;]
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">global</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">scrape_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">evaluation_interval</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">15s</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="nt">scrape_configs</span><span class="p">:</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">job_name</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;camouflage&quot;</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">static_configs</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">targets</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;localhost:5555&quot;</span><span class="p p-Indicator">]</span>
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note<p>Update the target with your IP and port if running remotely or if you have specified a different port while starting Camouflage</p>
 </p>

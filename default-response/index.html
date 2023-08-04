@@ -524,6 +524,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -686,10 +701,10 @@
 
 <h1 id="default-response">Default Response</h1>
 <p>By default, Camouflage sends a default response for the APIs for which it cannot find a corresponding mock file.</p>
-<pre><code class="language-json">{
-    &quot;error&quot;: &quot;Not Found&quot;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;error&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Not Found&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div>
 <p>However as a user you have the ability to override it at API level or at the global level. Consider the example below.</p>
 <ul>
 <li>If you make a <code>GET</code> call to <code>/hello-world/greet/me</code>, Camouflage will first evaluate the mock file location as <code>${MOCK_DIR}/hello-world/greet/me/GET.mock</code>.</li>

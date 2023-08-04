@@ -673,6 +673,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -912,10 +927,10 @@
 <ol>
 <li><strong>{{capture from='query' key='firstName'}}</strong> - Pretty self-explanatory, but if your endpoint looks like /hello-world?firstName=John&amp;lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as</li>
 </ol>
-<pre><code>{
-    &quot;message&quot;: &quot;Hello {{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}&quot;
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="p">{</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">    </span><span class="nt">&quot;message&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Hello {{capture from=&#39;query&#39; key=&#39;lastName&#39;}}, {{capture from=&#39;query&#39; key=&#39;firstName&#39;}}&quot;</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="p">}</span>
+</code></pre></div>
 <ol>
 <li><strong>{{capture from='cookies' key='mycookie'}}</strong> - For cookies, you'd need to specify a key to capture a value.</li>
 <li><strong>{{capture from='path' regex='\/users\/get\/(.*)?'}}</strong> - For path, you'd need to specify a regex to capture a value.</li>
@@ -943,38 +958,38 @@
 <p>Type: Custom Helper</p>
 <p>Usage:</p>
 <p><strong>{{file path='/location/of/the/image/or/text/or/any/file'}}</strong>: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:</p>
-<pre><code>HTTP/1.1 200 OK
-Content-Type: application/pdf
-
-{{file path=&quot;./docs/camouflage.png&quot;}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">pdf</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="p">{{</span><span class="nx">file</span><span class="w"> </span><span class="nx">path</span><span class="o">=</span><span class="s2">&quot;./docs/camouflage.png&quot;</span><span class="p">}}</span>
+</code></pre></div>
 <h2 id="code">code</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Camouflage's implementation of Handlebars is robust enough to handle most dynamic responses i.e. capturing data from request, generating random numbers, as shown in examples above. However, if your requirement still cannot be fulfilled by Camouflage's helpers, you can write a custom code in javascript to achieve the same results. Refer to the example mock and explanation below:</p>
-<pre><code>HTTP/1.1 200 OK
-Content-Type: application/json
-
-{{#code}}
-(()=&gt;{
-    function getRandomNumberInRange(min, max) {
-        return Math.round(Math.random() * (max - min) + min);
-    }
-    const name = request.query.name;
-    const phone = getRandomNumberInRange(1000000000, 9999999999)
-    logger.info(phone);
-    return {
-        status: 201,
-        headers: {
-            'X-Requested-By': name
-        },
-        body: `{
-            &quot;greeting&quot;: &quot;Hello ${name}&quot;,
-            &quot;phone&quot;: ${phone}
-        }`
-    };
-})();
-{{/code}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="p">{{</span><span class="err">#</span><span class="nx">code</span><span class="p">}}</span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="p">(()=&gt;{</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">    </span><span class="kd">function</span><span class="w"> </span><span class="nx">getRandomNumberInRange</span><span class="p">(</span><span class="nx">min</span><span class="p">,</span><span class="w"> </span><span class="nx">max</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="p">(</span><span class="nx">max</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="nx">min</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">min</span><span class="p">);</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">name</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">phone</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">getRandomNumberInRange</span><span class="p">(</span><span class="mf">1000000000</span><span class="p">,</span><span class="w"> </span><span class="mf">9999999999</span><span class="p">)</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">    </span><span class="nx">logger</span><span class="p">.</span><span class="nx">info</span><span class="p">(</span><span class="nx">phone</span><span class="p">);</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">        </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">            </span><span class="s1">&#39;X-Requested-By&#39;</span><span class="o">:</span><span class="w"> </span><span class="nx">name</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-2-17" name="__codelineno-2-17" href="#__codelineno-2-17"></a><span class="w">        </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="sb">`{</span>
+<a id="__codelineno-2-18" name="__codelineno-2-18" href="#__codelineno-2-18"></a><span class="sb">            &quot;greeting&quot;: &quot;Hello </span><span class="si">${</span><span class="nx">name</span><span class="si">}</span><span class="sb">&quot;,</span>
+<a id="__codelineno-2-19" name="__codelineno-2-19" href="#__codelineno-2-19"></a><span class="sb">            &quot;phone&quot;: </span><span class="si">${</span><span class="nx">phone</span><span class="si">}</span>
+<a id="__codelineno-2-20" name="__codelineno-2-20" href="#__codelineno-2-20"></a><span class="sb">        }`</span>
+<a id="__codelineno-2-21" name="__codelineno-2-21" href="#__codelineno-2-21"></a><span class="w">    </span><span class="p">};</span>
+<a id="__codelineno-2-22" name="__codelineno-2-22" href="#__codelineno-2-22"></a><span class="p">})();</span>
+<a id="__codelineno-2-23" name="__codelineno-2-23" href="#__codelineno-2-23"></a><span class="p">{{</span><span class="err">/code}}</span>
+</code></pre></div>
 <ul>
 <li><code>HTTP/1.1 200 OK</code>: We start by creating a GET.mock as usual (or any ${VERB}.mock as per your requirement), where the 1st line of your file denotes protocol, version, status code and status message. This can be overridden from the code, however it is mandatory, in order to maintain a generic structure of mock files.</li>
 <li>Next you will provide a set of static headers, which will not change irrespective of your code logic. If you expect the header value to be dynamic, you don't need to provide them here.</li>
@@ -1004,13 +1019,13 @@ Content-Type: application/json
 <h2 id="inject">inject</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Another use case for custom code could be when you don't want to write a code for the entire response generation, but there are some parts of your response that need a custom code. Using <code>inject</code> helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to <code>code</code> helper, refer to the example below.</p>
-<pre><code>HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-    &quot;phone&quot;: {{#inject}}(()=&gt;{ return Math.round(Math.random() * 10000000000); })();{{/inject}}
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">{</span>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="w">    </span><span class="s2">&quot;phone&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{{</span><span class="err">#</span><span class="nx">inject</span><span class="p">}}(()=&gt;{</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="nb">Math</span><span class="p">.</span><span class="nx">round</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="mf">10000000000</span><span class="p">);</span><span class="w"> </span><span class="p">})();{{</span><span class="err">/inject}}</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="p">}</span>
+</code></pre></div>
 <h2 id="csv">csv</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: CSV Helper allows you to provide a data source as an input along with two combinations of policies</p>
@@ -1025,21 +1040,17 @@ Content-Type: application/json
 <p>Usage: <code>is</code> helper can be considered as an extension of <code>if</code> which allows you to evaluate conditions that are lacking in inbuilt helper.</p>
 <p><code>is</code> can be used in following three ways:</p>
 <ul>
-<li>With one argument: <code>is</code> acts exactly like <code>if</code></li>
+<li>With one argument: <code>is</code> acts exactly like <code>if</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>{{#is x}} ... {{else}} ... {{/is}}
+</code></pre></div></li>
+<li>With two arguments: <code>is</code> compares the two are equal (a non-strict, <code>==</code> comparison, so <code>5 == '5'</code> is true)
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>{{#is x y}} ... {{else}} ... {{/is}}
+</code></pre></div></li>
+<li>With three arguments: the second argument becomes the comparator.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>{{#is x &quot;not&quot; y}} ... {{else}} ... {{/is}}
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>{{#is 5 &quot;&gt;=&quot; 2}} ... {{else}} ... {{/is}}
+</code></pre></div></li>
 </ul>
-<pre><code>{{#is x}} ... {{else}} ... {{/is}}
-</code></pre>
-<ul>
-<li>With two arguments: <code>is</code> compares the two are equal (a non-strict, <code>==</code> comparison, so <code>5 == '5'</code> is true)</li>
-</ul>
-<pre><code>{{#is x y}} ... {{else}} ... {{/is}}
-</code></pre>
-<ul>
-<li>With three arguments: the second argument becomes the comparator.</li>
-</ul>
-<pre><code>{{#is x &quot;not&quot; y}} ... {{else}} ... {{/is}}
-{{#is 5 &quot;&gt;=&quot; 2}} ... {{else}} ... {{/is}}
-</code></pre>
 <p>Accepted operators are:</p>
 <ul>
 <li><code>==</code> (same as not providing a comparator)</li>
@@ -1056,15 +1067,15 @@ Content-Type: application/json
 <h2 id="proxy">proxy</h2>
 <p>Type: Custom Helper</p>
 <p>Usage: Proxy Helper allows you to redirect your calls to an actual downstream selectively. You might want to redirect all calls to actual downstream or some calls based on some condition, i.e. if a specific header exists, or a query param is provided. Example mock file content:</p>
-<pre><code>HTTP/1.1 200 OK
-x-additional-headers: somevalue
-
-{{#proxy}}
-{
-    &quot;target&quot;: &quot;http://target_host:3000/&quot;
-}
-{{/proxy}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="nx">x</span><span class="o">-</span><span class="nx">additional</span><span class="o">-</span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="nx">somevalue</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="p">{{</span><span class="err">#</span><span class="nx">proxy</span><span class="p">}}</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="p">{</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="s2">&quot;target&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;http://target_host:3000/&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="p">}</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a><span class="p">{{</span><span class="err">/proxy}}</span>
+</code></pre></div>
 <p>For more details on how to use the proxy helper, refer to the Proxy page.</p>
 <h2 id="concat">concat</h2>
 <p>Type: Custom Helper</p>
@@ -1074,24 +1085,24 @@ x-additional-headers: somevalue
 <p>Type: Custom Helper</p>
 <p>Usage: Assign helper can be used to assign a value to a variable, by specifying a name value pair. This can be useful specially when using <code>capture</code> helper using regex and jsonpath selectors. Since running a regex or jsonpath operation is an expensive task, <code>assign</code> helper can be used to capture a value once, store it in a variable and use throughout the mock file. Aesthetically, it also improves readability of the mock file which otherwise would contain long illegible regular expressions repeated throughout the mock file.</p>
 <p>Example: Using a complex combination of helpers, i.e. <code>assign</code>, <code>concat</code>, <code>pg</code> and <code>capture</code>, to create a mock that would fetch a response from postgres table for a given id passed as a query parameter.</p>
-<pre><code>{{assign name='query' value=(concat &quot;SELECT * FROM emp WHERE id = '&quot; (capture from=&quot;query&quot; key=&quot;id&quot;) &quot;'&quot;) }}
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{{#pg query=query}}
-(()=&gt; {
-    let response = []
-    result.rows.forEach(row =&gt; {
-        const adult = row.age &gt; 18 ? 'adult' : 'minor'
-        response.push({
-            user: row.name,
-            adult: adult
-        })
-    })
-    return JSON.stringify(response)
-})();
-{{/pg}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="p">{{</span><span class="nx">assign</span><span class="w"> </span><span class="nx">name</span><span class="o">=</span><span class="s1">&#39;query&#39;</span><span class="w"> </span><span class="nx">value</span><span class="o">=</span><span class="p">(</span><span class="nx">concat</span><span class="w"> </span><span class="s2">&quot;SELECT * FROM emp WHERE id = &#39;&quot;</span><span class="w"> </span><span class="p">(</span><span class="nx">capture</span><span class="w"> </span><span class="kr">from</span><span class="o">=</span><span class="s2">&quot;query&quot;</span><span class="w"> </span><span class="nx">key</span><span class="o">=</span><span class="s2">&quot;id&quot;</span><span class="p">)</span><span class="w"> </span><span class="s2">&quot;&#39;&quot;</span><span class="p">)</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">{{</span><span class="err">#</span><span class="nx">pg</span><span class="w"> </span><span class="nx">query</span><span class="o">=</span><span class="nx">query</span><span class="p">}}</span>
+<a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a><span class="p">(()=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">response</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">[]</span>
+<a id="__codelineno-8-8" name="__codelineno-8-8" href="#__codelineno-8-8"></a><span class="w">    </span><span class="nx">result</span><span class="p">.</span><span class="nx">rows</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">row</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-8-9" name="__codelineno-8-9" href="#__codelineno-8-9"></a><span class="w">        </span><span class="kd">const</span><span class="w"> </span><span class="nx">adult</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">row</span><span class="p">.</span><span class="nx">age</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mf">18</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="s1">&#39;adult&#39;</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;minor&#39;</span>
+<a id="__codelineno-8-10" name="__codelineno-8-10" href="#__codelineno-8-10"></a><span class="w">        </span><span class="nx">response</span><span class="p">.</span><span class="nx">push</span><span class="p">({</span>
+<a id="__codelineno-8-11" name="__codelineno-8-11" href="#__codelineno-8-11"></a><span class="w">            </span><span class="nx">user</span><span class="o">:</span><span class="w"> </span><span class="nx">row</span><span class="p">.</span><span class="nx">name</span><span class="p">,</span>
+<a id="__codelineno-8-12" name="__codelineno-8-12" href="#__codelineno-8-12"></a><span class="w">            </span><span class="nx">adult</span><span class="o">:</span><span class="w"> </span><span class="nx">adult</span>
+<a id="__codelineno-8-13" name="__codelineno-8-13" href="#__codelineno-8-13"></a><span class="w">        </span><span class="p">})</span>
+<a id="__codelineno-8-14" name="__codelineno-8-14" href="#__codelineno-8-14"></a><span class="w">    </span><span class="p">})</span>
+<a id="__codelineno-8-15" name="__codelineno-8-15" href="#__codelineno-8-15"></a><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+<a id="__codelineno-8-16" name="__codelineno-8-16" href="#__codelineno-8-16"></a><span class="p">})();</span>
+<a id="__codelineno-8-17" name="__codelineno-8-17" href="#__codelineno-8-17"></a><span class="p">{{</span><span class="err">/pg}}</span>
+</code></pre></div>
 <ol>
 <li><code>assign</code> can be simply used as <code>{{assign name='variable_name' value='variable_value'}}</code> to assign a value to a variable.</li>
 <li><code>concat</code> joins multiple strings together as passed. i.e. <code>{{concat 'Camouflage ' 'is ' 'easy!!'}}</code> would result in <code>Camouflage is easy</code>.</li>
@@ -1117,103 +1128,103 @@ Content-Type: application/json
 <p>Type: Custom Helper</p>
 <p>Usage: State helper gets the mocked state value using a key send within the cookie header.
 If no value is found it will use the default context within the block.</p>
-<p>For example:</p>
-<pre><code class="language-json">{
-    &quot;has_pending_order&quot;: {{#state key='has-pending-order'}}false{{/state}},
-    &quot;cart&quot;: {{#state key='cart'}}[
-        {&quot;id&quot;: 999, &quot;name&quot;: &quot;default prod&quot;}
-    ]{{/state}}
-}
-</code></pre>
+<p>For example:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">    </span><span class="nt">&quot;has_pending_order&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{{</span><span class="err">#s</span><span class="kc">tate</span><span class="w"> </span><span class="err">key=&#39;has</span><span class="mi">-</span><span class="err">pe</span><span class="kc">n</span><span class="err">di</span><span class="kc">n</span><span class="err">g</span><span class="mi">-</span><span class="err">order&#39;</span><span class="p">}}</span><span class="kc">false</span><span class="p">{{</span><span class="err">/s</span><span class="kc">tate</span><span class="p">}},</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">    </span><span class="nt">&quot;cart&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{{</span><span class="err">#s</span><span class="kc">tate</span><span class="w"> </span><span class="err">key=&#39;car</span><span class="kc">t</span><span class="err">&#39;</span><span class="p">}}[</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">        </span><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">999</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;default prod&quot;</span><span class="p">}</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">    </span><span class="p">]{{</span><span class="err">/s</span><span class="kc">tate</span><span class="p">}}</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="p">}</span>
+</code></pre></div></p>
 <p>To set a value just send cookie with a specific prefix.</p>
-<pre><code class="language-js">const prefix = &quot;mocked-state&quot;;
-const key = &quot;has-pending-order&quot;;
-setCookie(`${prefix}-has-pending-order`, 'true');
-setCookie(`${prefix}-cart`, '[{id: 1, name: &quot;prod1&quot;}, {id: 2, name: &quot;prod2&quot;}]');
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="kd">const</span><span class="w"> </span><span class="nx">prefix</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;mocked-state&quot;</span><span class="p">;</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="kd">const</span><span class="w"> </span><span class="nx">key</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;has-pending-order&quot;</span><span class="p">;</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="nx">setCookie</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">prefix</span><span class="si">}</span><span class="sb">-has-pending-order`</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;true&#39;</span><span class="p">);</span>
+<a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="nx">setCookie</span><span class="p">(</span><span class="sb">`</span><span class="si">${</span><span class="nx">prefix</span><span class="si">}</span><span class="sb">-cart`</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;[{id: 1, name: &quot;prod1&quot;}, {id: 2, name: &quot;prod2&quot;}]&#39;</span><span class="p">);</span>
+</code></pre></div>
 <div class="admonition danger">
 <p class="admonition-title">Danger</p>
 <p>the limit of cookie values in most browsers is 4KB </p>
 </div>
 <h3 id="usage-in-cypress">Usage in Cypress</h3>
 <p>If you use Camouglage with <a href="https://www.cypress.io/">Cypress</a> you could add the following custom command to make life easier.</p>
-<pre><code class="language-js">/**
-* Custom cypress command to set a mocked state
-*/
-Cypress.Commands.add('setState', (key: string, value: unknown) =&gt; {
-    cy.setCookie(`mocked-state-${key}`, typeof value === 'string' ? value : JSON.stringify(value));
-});
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="cm">/**</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="cm">* Custom cypress command to set a mocked state</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="cm">*/</span>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="nx">Cypress</span><span class="p">.</span><span class="nx">Commands</span><span class="p">.</span><span class="nx">add</span><span class="p">(</span><span class="s1">&#39;setState&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">(</span><span class="nx">key</span><span class="o">:</span><span class="w"> </span><span class="nx">string</span><span class="p">,</span><span class="w"> </span><span class="nx">value</span><span class="o">:</span><span class="w"> </span><span class="nx">unknown</span><span class="p">)</span><span class="w"> </span><span class="p">=&gt;</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="nx">cy</span><span class="p">.</span><span class="nx">setCookie</span><span class="p">(</span><span class="sb">`mocked-state-</span><span class="si">${</span><span class="nx">key</span><span class="si">}</span><span class="sb">`</span><span class="p">,</span><span class="w"> </span><span class="ow">typeof</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="s1">&#39;string&#39;</span><span class="w"> </span><span class="o">?</span><span class="w"> </span><span class="nx">value</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="nb">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">value</span><span class="p">));</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a><span class="p">});</span>
+</code></pre></div>
 <p>Then in your tests</p>
-<pre><code class="language-js">cy.setState('has_pending_order', true);
-cy.setState('cart', [{id: 1, name: &quot;prod1&quot;}, {id: 2, name: &quot;prod2&quot;}]);
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="nx">cy</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="s1">&#39;has_pending_order&#39;</span><span class="p">,</span><span class="w"> </span><span class="kc">true</span><span class="p">);</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a><span class="nx">cy</span><span class="p">.</span><span class="nx">setState</span><span class="p">(</span><span class="s1">&#39;cart&#39;</span><span class="p">,</span><span class="w"> </span><span class="p">[{</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">1</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;prod1&quot;</span><span class="p">},</span><span class="w"> </span><span class="p">{</span><span class="nx">id</span><span class="o">:</span><span class="w"> </span><span class="mf">2</span><span class="p">,</span><span class="w"> </span><span class="nx">name</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;prod2&quot;</span><span class="p">}]);</span>
+</code></pre></div>
 <h2 id="inbuilt-helpers">Inbuilt Helpers</h2>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>A variety of helpers are made available by Handlebar.js. Following example just showcases how the inbuilt helpers can be used with Camouflage, more details and examples can be found just about anywhere on the internet. As far as inbuilt helpers are concerned, you can use any of them as long as it makes sense to you.</p>
 </div>
 <p>Raw HTML Request:</p>
-<pre><code>POST /users HTTP/1.1
-Content-Type: application/json
-
-{
-    &quot;firstName&quot;: &quot;Robert&quot;,
-    &quot;lastName&quot;: &quot;Downey&quot;,
-    &quot;nicknames&quot;: [
-        {
-            &quot;nickname&quot;: &quot;Bob&quot;
-        },
-        {
-            &quot;nickname&quot;: &quot;Rob&quot;
-        }
-    ]
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="nx">POST</span><span class="w"> </span><span class="o">/</span><span class="nx">users</span><span class="w"> </span><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a><span class="p">{</span>
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="w">    </span><span class="s2">&quot;firstName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Robert&quot;</span><span class="p">,</span>
+<a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a><span class="w">    </span><span class="s2">&quot;lastName&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Downey&quot;</span><span class="p">,</span>
+<a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="w">    </span><span class="s2">&quot;nicknames&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="w">            </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Bob&quot;</span>
+<a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a><span class="w">            </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Rob&quot;</span>
+<a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a><span class="p">}</span>
+</code></pre></div>
 <p>Expected Raw HTML Response:</p>
-<pre><code>HTTP/1.1 201 OK
-X-Requested-By: user-service
-Content-Type: application/json
-
-{
-    &quot;status&quot;: 201,
-    &quot;message&quot;: &quot;User created with ID: f45a3d2d-8dfb-4fc6-a0b2-c94882cd5b91&quot;,
-    &quot;data&quot;: [
-        {
-            &quot;nickname&quot;: &quot;Bob&quot;
-        },
-        {
-            &quot;nickname&quot;: &quot;Rob&quot;
-        }
-    ]
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">201</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="nx">X</span><span class="o">-</span><span class="nx">Requested</span><span class="o">-</span><span class="nx">By</span><span class="o">:</span><span class="w"> </span><span class="nx">user</span><span class="o">-</span><span class="nx">service</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">{</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a><span class="w">    </span><span class="s2">&quot;status&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="w">    </span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;User created with ID: f45a3d2d-8dfb-4fc6-a0b2-c94882cd5b91&quot;</span><span class="p">,</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a><span class="w">    </span><span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a><span class="w">            </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Bob&quot;</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="w">            </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Rob&quot;</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a><span class="p">}</span>
+</code></pre></div>
 <ol>
 <li>To create this service in camouflage, create a directory users under your ${MOCKS_DIR}. i.e. ${MOCKS_DIR}/users</li>
 <li>Create a file POST.mock and add following content to the file</li>
 </ol>
-<pre><code>HTTP/1.1 201 OK
-X-Requested-By: user-service
-Content-Type: application/json
-
-{
-    &quot;status&quot;: 201,
-    &quot;message&quot;: &quot;User created with ID: {{randomValue type='UUID'}}&quot;,
-    &quot;data&quot;: [
-        {{#each request.body.nicknames}}
-            {{#if @last}}
-                {
-                    &quot;nickname&quot;: &quot;{{this.nickname}}&quot;
-                }
-            {{else}}
-                {
-                    &quot;nickname&quot;: &quot;{{this.nickname}}&quot;
-                },
-            {{/if}}
-        {{/each}}
-    ]
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">201</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a><span class="nx">X</span><span class="o">-</span><span class="nx">Requested</span><span class="o">-</span><span class="nx">By</span><span class="o">:</span><span class="w"> </span><span class="nx">user</span><span class="o">-</span><span class="nx">service</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a><span class="p">{</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a><span class="w">    </span><span class="s2">&quot;status&quot;</span><span class="o">:</span><span class="w"> </span><span class="mf">201</span><span class="p">,</span>
+<a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a><span class="w">    </span><span class="s2">&quot;message&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;User created with ID: {{randomValue type=&#39;UUID&#39;}}&quot;</span><span class="p">,</span>
+<a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a><span class="w">    </span><span class="s2">&quot;data&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a><span class="w">        </span><span class="p">{{</span><span class="err">#</span><span class="nx">each</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">nicknames</span><span class="p">}}</span>
+<a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a><span class="w">            </span><span class="p">{{</span><span class="err">#</span><span class="k">if</span><span class="w"> </span><span class="err">@</span><span class="nx">last</span><span class="p">}}</span>
+<a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a><span class="w">                </span><span class="p">{</span>
+<a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="w">                    </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{this.nickname}}&quot;</span>
+<a id="__codelineno-15-13" name="__codelineno-15-13" href="#__codelineno-15-13"></a><span class="w">                </span><span class="p">}</span>
+<a id="__codelineno-15-14" name="__codelineno-15-14" href="#__codelineno-15-14"></a><span class="w">            </span><span class="p">{{</span><span class="k">else</span><span class="p">}}</span>
+<a id="__codelineno-15-15" name="__codelineno-15-15" href="#__codelineno-15-15"></a><span class="w">                </span><span class="p">{</span>
+<a id="__codelineno-15-16" name="__codelineno-15-16" href="#__codelineno-15-16"></a><span class="w">                    </span><span class="s2">&quot;nickname&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{this.nickname}}&quot;</span>
+<a id="__codelineno-15-17" name="__codelineno-15-17" href="#__codelineno-15-17"></a><span class="w">                </span><span class="p">},</span>
+<a id="__codelineno-15-18" name="__codelineno-15-18" href="#__codelineno-15-18"></a><span class="w">            </span><span class="p">{{</span><span class="err">/if}}</span>
+<a id="__codelineno-15-19" name="__codelineno-15-19" href="#__codelineno-15-19"></a><span class="w">        </span><span class="p">{{</span><span class="err">/each}}</span>
+<a id="__codelineno-15-20" name="__codelineno-15-20" href="#__codelineno-15-20"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-15-21" name="__codelineno-15-21" href="#__codelineno-15-21"></a><span class="p">}</span>
+</code></pre></div>
 <p>Explanation</p>
 <ol>
 <li>We replaced the static UUID <code>f45a3d2d-8dfb-4fc6-a0b2-c94882cd5b91</code> with <code>{{randomValue type='UUID'}}</code>, so that this value updates on each request.</li>

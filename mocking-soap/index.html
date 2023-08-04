@@ -562,6 +562,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -727,93 +742,87 @@
 <h3 id="how-to-mock-soap">How to mock SOAP?</h3>
 <ul>
 <li>Start by enabling soap protocol in the config file, provide the location of your ${SOAP_MOCKS} directory and optionally update the port.</li>
-<li>Also configure the WSDL schema containing the services you wish to mock and the path you want it to be available on.</li>
-</ul>
-<pre><code class="language-yaml">protocols:
-  soap:
-    enable: true
-    mocks_dir: &quot;./soap/mocks&quot;
-    port: 8100
-    services:
-      - wsdl: ./soap/countryservice.wsdl
-        path: /countryinfo
-</code></pre>
-<ul>
-<li>The folder structure for ${SOAP_MOCKS} follows the stucture of the WSDL schema, where you create a series of folders under ${SOAP_MOCKS} e.g. ${SOAP_MOCKS}/CountryInfoService/CountryInfoServiceSoap12/CountriesUsingCurrency.mock. This will allow you to POST to your mocked SOAP server using the url <code>http://localhost:8100/countryinfo</code></li>
-</ul>
-<pre><code class="language-xml">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
-    &lt;soap12:Body&gt;
-        &lt;CountriesUsingCurrency xmlns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
-            &lt;sISOCurrencyCode&gt;EU&lt;/sISOCurrencyCode&gt;
-        &lt;/CountriesUsingCurrency&gt;
-    &lt;/soap12:Body&gt;
-&lt;/soap12:Envelope&gt;
-</code></pre>
-<ul>
+<li>Also configure the WSDL schema containing the services you wish to mock and the path you want it to be available on.
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">protocols</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">soap</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">    </span><span class="nt">enable</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">    </span><span class="nt">mocks_dir</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;./soap/mocks&quot;</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">    </span><span class="nt">port</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">8100</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="w">    </span><span class="nt">services</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">wsdl</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./soap/countryservice.wsdl</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a><span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/countryinfo</span>
+</code></pre></div></li>
+<li>The folder structure for ${SOAP_MOCKS} follows the stucture of the WSDL schema, where you create a series of folders under ${SOAP_MOCKS} e.g. ${SOAP_MOCKS}/CountryInfoService/CountryInfoServiceSoap12/CountriesUsingCurrency.mock. This will allow you to POST to your mocked SOAP server using the url <code>http://localhost:8100/countryinfo</code>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nt">&lt;soap12:Envelope</span><span class="w"> </span><span class="na">xmlns:soap12=</span><span class="s">&quot;http://www.w3.org/2003/05/soap-envelope&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">    </span><span class="nt">&lt;soap12:Body&gt;</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="w">        </span><span class="nt">&lt;CountriesUsingCurrency</span><span class="w"> </span><span class="na">xmlns=</span><span class="s">&quot;http://www.oorsprong.org/websamples.countryinfo&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="w">            </span><span class="nt">&lt;sISOCurrencyCode&gt;</span>EU<span class="nt">&lt;/sISOCurrencyCode&gt;</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="w">        </span><span class="nt">&lt;/CountriesUsingCurrency&gt;</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="nt">&lt;/soap12:Body&gt;</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="nt">&lt;/soap12:Envelope&gt;</span>
+</code></pre></div></li>
 <li>Camouflage uses <code>CountriesUsingCurrency.mock</code> to respond to all incoming messages. The contents of this file is not XML, but rather a JSON format containting a body property, which converted to a SOAP response by the mock server.</li>
 <li>The mock file, as you'd expect, supports handlebars! So you can generate random numbers, put conditional blocks etc.</li>
-<li>The format of mock file would be as follows:</li>
+<li>The format of mock file would be as follows:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="p">{</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">    </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="w">            </span><span class="nt">&quot;sISOCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;NL&quot;</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="w">            </span><span class="nt">&quot;sName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;The Netherlands&quot;</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="w">            </span><span class="nt">&quot;sISOCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue type=&#39;ALPHABETIC&#39; uppercase=true length=2}}&quot;</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a><span class="w">            </span><span class="nt">&quot;sName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue type=&#39;ALPHABETIC&#39; uppercase=true length=10}}&quot;</span>
+<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="w">        </span><span class="p">},</span>
+<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="w">        </span><span class="p">{</span>
+<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a><span class="w">            </span><span class="nt">&quot;sISOCode&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;BE&quot;</span><span class="p">,</span><span class="w"> </span>
+<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="w">            </span><span class="nt">&quot;sName&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Belgium&quot;</span>
+<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a><span class="w">        </span><span class="p">}</span>
+<a id="__codelineno-2-15" name="__codelineno-2-15" href="#__codelineno-2-15"></a><span class="w">    </span><span class="p">]</span>
+<a id="__codelineno-2-16" name="__codelineno-2-16" href="#__codelineno-2-16"></a><span class="p">}</span>
+</code></pre></div></li>
+<li>It's also possible to delay responses by adding a delay. For example 10 seconds:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">    </span><span class="nt">&quot;delay&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">10000</span><span class="p">,</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="w">    </span><span class="nt">&quot;body&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue type=&#39;ALPHABETIC&#39; uppercase=true length=2}}&quot;</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a><span class="p">}</span>
+</code></pre></div></li>
 </ul>
-<pre><code class="language-json">{
-    &quot;body&quot;: [
-        {
-            &quot;sISOCode&quot;: &quot;NL&quot;, 
-            &quot;sName&quot;: &quot;The Netherlands&quot;
-        },
-        {
-            &quot;sISOCode&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=2}}&quot;, 
-            &quot;sName&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=10}}&quot;
-        },
-        {
-            &quot;sISOCode&quot;: &quot;BE&quot;, 
-            &quot;sName&quot;: &quot;Belgium&quot;
-        }
-    ]
-}
-</code></pre>
-<ul>
-<li>It's also possible to delay responses by adding a delay. For example 10 seconds:</li>
-</ul>
-<pre><code class="language-json">{
-    &quot;delay&quot;: 10000,
-    &quot;body&quot;: &quot;{{randomValue type='ALPHABETIC' uppercase=true length=2}}&quot;
-}
-</code></pre>
 <h3 id="example-request">Example request</h3>
 <p><strong>Request</strong></p>
-<pre><code>curl -X POST \
-  'http://localhost:8100/countryinfo' \
-  --header 'Accept: */*' \
-  --header 'Content-Type: application/soap+xml; charset=utf-8' \
-  --data-raw '&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;
-  &lt;soap12:Body&gt;
-    &lt;CountriesUsingCurrency xmlns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
-      &lt;sISOCurrencyCode&gt;EU&lt;/sISOCurrencyCode&gt;
-    &lt;/CountriesUsingCurrency&gt;
-  &lt;/soap12:Body&gt;
-&lt;/soap12:Envelope&gt;'
-</code></pre>
-<p><strong>Response</strong></p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;soap:Envelope xmlns:soap=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;
-    &lt;soap:Body&gt;
-        &lt;CountriesUsingCurrencyResponse&gt;
-            &lt;sISOCode&gt;NL&lt;/sISOCode&gt;
-            &lt;sName&gt;The Netherlands&lt;/sName&gt;
-        &lt;/CountriesUsingCurrencyResponse&gt;
-        &lt;CountriesUsingCurrencyResponse&gt;
-            &lt;sISOCode&gt;TK&lt;/sISOCode&gt;
-            &lt;sName&gt;TCULNUKYLD&lt;/sName&gt;
-        &lt;/CountriesUsingCurrencyResponse&gt;
-        &lt;CountriesUsingCurrencyResponse&gt;
-            &lt;sISOCode&gt;BE&lt;/sISOCode&gt;
-            &lt;sName&gt;Belgium&lt;/sName&gt;
-        &lt;/CountriesUsingCurrencyResponse&gt;
-    &lt;/soap:Body&gt;
-&lt;/soap:Envelope&gt;
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>curl<span class="w"> </span>-X<span class="w"> </span>POST<span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="s1">&#39;http://localhost:8100/countryinfo&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">  </span>--header<span class="w"> </span><span class="s1">&#39;Accept: */*&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">  </span>--header<span class="w"> </span><span class="s1">&#39;Content-Type: application/soap+xml; charset=utf-8&#39;</span><span class="w"> </span><span class="se">\</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">  </span>--data-raw<span class="w"> </span><span class="s1">&#39;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="s1">&lt;soap12:Envelope xmlns:soap12=&quot;http://www.w3.org/2003/05/soap-envelope&quot;&gt;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="s1">  &lt;soap12:Body&gt;</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="s1">    &lt;CountriesUsingCurrency xmlns=&quot;http://www.oorsprong.org/websamples.countryinfo&quot;&gt;</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="s1">      &lt;sISOCurrencyCode&gt;EU&lt;/sISOCurrencyCode&gt;</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="s1">    &lt;/CountriesUsingCurrency&gt;</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a><span class="s1">  &lt;/soap12:Body&gt;</span>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="s1">&lt;/soap12:Envelope&gt;&#39;</span>
+</code></pre></div>
+<p><strong>Response</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nt">&lt;soap:Envelope</span><span class="w"> </span><span class="na">xmlns:soap=</span><span class="s">&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;</span><span class="w"> </span><span class="na">xmlns:tns=</span><span class="s">&quot;http://www.oorsprong.org/websamples.countryinfo&quot;</span><span class="nt">&gt;</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">    </span><span class="nt">&lt;soap:Body&gt;</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">        </span><span class="nt">&lt;CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">            </span><span class="nt">&lt;sISOCode&gt;</span>NL<span class="nt">&lt;/sISOCode&gt;</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">            </span><span class="nt">&lt;sName&gt;</span>The<span class="w"> </span>Netherlands<span class="nt">&lt;/sName&gt;</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">        </span><span class="nt">&lt;/CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="nt">&lt;CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">            </span><span class="nt">&lt;sISOCode&gt;</span>TK<span class="nt">&lt;/sISOCode&gt;</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">            </span><span class="nt">&lt;sName&gt;</span>TCULNUKYLD<span class="nt">&lt;/sName&gt;</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">        </span><span class="nt">&lt;/CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">        </span><span class="nt">&lt;CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">            </span><span class="nt">&lt;sISOCode&gt;</span>BE<span class="nt">&lt;/sISOCode&gt;</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="w">            </span><span class="nt">&lt;sName&gt;</span>Belgium<span class="nt">&lt;/sName&gt;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="w">        </span><span class="nt">&lt;/CountriesUsingCurrencyResponse&gt;</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">    </span><span class="nt">&lt;/soap:Body&gt;</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="nt">&lt;/soap:Envelope&gt;</span>
+</code></pre></div></p>
 
 
 

@@ -514,6 +514,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -723,15 +738,15 @@
 <li>To define the schedule for backup, update <code>backup.cron</code> property with a valid cron schedule (Refer <a href="https://crontab.guru" target="_blank">Crontab.guru</a>, if you are not familiar with cron schedules )</li>
 <li>In order to restore your previously backed up data, all you need is your config.yml file. Run the following command in your working directory.</li>
 </ul>
-<pre><code>camouflage restore --config config.yml
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>camouflage restore --config config.yml
+</code></pre></div>
 <ul>
 <li>What to do if you don't have a config.yml? Run the <code>init</code> command first and then restore.</li>
 </ul>
-<pre><code>camouflage init
-</code></pre>
-<pre><code>camouflage restore --config config.yml
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>camouflage init
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>camouflage restore --config config.yml
+</code></pre></div>
 <ul>
 <li>Camouflage backs up <strong>Http mocks directory</strong>, <strong>key and certificates</strong> and <strong>gRPC mocks and protos</strong> from your project.</li>
 </ul>

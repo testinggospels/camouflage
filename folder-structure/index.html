@@ -583,6 +583,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -781,61 +796,61 @@ naming the files in a certain way. We intend to keep the file names simple and i
 </ul>
 <p>The data you want to put can be easily fetched using a curl command with -i -X flags in the following manner.</p>
 <p>Example:</p>
-<pre><code>curl -i -X GET https://jsonplaceholder.typicode.com/users/1 &gt; GET.mock
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>curl -i -X GET https://jsonplaceholder.typicode.com/users/1 &gt; GET.mock
+</code></pre></div>
 <p>Running this command, gives you a GET.mock file with following content. Modify it according to your requirement and place it in the location ${MOCKS_DIR}/users/__, and you have successfully mocked jsonplaceholder API.</p>
-<pre><code>HTTP/1.1 200 OK
-date: Sat, 17 Apr 2021 05:21:51 GMT
-content-type: application/json; charset=utf-8
-content-length: 509
-set-cookie: __cfduid=ddf6b687a745fea6ab343400b5dfe9f141618636911; expires=Mon, 17-May-21 05:21:51 GMT; path=/; domain=.typicode.com; HttpOnly; SameSite=Lax
-x-powered-by: Express
-x-ratelimit-limit: 1000
-x-ratelimit-remaining: 998
-x-ratelimit-reset: 1612952731
-vary: Origin, Accept-Encoding
-access-control-allow-credentials: true
-cache-control: max-age=43200
-pragma: no-cache
-expires: -1
-x-content-type-options: nosniff
-etag: W/&quot;1fd-+2Y3G3w049iSZtw5t1mzSnunngE&quot;
-via: 1.1 vegur
-cf-cache-status: HIT
-age: 14578
-accept-ranges: bytes
-cf-request-id: 097fe04d2c000019d97db7d000000001
-expect-ct: max-age=604800, report-uri=&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot;
-report-to: {&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https:\/\/a.nel.cloudflare.com\/report?s=%2FkpNonG0wnuykR5xxlGXKBUxm5DN%2BI1PpQ0ytmiw931XaIVBNqZMJLEr0%2F3kDTrOhbX%2FCCPZtI4iuU3V%2F07wO5uwqov0d4c12%2Fcdpiz7TIFqzGkr7DwUrzt40CLH&quot;}],&quot;max_age&quot;:604800,&quot;group&quot;:&quot;cf-nel&quot;}
-nel: {&quot;max_age&quot;:604800,&quot;report_to&quot;:&quot;cf-nel&quot;}
-server: cloudflare
-cf-ray: 6413365b7e9919d9-SIN
-alt-svc: h3-27=&quot;:443&quot;; ma=86400, h3-28=&quot;:443&quot;; ma=86400, h3-29=&quot;:443&quot;; ma=86400
-
-{
-  &quot;id&quot;: 1,
-  &quot;name&quot;: &quot;Leanne Graham&quot;,
-  &quot;username&quot;: &quot;Bret&quot;,
-  &quot;email&quot;: &quot;Sincere@april.biz&quot;,
-  &quot;address&quot;: {
-    &quot;street&quot;: &quot;Kulas Light&quot;,
-    &quot;suite&quot;: &quot;Apt. 556&quot;,
-    &quot;city&quot;: &quot;Gwenborough&quot;,
-    &quot;zipcode&quot;: &quot;92998-3874&quot;,
-    &quot;geo&quot;: {
-      &quot;lat&quot;: &quot;-37.3159&quot;,
-      &quot;lng&quot;: &quot;81.1496&quot;
-    }
-  },
-  &quot;phone&quot;: &quot;1-770-736-8031 x56442&quot;,
-  &quot;website&quot;: &quot;hildegard.org&quot;,
-  &quot;company&quot;: {
-    &quot;name&quot;: &quot;Romaguera-Crona&quot;,
-    &quot;catchPhrase&quot;: &quot;Multi-layered client-server neural-net&quot;,
-    &quot;bs&quot;: &quot;harness real-time e-markets&quot;
-  }
-}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>HTTP/1.1 200 OK
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>date: Sat, 17 Apr 2021 05:21:51 GMT
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>content-type: application/json; charset=utf-8
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>content-length: 509
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>set-cookie: __cfduid=ddf6b687a745fea6ab343400b5dfe9f141618636911; expires=Mon, 17-May-21 05:21:51 GMT; path=/; domain=.typicode.com; HttpOnly; SameSite=Lax
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>x-powered-by: Express
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>x-ratelimit-limit: 1000
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>x-ratelimit-remaining: 998
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>x-ratelimit-reset: 1612952731
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>vary: Origin, Accept-Encoding
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>access-control-allow-credentials: true
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>cache-control: max-age=43200
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a>pragma: no-cache
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>expires: -1
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a>x-content-type-options: nosniff
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>etag: W/&quot;1fd-+2Y3G3w049iSZtw5t1mzSnunngE&quot;
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a>via: 1.1 vegur
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a>cf-cache-status: HIT
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a>age: 14578
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a>accept-ranges: bytes
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a>cf-request-id: 097fe04d2c000019d97db7d000000001
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a>expect-ct: max-age=604800, report-uri=&quot;https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct&quot;
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a>report-to: {&quot;endpoints&quot;:[{&quot;url&quot;:&quot;https:\/\/a.nel.cloudflare.com\/report?s=%2FkpNonG0wnuykR5xxlGXKBUxm5DN%2BI1PpQ0ytmiw931XaIVBNqZMJLEr0%2F3kDTrOhbX%2FCCPZtI4iuU3V%2F07wO5uwqov0d4c12%2Fcdpiz7TIFqzGkr7DwUrzt40CLH&quot;}],&quot;max_age&quot;:604800,&quot;group&quot;:&quot;cf-nel&quot;}
+<a id="__codelineno-1-24" name="__codelineno-1-24" href="#__codelineno-1-24"></a>nel: {&quot;max_age&quot;:604800,&quot;report_to&quot;:&quot;cf-nel&quot;}
+<a id="__codelineno-1-25" name="__codelineno-1-25" href="#__codelineno-1-25"></a>server: cloudflare
+<a id="__codelineno-1-26" name="__codelineno-1-26" href="#__codelineno-1-26"></a>cf-ray: 6413365b7e9919d9-SIN
+<a id="__codelineno-1-27" name="__codelineno-1-27" href="#__codelineno-1-27"></a>alt-svc: h3-27=&quot;:443&quot;; ma=86400, h3-28=&quot;:443&quot;; ma=86400, h3-29=&quot;:443&quot;; ma=86400
+<a id="__codelineno-1-28" name="__codelineno-1-28" href="#__codelineno-1-28"></a>
+<a id="__codelineno-1-29" name="__codelineno-1-29" href="#__codelineno-1-29"></a>{
+<a id="__codelineno-1-30" name="__codelineno-1-30" href="#__codelineno-1-30"></a>  &quot;id&quot;: 1,
+<a id="__codelineno-1-31" name="__codelineno-1-31" href="#__codelineno-1-31"></a>  &quot;name&quot;: &quot;Leanne Graham&quot;,
+<a id="__codelineno-1-32" name="__codelineno-1-32" href="#__codelineno-1-32"></a>  &quot;username&quot;: &quot;Bret&quot;,
+<a id="__codelineno-1-33" name="__codelineno-1-33" href="#__codelineno-1-33"></a>  &quot;email&quot;: &quot;Sincere@april.biz&quot;,
+<a id="__codelineno-1-34" name="__codelineno-1-34" href="#__codelineno-1-34"></a>  &quot;address&quot;: {
+<a id="__codelineno-1-35" name="__codelineno-1-35" href="#__codelineno-1-35"></a>    &quot;street&quot;: &quot;Kulas Light&quot;,
+<a id="__codelineno-1-36" name="__codelineno-1-36" href="#__codelineno-1-36"></a>    &quot;suite&quot;: &quot;Apt. 556&quot;,
+<a id="__codelineno-1-37" name="__codelineno-1-37" href="#__codelineno-1-37"></a>    &quot;city&quot;: &quot;Gwenborough&quot;,
+<a id="__codelineno-1-38" name="__codelineno-1-38" href="#__codelineno-1-38"></a>    &quot;zipcode&quot;: &quot;92998-3874&quot;,
+<a id="__codelineno-1-39" name="__codelineno-1-39" href="#__codelineno-1-39"></a>    &quot;geo&quot;: {
+<a id="__codelineno-1-40" name="__codelineno-1-40" href="#__codelineno-1-40"></a>      &quot;lat&quot;: &quot;-37.3159&quot;,
+<a id="__codelineno-1-41" name="__codelineno-1-41" href="#__codelineno-1-41"></a>      &quot;lng&quot;: &quot;81.1496&quot;
+<a id="__codelineno-1-42" name="__codelineno-1-42" href="#__codelineno-1-42"></a>    }
+<a id="__codelineno-1-43" name="__codelineno-1-43" href="#__codelineno-1-43"></a>  },
+<a id="__codelineno-1-44" name="__codelineno-1-44" href="#__codelineno-1-44"></a>  &quot;phone&quot;: &quot;1-770-736-8031 x56442&quot;,
+<a id="__codelineno-1-45" name="__codelineno-1-45" href="#__codelineno-1-45"></a>  &quot;website&quot;: &quot;hildegard.org&quot;,
+<a id="__codelineno-1-46" name="__codelineno-1-46" href="#__codelineno-1-46"></a>  &quot;company&quot;: {
+<a id="__codelineno-1-47" name="__codelineno-1-47" href="#__codelineno-1-47"></a>    &quot;name&quot;: &quot;Romaguera-Crona&quot;,
+<a id="__codelineno-1-48" name="__codelineno-1-48" href="#__codelineno-1-48"></a>    &quot;catchPhrase&quot;: &quot;Multi-layered client-server neural-net&quot;,
+<a id="__codelineno-1-49" name="__codelineno-1-49" href="#__codelineno-1-49"></a>    &quot;bs&quot;: &quot;harness real-time e-markets&quot;
+<a id="__codelineno-1-50" name="__codelineno-1-50" href="#__codelineno-1-50"></a>  }
+<a id="__codelineno-1-51" name="__codelineno-1-51" href="#__codelineno-1-51"></a>}
+</code></pre></div>
 <p>Another, easier, approach to create mocks is by installing the <a href="https://marketplace.visualstudio.com/items?itemName=humao.rest-client" target="_blank">REST Client VS Code Extension</a> and using it to fetch the required data for mocks.</p>
 <ul>
 <li>Launch VS Code and install "REST Client" Extension by Huachao Mao or simply open the link above.</li>

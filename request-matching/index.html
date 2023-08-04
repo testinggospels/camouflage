@@ -571,6 +571,21 @@
   
   
     <li class="md-nav__item">
+      <a href="../code-helper/" class="md-nav__link">
+        Code Helper
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../camouflage-ui/" class="md-nav__link">
         Camouflage UI
       </a>
@@ -736,42 +751,42 @@
 <h2 id="request-matching">Request Matching</h2>
 <p>There are scenarios when you would need to change your response based on some conditions met by fields on request objects. For example, if the end user passes an Authorization header, you'd want to send a 200 OK response if not you'd want to send a 401 Unauthorized response.</p>
 <p>To do so you can utilize the power of handlebars again. Simply provide an if else condition and you are good to go. Consider the following example.</p>
-<pre><code>You expect the user to call the endpoint /hello-world in two ways.
-1) By simple making a GET request to /hello-world.; Or
-2) By adding a query parameter name in the GET request to /hello-world.
-   i.e. /hello-world?name=John
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>You expect the user to call the endpoint /hello-world in two ways.
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>1) By simple making a GET request to /hello-world.; Or
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>2) By adding a query parameter name in the GET request to /hello-world.
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>   i.e. /hello-world?name=John
+</code></pre></div>
 <p>Based on how the user calls the API, you'd want to send a different
 response. This can be done in following manner:</p>
 <p>Create a GET.mock file under the directory ${MOCKS_DIR}/hello-world. And paste following content:</p>
-<pre><code>{{#if request.query.name}}
-HTTP/1.1 200 OK
-X-Requested-By: Shubhendu Madhukar
-Content-Type: application/json
-
-{
-    &quot;greeting&quot;: &quot;Hello {{capture from='query' key='name'}}&quot;,
-    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
-    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
-    &quot;test&quot;: &quot;{{randomValue}}&quot;
-}
-{{else}}
-HTTP/1.1 200 OK
-X-Requested-By: Shubhendu Madhukar
-Content-Type: application/json
-
-{
-    &quot;greeting&quot;: &quot;Hello World&quot;,
-    &quot;phone&quot;: {{randomValue length=10 type='NUMERIC'}},
-    &quot;dateOfBirth&quot;: &quot;{{now format='MM/DD/YYYY'}}&quot;,
-    &quot;test&quot;: &quot;{{randomValue}}&quot;
-}
-{{/if}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="p">{{</span><span class="err">#</span><span class="k">if</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">name</span><span class="p">}}</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="nx">X</span><span class="o">-</span><span class="nx">Requested</span><span class="o">-</span><span class="nx">By</span><span class="o">:</span><span class="w"> </span><span class="nx">Shubhendu</span><span class="w"> </span><span class="nx">Madhukar</span>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="p">{</span>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="w">    </span><span class="s2">&quot;greeting&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Hello {{capture from=&#39;query&#39; key=&#39;name&#39;}}&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="w">    </span><span class="s2">&quot;phone&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{{</span><span class="nx">randomValue</span><span class="w"> </span><span class="nx">length</span><span class="o">=</span><span class="mf">10</span><span class="w"> </span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;NUMERIC&#39;</span><span class="p">}},</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a><span class="w">    </span><span class="s2">&quot;dateOfBirth&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{now format=&#39;MM/DD/YYYY&#39;}}&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="w">    </span><span class="s2">&quot;test&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue}}&quot;</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="p">}</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a><span class="p">{{</span><span class="k">else</span><span class="p">}}</span>
+<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a><span class="nx">X</span><span class="o">-</span><span class="nx">Requested</span><span class="o">-</span><span class="nx">By</span><span class="o">:</span><span class="w"> </span><span class="nx">Shubhendu</span><span class="w"> </span><span class="nx">Madhukar</span>
+<a id="__codelineno-1-15" name="__codelineno-1-15" href="#__codelineno-1-15"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-1-16" name="__codelineno-1-16" href="#__codelineno-1-16"></a>
+<a id="__codelineno-1-17" name="__codelineno-1-17" href="#__codelineno-1-17"></a><span class="p">{</span>
+<a id="__codelineno-1-18" name="__codelineno-1-18" href="#__codelineno-1-18"></a><span class="w">    </span><span class="s2">&quot;greeting&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;Hello World&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-19" name="__codelineno-1-19" href="#__codelineno-1-19"></a><span class="w">    </span><span class="s2">&quot;phone&quot;</span><span class="o">:</span><span class="w"> </span><span class="p">{{</span><span class="nx">randomValue</span><span class="w"> </span><span class="nx">length</span><span class="o">=</span><span class="mf">10</span><span class="w"> </span><span class="nx">type</span><span class="o">=</span><span class="s1">&#39;NUMERIC&#39;</span><span class="p">}},</span>
+<a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">    </span><span class="s2">&quot;dateOfBirth&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{now format=&#39;MM/DD/YYYY&#39;}}&quot;</span><span class="p">,</span>
+<a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">    </span><span class="s2">&quot;test&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;{{randomValue}}&quot;</span>
+<a id="__codelineno-1-22" name="__codelineno-1-22" href="#__codelineno-1-22"></a><span class="p">}</span>
+<a id="__codelineno-1-23" name="__codelineno-1-23" href="#__codelineno-1-23"></a><span class="p">{{</span><span class="err">/if}}</span>
+</code></pre></div>
 <h3 id="explanation">Explanation</h3>
 <p>We are going to check if a query parameter with the key 'name' exists in the incoming request. We do so by adding an if condition</p>
-<pre><code>{{#if request.query.name}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>{{#if request.query.name}}
+</code></pre></div>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p><code>if</code> and <code>unless</code> helpers are provided by handlebarjs, which don't have comparison capabilities. These helpers only check if the provided value is truthy or falsy. i.e. you can not do something like this: <code>{{#if something = something}}</code>. For comparisons, you'd need to use <code>is</code> helper. See Handlebars page for example.</p>
@@ -780,71 +795,71 @@ Content-Type: application/json
 <p>Thus if the end user makes a GET request as <code>/hello-world?name=John</code>, he'd get a greeting <code>Hello John</code>. However, if the user calls <code>/hello-world</code> without any <code>name</code>, he'd get a greeting as <code>Hello World</code></p>
 <h3 id="request-matching-using-headers">Request Matching using headers</h3>
 <p>To perform request matching using headers the, mocks need to follow a slightly different approach. Using <code>capture</code> helper, we need to capture a specific header value which then can be passed to other helpers like <code>is</code> or <code>if</code>.</p>
-<pre><code>{{#if (capture from='headers' key='Authorization') }}
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-    &quot;response&quot;: &quot;response if auth header is present.&quot;
-}
-{{else}}
-HTTP/1.1 401 Unauthorized
-Content-Type: application/json
-
-{
-    &quot;response&quot;: &quot;response if no auth header present.&quot;
-}
-{{/if}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="p">{{</span><span class="err">#</span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="nx">capture</span><span class="w"> </span><span class="kr">from</span><span class="o">=</span><span class="s1">&#39;headers&#39;</span><span class="w"> </span><span class="nx">key</span><span class="o">=</span><span class="s1">&#39;Authorization&#39;</span><span class="p">)</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a><span class="p">{</span>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a><span class="w">    </span><span class="s2">&quot;response&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;response if auth header is present.&quot;</span>
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a><span class="p">}</span>
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a><span class="p">{{</span><span class="k">else</span><span class="p">}}</span>
+<a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">401</span><span class="w"> </span><span class="nx">Unauthorized</span>
+<a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>
+<a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a><span class="p">{</span>
+<a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a><span class="w">    </span><span class="s2">&quot;response&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;response if no auth header present.&quot;</span>
+<a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a><span class="p">}</span>
+<a id="__codelineno-3-15" name="__codelineno-3-15" href="#__codelineno-3-15"></a><span class="p">{{</span><span class="err">/if}}</span>
+</code></pre></div>
 <p>If you want to validate a given header against a specific value, the mock file would be as shown below:</p>
-<pre><code>{{#is (capture from='headers' key='Authorization') 'Basic c2h1YmhlbmR1Om1hZGh1a2Fy' }}
-HTTP/1.1 200 OK
-Content-Type: application/json
-
-{
-    &quot;response&quot;: &quot;response if auth header is present.&quot;
-}
-{{else}}
-HTTP/1.1 401 Unauthorized
-Content-Type: application/json
-
-{
-    &quot;response&quot;: &quot;response if no auth header present.&quot;
-}
-{{/is}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="p">{{</span><span class="err">#</span><span class="nx">is</span><span class="w"> </span><span class="p">(</span><span class="nx">capture</span><span class="w"> </span><span class="kr">from</span><span class="o">=</span><span class="s1">&#39;headers&#39;</span><span class="w"> </span><span class="nx">key</span><span class="o">=</span><span class="s1">&#39;Authorization&#39;</span><span class="p">)</span><span class="w"> </span><span class="s1">&#39;Basic c2h1YmhlbmR1Om1hZGh1a2Fy&#39;</span><span class="w"> </span><span class="p">}}</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">{</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a><span class="w">    </span><span class="s2">&quot;response&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;response if auth header is present.&quot;</span>
+<a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a><span class="p">}</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a><span class="p">{{</span><span class="k">else</span><span class="p">}}</span>
+<a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">401</span><span class="w"> </span><span class="nx">Unauthorized</span>
+<a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-4-11" name="__codelineno-4-11" href="#__codelineno-4-11"></a>
+<a id="__codelineno-4-12" name="__codelineno-4-12" href="#__codelineno-4-12"></a><span class="p">{</span>
+<a id="__codelineno-4-13" name="__codelineno-4-13" href="#__codelineno-4-13"></a><span class="w">    </span><span class="s2">&quot;response&quot;</span><span class="o">:</span><span class="w"> </span><span class="s2">&quot;response if no auth header present.&quot;</span>
+<a id="__codelineno-4-14" name="__codelineno-4-14" href="#__codelineno-4-14"></a><span class="p">}</span>
+<a id="__codelineno-4-15" name="__codelineno-4-15" href="#__codelineno-4-15"></a><span class="p">{{</span><span class="err">/is}}</span>
+</code></pre></div>
 <p>The same validation, albeit messy, can be carried out using <code>code</code> helper, as shown below. This needs <code>config.injection.enable</code> to be set to <code>true</code>
 <strong>Code</strong></p>
-<pre><code>HTTP/1.1 200 OK
-Content-Type: application/json
-
-{{#code}}
-(()=&gt;{
-    const authHeader = request.get('Authorization');
-    if(authHeader){
-        return {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: `{
-                &quot;response&quot;: &quot;response if auth header is present.&quot;
-            }`
-        };
-    }else{
-        return {
-            status: 401,
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: `{
-                &quot;response&quot;: &quot;response if no auth header present.&quot;
-            }`
-        };
-    }
-})();
-{{/code}}
-</code></pre>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span><span class="w"> </span><span class="mf">200</span><span class="w"> </span><span class="nx">OK</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="nx">Content</span><span class="o">-</span><span class="nx">Type</span><span class="o">:</span><span class="w"> </span><span class="nx">application</span><span class="o">/</span><span class="nx">json</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">{{</span><span class="err">#</span><span class="nx">code</span><span class="p">}}</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">(()=&gt;{</span>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="w">    </span><span class="kd">const</span><span class="w"> </span><span class="nx">authHeader</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">request</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;Authorization&#39;</span><span class="p">);</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="w">    </span><span class="k">if</span><span class="p">(</span><span class="nx">authHeader</span><span class="p">){</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a><span class="w">            </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">200</span><span class="p">,</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a><span class="w">            </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a><span class="w">                </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a><span class="w">            </span><span class="p">},</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a><span class="w">            </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="sb">`{</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a><span class="sb">                &quot;response&quot;: &quot;response if auth header is present.&quot;</span>
+<a id="__codelineno-5-15" name="__codelineno-5-15" href="#__codelineno-5-15"></a><span class="sb">            }`</span>
+<a id="__codelineno-5-16" name="__codelineno-5-16" href="#__codelineno-5-16"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-5-17" name="__codelineno-5-17" href="#__codelineno-5-17"></a><span class="w">    </span><span class="p">}</span><span class="k">else</span><span class="p">{</span>
+<a id="__codelineno-5-18" name="__codelineno-5-18" href="#__codelineno-5-18"></a><span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-19" name="__codelineno-5-19" href="#__codelineno-5-19"></a><span class="w">            </span><span class="nx">status</span><span class="o">:</span><span class="w"> </span><span class="mf">401</span><span class="p">,</span>
+<a id="__codelineno-5-20" name="__codelineno-5-20" href="#__codelineno-5-20"></a><span class="w">            </span><span class="nx">headers</span><span class="o">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-5-21" name="__codelineno-5-21" href="#__codelineno-5-21"></a><span class="w">                </span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span><span class="w"> </span><span class="s1">&#39;application/json&#39;</span>
+<a id="__codelineno-5-22" name="__codelineno-5-22" href="#__codelineno-5-22"></a><span class="w">            </span><span class="p">},</span>
+<a id="__codelineno-5-23" name="__codelineno-5-23" href="#__codelineno-5-23"></a><span class="w">            </span><span class="nx">body</span><span class="o">:</span><span class="w"> </span><span class="sb">`{</span>
+<a id="__codelineno-5-24" name="__codelineno-5-24" href="#__codelineno-5-24"></a><span class="sb">                &quot;response&quot;: &quot;response if no auth header present.&quot;</span>
+<a id="__codelineno-5-25" name="__codelineno-5-25" href="#__codelineno-5-25"></a><span class="sb">            }`</span>
+<a id="__codelineno-5-26" name="__codelineno-5-26" href="#__codelineno-5-26"></a><span class="w">        </span><span class="p">};</span>
+<a id="__codelineno-5-27" name="__codelineno-5-27" href="#__codelineno-5-27"></a><span class="w">    </span><span class="p">}</span>
+<a id="__codelineno-5-28" name="__codelineno-5-28" href="#__codelineno-5-28"></a><span class="p">})();</span>
+<a id="__codelineno-5-29" name="__codelineno-5-29" href="#__codelineno-5-29"></a><span class="p">{{</span><span class="err">/code}}</span>
+</code></pre></div>
 
 
 
