@@ -18,6 +18,6 @@ If you have access to the OpenAPI specification for the APIs/Endpoints you want 
 }
 ```
 
-!!!caution
+!!!danger
 
     camoswag currently supports JSON responses only.

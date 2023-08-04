@@ -2,7 +2,7 @@
 
 Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. Camouflage provides two helpers, `pg` and `csv`, which can be used to connect to a postgres db and csv data file respectively.
 
-!!! caution
+!!! danger
 
     Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
 
@@ -101,7 +101,7 @@ In that case you'd remove `key` and `value` from the snippet shown above, and si
 
 To get entire data pass `all=true`.
 
-!!!caution
+!!!danger
 
     1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
 
