@@ -21,7 +21,7 @@ export class CsvHelper {
    * @returns {void}
    */
   register = () => {
-    this.Handlebars.registerHelper("csv", (context: any) => {
+    this.Handlebars.registerHelper("csv", async (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       /* eslint-disable no-unused-vars */
@@ -55,7 +55,7 @@ export class CsvHelper {
               return jsonObj[key] === value;
             });
           }
-          const code = eval(context.fn(this));
+          const code = await eval(context.fn(this));
           code["CamouflageResponseType"] = "code";
           return JSON.stringify(code);
         } else {

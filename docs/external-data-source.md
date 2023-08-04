@@ -3,7 +3,8 @@
 Camouflage lets you condition your response for a specific set of data. Because we understand that random values don't always fulfill the requirements. Camouflage provides two helpers, `pg` and `csv`, which can be used to connect to a postgres db and csv data file respectively.
 
 !!! caution
-Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
+
+    Both `pg` and `csv` helpers, rely on code injection for response generation. To use these helpers, the property `injection` needs to be set to `true` in config.yml. Injection can lead to security related issues and should be used judiciously.
 
 ## pg
 
@@ -100,6 +101,8 @@ In that case you'd remove `key` and `value` from the snippet shown above, and si
 
 To get entire data pass `all=true`.
 
-!!!caution 1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
+!!!caution
+
+    1. Note that, though we are calling it a "c"sv, it's not really comma separated, Camouflage expects the values to be separated by a semicolon. i.e. `;`
 
     2. Keep in mind that if you use random=true, you don't get the `result` object as an array, you would get one single object. So in the example above, `result[0].City` will not work, you'd need to update it to simply `result.City`

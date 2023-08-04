@@ -1,0 +1,11 @@
+{
+    "compilerOptions": {
+        "skipLibCheck": false,
+        "module": "commonjs",
+        "esModuleInterop": true,
+        "target": "es6",
+        "noImplicitAny": false,
+        "moduleResolution": "node"
+    },
+    "exclude": ["../../node_modules"]
+}

@@ -15,12 +15,12 @@ export class CodeHelper {
    * @returns {void}
    */
   register = () => {
-    this.Handlebars.registerHelper("code", (context: any) => {
+    this.Handlebars.registerHelper("code", async (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;
       /* eslint-disable no-unused-vars */
-      const code = eval(context.fn(this));
+      const code = await eval(context.fn(this));
       code["CamouflageResponseType"] = "code";
       return JSON.stringify(code);
     });

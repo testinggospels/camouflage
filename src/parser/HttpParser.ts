@@ -169,7 +169,7 @@ export class HttpParser {
         }
       }
       if (PARSE_BODY) {
-        responseBody = responseBody + line;
+        responseBody = responseBody + "<br/>" + line;
       }
       if (index == fileContent.length - 1) {
         if (responseBody.includes("camouflage_file_helper")) {
@@ -183,6 +183,7 @@ export class HttpParser {
           responseBody = responseBody.replace(/}}}/, "}} }");
           const template = Handlebars.compile(responseBody);
           try {
+            responseBody = responseBody.split("<br/>").join("\n").trim()
             const codeResponse = JSON.parse(
               responseBody.replace(/&quot;/g, '"')
             );
@@ -244,6 +245,7 @@ export class HttpParser {
                   request: this.req,
                   logger: logger,
                 });
+                response.body = response.body.split("<br />").join("\n").trim()
                 return response;
                 break;
             }
@@ -260,6 +262,7 @@ export class HttpParser {
               request: this.req,
               logger: logger,
             });
+            response.body = response.body.split("<br/>").join("\n").trim()
             return response;
           }
           response.body = responseBody;

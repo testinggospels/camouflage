@@ -22,7 +22,10 @@
     "prestart": "npm run build",
     "start": "node bin/camouflage.js --config ./config.yml",
     "docs": "jsdoc -c jsdoc.json -t ./node_modules/foodoc/template",
-    "test": "mocha tests/index.spec.js --exit || true",
+    "test": "start-server-and-test test:mock http://localhost:8080 test:features",
+    "pretest:mock": "npm run build; ts-node --project ./tests/tsconfig.json ./tests/prepare.ts",
+    "test:mock": "node bin/camouflage.js --config ./tests/config.yml",
+    "test:features": "TS_NODE_PROJECT=tests/tsconfig.json cucumber-js --require-module ts-node/register --require 'tests/features/**/*.ts' tests/features/",
     "dev": "nodemon -e ts --exec \"npm run start\""
   },
   "bin": {
@@ -79,13 +82,19 @@
     "yargs": "^16.2.0"
   },
   "devDependencies": {
+    "@cucumber/cucumber": "^8.9.0",
+    "@types/apicache": "^1.6.1",
+    "@types/compression": "^1.7.2",
     "@types/cookie-parser": "^1.4.3",
+    "@types/cors": "^2.8.12",
     "@types/express": "^4.17.11",
+    "@types/fs-extra": "^9.0.13",
     "@types/http-errors": "^1.8.2",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^14.14.37",
     "@types/q": "^1.5.5",
     "@types/redis": "^2.8.32",
+    "@types/swagger-stats": "^0.95.6",
     "@types/thrift": "^0.10.11",
     "@types/ws": "^7.4.4",
     "@typescript-eslint/eslint-plugin": "^5.1.0",
@@ -98,6 +107,8 @@
     "mocha": "^8.4.0",
     "nodemon": "^2.0.12",
     "semantic-release": "^17.4.3",
+    "start-server-and-test": "^1.14.0",
+    "ts-node": "^10.9.1",
     "typescript": "^4.4.4"
   }
 }
