@@ -16,7 +16,7 @@ response. This can be done in following manner:
 
 Create a GET.mock file under the directory ${MOCKS_DIR}/hello-world. And paste following content:
 
-```
+```javascript
 {{#if request.query.name}}
 HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
@@ -62,7 +62,7 @@ Thus if the end user makes a GET request as `/hello-world?name=John`, he'd get a
 
 To perform request matching using headers the, mocks need to follow a slightly different approach. Using `capture` helper, we need to capture a specific header value which then can be passed to other helpers like `is` or `if`.
 
-```
+```javascript
 {{#if (capture from='headers' key='Authorization') }}
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -82,7 +82,7 @@ Content-Type: application/json
 
 If you want to validate a given header against a specific value, the mock file would be as shown below:
 
-```
+```javascript
 {{#is (capture from='headers' key='Authorization') 'Basic c2h1YmhlbmR1Om1hZGh1a2Fy' }}
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -103,7 +103,7 @@ Content-Type: application/json
 The same validation, albeit messy, can be carried out using `code` helper, as shown below. This needs `config.injection.enable` to be set to `true`
 **Code**
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 

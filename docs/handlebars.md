@@ -53,7 +53,7 @@ Usage:
 
 1. **{{capture from='query' key='firstName'}}** - Pretty self-explanatory, but if your endpoint looks like /hello-world?firstName=John&lastName=Wick. And your response is {"message": "Hello Wick, John"}, you can make the response dynamic by formatting your response as
 
-```
+```json
 {
     "message": "Hello {{capture from='query' key='lastName'}}, {{capture from='query' key='firstName'}}"
 }
@@ -94,7 +94,7 @@ Usage:
 
 **{{file path='/location/of/the/image/or/text/or/any/file'}}**: If you want to serve a file as a response, maybe an image, or text file, a pdf document, or any type of supported files, use file helper to do so. An example is shown below:
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/pdf
 
@@ -107,7 +107,7 @@ Type: Custom Helper
 
 Usage: Camouflage's implementation of Handlebars is robust enough to handle most dynamic responses i.e. capturing data from request, generating random numbers, as shown in examples above. However, if your requirement still cannot be fulfilled by Camouflage's helpers, you can write a custom code in javascript to achieve the same results. Refer to the example mock and explanation below:
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -160,7 +160,7 @@ Type: Custom Helper
 
 Usage: Another use case for custom code could be when you don't want to write a code for the entire response generation, but there are some parts of your response that need a custom code. Using `inject` helper you can use Camouflage's helpers and your custom code both together. Implementation remains similar to `code` helper, refer to the example below.
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -223,7 +223,7 @@ Type: Custom Helper
 
 Usage: Proxy Helper allows you to redirect your calls to an actual downstream selectively. You might want to redirect all calls to actual downstream or some calls based on some condition, i.e. if a specific header exists, or a query param is provided. Example mock file content:
 
-```
+```javascript
 HTTP/1.1 200 OK
 x-additional-headers: somevalue
 
@@ -252,7 +252,7 @@ Usage: Assign helper can be used to assign a value to a variable, by specifying 
 
 Example: Using a complex combination of helpers, i.e. `assign`, `concat`, `pg` and `capture`, to create a mock that would fetch a response from postgres table for a given id passed as a query parameter.
 
-```
+```javascript
 {{assign name='query' value=(concat "SELECT * FROM emp WHERE id = '" (capture from="query" key="id") "'") }}
 HTTP/1.1 200 OK
 Content-Type: application/json
@@ -347,7 +347,7 @@ cy.setState('cart', [{id: 1, name: "prod1"}, {id: 2, name: "prod2"}]);
 
 Raw HTML Request:
 
-```
+```javascript
 POST /users HTTP/1.1
 Content-Type: application/json
 
@@ -367,7 +367,7 @@ Content-Type: application/json
 
 Expected Raw HTML Response:
 
-```
+```javascript
 HTTP/1.1 201 OK
 X-Requested-By: user-service
 Content-Type: application/json
@@ -389,7 +389,7 @@ Content-Type: application/json
 1. To create this service in camouflage, create a directory users under your ${MOCKS_DIR}. i.e. ${MOCKS_DIR}/users
 2. Create a file POST.mock and add following content to the file
 
-```
+```javascript
 HTTP/1.1 201 OK
 X-Requested-By: user-service
 Content-Type: application/json

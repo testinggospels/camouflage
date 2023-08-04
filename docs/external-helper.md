@@ -22,7 +22,7 @@ The JSON in the file should be an array of JSON Objects containing two keys: `na
 
 This loads a custom helper, `is`, which can be used in your mock files to compare to values. Use it as shown in example:
 
-```
+```javascript
 HTTP/1.1 200 OK
 
 {{#is value1=request.query.name value2='Shubhendu'}}
