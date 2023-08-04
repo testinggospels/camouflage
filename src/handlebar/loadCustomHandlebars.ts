@@ -20,12 +20,12 @@ const registerCustomHandlebars = (Handlebars: any, extHelpers: string) => {
         logger.error(`Cannot override custom helper ${customHandlebar.name}`);
       } else {
         logger.info(`Registering custom handlebars: ${customHandlebar.name}`);
-        Handlebars.registerHelper(customHandlebar.name, (context: any) => {
+        Handlebars.registerHelper(customHandlebar.name, async (context: any) => {
           /* eslint-disable no-unused-vars */
           const request: express.Request = context.data.root.request;
           const logger = context.data.root.logger;
           /* eslint-disable no-unused-vars */
-          const result = eval(customHandlebar.logic);
+          const result = await eval(customHandlebar.logic);
           return result;
         });
       }

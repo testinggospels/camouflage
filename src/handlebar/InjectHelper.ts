@@ -14,12 +14,12 @@ export class InjectHelper {
    * @returns {void}
    */
   register = () => {
-    this.Handlebars.registerHelper("inject", (context: any) => {
+    this.Handlebars.registerHelper("inject", async (context: any) => {
       /* eslint-disable no-unused-vars */
       const request: express.Request = context.data.root.request;
       const logger = context.data.root.logger;
       /* eslint-disable no-unused-vars */
-      const result = eval(context.fn(this));
+      const result = await eval(context.fn(this));
       return result;
     });
   };
