@@ -21,7 +21,7 @@ The variables can be accessed by using `this`, e.g. `this.app`, `this.logger` an
 })();
 ```
 
-!!!caution
+!!!danger
 
     If you are using middleware injection, you would be responsible for configuring the mock routes, therefore it is mandatory to include the code `this.app.use(prefix, this.allRoutes)` in your IIFE, where prefix can be a string e.g. "/" or "/api/v1" or any other desired prefix to your mock routes. This would be applicable for all mocks.
 

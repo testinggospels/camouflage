@@ -279,8 +279,8 @@ Content-Type: application/json
 !!! note
     Variables created using `assign` helpers can be accessed using `context.data.root.VARIABLE_NAME` inside the helpers that support code injection (as listed below)
 
-!!! caution
-    Some of the Camouflage helpers allow (sometimes require) you to write your Javascript code in order to use them. However it's not a great idea to allow such code injections due to security concerns it creates. Camouflage disabled injection by default however you can enable it in config.yml. Following helpers will not work if injection is disabled.
+!!! danger
+    Some of the Camouflage helpers allow (sometimes require) you to write your Javascript code in order to use them. However it's not a great idea to allow such code injections due to security concerns it creates. Camouflage disables injection by default however you can enable it in config.yml. Following helpers will not work if injection is disabled.
     
     - code;
     - inject;
@@ -316,7 +316,7 @@ setCookie(`${prefix}-has-pending-order`, 'true');
 setCookie(`${prefix}-cart`, '[{id: 1, name: "prod1"}, {id: 2, name: "prod2"}]');
 ```
 
-!!! caution
+!!! danger
     the limit of cookie values in most browsers is 4KB 
 
 ### Usage in Cypress 

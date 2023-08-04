@@ -89,7 +89,7 @@ If you are creating a bidirectional streaming mock, your mock file would contain
 }
 ```
 
-!!! caution
+!!! danger
 
     Since BIDI streaming is slightly more complicated to simulate, current implementation of Camouflage only supports the ping-pong model of streaming, i.e. client can send multiple requests as a stream and server will respond to each request with one response as part of a stream. Finally when the client ends the stream, the server will also end the stream. As shown in the example above, the server can also send a response just before ending the stream, but this is optional.
 
@@ -133,7 +133,7 @@ Camouflage provides an experimental support to send metadata/trailers with respo
 }
 ```
 
-!!!caution
+!!!danger
 
     Since the Camouflage gRPC server needs to register the new services, everytime you add a new protofile, you'd need to restart the Camouflage server. Good news is, you can do so easily by making a get request to /restart endpoint. Though the downtime is minimal (less than a second, we do not recommend restarting the server during a performance test. Note that restart is required only if you add a new protofile. If you have added a new mock file or updated an existing one, a restart is not required.
 

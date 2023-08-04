@@ -32,7 +32,7 @@ HTTP/1.1 200 OK
 {{/is}}
 ```
 
-!!!caution
+!!!danger
     
     If you plan to use any external dependencies in your code, you'd need to install them globally on the server Camouflage is hosted on, using `npm i -g package_name`. Before starting Camouflage, run  the following command:
     
