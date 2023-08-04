@@ -34,7 +34,7 @@ export class PgHelper {
                 const result = await pool.query(query)
                 log.debug(`[POSTGRES] Query response: ${JSON.stringify(result.rows)}`)
                 const fn = await context.fn(this)
-                const code = eval(fn);
+                const code = await eval(fn);
                 code["CamouflageResponseType"] = "code";
                 return JSON.stringify(code);
             } catch (err) {

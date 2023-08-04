@@ -183,6 +183,7 @@ export class HttpParser {
           responseBody = responseBody.replace(/}}}/, "}} }");
           const template = Handlebars.compile(responseBody);
           try {
+            responseBody = responseBody.split("<br/>").join("\n").trim()
             const codeResponse = JSON.parse(
               responseBody.replace(/&quot;/g, '"')
             );
