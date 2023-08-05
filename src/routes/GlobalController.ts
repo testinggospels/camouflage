@@ -42,7 +42,8 @@ export default class GlobalController {
       const response = await parser.getResponse(mockFile);
       try {
         const fileBody = JSON.parse(response.body)
-        if (fileBody.hasOwnProperty("camouflage_file_helper")) {
+        const hasKey = Object.prototype.hasOwnProperty.call(fileBody, 'camouflage_file_helper');
+        if (hasKey) {
           res.sendFile(fileBody["camouflage_file_helper"])
           return
         }
