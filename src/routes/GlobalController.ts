@@ -40,6 +40,15 @@ export default class GlobalController {
       const parser = new HttpParser(req, res, this.mocksDir);
       const mockFile = parser.getMatchedDir() + `/${verb}.mock`;
       const response = await parser.getResponse(mockFile);
+      try {
+        const fileBody = JSON.parse(response.body)
+        if (fileBody.hasOwnProperty("camouflage_file_helper")) {
+          res.sendFile(fileBody["camouflage_file_helper"])
+          return
+        }
+      } catch (error) {
+        //do nothing
+      }
       if (!res.headersSent) {
         const responseValidation = validator.validateResponse(req, response);
         if (responseValidation.valid) {
