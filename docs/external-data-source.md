@@ -24,7 +24,7 @@ Update the connection parameters with your database details.
 
 In your mock files, use `pg` helper to run queries and fetch corresponding data. A sample mock file would look similar to the following content:
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -72,7 +72,7 @@ Camouflage then gives you access to a `result` array, which you can use inside a
 
 Please note that the value you return MUST be a json object which contains a body in a string format (required), you can optionally provide status and headers as well.
 
-```
+```javascript
 HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
 Content-Type: application/json

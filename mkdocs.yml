@@ -21,6 +21,9 @@ theme:
 markdown_extensions:
   - admonition
   - attr_list
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
 nav:
   - index.md
   - getting-started.md
@@ -40,6 +43,7 @@ nav:
   - mocking-thrift.md
   - mocking-soap.md
   - capture-helper.md
+  - code-helper.md
   - camouflage-ui.md
   - available-monitoring.md
   - tests.md

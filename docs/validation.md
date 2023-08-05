@@ -26,7 +26,7 @@ validation:
 
 Now when you have a mock for the supported endpoint `/pets` requesting it would result in a proper response.
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 
@@ -156,7 +156,7 @@ Given this schema for `/pets` we see that a pet has two required properties `id`
 
 In case previously your backend api did only had a required property `id` your assumptions in the tests are false.
 
-```
+```javascript
 HTTP/1.1 200 OK
 Content-Type: application/json
 

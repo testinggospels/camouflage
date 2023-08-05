@@ -60,7 +60,7 @@ protocols:
 
 **Request**
 
-```
+```bash
 curl -X POST \
   'http://localhost:8100/countryinfo' \
   --header 'Accept: */*' \
@@ -76,7 +76,7 @@ curl -X POST \
 ```
 
 **Response**
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tns="http://www.oorsprong.org/websamples.countryinfo">
     <soap:Body>

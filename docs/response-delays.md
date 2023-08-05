@@ -4,7 +4,7 @@ Response delays are handled in a similar manner as it was done in mockserver, i.
 
 For example, if you'd like to simulate a delay of 2 seconds for /hello-world endpoint, contents of your .mock file would be as follows:
 
-```
+```javascript
 HTTP/1.1 200 OK
 X-Requested-By: Shubhendu Madhukar
 Content-Type: application/json

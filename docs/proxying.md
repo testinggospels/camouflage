@@ -10,7 +10,7 @@ ${HTTP_MOCKS_DIR}/calls-proxied/to/this-target/POST.mock
 
 Content of this mock file will use proxy block helper and specify a configuration as supported by `http-proxy`:
 
-```
+```javascript
 HTTP/1.1 200 OK
 
 {{#proxy}}

@@ -176,7 +176,12 @@ export class HttpParser {
           const fileResponse = responseBody.split(";")[1];
           if (!fs.existsSync(fileResponse)) this.res.status(404);
           await sleep(DELAY);
-          this.res.sendFile(fileResponse);
+          return {
+            ...response,
+            body: JSON.stringify({
+              "camouflage_file_helper": fileResponse
+            })
+          };
         } else {
           responseBody = responseBody.replace(/\s+/g, " ").trim();
           responseBody = responseBody.replace(/{{{/, "{ {{");
