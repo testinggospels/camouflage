@@ -48,9 +48,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(
   express.text({
-    type: () => {
-      return true;
-    },
+    type: "text/*"
   })
 );
 // Configure express to compress responses - FUTURE IMPROVEMENT - Allow compression options
