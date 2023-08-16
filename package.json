@@ -26,7 +26,8 @@
     "pretest:mock": "npm run build; ts-node --project ./tests/tsconfig.json ./tests/prepare.ts",
     "test:mock": "node bin/camouflage.js --config ./tests/config.yml",
     "test:features": "TS_NODE_PROJECT=tests/tsconfig.json cucumber-js --require-module ts-node/register --require 'tests/features/**/*.ts' tests/features/",
-    "dev": "nodemon -e ts --exec \"npm run start\""
+    "dev": "nodemon -e ts --exec \"npm run start\"",
+    "prod": "node bin/camouflage.js --config ./config.yml"
   },
   "bin": {
     "camouflage": "bin/camouflage.js"

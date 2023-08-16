@@ -1,0 +1,16 @@
+docs
+site
+bug_report.md
+feature_request.md
+src
+tests
+.github
+.git*
+CODE_OF_CONDUCT.md
+CONTRIBUTING.md
+mkdocs.yml
+pull_request_template.md
+tsconfig.json
+Dockerfile
+docker-compose.yml
+prometheus.yml
