@@ -146,6 +146,73 @@ Navigate to [http://localhost:8080/hello-world](http://localhost:8080/hello-worl
 
 `${MOCK_DIR}` is defined in `config.yaml` as `protocols.http.mocks_dir`. Refer to [docs](https://testinggospels.github.io/camouflage/) for more details.
 
+## Create a real mock
+
+Lets try with a classic data mock:
+
+1. You start by creating a directory `${MOCKS_DIR}/my-data`
+2. Create a file GET.mock under `${MOCKS_DIR}/my-data`
+3. Paste following content:
+
+```
+HTTP/1.1 200 OK
+X-Custom-Header: Custom-Value
+Content-Type: application/json
+
+[
+    { "id": 1, "name": "Rabbit" },
+    { "id": 2, "name": "Dog" },
+    { "id": 3, "name": "Cat" },
+    { "id": 4, "name": "Bird" }
+]
+```
+
+Navigate to [http://localhost:8080/my-data](http://localhost:8080/my-data) and you will get your data.
+
+Now let's complicate it a little bit. We want to filter data by id or by name (a usual case). We need to activate *code injection* and do some JS magic in order to filter the data. Also, I would recommend to disable validation schemas to avoid format errors.
+Go to *config.yml* and change this two lines, close to the end:
+```
+    injection:
+      enable: true
+    validation:
+      enable: false
+```
+
+We are ready to change our *GET.mock* file in my-data:
+
+```
+HTTP/1.1 200 OK
+Content-Type: application/json
+
+{{#code}}
+(()=>{
+    const id = parseInt(request.query.id);
+    const data = [
+        { "id": 1, "name": "Rabbit" },
+        { "id": 2, "name": "Dog" },
+        { "id": 3, "name": "Cat" },
+        { "id": 4, "name": "Bird" }
+    ]
+    let response = data;
+    if (id) {
+      response = data.filter((el)=>el.id === id);
+    }
+    return {
+        status: 200,
+        body: JSON.stringify(response)
+    };
+})();
+{{/code}}
+```
+
+What we are doing is getting the "id" field from the query string and filtering our data by this parameter. Now we can call our endpoint in two ways: with filter or without it.
+
+Navigate to [http://localhost:8080/my-data](http://localhost:8080/my-data) to get all elements, or navigate to [http://localhost:8080/my-data?id=1](http://localhost:8080/my-data?id=1) to filter by id=1
+
+## Documentation
+
+You can find a lot of documentation on this link: [https://testinggospels.github.io/camouflage/](https://testinggospels.github.io/camouflage/)
+
 ## Contributing
 
 All and any relevant contributions to the project are welcome. Easiest way to contribute to Camouflage is to 🌟 the project. You can also help find typos and grammatical mistakes in the documentation to earn a quick 🟩 for your Github profile.
