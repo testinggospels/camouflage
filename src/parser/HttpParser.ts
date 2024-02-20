@@ -211,6 +211,11 @@ export class HttpParser {
                 const proxyResponse: ProxyResponse = JSON.parse(responseBody);
                 /* eslint-disable no-case-declarations */
                 proxy.web(this.req, this.res, proxyResponse.options);
+                // Wait for proxy response
+                await new Promise((resolve, reject) => {
+                  proxy.on("proxyRes", resolve)
+                  proxy.on("error", reject)
+                })
                 break;
               case "fault":
                 const faultType = codeResponse["FaultType"];
@@ -261,6 +266,7 @@ export class HttpParser {
                 logger: logger,
               })}`
             );
+            response.status = 500;
             response.body = await template({
               request: this.req,
               logger: logger,

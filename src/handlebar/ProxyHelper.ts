@@ -18,10 +18,10 @@ export class ProxyHelper {
   register = () => {
     this.Handlebars.registerHelper("proxy", (context: any) => {
       const options = JSON.parse(context.fn(this));
-      if (options.ssl.key && fs.existsSync(path.resolve(options.ssl.key))) {
+      if (options.ssl && options.ssl.key && fs.existsSync(path.resolve(options.ssl.key))) {
         options.ssl.key = fs.readFileSync(path.resolve(options.ssl.key))
       }
-      if (options.ssl.cert && fs.existsSync(path.resolve(options.ssl.cert))) {
+      if (options.ssl && options.ssl.cert && fs.existsSync(path.resolve(options.ssl.cert))) {
         options.ssl.cert = fs.readFileSync(path.resolve(options.ssl.cert))
       }
       if (options.target.pfx && fs.existsSync(path.resolve(options.target.pfx))) {
